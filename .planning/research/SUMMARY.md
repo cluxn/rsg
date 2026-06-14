@@ -17,11 +17,11 @@ The main risks are: (1) the "Premium Industrial" design system being underbuilt 
 
 ### Recommended Stack
 
-Next.js 15 (App Router, TypeScript, Tailwind) for the public site; Node.js 20 + Express 4 + Prisma + MySQL 8 for the API; React 18 + Vite 5 + TanStack Query for the admin SPA. Supporting libraries: React Hook Form + Zod (forms/validation), Multer + sharp (media uploads/responsive images), Tiptap (blog/events rich text), jsonwebtoken + bcrypt (admin auth), nodemailer + csv-parse/stringify (Phase 7 notifications, leads export/import). Full detail in `STACK.md`.
+Next.js 15 (App Router, TypeScript, Tailwind) for the public site; Node.js 20 + Express 4 + mysql2 + MySQL 8 for the API; React 18 + Vite 5 + TanStack Query for the admin SPA. Supporting libraries: React Hook Form + Zod (forms/validation), Multer + sharp (media uploads/responsive images), Tiptap (blog/events rich text), jsonwebtoken + bcrypt (admin auth), nodemailer + csv-parse/stringify (Phase 7 notifications, leads export/import). Full detail in `STACK.md`.
 
 **Core technologies:**
 - Next.js 15 (App Router): public site rendering — SSG/ISR for fast, SEO-friendly catalog/blog pages
-- Express 4 + Prisma + MySQL 8: single backend API serving both public reads and admin CRUD, per client's Node.js requirement
+- Express 4 + mysql2 + MySQL 8: single backend API serving both public reads and admin CRUD, per client's Node.js requirement — raw parameterized queries, no ORM
 - React 18 + Vite 5: admin SPA, served at `/admin`
 
 ### Expected Features
@@ -44,10 +44,10 @@ Full detail in `FEATURES.md`.
 
 ### Architecture Approach
 
-Three-app monorepo (`/frontend` Next.js, `/backend` Express+Prisma+MySQL, `/admin` React+Vite), all talking to a single Express API as the source of truth — `/frontend` never queries MySQL directly. Public content uses ISR with on-demand revalidation triggered from `/backend` after admin saves. A `settings` key-value table holds all post-launch-configurable values (WhatsApp number, contact info, SEO scripts). Full detail in `ARCHITECTURE.md`.
+Three-app monorepo (`/frontend` Next.js, `/backend` Express+mysql2+MySQL, `/admin` React+Vite), all talking to a single Express API as the source of truth — `/frontend` never queries MySQL directly. Public content uses ISR with on-demand revalidation triggered from `/backend` after admin saves. A `settings` key-value table holds all post-launch-configurable values (WhatsApp number, contact info, SEO scripts). Full detail in `ARCHITECTURE.md`.
 
 **Major components:**
-1. `/backend` (Express API) — owns MySQL via Prisma, auth, validation, media processing, revalidation triggers
+1. `/backend` (Express API) — owns MySQL via mysql2 (parameterized queries), auth, validation, media processing, revalidation triggers
 2. `/frontend` (Next.js) — renders all public pages via SSG/ISR, fetches from `/backend`
 3. `/admin` (React+Vite SPA) — authenticated CRUD UI for all content types, served at `/admin`
 
@@ -116,7 +116,7 @@ Based on research, suggested phase structure (vertical MVP slices — each phase
 ### Research Flags
 
 Phases likely needing deeper research during planning:
-- **Phase 1:** Prisma schema design for `settings` (key-value vs. typed) and the on-demand revalidation auth pattern — worth a quick design-phase check, though both are well-documented patterns
+- **Phase 1:** SQL schema design for `settings` (key-value vs. typed) and the on-demand revalidation auth pattern — worth a quick design-phase check, though both are well-documented patterns
 - **Phase 3:** Per-category spec data structure (some categories have rich spec tables, others thin copy per ASSET-INVENTORY.md) — may need a flexible JSON-column approach for specs rather than rigid columns
 
 Phases with standard patterns (skip research-phase):
@@ -152,7 +152,7 @@ Phases with standard patterns (skip research-phase):
 - `.planning/research/ASSET-INVENTORY.md` — current-site asset/content quality assessment
 
 ### Tertiary (LOW confidence)
-- General Next.js 15 / Express / Prisma / MySQL ecosystem knowledge (training data) — versions/patterns are current as of early 2025; recommend a quick version check (`npm view next version`, etc.) at Phase 1 execution time
+- General Next.js 15 / Express / mysql2 / MySQL ecosystem knowledge (training data) — versions/patterns are current as of early 2025; recommend a quick version check (`npm view next version`, etc.) at Phase 1 execution time
 
 ---
 *Research completed: 2026-06-14*

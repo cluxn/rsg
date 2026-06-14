@@ -21,7 +21,7 @@
 
 | Library | Version | Purpose | When to Use |
 |---------|---------|---------|-------------|
-| Prisma | 5.x | ORM / MySQL access layer | Use in `/backend` for typed queries against products, pages, leads, media, blog, testimonials, settings tables. Avoids hand-written SQL string-building and gives migration tooling. |
+| mysql2 | 3.x | MySQL driver / query execution | Use in `/backend` for all database access — connection pool (`createPool`) + parameterized prepared statements against products, pages, leads, media, blog, testimonials, settings tables. No ORM/codegen layer, per project decision. |
 | Tailwind CSS | 3.x | Styling (frontend + admin) | Implements the "Premium Industrial" design tokens (gradients, glass panels, spacing scale) consistently across both apps via a shared config. |
 | React Hook Form + Zod | 7.x / 3.x | Form handling + validation | "Get Quote" form, Contact form, and all admin CRUD forms — schema-driven validation shared between client and server. |
 | TanStack Query | 5.x | Admin data fetching/caching | Admin SPA CRUD screens (products, leads, media, blog, testimonials) — handles loading/error/cache invalidation cleanly. |
@@ -47,7 +47,7 @@
 
 ```bash
 # /backend
-npm install express mysql2 prisma @prisma/client jsonwebtoken bcrypt multer sharp nodemailer csv-parse csv-stringify zod
+npm install express mysql2 jsonwebtoken bcrypt multer sharp nodemailer csv-parse csv-stringify zod
 npm install -D typescript ts-node-dev @types/express @types/node @types/jsonwebtoken @types/bcrypt @types/multer
 
 # /frontend
@@ -64,7 +64,7 @@ npm install tailwindcss @tanstack/react-query react-router-dom react-hook-form z
 | Recommended | Alternative | When to Use Alternative |
 |-------------|-------------|--------------------------|
 | Express | Fastify | If raw API throughput becomes a bottleneck (unlikely for this traffic profile) — Fastify's schema-based validation is nice but adds onboarding cost for a client handover. |
-| Prisma | Knex + mysql2 | If the schema needs highly dynamic/raw queries Prisma can't express cleanly (e.g. complex full-text search) — can mix Knex for specific queries without dropping Prisma entirely. |
+| mysql2 (raw queries) | Knex or Sequelize | If hand-written SQL becomes unwieldy as the schema grows (many joins, dynamic filters) — add a query builder later without changing the underlying driver. |
 | Tiptap | react-quill | If editor requirements stay extremely simple (bold/italic/links only) — react-quill is lighter but less extensible for embedding images in blog posts. |
 | Next.js ISR | Full SSR (`force-dynamic`) | Only if product/blog content changes so frequently that even short revalidate windows feel stale — not expected for a manufacturer catalog. |
 
@@ -73,7 +73,8 @@ npm install tailwindcss @tanstack/react-query react-router-dom react-hook-form z
 | Avoid | Why | Use Instead |
 |-------|-----|-------------|
 | WordPress / PHP | This project explicitly replaces the client's current WordPress site; client wants Node.js for performance | Next.js + Express + MySQL (this stack) |
-| MongoDB / other NoSQL | Client specified MySQL; product/page/lead data is relational (products ↔ categories, leads ↔ sources) | MySQL 8 + Prisma |
+| MongoDB / other NoSQL | Client specified MySQL; product/page/lead data is relational (products ↔ categories, leads ↔ sources) | MySQL 8 + mysql2 |
+| Prisma / other ORMs (Sequelize, TypeORM) | Adds a codegen/build step and abstraction layer not wanted for this project — client decision is mysql2 only | mysql2 with parameterized queries + hand-written SQL migration scripts |
 | Create React App | Deprecated, no longer maintained by the React team | Vite for the admin SPA |
 | Client-side-only rendering for product pages | Hurts SEO for a lead-gen B2B site where organic search traffic matters | Next.js SSG/ISR for all public product/blog pages |
 | Public per-kg pricing tables (seen on IndiaMART) | Explicitly out of scope — "Get Quote" only per SCOPE-DECISIONS.md | Quote-request CTA + spec sheets without prices |
@@ -93,13 +94,13 @@ npm install tailwindcss @tanstack/react-query react-router-dom react-hook-form z
 | Package A | Compatible With | Notes |
 |-----------|------------------|-------|
 | Next.js 15 | React 19 (bundled) | Next 15 App Router uses React 19 — keep `/admin`'s React 18 separate since it's an independent Vite app; no cross-version conflict because they're separate package.json/node_modules. |
-| Prisma 5.x | MySQL 8.0 | Fully supported; use `provider = "mysql"` with `relationMode = "prisma"` if foreign keys need app-level enforcement on shared hosting MySQL. |
+| mysql2 3.x | MySQL 8.0 | Fully supported; use `mysql2/promise` for async/await, `createPool()` for connection pooling, and prepared statements for all parameterized queries. |
 | Tailwind 3.x | Next.js 15 + Vite 5 | Both supported via their respective official integrations; keep one shared `tailwind.config` base (colors/fonts/spacing tokens) imported by both `/frontend` and `/admin` configs to enforce the design system consistently. |
 
 ## Sources
 
 - Next.js 15 official docs (App Router, ISR, Metadata API) — verified patterns for SSG/ISR catalog sites
-- Prisma + MySQL official docs — schema/migration workflow
+- mysql2 official docs — connection pooling, prepared statements, promise API
 - Project context: `.planning/PROJECT.md`, `.planning/SCOPE-DECISIONS.md` — tech stack constraints (Node.js required, MySQL required, monorepo with /frontend /backend /admin, admin at `/admin` path)
 
 ---

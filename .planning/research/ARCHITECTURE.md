@@ -50,8 +50,8 @@
 |-----------|------------------|--------------------------|
 | `/frontend` (Next.js) | Renders all public pages (Home, About, Contact, 10 product pages, Blog, Events) using SSG with ISR; submits Get Quote/Contact forms to `/backend` | App Router with route groups per page type; `fetch()` to backend API at build time and via ISR revalidation |
 | `/admin` (React+Vite SPA) | Authenticated UI for managing products, media, blog, events, testimonials, leads, settings (WhatsApp number, SEO scripts) | React Router for SPA routes, TanStack Query for data, JWT stored in memory/httpOnly cookie |
-| `/backend` (Express API) | Single source of truth for data: serves both public reads and admin CRUD; owns auth, validation, file uploads, leads export/import, revalidation triggers | Layered: routes → controllers → services → Prisma models |
-| MySQL | Persistent storage for all content types | Prisma schema with tables per content type (see Project Structure) |
+| `/backend` (Express API) | Single source of truth for data: serves both public reads and admin CRUD; owns auth, validation, file uploads, leads export/import, revalidation triggers | Layered: routes → controllers → services → mysql2 queries |
+| MySQL | Persistent storage for all content types | SQL migration scripts define tables per content type (see Project Structure) |
 | nginx (VPS) | Routes `/` → Next.js, `/admin` → admin static build, `/api` → Express; TLS termination | Single VPS reverse proxy config |
 
 ## Recommended Project Structure
@@ -80,7 +80,7 @@
 │   │   ├── controllers/
 │   │   ├── services/
 │   │   ├── middleware/           # auth (JWT verify), validation (zod), upload (multer)
-│   │   ├── prisma/               # schema.prisma + migrations
+│   │   ├── db/                   # connection pool + SQL migration scripts
 │   │   └── index.ts               # Express app entry
 │   └── uploads/                  # media library files (or swap for object storage later)
 │
@@ -99,7 +99,7 @@
 ### Structure Rationale
 
 - **Three top-level apps (`frontend`, `backend`, `admin`):** matches the client's monorepo/single-deploy constraint from PROJECT.md while keeping each app's tooling independent (Next.js, Express, Vite each have their own `package.json`/`node_modules`).
-- **`backend/src/prisma/`:** single schema file is the source of truth for all content types — avoids duplicating table definitions and keeps migrations centralized.
+- **`backend/src/db/`:** single connection pool module + ordered SQL migration scripts are the source of truth for all content types — keeps schema changes centralized and reviewable as plain SQL.
 - **`tailwind.shared.config.ts`:** one place for the "Premium Industrial" design tokens (colors, fonts, spacing scale, gradients) so `/frontend` and `/admin` stay visually consistent without a shared npm package — appropriately lightweight for a 3-app monorepo.
 - **`frontend/app/api/revalidate/route.ts`:** gives `/backend` a single endpoint to call after an admin save, so edited content (products, blog) reflects on the public site quickly despite SSG/ISR.
 
@@ -117,9 +117,9 @@
 await fetch(`${FRONTEND_URL}/api/revalidate?path=/products/${slug}&secret=${REVALIDATE_SECRET}`);
 ```
 
-### Pattern 2: Layered Express API (routes → controllers → services → Prisma)
+### Pattern 2: Layered Express API (routes → controllers → services → mysql2)
 
-**What:** Each resource (products, leads, media, blog, etc.) has a route file (HTTP concerns), a controller (request/response shaping), and a service (business logic + Prisma calls).
+**What:** Each resource (products, leads, media, blog, etc.) has a route file (HTTP concerns), a controller (request/response shaping), and a service (business logic + parameterized mysql2 queries).
 **When to use:** Every `/backend` resource — keeps admin CRUD and public read endpoints consistent and testable.
 **Trade-offs:** Slightly more files than a single monolithic route file, but keeps validation/auth/business logic separated as the admin panel grows (10 product categories, leads, blog, events, testimonials, settings, media).
 
@@ -154,7 +154,7 @@ Next.js (SSG page, served from cache or revalidated)
     ↓ (build time / revalidation)
 GET /backend/products/colour-coated-roofing-sheet
     ↓
-Prisma query → MySQL
+mysql2 query (prepared statement) → MySQL
     ↓
 JSON response (specs, images, description, meta)
     ↓
@@ -168,7 +168,7 @@ Visitor submits Get Quote form (product page)
     ↓
 POST /backend/leads { name, contact, productSlug, message, sourcePage }
     ↓
-Validation (zod) → Prisma insert into `leads` table
+Validation (zod) → mysql2 INSERT into `leads` table
     ↓
 Response → confirmation UI on /frontend
     ↓ (Phase 7 only)
@@ -184,7 +184,7 @@ Admin edits a product's specs/images via /admin SPA
     ↓
 PUT /backend/products/:slug (JWT-protected)
     ↓
-Prisma update → MySQL
+mysql2 UPDATE → MySQL
     ↓
 /backend calls /frontend's revalidate API for /products/:slug
     ↓
@@ -208,7 +208,7 @@ Next.js regenerates the static page on next request
 
 ### Anti-Pattern 1: Direct DB Access from Next.js Pages
 
-**What people do:** Import a Prisma client directly into `/frontend` and query MySQL from page components.
+**What people do:** Import the mysql2 connection pool directly into `/frontend` and query MySQL from page components.
 **Why it's wrong:** Violates the client's requirement for a Node.js API serving both public site and admin; duplicates DB access logic across two codebases; couples the public site's deploy to DB schema changes.
 **Do this instead:** `/frontend` always fetches from `/backend`'s REST API, even at build time (SSG `fetch` calls hit the API).
 
@@ -236,7 +236,7 @@ Next.js regenerates the static page on next request
 |----------|----------------|-------|
 | `/frontend` ↔ `/backend` | REST (fetch), public endpoints unauthenticated, revalidate endpoint secret-protected | All public content reads go through `/backend` — never direct DB |
 | `/admin` ↔ `/backend` | REST (axios), JWT bearer auth on all admin endpoints | Admin SPA never talks to MySQL directly |
-| `/backend` ↔ MySQL | Prisma client | Single schema, single source of truth |
+| `/backend` ↔ MySQL | mysql2 connection pool (parameterized queries) | Single schema (SQL migrations), single source of truth |
 
 ## Sources
 

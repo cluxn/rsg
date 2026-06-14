@@ -29,7 +29,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Requirements**: INFRA-01, INFRA-02, INFRA-03, INFRA-04, DESIGN-01, DESIGN-02, DESIGN-03
 **Success Criteria** (what must be TRUE):
   1. `npm run dev` starts `/frontend` (Next.js), `/backend` (Express), and `/admin` (Vite) locally
-  2. MySQL schema (via Prisma) includes tables for products, pages, leads, media, blog posts, events, testimonials, settings, and admin users
+  2. MySQL schema (via SQL migration scripts) includes tables for products, pages, leads, media, blog posts, events, testimonials, settings, and admin users
   3. Admin can log in at `/admin` with seeded credentials and reach an authenticated dashboard shell
   4. A test page rendered with the shared layout shows Sora/Source Sans 3 fonts, the navy-steel-cyan gradient, a glassmorphism panel, and the defined gutter/spacing grid
   5. Calling the revalidation endpoint causes a previously-built static page to regenerate

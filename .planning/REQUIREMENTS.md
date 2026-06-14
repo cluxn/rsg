@@ -10,7 +10,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Infrastructure (INFRA)
 
 - [ ] **INFRA-01**: Monorepo scaffolded with `/frontend` (Next.js App Router), `/backend` (Node.js/Express API), `/admin` (React + Vite SPA), each runnable locally via `npm run dev`
-- [ ] **INFRA-02**: MySQL database schema created (via Prisma) covering products, pages, leads, media, blog posts, events, testimonials, settings, and admin users
+- [ ] **INFRA-02**: MySQL database schema created (via SQL migration scripts) covering products, pages, leads, media, blog posts, events, testimonials, settings, and admin users
 - [ ] **INFRA-03**: Admin can log in to the admin panel (served at `rsgprofilesheets.com/admin`) using credentials seeded during setup
 - [ ] **INFRA-04**: All admin CRUD API endpoints reject requests without a valid admin session (JWT)
 
