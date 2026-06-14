@@ -1,13 +1,13 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export function SiteHeader() {
   return (
     <header className="fixed top-0 left-0 right-0 z-40 bg-navy/95 backdrop-blur-md">
       <div className="mx-auto max-w-container px-6 md:px-16 lg:px-20 flex items-center justify-between h-16">
         {/* Logo */}
-        <Link href="/" className="flex items-baseline gap-2">
-          <span className="font-heading font-bold text-white text-xl">RSG</span>
-          <span className="hidden md:inline font-body text-white/60 text-sm">Profile Manufacturing</span>
+        <Link href="/" className="flex items-center">
+          <Image src="/rsg-logo.png" alt="RSG Dura Glow" width={54} height={40} className="h-10 w-auto" priority />
         </Link>
 
         {/* Desktop nav */}
