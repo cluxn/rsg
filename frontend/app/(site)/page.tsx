@@ -1,24 +1,7 @@
 import Link from 'next/link';
-import { GradientHero } from '@/components/ui/GradientHero';
 import { GlassCard } from '@/components/ui/GlassCard';
-import { CTAButton } from '@/components/ui/CTAButton';
 import { SectionContainer } from '@/components/layout/SectionContainer';
-
-const HERO_IMAGE = 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1920&q=80';
-
-const PRODUCT_CATEGORIES = [
-  'General Inquiry',
-  'Colour Coated Roofing Sheet',
-  'MS Plate, Channel & Angle',
-  'MS Pipe',
-  'Decking Sheet',
-  'Purlins',
-  'Polycarbonate Sheet',
-  'Crimping Sheet',
-  'Self Drilling Screws',
-  'Turbo Air Ventilator',
-  'Accessories',
-];
+import { ScrollHero } from '@/components/sections/ScrollHero';
 
 const FEATURED_PRODUCTS = [
   { name: 'Colour Coated Roofing Sheet', desc: 'ISI-certified roofing with DuraGlow coating' },
@@ -47,45 +30,7 @@ export default function Home() {
   return (
     <>
       {/* Section 1 — Hero */}
-      <GradientHero minHeight="min-h-screen" bgImage={HERO_IMAGE}>
-        <div className="mx-auto max-w-container px-6 md:px-16 lg:px-20 py-24 flex items-center justify-center min-h-screen">
-          <GlassCard className="w-full max-w-2xl" padding="p-8 md:p-10">
-            <h1 className="font-heading text-4xl md:text-5xl text-white font-bold mb-4 leading-tight">
-              Quality Steel Products, Built for Indian Construction
-            </h1>
-            <p className="font-body text-lg text-white/80 mb-8">
-              Manufacturer of roofing sheets, MS pipes, structural steel and more — Kanpur, UP since 2019
-            </p>
-            <form action="#" method="post" className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Your Name"
-                  className="bg-white/10 border border-white/20 text-white placeholder:text-white/50 rounded-lg px-4 py-3 font-body w-full focus:outline-none focus:ring-2 focus:ring-white/30"
-                />
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="Phone / Email"
-                  className="bg-white/10 border border-white/20 text-white placeholder:text-white/50 rounded-lg px-4 py-3 font-body w-full focus:outline-none focus:ring-2 focus:ring-white/30"
-                />
-              </div>
-              <select
-                name="product_interest"
-                className="bg-white/10 border border-white/20 text-white rounded-lg px-4 py-3 font-body w-full focus:outline-none focus:ring-2 focus:ring-white/30"
-              >
-                {PRODUCT_CATEGORIES.map(opt => (
-                  <option key={opt} value={opt} className="bg-navy text-white">{opt}</option>
-                ))}
-              </select>
-              <CTAButton type="submit" variant="primary" size="lg" className="w-full justify-center">
-                Get Quote
-              </CTAButton>
-            </form>
-          </GlassCard>
-        </div>
-      </GradientHero>
+      <ScrollHero />
 
       {/* Section 2 — Stats bar */}
       <section className="bg-navy text-white py-6">
