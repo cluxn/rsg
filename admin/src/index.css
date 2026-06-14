@@ -3,6 +3,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap');
 
 @layer base {
+  :root {
+    --background: 215 30% 97%;
+    --foreground: 215 50% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 215 50% 15%;
+    --primary: 210 55% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 215 30% 92%;
+    --secondary-foreground: 215 50% 20%;
+    --accent: 20 85% 48%;
+    --accent-foreground: 0 0% 100%;
+    --muted: 215 20% 88%;
+    --muted-foreground: 215 30% 45%;
+    --border: 215 20% 85%;
+    --input: 215 20% 88%;
+    --ring: 210 55% 40%;
+    --radius: 0.5rem;
+  }
+
   body {
     font-family: 'Source Sans 3', sans-serif;
     background-color: #F5F6F8;
