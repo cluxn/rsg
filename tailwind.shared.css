@@ -1,0 +1,24 @@
+/* RSG Premium Industrial Design Tokens — shared by frontend and admin */
+/* Tailwind v4 CSS-based configuration: import this file to get RSG tokens */
+
+@theme {
+  /* Brand Colors */
+  --color-navy: #0F2B4C;
+  --color-steel: #2E6DA4;
+  --color-cyan: #4AB3D3;
+  --color-orange: #E8590C;
+  --color-off-white: #F5F6F8;
+
+  /* Typography */
+  --font-family-heading: var(--font-sora), 'Sora', sans-serif;
+  --font-family-body: var(--font-source-sans), 'Source Sans 3', sans-serif;
+
+  /* Layout */
+  --width-container: 1280px;
+
+  /* Gradients */
+  --background-image-premium-gradient: linear-gradient(135deg, #0F2B4C 0%, #2E6DA4 50%, #4AB3D3 100%);
+
+  /* Backdrop blur */
+  --backdrop-blur-glass: 12px;
+}
