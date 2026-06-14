@@ -273,7 +273,7 @@ export function ScrollHero() {
           <div className="absolute inset-0 z-10 flex items-center justify-center px-4 sm:px-6">
           <div
             ref={el => { contentRefs.current[i] = el; }}
-            className="glass-panel rounded-2xl shadow-2xl flex flex-col items-center justify-center text-center px-6 sm:px-10 lg:px-14 py-8 w-full max-w-2xl h-[400px] sm:h-[440px] lg:h-[460px]"
+            className="glass-panel rounded-2xl shadow-2xl flex flex-col items-center justify-center text-center px-6 sm:px-10 lg:px-14 py-8 w-full max-w-2xl h-[400px] sm:h-[440px] lg:h-[480px] xl:h-[600px]"
           >
             <div className="flex items-center justify-center gap-3 mb-4 lg:mb-6">
               <span className="font-heading text-orange text-sm font-bold tracking-[0.2em]">{s.number}</span>
