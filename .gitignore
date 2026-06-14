@@ -6,6 +6,7 @@ mcp.json
 frontend/.next/
 frontend/out/
 backend/dist/
-backend/uploads/
+backend/uploads/*
+!backend/uploads/.gitkeep
 admin/dist/
 *.log
