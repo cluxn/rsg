@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${sora.variable} ${sourceSans.variable}`}>
-      <body className="font-body antialiased bg-off-white text-navy min-h-screen">
+      <body className="font-body antialiased bg-off-white text-navy min-h-screen" suppressHydrationWarning>
         {children}
       </body>
     </html>

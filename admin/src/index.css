@@ -28,3 +28,15 @@
     color: #0F2B4C;
   }
 }
+
+@layer utilities {
+  .gradient-premium {
+    background: linear-gradient(135deg, #0F2B4C 0%, #2E6DA4 50%, #4AB3D3 100%);
+  }
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+}
