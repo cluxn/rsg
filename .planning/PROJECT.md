@@ -51,7 +51,11 @@ A visitor researching roofing/structural steel suppliers should immediately perc
 
 ## Constraints
 
-- **Tech stack**: Next.js for the public site, React + Vite for the admin panel — set by client/agency convention (Buildera Technologies LLP).
+- **Tech stack**: Monorepo, single deploy, with separate top-level folders:
+  - `/frontend` — Next.js (App Router, SSG/ISR) public site
+  - `/backend` — Node.js (Express/Fastify) API serving both the public site's dynamic content and the admin panel — client specifically requires Node.js for performance
+  - `/admin` — React + Vite SPA, authenticated against the backend API
+  - **Database**: MySQL (client-specified)
 - **Assets**: No new photography/design assets from client — must source/reuse existing real photos + stock fallbacks.
 - **Contact info**: WhatsApp number and final business email are NOT to be hardcoded — built as configurable fields the client fills in after launch. Use `shivam.gupta09@gmail.com` as a placeholder email until then.
 - **Pricing**: No public pricing anywhere — quote-based only.
