@@ -24,7 +24,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **PUBLIC-01**: Visitor can view the Home page with a glassmorphism "Get Quote" hero form-over-image, client/partner logo section, and testimonials summary
 - [ ] **PUBLIC-02**: Visitor can view the About page with company narrative (founded 2019, Kanpur), leadership bios for CEO Shivam Gupta and Director Raman Kumar Gupta (using current-site wording), and the client logo strip
-- [ ] **PUBLIC-03**: Visitor can view the Contact page with business address, hours, a contact form (including a "Product" dropdown to select which product the inquiry relates to), and an embedded Google Map; submissions are sent to the configured n8n webhook (`CONTACT_FORM_WEBHOOK_URL`) and recorded as a lead
+- [ ] **PUBLIC-03**: Visitor can view the Contact page with business address, hours, a contact form (including a "Product" dropdown to select which product the inquiry relates to), and an embedded Google Map; submissions are sent to the configured n8n lead webhook (`LEAD_WEBHOOK_URL`) and recorded as a lead
 - [ ] **PUBLIC-04**: Visitor sees a floating WhatsApp contact icon on every page, linking to `wa.me/<admin-configured number>` (hidden or inert if no number is configured)
 - [ ] **PUBLIC-05**: Every public page's footer includes "Developed and managed by Buildera Technologies LLP" with a do-follow link to buildera.co
 
@@ -41,7 +41,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Lead Capture (LEAD)
 
-- [ ] **LEAD-01**: Visitor can submit a "Get Quote" form (name, contact info, product/category, message) from the Home page and any product page
+- [ ] **LEAD-01**: Visitor can submit a "Get Quote" form (name, contact info, product/category, message) from the Home page and any product page; each submission is also POSTed to the configured n8n lead webhook (`LEAD_WEBHOOK_URL`)
 - [ ] **LEAD-02**: Each lead submission records its source (which page/product it was submitted from)
 - [ ] **LEAD-03**: Admin can view all lead submissions as a flat list (no pipeline stages), with source visible per lead
 - [ ] **LEAD-04**: Admin can export all leads to CSV and import leads from a CSV file
@@ -70,7 +70,7 @@ Deferred to future release. Tracked but not in current roadmap.
 
 ### Lead Notifications (NOTIF)
 
-- [ ] **NOTIF-01**: System sends an email (SMTP via nodemailer) to a configured address when a new lead is submitted; an optional n8n webhook notification can also be configured — built last, after core site/admin functionality is complete, per `.planning/SCOPE-DECISIONS.md`
+- [ ] **NOTIF-01**: System sends an email (SMTP via nodemailer) to a configured address when a new lead is submitted — built last, after core site/admin functionality is complete, per `.planning/SCOPE-DECISIONS.md`. (The n8n lead webhook is a separate, fixed integration wired in via LEAD-01/PUBLIC-03 — see SCOPE-DECISIONS.md.)
 
 ## Out of Scope
 

@@ -72,6 +72,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Admin sees all leads in a flat list (no pipeline stages) with source visible per lead
   4. Admin can export all leads to CSV and import leads from a CSV file
   5. Rapid/automated form submissions are caught by a honeypot or rate limit instead of flooding the leads list
+  6. Each lead submission is also POSTed to the configured n8n lead webhook (`LEAD_WEBHOOK_URL`)
 **Plans**: TBD
 
 ### Phase 5: Blog, Events & Testimonials
@@ -105,8 +106,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Requirements**: NOTIF-01
 **Success Criteria** (what must be TRUE):
   1. Submitting a Get Quote form triggers an SMTP email to the admin-configured address
-  2. Admin can configure (or leave unset) an n8n webhook URL that receives new-lead payloads
-  3. Notification failures do not block the lead from being saved
+  2. Notification failures do not block the lead from being saved
 **Plans**: TBD
 
 ## Progress
