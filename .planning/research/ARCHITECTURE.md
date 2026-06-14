@@ -86,7 +86,7 @@
 │
 ├── admin/                       # React + Vite SPA
 │   ├── src/
-│   │   ├── pages/                 # Login, Products, Media, Leads, Blog, Events, Testimonials, Settings
+│   │   ├── pages/                 # Login, Dashboard, Leads, Catalog (Products), Media, Content (Blog/Events/Testimonials), Settings
 │   │   ├── components/
 │   │   ├── lib/api.ts             # axios client with JWT interceptor
 │   │   └── App.tsx                # React Router routes

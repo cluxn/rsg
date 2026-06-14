@@ -39,6 +39,7 @@ Source of truth = current website (rsgprofilesheets.com) structure. IndiaMART (r
 - **Media Library**: every media item must have an editable **alt text** field (accessibility + SEO).
 - **Lead notifications**: SMTP email notification on new lead/quote submission — **build last** (Phase 7), after core site/admin is functional. (The n8n lead webhook is a separate, fixed integration — see "Lead capture webhook" above — wired in immediately wherever leads are captured, not deferred.)
 - **Leads section simplified**: NO Meetings, NO Newsletter, NO pipeline stages (drop the New/Contacted/Meeting/Converted/Closed/Lost/Junk/Follow-up funnel). Leads = a flat list of submissions with source tracking + export/import only.
+- **Admin navigation structure**: left sidebar grouped into clear top-level sections, in this order — **Dashboard** (at-a-glance lead/content counts), **Leads** (flat list + CSV export/import), **Catalog** (the 10 product category pages, CRUD), **Media Library** (uploads + alt text), **Content** (Blog, Events/News, Testimonials as sub-tabs), **Settings** (General: WhatsApp number/contact info; SEO: scripts + per-page meta). Each group maps 1:1 to an `/admin/src/pages/` route group so the IA stays predictable as content types are added.
 
 ## Design Direction — "Premium Industrial"
 
