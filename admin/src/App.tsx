@@ -4,6 +4,8 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { LoginPage } from '@/pages/Login';
 import { DashboardPage } from '@/pages/Dashboard';
+import { MediaLibraryPage } from '@/pages/MediaLibrary';
+import { SettingsPage } from '@/pages/Settings';
 
 const queryClient = new QueryClient();
 
@@ -19,6 +21,22 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <DashboardPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/media"
+              element={
+                <ProtectedRoute>
+                  <MediaLibraryPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute>
+                  <SettingsPage />
                 </ProtectedRoute>
               }
             />
