@@ -15,7 +15,10 @@ async function seed() {
     INSERT IGNORE INTO settings (\`key\`, value) VALUES
     ('whatsapp_number', ''),
     ('business_email', 'shivam.gupta09@gmail.com'),
-    ('seo_scripts', '')
+    ('seo_scripts', ''),
+    ('business_address', '53-A, Industrial Estate, Dada Nagar, Kanpur, Uttar Pradesh 208022, India'),
+    ('business_hours', 'Mon–Sat 10 AM – 6 PM, Closed Sunday'),
+    ('business_phone', '+91-8047307838')
   `);
 
   const products = [
