@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
+import { pool } from './db/connection';
 import healthRouter from './routes/health';
 
 dotenv.config();
@@ -17,6 +18,10 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use('/health', healthRouter);
+
+pool.query('SELECT 1')
+  .then(() => console.log('DB connected'))
+  .catch((err) => console.error('DB connection failed:', err));
 
 app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`);
