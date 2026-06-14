@@ -5,6 +5,8 @@ import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { LoginPage } from '@/pages/Login';
 import { DashboardPage } from '@/pages/Dashboard';
 import { MediaLibraryPage } from '@/pages/MediaLibrary';
+import { CatalogPage } from '@/pages/Catalog';
+import { ProductEditorPage } from '@/pages/ProductEditor';
 import { SettingsPage } from '@/pages/Settings';
 
 const queryClient = new QueryClient();
@@ -29,6 +31,22 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <MediaLibraryPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/catalog"
+              element={
+                <ProtectedRoute>
+                  <CatalogPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/catalog/:slug"
+              element={
+                <ProtectedRoute>
+                  <ProductEditorPage />
                 </ProtectedRoute>
               }
             />
