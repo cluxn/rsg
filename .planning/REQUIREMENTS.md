@@ -24,7 +24,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **PUBLIC-01**: Visitor can view the Home page with a glassmorphism "Get Quote" hero form-over-image, client/partner logo section, and testimonials summary
 - [ ] **PUBLIC-02**: Visitor can view the About page with company narrative (founded 2019, Kanpur), leadership bios for CEO Shivam Gupta and Director Raman Kumar Gupta (using current-site wording), and the client logo strip
-- [ ] **PUBLIC-03**: Visitor can view the Contact page with business address, hours, a contact form, and an embedded Google Map
+- [ ] **PUBLIC-03**: Visitor can view the Contact page with business address, hours, a contact form (including a "Product" dropdown to select which product the inquiry relates to), and an embedded Google Map; submissions are sent to the configured n8n webhook (`CONTACT_FORM_WEBHOOK_URL`) and recorded as a lead
 - [ ] **PUBLIC-04**: Visitor sees a floating WhatsApp contact icon on every page, linking to `wa.me/<admin-configured number>` (hidden or inert if no number is configured)
 - [ ] **PUBLIC-05**: Every public page's footer includes "Developed and managed by Buildera Technologies LLP" with a do-follow link to buildera.co
 
