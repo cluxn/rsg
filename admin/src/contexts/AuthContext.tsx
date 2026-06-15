@@ -1,11 +1,12 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { getMe, logout as apiLogout } from '@/lib/auth';
+import { getMe, login as apiLogin, logout as apiLogout } from '@/lib/auth';
 
 interface Admin { id: number; email: string }
 
 interface AuthContextValue {
   admin: Admin | null;
   loading: boolean;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -22,6 +23,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .finally(() => setLoading(false));
   }, []);
 
+  async function login(email: string, password: string) {
+    const data = await apiLogin(email, password);
+    setAdmin(data.admin);
+  }
+
   async function logout() {
     await apiLogout();
     setAdmin(null);
@@ -29,7 +35,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ admin, loading, logout }}>
+    <AuthContext.Provider value={{ admin, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
