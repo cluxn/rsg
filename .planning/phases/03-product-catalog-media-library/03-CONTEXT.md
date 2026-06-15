@@ -41,7 +41,7 @@ This phase covers public-facing product pages, the admin product editor (CRUD), 
 - **D-15:** The hero on all product pages uses the same gradient overlay pattern from the Phase 1 design system (navy→steel-blue→cyan diagonal, semi-transparent) so the stock photo variation doesn't make pages feel inconsistent — the overlay unifies them.
 
 ### Admin Catalog UI
-- **D-16:** Admin Catalog section (left sidebar) shows the 10 products as a fixed list (not paginated, not user-creatable — these are the 10 categories, not arbitrary SKUs). Admin clicks a product to edit it. No "create new product category" in Phase 3 — the 10 are seeded and locked.
+- **D-16 (REVISED 2026-06-15):** Admin Catalog section (left sidebar) shows all **19 products** as a fixed list (not paginated, not user-creatable). Admin clicks a product to edit it. No "create new product category" in Phase 3 — the 19 are seeded and locked. (Originally 10; expanded per `SCOPE-DECISIONS.md` "Product Catalog Structure" revision to match the old site's real mega-menu — added Galvanized Plain Sheets + 8 Colour Coated Roofing Sheet brand variant pages, see `004_catalog_expansion.sql`.)
 - **D-17:** Product editor page layout: product name (read-only at top), then Description field, then Spec Rows section, then Product Images section. Save button at top-right (sticky) and at bottom. No autosave — explicit Save.
 - **D-18:** On successful save, trigger ISR revalidation for that product's public page so the change is live within seconds (uses the revalidation endpoint built in Phase 1).
 

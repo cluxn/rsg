@@ -22,24 +22,29 @@ Running log of confirmed scope decisions for the RSG website (public site + admi
 
 Source of truth = current website (rsgprofilesheets.com) structure. IndiaMART (rsgprofilesheets.in) was scraped ONLY for business/contact details (address, phone, ratings, etc. — see BUSINESS-INFO.md) and must NOT be used to reshape the product catalog — its 8-category grouping with per-kg SKUs is a different (commodity-marketplace) presentation and would create confusion if mixed in.
 
-- **10 product pages total** (confirmed):
-  1. Colour Coated Roofing Sheet
+- **REVISED (2026-06-15)**: A direct scrape of the old site's live mega-menu (`<ul id="menu-global-menu">`) showed the real nav has 8 top-level "Products" categories, where ONE of them — "Colour Coated Roofing Sheet" — expands into a 2-level dropdown (PPGL → 6 brand pages, PPGI → 2 brand pages, Accessories). The other 7 categories are flat single pages. The 10-page structure below is superseded by a **19-page flat catalog** (still one `products` table, no schema change) + a mega-menu nav matching the old site:
+  1. Colour Coated Roofing Sheet (category overview page)
   2. MS Plate/Channel/Angle
   3. MS Pipe
   4. Decking Sheet
-  5. Purlins
+  5. Purlins (old site: "C and Z Purlins")
   6. Polycarbonate Sheet
   7. Crimping Sheet
-  8. **Self Drilling Screws** — gets its OWN dedicated page (split out from the old site's shared "Accessories" page), matching how the other categories above each have their own page.
-  9. **Turbo Air Ventilator** — gets its OWN dedicated page (same reasoning as Self Drilling Screws).
-  10. **Accessories** (new 10th page) — covers the remaining items from the old "Accessories" page that aren't separate product lines: Corner Accessories, AZ-70 Coated Plain Ridge Cover, Metal Roof Flashing, D-style Gutter Box. Mirrors how the old site grouped these together.
+  8. Self Drilling Screws — kept as an existing page but **removed from the public nav** (old site does not list it as a nav item; folded conceptually under Accessories)
+  9. Turbo Air Ventilator — same as above, kept but not in nav
+  10. Accessories — also reachable as the "Accessories" item under the Colour Coated Roofing Sheet dropdown
+  11. **Galvanized Plain Sheets** (NEW — was missing entirely from the original 10)
+  12-17. **PPGL brand pages** (NEW, under Colour Coated Roofing Sheet dropdown): JSW Colouron+, JSW Silveron+, JSW Pragati+, JSW Endura+, Tata Durashine, JINDAL Sabrang
+  18-19. **PPGI brand pages** (NEW, under Colour Coated Roofing Sheet dropdown): Dura Glow, AM/NS
+
+  Implemented in `backend/src/db/migrations/004_catalog_expansion.sql` (adds rows 11-19) and `frontend/components/layout/SiteHeader.tsx` (mega-menu nav). Items 8-9 (Self Drilling Screws, Turbo Air Ventilator) remain in the DB/catalog and have working pages, just unlinked from the main nav — revisit if client wants them fully removed.
 
 ## Admin Panel
 
 - **Media Library**: every media item must have an editable **alt text** field (accessibility + SEO).
 - **Lead notifications**: SMTP email notification on new lead/quote submission — **build last** (Phase 7), after core site/admin is functional. (The n8n lead webhook is a separate, fixed integration — see "Lead capture webhook" above — wired in immediately wherever leads are captured, not deferred.)
 - **Leads section simplified**: NO Meetings, NO Newsletter, NO pipeline stages (drop the New/Contacted/Meeting/Converted/Closed/Lost/Junk/Follow-up funnel). Leads = a flat list of submissions with source tracking + export/import only.
-- **Admin navigation structure**: left sidebar grouped into clear top-level sections, in this order — **Dashboard** (at-a-glance lead/content counts), **Leads** (flat list + CSV export/import), **Catalog** (the 10 product category pages, CRUD), **Media Library** (uploads + alt text), **Content** (Blog, Events/News, Testimonials as sub-tabs), **Settings** (General: WhatsApp number/contact info; SEO: scripts + per-page meta). Each group maps 1:1 to an `/admin/src/pages/` route group so the IA stays predictable as content types are added.
+- **Admin navigation structure**: left sidebar grouped into clear top-level sections, in this order — **Dashboard** (at-a-glance lead/content counts), **Leads** (flat list + CSV export/import), **Catalog** (the 19 product pages, CRUD — see "Product Catalog Structure" revision below), **Media Library** (uploads + alt text), **Content** (Blog, Events/News, Testimonials as sub-tabs), **Settings** (General: WhatsApp number/contact info; SEO: scripts + per-page meta). Each group maps 1:1 to an `/admin/src/pages/` route group so the IA stays predictable as content types are added.
 
 ## Design Direction — "Premium Industrial"
 
