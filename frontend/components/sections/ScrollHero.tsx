@@ -289,7 +289,7 @@ export function ScrollHero() {
             <div className="flex flex-wrap justify-center gap-3 mt-6 lg:mt-8">
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center font-heading font-semibold rounded-lg transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange bg-orange text-white hover:bg-orange/90 border border-orange px-6 py-3 text-base sm:px-8 sm:py-4 sm:text-lg"
+                className="inline-flex items-center justify-center font-heading font-semibold rounded-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange gradient-sunrise text-white shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 border border-transparent px-6 py-3 text-base sm:px-8 sm:py-4 sm:text-lg"
               >
                 Get a Quote
               </Link>

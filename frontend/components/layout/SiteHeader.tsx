@@ -134,7 +134,7 @@ export function SiteHeader() {
         {/* CTA */}
         <Link
           href="/contact"
-          className="inline-flex items-center justify-center font-heading font-semibold rounded-lg transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange bg-orange text-white hover:bg-orange/90 border border-orange px-4 py-2 text-sm"
+          className="inline-flex items-center justify-center font-heading font-semibold rounded-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange gradient-sunrise text-white shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 border border-transparent px-4 py-2 text-sm"
         >
           Get Quote
         </Link>

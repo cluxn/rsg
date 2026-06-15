@@ -7,7 +7,7 @@ interface GlassCardProps {
 export function GlassCard({ children, className = '', padding = 'p-6' }: GlassCardProps) {
   return (
     <div
-      className={`glass-panel rounded-xl shadow-lg ${padding} ${className}`}
+      className={`glass-panel rounded-xl shadow-lg transition-shadow duration-300 hover:shadow-glow-cyan ${padding} ${className}`}
       style={{ willChange: 'transform' }}
     >
       {children}

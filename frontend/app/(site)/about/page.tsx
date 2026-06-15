@@ -138,7 +138,7 @@ export default function AboutPage() {
       </SectionContainer>
 
       {/* Section 5 — Client logo strip + CTA */}
-      <SectionContainer className="bg-off-white/50">
+      <SectionContainer className="gradient-mesh-light">
         <h2 className="font-heading text-2xl text-navy/70 text-center mb-8">Our Clients &amp; Partners</h2>
         <div className="flex flex-wrap justify-center gap-8 mb-12">
           {PARTNER_BRANDS.map(brand => (
@@ -150,7 +150,7 @@ export default function AboutPage() {
         <div className="text-center">
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center font-heading font-semibold rounded-lg transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange bg-orange text-white hover:bg-orange/90 border border-orange px-8 py-4 text-lg"
+            className="inline-flex items-center justify-center font-heading font-semibold rounded-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange gradient-sunrise text-white shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 border border-transparent px-8 py-4 text-lg"
           >
             Get in Touch
           </Link>

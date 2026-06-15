@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export function SiteFooter() {
   return (
-    <footer className="bg-navy text-white/80">
+    <footer className="gradient-mesh-dark text-white/80">
       {/* Top row */}
       <div className="py-10">
         <div className="mx-auto max-w-container px-6 md:px-16 lg:px-20 grid md:grid-cols-3 gap-8">

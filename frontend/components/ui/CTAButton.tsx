@@ -6,7 +6,7 @@ interface CTAButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants = {
-  primary: 'bg-orange text-white hover:bg-orange/90 focus-visible:ring-orange border border-orange',
+  primary: 'gradient-sunrise text-white shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 focus-visible:ring-orange border border-transparent',
   ghost:   'bg-transparent text-navy hover:bg-navy/5 focus-visible:ring-navy border border-navy',
 };
 
@@ -25,7 +25,7 @@ export function CTAButton({ variant = 'primary', size = 'md', className = '', ch
       {...props}
       className={`
         inline-flex items-center justify-center font-heading font-semibold rounded-lg
-        transition-colors duration-200
+        transition-all duration-200
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
         disabled:opacity-60 disabled:cursor-not-allowed
         ${variants[variant]} ${sizes[size]} ${className}

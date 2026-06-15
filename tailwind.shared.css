@@ -2,12 +2,13 @@
 /* Tailwind v4 CSS-based configuration: import this file to get RSG tokens */
 
 @theme {
-  /* Brand Colors */
-  --color-navy: #0F2B4C;
-  --color-steel: #2E6DA4;
-  --color-cyan: #4AB3D3;
-  --color-orange: #E8590C;
-  --color-off-white: #F5F6F8;
+  /* Brand Colors — sourced from hero photography (roofing navy, twilight sky, DuraGlow amber) */
+  --color-navy: #1E3A5C;
+  --color-steel: #4A90C9;
+  --color-cyan: #7EC8E3;
+  --color-orange: #FF5500;
+  --color-gold: #FFB341;
+  --color-off-white: #F7F5F1;
 
   /* Typography */
   --font-family-heading: var(--font-sora), 'Sora', sans-serif;
@@ -17,8 +18,12 @@
   --width-container: 1280px;
 
   /* Gradients */
-  --background-image-premium-gradient: linear-gradient(135deg, #0F2B4C 0%, #2E6DA4 50%, #4AB3D3 100%);
+  --background-image-premium-gradient: linear-gradient(135deg, #0E5FD6 0%, #1E88D6 50%, #00B8D9 100%);
 
   /* Backdrop blur */
   --backdrop-blur-glass: 12px;
+
+  /* Glow shadows — Industrial Sunrise accents */
+  --shadow-glow-orange: 0 10px 30px -6px rgba(255, 85, 0, 0.45), 0 4px 14px -4px rgba(255, 179, 65, 0.35);
+  --shadow-glow-cyan: 0 10px 30px -6px rgba(126, 200, 227, 0.45);
 }
