@@ -14,6 +14,10 @@ type ProductRow = {
 
 type MediaRow = { id: number; url: string; alt_text: string; display_order: number };
 
+function parseSpecs(specs: unknown): { label: string; value: string }[] | null {
+  return typeof specs === 'string' ? JSON.parse(specs) : (specs as { label: string; value: string }[] | null);
+}
+
 router.get('/', async (_req: Request, res: Response): Promise<void> => {
   const [rows] = await pool.query(
     'SELECT id, slug, name, display_order FROM products ORDER BY display_order ASC'
@@ -39,7 +43,7 @@ router.get('/:slug', async (req: Request, res: Response): Promise<void> => {
     [product.id]
   ) as [MediaRow[], unknown];
 
-  res.json({ ...product, media });
+  res.json({ ...product, specs: parseSpecs(product.specs), media });
 });
 
 router.put('/:slug', requireAuth, async (req: Request, res: Response): Promise<void> => {
@@ -92,7 +96,7 @@ router.put('/:slug', requireAuth, async (req: Request, res: Response): Promise<v
     [productId]
   ) as [MediaRow[], unknown];
 
-  res.json({ ...updated[0], media });
+  res.json({ ...updated[0], specs: parseSpecs(updated[0].specs), media });
 });
 
 router.get('/:slug/media', requireAuth, async (req: Request, res: Response): Promise<void> => {
