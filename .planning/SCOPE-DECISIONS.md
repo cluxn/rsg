@@ -37,7 +37,7 @@ Source of truth = current website (rsgprofilesheets.com) structure. IndiaMART (r
   12-17. **PPGL brand pages** (NEW, under Colour Coated Roofing Sheet dropdown): JSW Colouron+, JSW Silveron+, JSW Pragati+, JSW Endura+, Tata Durashine, JINDAL Sabrang
   18-19. **PPGI brand pages** (NEW, under Colour Coated Roofing Sheet dropdown): Dura Glow, AM/NS
 
-  Implemented in `backend/src/db/migrations/004_catalog_expansion.sql` (adds rows 11-19) and `frontend/components/layout/SiteHeader.tsx` (mega-menu nav). Items 8-9 (Self Drilling Screws, Turbo Air Ventilator) remain in the DB/catalog and have working pages, just unlinked from the main nav — revisit if client wants them fully removed.
+  Implemented in `backend/src/db/migrations/004_catalog_expansion.sql` (adds rows 11-19) and `frontend/components/layout/SiteHeader.tsx` (mega-menu nav). **UPDATE (2026-06-15):** Items 8-9 (Self Drilling Screws, Turbo Air Ventilator) were unreachable dead-ends (not in the old site's mega-menu) and have been fully removed via `backend/src/db/migrations/005_remove_unlisted_products.sql`. The catalog is now exactly the **17 products** reachable from the nav.
 
 ## Admin Panel
 
