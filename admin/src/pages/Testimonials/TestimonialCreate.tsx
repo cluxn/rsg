@@ -11,7 +11,7 @@ const schema = z.object({
   text: z.string().min(1, 'Required'),
   author_name: z.string().min(1, 'Required'),
   author_city: z.string().optional(),
-  rating: z.coerce.number().min(1).max(5).optional(),
+  rating: z.preprocess(v => (v === '' || v === null || v === undefined) ? undefined : Number(v), z.number().min(1).max(5).optional()),
   source: z.enum(['google', 'indiamart', 'justdial', 'other']),
   active: z.boolean().default(true),
 });

@@ -25,8 +25,8 @@ export default async function ContactPage() {
 
   const address = settings.business_address ?? '';
   const hours   = settings.business_hours   ?? '';
-  const phone   = settings.business_phone   ?? '';
-  const email   = settings.business_email   ?? '';
+  const phone   = settings.business_phone   ?? '9918522988';
+  const email   = settings.business_email   ?? 'shivamgupta@rsgprofilesheets.com';
 
   return (
     <>

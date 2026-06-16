@@ -19,6 +19,12 @@ import { EventEditPage } from '@/pages/Events/EventEdit';
 import { TestimonialListPage } from '@/pages/Testimonials/TestimonialList';
 import { TestimonialCreatePage } from '@/pages/Testimonials/TestimonialCreate';
 import { TestimonialEditPage } from '@/pages/Testimonials/TestimonialEdit';
+import { GuidesPage } from '@/pages/Guides';
+import { CaseStudiesPage } from '@/pages/CaseStudies';
+import { ClientLogosPage } from '@/pages/ClientLogos';
+import { AuthorsPage } from '@/pages/Authors';
+import { CategoriesPage } from '@/pages/Categories';
+import { MarketingPage } from '@/pages/Marketing';
 
 const queryClient = new QueryClient();
 
@@ -94,6 +100,12 @@ export default function App() {
             <Route path="/testimonials" element={<ProtectedRoute><TestimonialListPage /></ProtectedRoute>} />
             <Route path="/testimonials/create" element={<ProtectedRoute><TestimonialCreatePage /></ProtectedRoute>} />
             <Route path="/testimonials/edit/:id" element={<ProtectedRoute><TestimonialEditPage /></ProtectedRoute>} />
+            <Route path="/guides" element={<ProtectedRoute><GuidesPage /></ProtectedRoute>} />
+            <Route path="/case-studies" element={<ProtectedRoute><CaseStudiesPage /></ProtectedRoute>} />
+            <Route path="/client-logos" element={<ProtectedRoute><ClientLogosPage /></ProtectedRoute>} />
+            <Route path="/authors" element={<ProtectedRoute><AuthorsPage /></ProtectedRoute>} />
+            <Route path="/categories" element={<ProtectedRoute><CategoriesPage /></ProtectedRoute>} />
+            <Route path="/marketing" element={<ProtectedRoute><MarketingPage /></ProtectedRoute>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>

@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { AdminLayout } from '@/components/layout/AdminLayout';
+import { ContentTabs } from '@/components/ContentTabs';
 import { Button } from '@/components/ui/button';
 import { getTestimonialsAdmin, deleteTestimonial, type Testimonial } from '@/lib/api';
 
@@ -23,6 +24,7 @@ export function TestimonialListPage() {
 
   return (
     <AdminLayout>
+      <ContentTabs />
       <div className="p-8">
         <div className="flex items-center justify-between mb-6">
           <h1 className="font-heading text-2xl text-navy">Testimonials</h1>

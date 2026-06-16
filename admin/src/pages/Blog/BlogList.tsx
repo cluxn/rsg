@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { AdminLayout } from '@/components/layout/AdminLayout';
+import { ContentTabs } from '@/components/ContentTabs';
 import { Button } from '@/components/ui/button';
 import { getBlogPostsAdmin, deleteBlogPost, type BlogPost } from '@/lib/api';
 
@@ -23,9 +24,10 @@ export function BlogListPage() {
 
   return (
     <AdminLayout>
+      <ContentTabs />
       <div className="p-8">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="font-heading text-2xl text-navy">Blog Posts</h1>
+          <h1 className="font-heading text-2xl text-navy">Blog</h1>
           <Link to="/blog/create">
             <Button>New Post</Button>
           </Link>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Upload } from 'lucide-react';
 import { AdminLayout } from '@/components/layout/AdminLayout';
+import { ContentTabs } from '@/components/ContentTabs';
 import { Button } from '@/components/ui/button';
 import { MediaCard, type MediaItem } from '@/components/ui/MediaCard';
 import { UploadModal } from '@/components/ui/UploadModal';
@@ -39,6 +40,7 @@ export function MediaLibraryPage() {
 
   return (
     <AdminLayout>
+      <ContentTabs />
       <div className="p-8">
         <div className="flex justify-between items-center mb-8">
           <div>

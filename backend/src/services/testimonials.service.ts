@@ -1,4 +1,4 @@
-import { query } from '../db/connection';
+import { query, pool } from '../db/connection';
 
 export interface Testimonial {
   id: number;
@@ -32,11 +32,11 @@ export async function getAllTestimonials(): Promise<Testimonial[]> {
 
 export async function createTestimonial(data: CreateTestimonialData): Promise<{ insertId: number }> {
   const { text, author_name, author_city, rating, source = 'google', active = true } = data;
-  const rows = await query<{ insertId: number }>(
+  const [result] = await pool.execute(
     'INSERT INTO testimonials (text, author_name, author_city, rating, source, active) VALUES (?, ?, ?, ?, ?, ?)',
     [text, author_name, author_city ?? null, rating ?? null, source, active]
-  );
-  return rows[0];
+  ) as [{ insertId: number }, unknown];
+  return result;
 }
 
 export async function updateTestimonial(id: number, data: Partial<CreateTestimonialData>): Promise<void> {
