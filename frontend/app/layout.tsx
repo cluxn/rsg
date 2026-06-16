@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Sora, Source_Sans_3 } from "next/font/google";
+import Script from "next/script";
 import { getSettings } from "@/lib/api";
 import "./globals.css";
 
@@ -35,20 +36,21 @@ export default async function RootLayout({
     // backend unreachable — no scripts injected, page still renders
   }
 
+  const scriptContent = headScripts
+    ? headScripts.replace(/^\s*<script[^>]*>/i, '').replace(/<\/script>\s*$/i, '')
+    : '';
+
   return (
     <html lang="en" className={`${sora.variable} ${sourceSans.variable}`}>
-      <head>
-        {headScripts && (
-          <script
-            /* dangerouslySetInnerHTML used intentionally — only auth-gated admin can write seo_head_scripts */
-            dangerouslySetInnerHTML={{
-              __html: headScripts.replace(/^\s*<script[^>]*>/i, '').replace(/<\/script>\s*$/i, ''),
-            }}
-            suppressHydrationWarning
+      <body className="font-body antialiased bg-off-white text-ink min-h-screen" suppressHydrationWarning>
+        {/* dangerouslySetInnerHTML used intentionally — only auth-gated admin can write seo_head_scripts */}
+        {scriptContent && (
+          <Script
+            id="seo-head-scripts"
+            strategy="beforeInteractive"
+            dangerouslySetInnerHTML={{ __html: scriptContent }}
           />
         )}
-      </head>
-      <body className="font-body antialiased bg-off-white text-ink min-h-screen" suppressHydrationWarning>
         {children}
       </body>
     </html>
