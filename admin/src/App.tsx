@@ -20,7 +20,9 @@ import { TestimonialListPage } from '@/pages/Testimonials/TestimonialList';
 import { TestimonialCreatePage } from '@/pages/Testimonials/TestimonialCreate';
 import { TestimonialEditPage } from '@/pages/Testimonials/TestimonialEdit';
 import { GuidesPage } from '@/pages/Guides';
-import { CaseStudiesPage } from '@/pages/CaseStudies';
+import { CaseStudyListPage } from '@/pages/CaseStudies/CaseStudyList';
+import { CaseStudyCreatePage } from '@/pages/CaseStudies/CaseStudyCreate';
+import { CaseStudyEditPage } from '@/pages/CaseStudies/CaseStudyEdit';
 import { ClientLogosPage } from '@/pages/ClientLogos';
 import { AuthorsPage } from '@/pages/Authors';
 import { CategoriesPage } from '@/pages/Categories';
@@ -101,7 +103,9 @@ export default function App() {
             <Route path="/testimonials/create" element={<ProtectedRoute><TestimonialCreatePage /></ProtectedRoute>} />
             <Route path="/testimonials/edit/:id" element={<ProtectedRoute><TestimonialEditPage /></ProtectedRoute>} />
             <Route path="/guides" element={<ProtectedRoute><GuidesPage /></ProtectedRoute>} />
-            <Route path="/case-studies" element={<ProtectedRoute><CaseStudiesPage /></ProtectedRoute>} />
+            <Route path="/case-studies" element={<ProtectedRoute><CaseStudyListPage /></ProtectedRoute>} />
+            <Route path="/case-studies/create" element={<ProtectedRoute><CaseStudyCreatePage /></ProtectedRoute>} />
+            <Route path="/case-studies/edit/:id" element={<ProtectedRoute><CaseStudyEditPage /></ProtectedRoute>} />
             <Route path="/client-logos" element={<ProtectedRoute><ClientLogosPage /></ProtectedRoute>} />
             <Route path="/authors" element={<ProtectedRoute><AuthorsPage /></ProtectedRoute>} />
             <Route path="/categories" element={<ProtectedRoute><CategoriesPage /></ProtectedRoute>} />

@@ -4,7 +4,6 @@ import { cn } from '@/lib/utils';
 const tabs = [
   { label: 'Blog', to: '/blog' },
   { label: 'Case Studies', to: '/case-studies' },
-  { label: 'Guides', to: '/guides' },
   { label: 'Testimonials', to: '/testimonials' },
   { label: 'Media Library', to: '/media' },
   { label: 'Client Logos', to: '/client-logos' },

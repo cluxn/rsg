@@ -94,6 +94,37 @@ export const createEvent = (data: CreateEventInput) => api.post('/events', data)
 export const updateEvent = (id: number, data: Partial<CreateEventInput>) => api.put(`/events/${id}`, data).then(r => r.data);
 export const deleteEvent = (id: number) => api.delete(`/events/${id}`).then(r => r.data);
 
+// ─── Case Studies ─────────────────────────────────────────────────────────────
+
+export interface CaseStudy {
+  id: number;
+  slug: string;
+  title: string;
+  excerpt: string | null;
+  body: string | null;
+  client_name: string | null;
+  industry: string | null;
+  published: boolean;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CaseStudyInput {
+  title: string;
+  slug: string;
+  excerpt?: string;
+  body?: string;
+  client_name?: string;
+  industry?: string;
+  published: boolean;
+}
+
+export const getCaseStudiesAdmin = () => api.get<CaseStudy[]>('/case-studies/admin/all').then(r => r.data);
+export const createCaseStudy = (data: CaseStudyInput) => api.post('/case-studies', data).then(r => r.data);
+export const updateCaseStudy = (id: number, data: Partial<CaseStudyInput>) => api.put(`/case-studies/${id}`, data).then(r => r.data);
+export const deleteCaseStudy = (id: number) => api.delete(`/case-studies/${id}`).then(r => r.data);
+
 // ─── Testimonials ─────────────────────────────────────────────────────────────
 
 export const getTestimonialsAdmin = () => api.get<Testimonial[]>('/testimonials/admin/all').then(r => r.data);

@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { AdminLayout } from '@/components/layout/AdminLayout';
+import { ContentTabs } from '@/components/ContentTabs';
 import { Button } from '@/components/ui/button';
 import { TiptapEditor } from '@/components/editor/TiptapEditor';
 import { createBlogPost } from '@/lib/api';
@@ -11,6 +12,7 @@ import { createBlogPost } from '@/lib/api';
 const schema = z.object({
   title: z.string().min(1, 'Required'),
   slug: z.string().min(1, 'Required'),
+  excerpt: z.string().optional(),
   body: z.string().default(''),
   meta_title: z.string().optional(),
   meta_description: z.string().optional(),
@@ -23,12 +25,16 @@ function slugify(s: string) {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 }
 
+const inputCls = 'w-full border border-navy/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-steel font-body';
+
 export function BlogCreatePage() {
   const navigate = useNavigate();
-  const { register, handleSubmit, control, setValue, getValues, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, control, setValue, getValues, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: { body: '', published: false },
+    defaultValues: { body: '', published: false, excerpt: '' },
   });
+
+  const published = watch('published');
 
   const mutation = useMutation({
     mutationFn: createBlogPost,
@@ -42,50 +48,96 @@ export function BlogCreatePage() {
 
   return (
     <AdminLayout>
-      <div className="p-8 max-w-3xl">
-        <h1 className="font-heading text-2xl text-navy mb-6">New Blog Post</h1>
-        <form onSubmit={handleSubmit(d => mutation.mutate(d))} className="space-y-4">
-          <div>
-            <label className="block text-sm font-semibold text-navy mb-1">Title *</label>
-            <input {...register('title')} onBlur={onTitleBlur} className="w-full border border-navy/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-steel" />
-            {errors.title && <p className="text-red-500 text-xs mt-1">{errors.title.message}</p>}
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-navy mb-1">Slug *</label>
-            <input {...register('slug')} className="w-full border border-navy/20 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-1 focus:ring-steel" />
-            {errors.slug && <p className="text-red-500 text-xs mt-1">{errors.slug.message}</p>}
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-navy mb-1">Body</label>
-            <Controller
-              name="body"
-              control={control}
-              render={({ field }) => (
-                <TiptapEditor value={field.value} onChange={field.onChange} placeholder="Write your blog post..." />
-              )}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-navy mb-1">Meta Title</label>
-            <input {...register('meta_title')} className="w-full border border-navy/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-steel" />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-navy mb-1">Meta Description</label>
-            <textarea {...register('meta_description')} rows={2} className="w-full border border-navy/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-steel" />
+      <ContentTabs />
+
+      <form onSubmit={handleSubmit(d => mutation.mutate(d))}>
+        {/* Top bar */}
+        <div className="flex items-center justify-between px-8 py-3 border-b border-navy/10 bg-white">
+          <div className="flex items-center gap-3">
+            <button type="button" onClick={() => navigate('/blog')} className="font-body text-sm text-navy/60 hover:text-navy">← Back</button>
+            <span className="font-heading text-lg text-navy">Untitled blog post</span>
+            <span className="text-xs bg-navy/10 text-navy/60 px-2 py-0.5 rounded font-body">
+              {published ? 'Published' : 'Draft'}
+            </span>
           </div>
           <div className="flex items-center gap-2">
-            <input type="checkbox" id="published" {...register('published')} className="w-4 h-4 accent-steel" />
-            <label htmlFor="published" className="text-sm font-semibold text-navy">Publish immediately</label>
-          </div>
-          <div className="flex gap-3 pt-2">
+            <button type="button" onClick={() => navigate('/blog')} className="font-body text-sm text-navy/60 hover:text-navy px-3 py-1.5 rounded border border-navy/20">Cancel <span className="text-navy/40">Esc</span></button>
             <Button type="submit" disabled={mutation.isPending}>
-              {mutation.isPending ? 'Creating…' : 'Create Post'}
+              {mutation.isPending ? 'Saving…' : 'Save ▾'}
             </Button>
-            <Button type="button" variant="outline" onClick={() => navigate('/blog')}>Cancel</Button>
           </div>
-          {mutation.isError && <p className="text-red-500 text-sm">Failed to create post. Try again.</p>}
-        </form>
-      </div>
+        </div>
+
+        {/* 2-column body */}
+        <div className="flex min-h-[calc(100vh-8rem)]">
+          {/* Left: main content */}
+          <div className="flex-1 px-8 py-6 overflow-y-auto space-y-5 max-w-3xl">
+            <div>
+              <label className="block text-sm font-semibold text-navy mb-1">Title *</label>
+              <input {...register('title')} onBlur={onTitleBlur} className={inputCls} placeholder="Post title" />
+              {errors.title && <p className="text-red-500 text-xs mt-1">{errors.title.message}</p>}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-navy mb-1">Slug *</label>
+              <input {...register('slug')} className={`${inputCls} font-mono`} placeholder="post-slug" />
+              {errors.slug && <p className="text-red-500 text-xs mt-1">{errors.slug.message}</p>}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-navy mb-1">Excerpt</label>
+              <textarea {...register('excerpt')} rows={2} className={inputCls} placeholder="Short description shown in listings…" />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-navy mb-2">Content</label>
+              <Controller
+                name="body"
+                control={control}
+                render={({ field }) => (
+                  <TiptapEditor value={field.value} onChange={field.onChange} placeholder="Write your blog post…" />
+                )}
+              />
+            </div>
+          </div>
+
+          {/* Right: sticky sidebar */}
+          <aside className="w-72 shrink-0 border-l border-navy/10 bg-white">
+            <div className="sticky top-0 p-5 space-y-5 max-h-screen overflow-y-auto">
+
+              <div>
+                <label className="block text-sm font-semibold text-navy mb-1">Status</label>
+                <select
+                  value={published ? 'published' : 'draft'}
+                  onChange={e => setValue('published', e.target.value === 'published')}
+                  className={inputCls}
+                >
+                  <option value="draft">Draft</option>
+                  <option value="published">Published</option>
+                </select>
+              </div>
+
+              <div className="border-t border-navy/10 pt-5">
+                <p className="text-xs font-semibold text-navy/50 uppercase tracking-wide mb-3">SEO</p>
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-xs font-semibold text-navy mb-1">Meta Title</label>
+                    <input {...register('meta_title')} className={inputCls} placeholder="SEO title" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-navy mb-1">Meta Description</label>
+                    <textarea {...register('meta_description')} rows={3} className={inputCls} placeholder="SEO description" />
+                  </div>
+                </div>
+              </div>
+
+              {mutation.isError && (
+                <p className="text-red-500 text-xs">Failed to create post. Try again.</p>
+              )}
+            </div>
+          </aside>
+        </div>
+      </form>
     </AdminLayout>
   );
 }

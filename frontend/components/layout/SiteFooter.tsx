@@ -67,7 +67,6 @@ export function SiteFooter() {
           <nav className="flex flex-col gap-2">
             <p className="font-heading text-white text-sm font-semibold mb-1">Resources</p>
             <Link href="/blog" className={linkCls}>Blogs</Link>
-            <Link href="/guide" className={linkCls}>Guide</Link>
             <Link href="/events" className={linkCls}>Events</Link>
             <Link href="/contact" className={linkCls}>Contact Us</Link>
           </nav>
