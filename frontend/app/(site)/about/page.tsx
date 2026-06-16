@@ -1,6 +1,5 @@
-import Link from 'next/link';
 import type { Metadata } from 'next';
-import { GradientHero } from '@/components/ui/GradientHero';
+import { SimpleHero } from '@/components/ui/SimpleHero';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
@@ -25,11 +24,16 @@ export async function generateMetadata(): Promise<Metadata> {
 const PARTNER_BRANDS = ['Tata Steel', 'JSW Steel', 'Jindal Steel', 'Apollo Pipes', 'Kamdhenu'];
 
 export default async function AboutPage() {
-  const testimonials = await getTestimonials();
+  const [testimonials, settings] = await Promise.all([
+    getTestimonials(),
+    getSettings().catch(() => ({} as Record<string, string>)),
+  ]);
+  const waNumber = (settings.whatsapp_number ?? '9918522988').replace(/[^0-9+]/g, '');
+  const waUrl = `https://wa.me/${waNumber}`;
   return (
     <>
-      {/* Section 1 — Hero (gradient-only, no photo per D-03) */}
-      <GradientHero minHeight="min-h-[400px]">
+      {/* Section 1 — Hero */}
+      <SimpleHero minHeight="min-h-[400px]">
         <SectionContainer noPadding>
           <p className="font-body text-sm text-cyan/80 tracking-widest uppercase mb-3">ABOUT RSG</p>
           <h1 className="font-heading text-4xl md:text-5xl text-white mb-4">Built on Integrity, Driven by Quality</h1>
@@ -37,7 +41,7 @@ export default async function AboutPage() {
             Since 2019, RSG Profile Manufacturing has been Kanpur&apos;s trusted partner for premium building materials.
           </p>
         </SectionContainer>
-      </GradientHero>
+      </SimpleHero>
 
       {/* Section 2 — Company overview */}
       <SectionContainer>
@@ -163,12 +167,14 @@ export default async function AboutPage() {
           ))}
         </div>
         <div className="text-center">
-          <Link
-            href="/contact"
+          <a
+            href={waUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center font-heading font-semibold rounded-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange gradient-sunrise text-white shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 border border-transparent px-8 py-4 text-lg"
           >
-            Get in Touch
-          </Link>
+            Get in Touch on WhatsApp
+          </a>
         </div>
       </SectionContainer>
       <TestimonialsSection testimonials={testimonials} />

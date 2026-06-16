@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
+interface SiteHeaderProps {
+  whatsappNumber?: string;
+}
+
 const PPGL_BRANDS = [
   { name: 'JSW Colouron+', slug: 'jsw-colouron' },
   { name: 'JSW Silveron+', slug: 'jsw-silveron' },
@@ -45,7 +49,9 @@ const dropdownItem = 'block px-4 py-2 text-sm font-body text-navy hover:bg-steel
 const dropdownList = 'rounded-md shadow-xl border border-navy/10 bg-white py-2';
 const flyout = 'invisible group-hover/products:visible opacity-0 group-hover/products:opacity-100 transition-opacity absolute top-full left-0 pt-1 w-64 z-50';
 
-export function SiteHeader() {
+export function SiteHeader({ whatsappNumber }: SiteHeaderProps) {
+  const waNumber = (whatsappNumber ?? '9918522988').replace(/[^0-9+]/g, '');
+  const waUrl = `https://wa.me/${waNumber}`;
   return (
     <header className="fixed top-0 left-0 right-0 z-40 bg-navy/95 backdrop-blur-md">
       <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20 flex items-center justify-between h-16">
@@ -149,13 +155,15 @@ export function SiteHeader() {
 
         </nav>
 
-        {/* Get Quote CTA */}
-        <Link
-          href="/contact"
+        {/* Get Quote CTA — opens WhatsApp */}
+        <a
+          href={waUrl}
+          target="_blank"
+          rel="noopener noreferrer"
           className="inline-flex items-center justify-center font-heading font-semibold rounded-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange gradient-sunrise text-white shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 border border-transparent px-4 py-2 text-sm"
         >
           Get Quote
-        </Link>
+        </a>
 
         {/* Mobile menu — CSS-only disclosure */}
         <details className="md:hidden group">

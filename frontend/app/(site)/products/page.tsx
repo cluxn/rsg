@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { getProducts, getSettings, type ProductSummary } from '@/lib/api';
-import { GradientHero } from '@/components/ui/GradientHero';
+import { SimpleHero } from '@/components/ui/SimpleHero';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 
 export const revalidate = 3600;
@@ -57,7 +57,7 @@ export default async function ProductsPage() {
 
   return (
     <>
-      <GradientHero minHeight="min-h-[360px]">
+      <SimpleHero minHeight="min-h-[360px]">
         <SectionContainer noPadding>
           <p className="font-body text-sm text-cyan/80 tracking-widest uppercase mb-3">Our Products</p>
           <h1 className="font-heading text-4xl md:text-5xl text-white mb-4">Complete Range, One Supplier</h1>
@@ -65,7 +65,7 @@ export default async function ProductsPage() {
             From colour coated roofing sheets to structural steel — explore RSG&apos;s full catalog of premium building materials.
           </p>
         </SectionContainer>
-      </GradientHero>
+      </SimpleHero>
 
       <SectionContainer>
         <h2 className="font-heading text-3xl text-navy mb-2">Colour Coated Roofing Sheet</h2>

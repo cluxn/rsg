@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getSettings } from '@/lib/api';
-import { GradientHero } from '@/components/ui/GradientHero';
+import { SimpleHero } from '@/components/ui/SimpleHero';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import { ContactForm } from './ContactForm';
 
@@ -30,13 +30,13 @@ export default async function ContactPage() {
 
   return (
     <>
-      <GradientHero minHeight="min-h-[300px]">
+      <SimpleHero minHeight="min-h-[300px]">
         <SectionContainer noPadding>
           <p className="font-body text-sm text-cyan/80 tracking-widest uppercase mb-3">CONTACT</p>
           <h1 className="font-heading text-4xl md:text-5xl text-white mb-4">Get In Touch</h1>
           <p className="font-body text-lg text-white/80 max-w-xl mx-auto">Reach us for quotes, product questions, or visit our facility in Kanpur.</p>
         </SectionContainer>
-      </GradientHero>
+      </SimpleHero>
 
       <SectionContainer>
         <div className="grid md:grid-cols-2 gap-12 lg:gap-20">

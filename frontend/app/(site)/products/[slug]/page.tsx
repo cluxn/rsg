@@ -8,8 +8,6 @@ import { SectionContainer } from '@/components/layout/SectionContainer';
 
 export const revalidate = 3600;
 
-const HERO_IMAGE = '/images/hero/industrial-bg.webp';
-
 export async function generateStaticParams() {
   const products = await getProducts();
   return products.map((p) => ({ slug: p.slug }));
@@ -35,7 +33,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   return (
     <>
-      <ProductHero productName={product.name} heroImage={HERO_IMAGE} />
+      <ProductHero productName={product.name} />
 
       {/* Two-column section */}
       <SectionContainer>
