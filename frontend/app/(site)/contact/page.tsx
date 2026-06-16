@@ -23,7 +23,7 @@ export default async function ContactPage() {
         <SectionContainer noPadding>
           <p className="font-body text-sm text-cyan/80 tracking-widest uppercase mb-3">CONTACT</p>
           <h1 className="font-heading text-4xl md:text-5xl text-white mb-4">Get In Touch</h1>
-          <p className="font-body text-lg text-white/80">Reach us for quotes, product questions, or visit our facility in Kanpur.</p>
+          <p className="font-body text-lg text-white/80 max-w-xl mx-auto">Reach us for quotes, product questions, or visit our facility in Kanpur.</p>
         </SectionContainer>
       </GradientHero>
 

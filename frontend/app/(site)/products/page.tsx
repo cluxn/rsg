@@ -50,7 +50,7 @@ export default async function ProductsPage() {
         <SectionContainer noPadding>
           <p className="font-body text-sm text-cyan/80 tracking-widest uppercase mb-3">Our Products</p>
           <h1 className="font-heading text-4xl md:text-5xl text-white mb-4">Complete Range, One Supplier</h1>
-          <p className="font-body text-xl text-white/80 max-w-2xl">
+          <p className="font-body text-xl text-white/80 max-w-2xl mx-auto">
             From colour coated roofing sheets to structural steel — explore RSG&apos;s full catalog of premium building materials.
           </p>
         </SectionContainer>

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "../../tailwind.shared.css";
+@plugin "@tailwindcss/typography";
 
 @layer base {
   body {
@@ -80,4 +81,17 @@
     transform: translateY(-4px);
     box-shadow: 0 16px 40px -12px rgba(22, 38, 63, 0.18);
   }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 30s linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }

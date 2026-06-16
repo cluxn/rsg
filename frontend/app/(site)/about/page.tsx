@@ -18,7 +18,7 @@ export default function AboutPage() {
         <SectionContainer noPadding>
           <p className="font-body text-sm text-cyan/80 tracking-widest uppercase mb-3">ABOUT RSG</p>
           <h1 className="font-heading text-4xl md:text-5xl text-white mb-4">Built on Integrity, Driven by Quality</h1>
-          <p className="font-body text-xl text-white/80">
+          <p className="font-body text-xl text-white/80 max-w-2xl mx-auto">
             Since 2019, RSG Profile Manufacturing has been Kanpur&apos;s trusted partner for premium building materials.
           </p>
         </SectionContainer>

@@ -48,7 +48,7 @@ const flyout = 'invisible group-hover/products:visible opacity-0 group-hover/pro
 export function SiteHeader() {
   return (
     <header className="fixed top-0 left-0 right-0 z-40 bg-navy/95 backdrop-blur-md">
-      <div className="mx-auto max-w-container px-6 md:px-16 lg:px-20 flex items-center justify-between h-16">
+      <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20 flex items-center justify-between h-16">
         {/* Logo */}
         <Link href="/" className="flex items-center">
           <Image src="/rsg-logo.png" alt="RSG Profile Manufacturing" width={80} height={60} className="h-14 w-auto" priority />

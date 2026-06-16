@@ -273,7 +273,7 @@ export function ScrollHero() {
           <div className="absolute inset-0 z-10 flex items-center justify-center px-4 sm:px-6">
           <div
             ref={el => { contentRefs.current[i] = el; }}
-            className="glass-panel rounded-2xl shadow-2xl flex flex-col items-center justify-center text-center px-6 sm:px-10 lg:px-14 py-8 w-full max-w-2xl h-[400px] sm:h-[440px] lg:h-[480px] xl:h-[600px]"
+            className="glass-panel rounded-2xl shadow-2xl flex flex-col items-center justify-center text-center px-6 sm:px-10 lg:px-14 py-10 w-full max-w-2xl h-[600px] sm:h-[580px] lg:h-[600px] xl:h-[680px]"
           >
             <div className="flex items-center justify-center gap-3 mb-4 lg:mb-6">
               <span className="font-heading text-orange text-sm font-bold tracking-[0.2em]">{s.number}</span>
@@ -293,6 +293,28 @@ export function ScrollHero() {
               >
                 Get a Quote
               </Link>
+            </div>
+            {/* Trust pills */}
+            <div className="flex flex-wrap justify-center gap-2 mt-5 lg:mt-6">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/20 px-3 py-1 font-body text-white/85 text-xs sm:text-sm backdrop-blur-sm">
+                <svg className="w-3.5 h-3.5 text-orange shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Founded 2019 · Est. in Kanpur
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/20 px-3 py-1 font-body text-white/85 text-xs sm:text-sm backdrop-blur-sm">
+                <svg className="w-3.5 h-3.5 text-orange shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+                4.7★ Google Rating · 19 reviews
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/20 px-3 py-1 font-body text-white/85 text-xs sm:text-sm backdrop-blur-sm">
+                <svg className="w-3.5 h-3.5 text-orange shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                Kanpur Manufacturer · Pan-UP delivery
+              </span>
             </div>
           </div>
           </div>

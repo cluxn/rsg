@@ -13,7 +13,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   return (
     <>
       <SiteHeader />
-      <main className="pt-16">{children}</main>
+      <main className="pt-16 overflow-x-hidden">{children}</main>
       <SiteFooter />
       <WhatsAppFloat number={settings.whatsapp_number ?? ''} />
     </>

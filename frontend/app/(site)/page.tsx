@@ -1,6 +1,8 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import { ScrollHero } from '@/components/sections/ScrollHero';
+import { StatsSection } from '@/components/sections/StatsSection';
 import HomeQuoteForm from './HomeQuoteForm';
 
 const FEATURED_PRODUCTS = [
@@ -24,7 +26,12 @@ const RATINGS = [
   { platform: 'Justdial', score: '4.3★', count: '25 reviews' },
 ];
 
-const PARTNER_BRANDS = ['Tata Steel', 'JSW Steel', 'Jindal Steel', 'Apollo Pipes', 'Kamdhenu'];
+const PARTNER_LOGOS = [
+  { src: '/images/logos/tata-steel.png', alt: 'Tata Steel' },
+  { src: '/images/logos/asian-ispat.jpg', alt: 'Asian Colour Coated Ispat' },
+  { src: '/images/logos/partner-jsw.png', alt: 'Partner Brand' },
+  { src: '/images/logos/partner-kamdhenu.png', alt: 'Partner Brand' },
+];
 
 export default function Home() {
   return (
@@ -33,48 +40,7 @@ export default function Home() {
       <ScrollHero />
 
       {/* Section 2 — Stats bar */}
-      <section className="gradient-mesh-light text-ink py-8 border-b border-navy/5">
-        <div className="mx-auto max-w-container px-6 md:px-16 lg:px-20">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-16">
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-full border-2 border-orange bg-orange/5 shadow flex items-center justify-center shrink-0">
-                <svg className="w-5 h-5 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <div>
-                <p className="font-heading font-bold text-lg">Founded 2019</p>
-                <p className="font-body text-sm text-ink/60">Est. in Kanpur</p>
-              </div>
-            </div>
-            <div className="hidden md:block w-px h-10 bg-navy/10" aria-hidden="true" />
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-full border-2 border-orange bg-orange/5 shadow flex items-center justify-center shrink-0">
-                <svg className="w-5 h-5 text-orange" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                </svg>
-              </div>
-              <div>
-                <p className="font-heading font-bold text-lg">4.7★ Google Rating</p>
-                <p className="font-body text-sm text-ink/60">19 verified reviews</p>
-              </div>
-            </div>
-            <div className="hidden md:block w-px h-10 bg-navy/10" aria-hidden="true" />
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-full border-2 border-orange bg-orange/5 shadow flex items-center justify-center shrink-0">
-                <svg className="w-5 h-5 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </div>
-              <div>
-                <p className="font-heading font-bold text-lg">Kanpur-based Manufacturer</p>
-                <p className="font-body text-sm text-ink/60">Pan-UP delivery</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <StatsSection />
 
       {/* Section 3 — Products teaser */}
       <SectionContainer>
@@ -167,14 +133,22 @@ export default function Home() {
             Working with India's leading steel brands and construction firms.
           </p>
         </div>
-        <div className="flex flex-wrap justify-center gap-8">
-          {PARTNER_BRANDS.map(brand => (
-            <span key={brand} className="font-heading text-lg font-semibold text-ink/40 tracking-wide uppercase transition-colors hover:text-orange">
-              {brand}
-            </span>
-          ))}
+        {/* Moving logo marquee */}
+        <div className="overflow-hidden" aria-label="Partner logos">
+          <div className="marquee-track gap-16 items-center">
+            {[...PARTNER_LOGOS, ...PARTNER_LOGOS].map((logo, i) => (
+              <div key={i} className="flex-shrink-0 flex items-center justify-center h-14 w-36 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300">
+                <Image
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={144}
+                  height={56}
+                  className="object-contain max-h-14"
+                />
+              </div>
+            ))}
+          </div>
         </div>
-        {/* TODO Phase 3: replace with actual logo images from ASSET-INVENTORY.md */}
       </SectionContainer>
 
       {/* Section 6 — Testimonials */}
