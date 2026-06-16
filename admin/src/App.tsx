@@ -9,6 +9,15 @@ import { CatalogPage } from '@/pages/Catalog';
 import { ProductEditorPage } from '@/pages/ProductEditor';
 import { SettingsPage } from '@/pages/Settings';
 import { LeadsPage } from '@/pages/Leads';
+import { BlogListPage } from '@/pages/Blog/BlogList';
+import { BlogCreatePage } from '@/pages/Blog/BlogCreate';
+import { BlogEditPage } from '@/pages/Blog/BlogEdit';
+import { EventListPage } from '@/pages/Events/EventList';
+import { EventCreatePage } from '@/pages/Events/EventCreate';
+import { EventEditPage } from '@/pages/Events/EventEdit';
+import { TestimonialListPage } from '@/pages/Testimonials/TestimonialList';
+import { TestimonialCreatePage } from '@/pages/Testimonials/TestimonialCreate';
+import { TestimonialEditPage } from '@/pages/Testimonials/TestimonialEdit';
 
 const queryClient = new QueryClient();
 
@@ -67,6 +76,15 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/blog" element={<ProtectedRoute><BlogListPage /></ProtectedRoute>} />
+            <Route path="/blog/create" element={<ProtectedRoute><BlogCreatePage /></ProtectedRoute>} />
+            <Route path="/blog/edit/:id" element={<ProtectedRoute><BlogEditPage /></ProtectedRoute>} />
+            <Route path="/events" element={<ProtectedRoute><EventListPage /></ProtectedRoute>} />
+            <Route path="/events/create" element={<ProtectedRoute><EventCreatePage /></ProtectedRoute>} />
+            <Route path="/events/edit/:id" element={<ProtectedRoute><EventEditPage /></ProtectedRoute>} />
+            <Route path="/testimonials" element={<ProtectedRoute><TestimonialListPage /></ProtectedRoute>} />
+            <Route path="/testimonials/create" element={<ProtectedRoute><TestimonialCreatePage /></ProtectedRoute>} />
+            <Route path="/testimonials/edit/:id" element={<ProtectedRoute><TestimonialEditPage /></ProtectedRoute>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>

@@ -41,6 +41,14 @@ async function seed() {
     );
   }
 
+  await pool.query(`
+    INSERT IGNORE INTO testimonials (text, author_name, author_city, rating, source, active) VALUES
+    ('Satisfactory service and behaviour.', 'Shivkant Dixit', 'Kanpur', 4.5, 'google', TRUE),
+    ('Extremely professional company with good quality products.', 'Arvind Yadav', 'Kanpur', 5.0, 'google', TRUE),
+    ('Very Nice and Good approaching system in this organisation.', 'Vijay Prajapati', 'Mumbai', 4.0, 'indiamart', TRUE),
+    ('Good quality and timely delivery.', 'Santosh Gupta', 'Mumbai', 4.0, 'indiamart', TRUE)
+  `);
+
   console.log('Seed complete');
   await pool.end();
 }
