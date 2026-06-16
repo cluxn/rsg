@@ -156,7 +156,7 @@ export default async function Home() {
         {/* Moving logo marquee */}
         <div className="overflow-hidden" aria-label="Partner logos">
           <div className="marquee-track gap-16 items-center">
-            {[...PARTNER_LOGOS, ...PARTNER_LOGOS].map((logo, i) => (
+            {[...PARTNER_LOGOS, ...PARTNER_LOGOS, ...PARTNER_LOGOS, ...PARTNER_LOGOS].map((logo, i) => (
               <div key={i} className="flex-shrink-0 flex items-center justify-center h-14 w-36 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300">
                 <Image
                   src={logo.src}
