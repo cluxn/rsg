@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { GradientHero } from '@/components/ui/GradientHero';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { SectionContainer } from '@/components/layout/SectionContainer';
+import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
+import { getTestimonials } from '@/lib/content';
 
 export const metadata = {
   title: 'About Us | RSG Profile Manufacturing',
@@ -10,7 +12,8 @@ export const metadata = {
 
 const PARTNER_BRANDS = ['Tata Steel', 'JSW Steel', 'Jindal Steel', 'Apollo Pipes', 'Kamdhenu'];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const testimonials = await getTestimonials();
   return (
     <>
       {/* Section 1 — Hero (gradient-only, no photo per D-03) */}
@@ -156,6 +159,7 @@ export default function AboutPage() {
           </Link>
         </div>
       </SectionContainer>
+      <TestimonialsSection testimonials={testimonials} />
     </>
   );
 }

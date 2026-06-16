@@ -3,7 +3,9 @@ import Image from 'next/image';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import { ScrollHero } from '@/components/sections/ScrollHero';
 import { StatsSection } from '@/components/sections/StatsSection';
+import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
 import HomeQuoteForm from './HomeQuoteForm';
+import { getTestimonials } from '@/lib/content';
 
 const FEATURED_PRODUCTS = [
   { name: 'Colour Coated Roofing Sheet', desc: 'ISI-certified roofing with DuraGlow coating' },
@@ -33,7 +35,8 @@ const PARTNER_LOGOS = [
   { src: '/images/logos/partner-kamdhenu.png', alt: 'Partner Brand' },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const testimonials = await getTestimonials();
   return (
     <>
       {/* Section 1 — Hero */}
@@ -213,6 +216,7 @@ export default function Home() {
           </div>
         </SectionContainer>
       </section>
+      <TestimonialsSection testimonials={testimonials} />
     </>
   );
 }
