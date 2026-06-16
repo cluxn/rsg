@@ -8,6 +8,7 @@ import { MediaLibraryPage } from '@/pages/MediaLibrary';
 import { CatalogPage } from '@/pages/Catalog';
 import { ProductEditorPage } from '@/pages/ProductEditor';
 import { SettingsPage } from '@/pages/Settings';
+import { SeoPage } from '@/pages/Seo';
 import { LeadsPage } from '@/pages/Leads';
 import { BlogListPage } from '@/pages/Blog/BlogList';
 import { BlogCreatePage } from '@/pages/Blog/BlogCreate';
@@ -73,6 +74,14 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <SettingsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/seo"
+              element={
+                <ProtectedRoute>
+                  <SeoPage />
                 </ProtectedRoute>
               }
             />

@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, Package, Image, FileText, Calendar, Star, Settings2 } from 'lucide-react';
+import { LayoutDashboard, Users, Package, Image, FileText, Calendar, Star, Settings2, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -8,6 +8,7 @@ const navItems = [
   { label: 'Catalog', to: '/catalog', icon: Package },
   { label: 'Media Library', to: '/media', icon: Image },
   { label: 'Settings', to: '/settings', icon: Settings2 },
+  { label: 'SEO', to: '/seo', icon: Search },
 ];
 
 const contentNavItems = [
