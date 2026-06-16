@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 2: Public Core Pages** - Home, About, Contact, WhatsApp icon, footer credit
 - [ ] **Phase 3: Product Catalog & Media Library** - 10 product category pages + admin CRUD + Media Library with alt text
 - [ ] **Phase 4: Lead Capture & Admin Leads** - Get Quote form, source tracking, admin Leads list with export/import
-- [ ] **Phase 5: Blog, Events & Testimonials** - Admin CMS + public pages for Blog/Events, Testimonials section
+- [x] **Phase 5: Blog, Events & Testimonials** - Admin CMS + public pages for Blog/Events, Testimonials section
 - [ ] **Phase 6: SEO & Admin Configuration** - SEO scripts injection, per-page meta, sitemap
 - [ ] **Phase 7: Lead Notifications** - SMTP/n8n notifications on new leads (built last)
 
