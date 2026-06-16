@@ -8,6 +8,7 @@ import { MediaLibraryPage } from '@/pages/MediaLibrary';
 import { CatalogPage } from '@/pages/Catalog';
 import { ProductEditorPage } from '@/pages/ProductEditor';
 import { SettingsPage } from '@/pages/Settings';
+import { LeadsPage } from '@/pages/Leads';
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,14 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <DashboardPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/leads"
+              element={
+                <ProtectedRoute>
+                  <LeadsPage />
                 </ProtectedRoute>
               }
             />
