@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { getProduct, getProducts } from '@/lib/api';
-import { ProductHero } from '@/components/ui/ProductHero';
+import { ProductPageHero } from '@/components/ui/ProductPageHero';
 import { SpecsTable } from '@/components/ui/SpecsTable';
 import { GetQuoteCTA } from '@/components/ui/GetQuoteCTA';
 import { SectionContainer } from '@/components/layout/SectionContainer';
@@ -33,7 +33,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   return (
     <>
-      <ProductHero productName={product.name} />
+      <ProductPageHero product={product} />
 
       {/* Two-column section */}
       <SectionContainer>
@@ -103,7 +103,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </div>
       </SectionContainer>
 
-      <SpecsTable specs={product.specs} />
+      <div id="specs-section">
+        <SpecsTable specs={product.specs} />
+      </div>
 
       <GetQuoteCTA productName={product.name} slug={product.slug} />
     </>
