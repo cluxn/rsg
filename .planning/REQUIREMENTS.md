@@ -70,7 +70,7 @@ Deferred to future release. Tracked but not in current roadmap.
 
 ### Lead Notifications (NOTIF)
 
-- [ ] **NOTIF-01**: System sends an email (SMTP via nodemailer) to a configured address when a new lead is submitted — built last, after core site/admin functionality is complete, per `.planning/SCOPE-DECISIONS.md`. (The n8n lead webhook is a separate, fixed integration wired in via LEAD-01/PUBLIC-03 — see SCOPE-DECISIONS.md.)
+- [x] **NOTIF-01**: System sends an email (SMTP via nodemailer) to a configured address when a new lead is submitted — built last, after core site/admin functionality is complete, per `.planning/SCOPE-DECISIONS.md`. (The n8n lead webhook is a separate, fixed integration wired in via LEAD-01/PUBLIC-03 — see SCOPE-DECISIONS.md.)
 
 ## Out of Scope
 
@@ -120,7 +120,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CONTENT-04 | Phase 5 | Pending |
 | SEO-01 | Phase 6 | Pending |
 | SEO-02 | Phase 6 | Pending |
-| NOTIF-01 | Phase 7 | Pending |
+| NOTIF-01 | Phase 7 | Complete |
 
 **Coverage:**
 - v1 requirements: 28 total

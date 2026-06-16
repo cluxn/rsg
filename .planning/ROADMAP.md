@@ -18,7 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: Lead Capture & Admin Leads** - Get Quote form, source tracking, admin Leads list with export/import
 - [x] **Phase 5: Blog, Events & Testimonials** - Admin CMS + public pages for Blog/Events, Testimonials section
 - [x] **Phase 6: SEO & Admin Configuration** - SEO scripts injection, per-page meta, sitemap
-- [ ] **Phase 7: Lead Notifications** - SMTP/n8n notifications on new leads (built last)
+- [x] **Phase 7: Lead Notifications** - SMTP/n8n notifications on new leads (built last) — Complete 2026-06-16
 
 ## Phase Details
 
@@ -122,4 +122,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 4. Lead Capture & Admin Leads | 3/3 | Complete | 2026-06-15 |
 | 5. Blog, Events & Testimonials | 4/4 | Complete | 2026-06-16 |
 | 6. SEO & Admin Configuration | 3/3 | Complete | 2026-06-16 |
-| 7. Lead Notifications | 0/TBD | Not started | - |
+| 7. Lead Notifications | 2/2 | Complete | 2026-06-16 |
