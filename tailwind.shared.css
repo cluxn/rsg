@@ -3,12 +3,13 @@
 
 @theme {
   /* Brand Colors — sourced from hero photography (roofing navy, twilight sky, DuraGlow amber) */
-  --color-navy: #1E3A5C;
+  --color-navy: #0A2349;
   --color-steel: #4A90C9;
   --color-cyan: #7EC8E3;
   --color-orange: #FF5500;
   --color-gold: #FFB341;
-  --color-off-white: #F7F5F1;
+  --color-off-white: #FFFFFF;
+  --color-ink: #2D3436;
 
   /* Typography */
   --font-family-heading: var(--font-sora), 'Sora', sans-serif;

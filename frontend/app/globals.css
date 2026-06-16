@@ -26,10 +26,11 @@
       linear-gradient(135deg, #0B2540 0%, #1E3A5C 35%, #2A6FB0 70%, #3FB6D8 100%);
   }
   .glass-panel {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.5);
   }
 
   /* Industrial Sunrise — gradients, glassmorphism, glow */
@@ -50,11 +51,11 @@
       radial-gradient(circle at 50% 100%, rgba(255, 179, 65, 0.08) 0%, transparent 50%);
   }
   .gradient-mesh-dark {
-    background-color: #0E2742;
+    background-color: #060F1D;
     background-image:
-      radial-gradient(circle at 85% 0%, rgba(255, 179, 65, 0.18) 0%, transparent 45%),
-      radial-gradient(circle at 5% 100%, rgba(126, 200, 227, 0.16) 0%, transparent 45%),
-      linear-gradient(160deg, #0B2540 0%, #1E3A5C 60%, #245A86 100%);
+      radial-gradient(circle at 85% 0%, rgba(255, 179, 65, 0.16) 0%, transparent 45%),
+      radial-gradient(circle at 5% 100%, rgba(126, 200, 227, 0.14) 0%, transparent 45%),
+      linear-gradient(160deg, #050D19 0%, #16263F 55%, #1F4768 100%);
   }
   .text-gradient-sunrise {
     background: linear-gradient(135deg, var(--color-orange), var(--color-gold));
@@ -70,19 +71,13 @@
   }
   .glow-card {
     position: relative;
-    border: 1px solid transparent;
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.78)),
-      linear-gradient(135deg, rgba(255, 85, 0, 0.4), rgba(126, 200, 227, 0.4));
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(22, 38, 63, 0.08);
     box-shadow: 0 4px 24px -10px rgba(30, 58, 92, 0.15);
     transition: box-shadow 0.3s ease, transform 0.3s ease;
   }
   .glow-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 16px 40px -12px rgba(255, 85, 0, 0.22), 0 16px 40px -12px rgba(126, 200, 227, 0.22);
+    box-shadow: 0 16px 40px -12px rgba(22, 38, 63, 0.18);
   }
 }

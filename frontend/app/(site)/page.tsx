@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { GlassCard } from '@/components/ui/GlassCard';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import { ScrollHero } from '@/components/sections/ScrollHero';
 
@@ -33,7 +32,7 @@ export default function Home() {
       <ScrollHero />
 
       {/* Section 2 — Stats bar */}
-      <section className="gradient-mesh-light text-navy py-8 border-b border-navy/5">
+      <section className="gradient-mesh-light text-ink py-8 border-b border-navy/5">
         <div className="mx-auto max-w-container px-6 md:px-16 lg:px-20">
           <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-16">
             <div className="flex items-center gap-3">
@@ -44,7 +43,7 @@ export default function Home() {
               </div>
               <div>
                 <p className="font-heading font-bold text-lg">Founded 2019</p>
-                <p className="font-body text-sm text-navy/60">Est. in Kanpur</p>
+                <p className="font-body text-sm text-ink/60">Est. in Kanpur</p>
               </div>
             </div>
             <div className="hidden md:block w-px h-10 bg-navy/10" aria-hidden="true" />
@@ -56,7 +55,7 @@ export default function Home() {
               </div>
               <div>
                 <p className="font-heading font-bold text-lg">4.7★ Google Rating</p>
-                <p className="font-body text-sm text-navy/60">19 verified reviews</p>
+                <p className="font-body text-sm text-ink/60">19 verified reviews</p>
               </div>
             </div>
             <div className="hidden md:block w-px h-10 bg-navy/10" aria-hidden="true" />
@@ -69,7 +68,7 @@ export default function Home() {
               </div>
               <div>
                 <p className="font-heading font-bold text-lg">Kanpur-based Manufacturer</p>
-                <p className="font-body text-sm text-navy/60">Pan-UP delivery</p>
+                <p className="font-body text-sm text-ink/60">Pan-UP delivery</p>
               </div>
             </div>
           </div>
@@ -79,8 +78,8 @@ export default function Home() {
       {/* Section 3 — Products teaser */}
       <SectionContainer>
         <div className="text-center mb-12">
-          <h2 className="font-heading text-3xl text-gradient-sky font-bold mb-3">Our Products</h2>
-          <p className="font-body text-navy/60 max-w-2xl mx-auto">
+          <h2 className="font-heading text-3xl text-ink font-bold mb-3">Our Products</h2>
+          <p className="font-body text-ink/60 max-w-2xl mx-auto">
             From roofing sheets to structural steel — a complete range for construction projects
           </p>
         </div>
@@ -95,8 +94,8 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                 </svg>
               </div>
-              <h3 className="font-heading text-lg text-navy font-semibold mb-1">{product.name}</h3>
-              <p className="font-body text-sm text-navy/60">{product.desc}</p>
+              <h3 className="font-heading text-lg text-ink font-semibold mb-1">{product.name}</h3>
+              <p className="font-body text-sm text-ink/60">{product.desc}</p>
             </div>
           ))}
         </div>
@@ -111,9 +110,9 @@ export default function Home() {
       </SectionContainer>
 
       {/* Section 4 — Why RSG */}
-      <SectionContainer className="gradient-mesh-light">
+      <SectionContainer>
         <div className="text-center mb-12">
-          <h2 className="font-heading text-3xl text-gradient-sky font-bold">Why Choose RSG?</h2>
+          <h2 className="font-heading text-3xl text-ink font-bold">Why Choose RSG?</h2>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
@@ -145,8 +144,8 @@ export default function Home() {
                   </svg>
                 )}
               </div>
-              <h3 className="font-heading text-navy font-semibold mb-2">{item.title}</h3>
-              <p className="font-body text-sm text-navy/60">{item.desc}</p>
+              <h3 className="font-heading text-ink font-semibold mb-2">{item.title}</h3>
+              <p className="font-body text-sm text-ink/60">{item.desc}</p>
             </div>
           ))}
         </div>
@@ -154,10 +153,10 @@ export default function Home() {
 
       {/* Section 5 — Client logo strip */}
       <SectionContainer>
-        <h2 className="font-heading text-2xl text-navy/50 font-normal text-center mb-8">Our Clients & Partners</h2>
+        <h2 className="font-heading text-2xl text-ink/50 font-normal text-center mb-8">Our Clients & Partners</h2>
         <div className="flex flex-wrap justify-center gap-8">
           {PARTNER_BRANDS.map(brand => (
-            <span key={brand} className="font-heading text-lg font-semibold text-navy/40 tracking-wide uppercase transition-colors hover:text-orange">
+            <span key={brand} className="font-heading text-lg font-semibold text-ink/40 tracking-wide uppercase transition-colors hover:text-orange">
               {brand}
             </span>
           ))}
@@ -166,34 +165,52 @@ export default function Home() {
       </SectionContainer>
 
       {/* Section 6 — Testimonials */}
-      <section className="gradient-mesh-dark text-white">
+      <section>
         <SectionContainer>
-          <h2 className="font-heading text-3xl text-white font-bold text-center mb-10">What Our Clients Say</h2>
+          <h2 className="font-heading text-3xl text-ink font-bold text-center mb-10">What Our Clients Say</h2>
 
           {/* Rating badges */}
           <div className="flex flex-wrap justify-center gap-4 mb-12">
             {RATINGS.map(r => (
-              <GlassCard key={r.platform} padding="px-6 py-4">
+              <div key={r.platform} className="glow-card rounded-xl px-6 py-4">
                 <p className="font-heading text-xl text-gradient-sunrise font-bold">{r.score}</p>
-                <p className="font-body text-sm text-white/70">{r.platform} · {r.count}</p>
-              </GlassCard>
+                <p className="font-body text-sm text-ink/70">{r.platform} · {r.count}</p>
+              </div>
             ))}
           </div>
 
           {/* Review quotes */}
           <div className="grid md:grid-cols-3 gap-6">
             {TESTIMONIALS.map(t => (
-              <GlassCard key={t.name}>
-                <p className="font-body text-white/90 italic mb-4">"{t.quote}"</p>
+              <div key={t.name} className="glow-card rounded-xl p-6">
+                <p className="font-body text-ink/90 italic mb-4">"{t.quote}"</p>
                 <div className="flex items-center gap-2">
                   <div>
-                    <p className="font-heading text-sm text-white font-semibold">{t.name}</p>
-                    <p className="font-body text-xs text-white/60">{t.source} · {'★'.repeat(t.rating)}</p>
+                    <p className="font-heading text-sm text-ink font-semibold">{t.name}</p>
+                    <p className="font-body text-xs text-ink/60">{t.source} · {'★'.repeat(t.rating)}</p>
                   </div>
                 </div>
-              </GlassCard>
+              </div>
             ))}
           </div>
+        </SectionContainer>
+      </section>
+
+      {/* Section 7 — CTA before footer */}
+      <section className="bg-steel">
+        <SectionContainer noPadding className="py-16 lg:py-20 text-center">
+          <h2 className="font-heading text-white text-2xl lg:text-3xl font-bold mb-3">
+            Ready to Build with RSG?
+          </h2>
+          <p className="font-body text-white/70 text-lg mb-8 max-w-xl mx-auto">
+            Get a custom quote for your project — premium roofing sheets and structural steel, delivered fast across UP.
+          </p>
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center font-heading font-semibold rounded-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange gradient-sunrise text-white shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 border border-transparent px-8 py-4 text-lg"
+          >
+            Get a Quote
+          </Link>
         </SectionContainer>
       </section>
     </>
