@@ -12,6 +12,9 @@ import revalidateRouter from './routes/revalidate';
 import leadsRouter from './routes/leads';
 import { productsRouter } from './routes/products';
 import { mediaRouter } from './routes/media';
+import blogRouter from './routes/blog';
+import eventsRouter from './routes/events';
+import testimonialsRouter from './routes/testimonials';
 
 dotenv.config();
 
@@ -39,6 +42,9 @@ app.use('/api/leads', leadsRateLimit);
 app.use('/api/leads', leadsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/media', mediaRouter);
+app.use('/api/blog', blogRouter);
+app.use('/api/events', eventsRouter);
+app.use('/api/testimonials', testimonialsRouter);
 
 pool.query('SELECT 1')
   .then(() => console.log('DB connected'))
