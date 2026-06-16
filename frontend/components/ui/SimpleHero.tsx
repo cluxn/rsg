@@ -6,7 +6,7 @@ interface SimpleHeroProps {
 
 export function SimpleHero({ children, className = '', minHeight = 'min-h-[360px]' }: SimpleHeroProps) {
   return (
-    <section className={`gradient-premium w-full flex items-center justify-center ${minHeight} ${className}`}>
+    <section className={`gradient-power w-full flex items-center justify-center ${minHeight} ${className}`}>
       <div className="w-full py-16 text-center">
         {children}
       </div>

@@ -43,12 +43,12 @@ export default async function AboutPage() {
         </SectionContainer>
       </SimpleHero>
 
-      {/* Section 2 — Company overview */}
-      <SectionContainer className="bg-white">
+      {/* Section 2 — Company overview (DARK — continues from dark hero like stats bar on homepage) */}
+      <SectionContainer className="gradient-power">
         <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-start">
-          <div className="space-y-5 font-body text-ink/80">
+          <div className="space-y-5 font-body text-white/75">
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em]">Our Company</p>
-            <h2 className="font-heading text-3xl text-ink mb-2">Our Story</h2>
+            <h2 className="font-heading text-3xl text-white mb-2">Our Story</h2>
             <p>
               RSG Profile Manufacturing Private Limited is one of the leading makers of roofing sheets in Uttar
               Pradesh, with a diverse selection of profiles to meet every customer requirement. We have built a
@@ -66,7 +66,7 @@ export default async function AboutPage() {
               MS pipes, structural steel, decking, purlins, and more.
             </p>
           </div>
-          <div className="gradient-premium rounded-xl p-6 shadow-lg">
+          <div className="glow-card-dark rounded-xl p-6">
             <h3 className="font-heading text-base text-cyan/90 uppercase tracking-widest mb-5">Company Facts</h3>
             <dl className="space-y-3 font-body text-white/90">
               {[
@@ -87,34 +87,34 @@ export default async function AboutPage() {
         </div>
       </SectionContainer>
 
-      {/* Section 3 — Mission / Vision / Values */}
-      <section className="gradient-premium py-16">
+      {/* Section 3 — Mission / Vision / Values (LIGHT — first light break, like Products on homepage) */}
+      <section className="gradient-mesh-light py-16">
         <SectionContainer noPadding>
-          <h2 className="font-heading text-3xl text-white text-center mb-10">Our Commitment</h2>
+          <h2 className="font-heading text-3xl text-ink text-center mb-10">Our Commitment</h2>
           <div className="grid md:grid-cols-3 gap-6">
-            <GlassCard>
-              <p className="font-heading text-sm text-cyan/90 uppercase tracking-wide mb-2">Mission</p>
-              <p className="font-body text-white/90">
+            <div className="glow-card rounded-xl p-6">
+              <p className="font-heading text-sm text-orange uppercase tracking-wide mb-2">Mission</p>
+              <p className="font-body text-ink/70">
                 Delivering premium quality building materials that stand the test of time and weather.
               </p>
-            </GlassCard>
-            <GlassCard>
-              <p className="font-heading text-sm text-cyan/90 uppercase tracking-wide mb-2">Vision</p>
-              <p className="font-body text-white/90">
+            </div>
+            <div className="glow-card rounded-xl p-6">
+              <p className="font-heading text-sm text-orange uppercase tracking-wide mb-2">Vision</p>
+              <p className="font-body text-ink/70">
                 To be UP&apos;s most trusted manufacturer of roofing and structural steel products, known for
                 reliability and on-time delivery.
               </p>
-            </GlassCard>
-            <GlassCard>
-              <p className="font-heading text-sm text-cyan/90 uppercase tracking-wide mb-2">Values</p>
-              <p className="font-body text-white/90">Quality · Integrity · Reliability · Customer First</p>
-            </GlassCard>
+            </div>
+            <div className="glow-card rounded-xl p-6">
+              <p className="font-heading text-sm text-orange uppercase tracking-wide mb-2">Values</p>
+              <p className="font-body text-ink/70">Quality · Integrity · Reliability · Customer First</p>
+            </div>
           </div>
         </SectionContainer>
       </section>
 
-      {/* Section 3b — Our Process (from old RSG site content) */}
-      <section className="gradient-mesh-light py-24">
+      {/* Section 3b — Our Process (LIGHT — continues light, like Products section) */}
+      <section className="bg-white py-24">
         <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20">
           <div className="text-center mb-14">
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">How We Work</p>
