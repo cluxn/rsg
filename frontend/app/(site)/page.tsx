@@ -133,7 +133,47 @@ export default async function Home() {
         </div>
       </SectionContainer>
 
-      {/* Section 4 — Why RSG (DARK power section) */}
+      {/* Section 4 — About Us */}
+      <section className="bg-white border-t-4 border-t-cyan/30 py-20 md:py-28">
+        <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div>
+              <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-4">About Us</p>
+              <h2 className="font-heading text-3xl lg:text-4xl text-ink font-bold mb-6 leading-tight">
+                Kanpur&apos;s Trusted Name in<br />Roofing &amp; Structural Steel
+              </h2>
+              <p className="font-body text-ink/65 text-base leading-relaxed mb-4">
+                RSG Profile Manufacturing was established in 2019 with a single mission — to supply builders, contractors, and industrial clients across Uttar Pradesh with ISI-certified roofing sheets and structural steel at unmatched quality.
+              </p>
+              <p className="font-body text-ink/65 text-base leading-relaxed mb-8">
+                From our manufacturing facility in Kanpur, we serve projects ranging from residential homes to large-scale industrial sheds — offering a complete product range, authorized brand partnerships, and reliable delivery within 2–3 days across UP.
+              </p>
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-2 font-heading font-semibold text-white gradient-sunrise rounded-lg px-6 py-3 shadow-glow-orange hover:opacity-90 transition-opacity duration-200"
+              >
+                Learn More About Us <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { stat: '2019', label: 'Established', sub: 'Serving UP since day one' },
+                { stat: 'ISI', label: 'Certified', sub: 'BIS & ISI standard products' },
+                { stat: '6+', label: 'Product Lines', sub: 'Roofing, steel & more' },
+                { stat: '2–3 Days', label: 'Delivery', sub: 'Pan-UP fast dispatch' },
+              ].map(item => (
+                <div key={item.label} className="rounded-xl border border-steel/15 bg-off-white p-6">
+                  <p className="font-heading text-2xl font-bold text-steel mb-1">{item.stat}</p>
+                  <p className="font-heading text-sm font-semibold text-ink mb-1">{item.label}</p>
+                  <p className="font-body text-xs text-ink/50">{item.sub}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 5 — Why RSG (DARK power section) */}
       <section className="gradient-power py-24 md:py-32">
         <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20">
           <div className="text-center mb-14">
@@ -183,7 +223,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Section 5 — Client logo strip */}
+      {/* Section 6 — Client logo strip */}
       <SectionContainer className="bg-white border-t-4 border-t-orange">
         <div className="text-center mb-12">
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Brand Partners</p>
@@ -210,7 +250,7 @@ export default async function Home() {
         </div>
       </SectionContainer>
 
-      {/* Section 6 — Testimonials (DARK section) */}
+      {/* Section 7 — Testimonials (DARK section) */}
       <section className="gradient-mesh-dark py-24 md:py-32">
         <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20">
           <div className="text-center mb-12">
@@ -253,7 +293,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Section 7 — Get Quote form */}
+      {/* Section 8 — Get Quote form */}
       <section className="bg-white border-t-4 border-t-steel/20">
         <SectionContainer noPadding className="py-20 lg:py-24">
           <div className="max-w-xl mx-auto">
