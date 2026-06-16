@@ -44,7 +44,7 @@ function CountUp({ value, label }: Stat) {
 
   return (
     <div ref={elRef} className="flex flex-col items-center text-center">
-      <p className="font-heading text-5xl lg:text-6xl font-bold text-gradient-sunrise tabular-nums">
+      <p className="font-heading text-5xl lg:text-6xl font-bold text-navy tabular-nums">
         {count.toLocaleString()}{suffix}
       </p>
       <p className="font-body text-sm text-ink/60 mt-2">{label}</p>
