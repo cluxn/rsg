@@ -2,14 +2,14 @@
 /* Tailwind v4 CSS-based configuration: import this file to get RSG tokens */
 
 @theme {
-  /* Brand Colors — sourced from hero photography (roofing navy, twilight sky, DuraGlow amber) */
-  --color-navy: #0A2349;
-  --color-steel: #4A90C9;
-  --color-cyan: #7EC8E3;
-  --color-orange: #FF5500;
-  --color-gold: #FFB341;
-  --color-off-white: #FFFFFF;
-  --color-ink: #26272C;
+  /* Brand Colors — vibrant premium industrial palette for B2B roofing manufacturing */
+  --color-navy: #07152B;       /* Deep midnight navy — authoritative anchor */
+  --color-steel: #0E4FA8;      /* Bold royal blue — electric, vivid */
+  --color-cyan: #00B4DB;       /* Electric vivid cyan — energetic */
+  --color-orange: #F04F00;     /* Bold deep orange — heat, strength, action */
+  --color-gold: #FFA820;       /* Warm amber — premium warmth */
+  --color-off-white: #EDF1F7;  /* Cool industrial white — not flat, has depth */
+  --color-ink: #141E30;        /* Deep blue-black */
 
   /* Typography */
   --font-family-heading: var(--font-sora), 'Sora', sans-serif;
@@ -19,12 +19,12 @@
   --width-container: 1280px;
 
   /* Gradients */
-  --background-image-premium-gradient: linear-gradient(135deg, #0E5FD6 0%, #1E88D6 50%, #00B8D9 100%);
+  --background-image-premium-gradient: linear-gradient(135deg, #07152B 0%, #0E4FA8 55%, #00B4DB 100%);
 
   /* Backdrop blur */
   --backdrop-blur-glass: 12px;
 
-  /* Glow shadows — Industrial Sunrise accents */
-  --shadow-glow-orange: 0 10px 30px -6px rgba(255, 85, 0, 0.45), 0 4px 14px -4px rgba(255, 179, 65, 0.35);
-  --shadow-glow-cyan: 0 10px 30px -6px rgba(126, 200, 227, 0.45);
+  /* Glow shadows — stronger, more vibrant */
+  --shadow-glow-orange: 0 12px 35px -6px rgba(240, 79, 0, 0.55), 0 4px 16px -4px rgba(255, 168, 32, 0.45);
+  --shadow-glow-cyan: 0 12px 35px -6px rgba(0, 180, 219, 0.5), 0 4px 16px -4px rgba(0, 180, 219, 0.3);
 }

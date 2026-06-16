@@ -11,11 +11,12 @@ const AGGREGATE_RATINGS = [
 export function TestimonialsSection({ testimonials }: { testimonials: Testimonial[] }) {
   const displayed = testimonials.slice(0, 4);
   return (
-    <section className="bg-gradient-to-br from-navy/5 via-white to-steel/5 py-20">
+    <section className="gradient-mesh-dark py-20">
       <SectionContainer noPadding>
         <div className="text-center mb-12">
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy mb-3">Trusted by Builders Across India</h2>
-          <p className="text-navy/60 text-lg max-w-2xl mx-auto">
+          <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Client Reviews</p>
+          <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-3">Trusted by Builders Across India</h2>
+          <p className="font-body text-white/55 text-base max-w-2xl mx-auto">
             Real reviews from contractors, builders, and manufacturers who rely on RSG products.
           </p>
         </div>
@@ -25,16 +26,16 @@ export function TestimonialsSection({ testimonials }: { testimonials: Testimonia
         {displayed.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {displayed.map(t => (
-              <blockquote key={t.id} className="bg-white/60 backdrop-blur-sm border border-white/40 rounded-2xl p-6 shadow-sm flex flex-col gap-4">
-                <p className="text-navy/80 text-base leading-relaxed italic before:content-['“'] after:content-['”']">
-                  {t.text}
+              <blockquote key={t.id} className="glow-card-dark rounded-2xl p-6 flex flex-col gap-4">
+                <p className="font-body text-white/80 text-base leading-relaxed italic">
+                  &ldquo;{t.text}&rdquo;
                 </p>
                 <footer className="flex items-center justify-between mt-auto">
                   <div>
-                    <span className="font-semibold text-navy text-sm">{t.author_name}</span>
-                    {t.author_city && <span className="text-navy/50 text-sm"> · {t.author_city}</span>}
+                    <span className="font-heading font-semibold text-white text-sm">{t.author_name}</span>
+                    {t.author_city && <span className="font-body text-white/45 text-sm"> &middot; {t.author_city}</span>}
                   </div>
-                  {t.rating && <span className="text-orange font-bold text-sm">{Number(t.rating).toFixed(1)}★</span>}
+                  {t.rating && <span className="font-heading text-orange font-bold text-sm">{Number(t.rating).toFixed(1)}&#9733;</span>}
                 </footer>
               </blockquote>
             ))}

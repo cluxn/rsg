@@ -19,24 +19,35 @@
 }
 
 @layer utilities {
+  /* HERO gradient — deep vivid navy-to-electric-blue-to-cyan */
   .gradient-premium {
-    background-color: #0E2742;
+    background-color: #07152B;
     background-image:
-      radial-gradient(circle at 88% 12%, rgba(255, 179, 65, 0.28) 0%, transparent 50%),
-      radial-gradient(circle at 8% 92%, rgba(126, 200, 227, 0.25) 0%, transparent 50%),
-      linear-gradient(135deg, #0B2540 0%, #1E3A5C 35%, #2A6FB0 70%, #3FB6D8 100%);
-  }
-  .glass-panel {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.5);
+      radial-gradient(circle at 85% 10%, rgba(255, 168, 32, 0.22) 0%, transparent 50%),
+      radial-gradient(circle at 8% 90%, rgba(0, 180, 219, 0.20) 0%, transparent 50%),
+      linear-gradient(135deg, #07152B 0%, #0E4FA8 55%, #00B4DB 100%);
   }
 
-  /* Industrial Sunrise — gradients, glassmorphism, glow */
+  /* POWER DARK — section-level dark bg (stats, why-choose, etc.) */
+  .gradient-power {
+    background-color: #07152B;
+    background-image:
+      radial-gradient(circle at 90% 5%, rgba(240, 79, 0, 0.18) 0%, transparent 45%),
+      radial-gradient(circle at 5% 95%, rgba(0, 180, 219, 0.15) 0%, transparent 45%),
+      linear-gradient(160deg, #04101F 0%, #07152B 50%, #0C2A5A 100%);
+  }
+
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 8px 32px -10px rgba(0, 0, 0, 0.55);
+  }
+
+  /* Industrial Sunrise — button/badge gradient */
   .gradient-sunrise {
-    background: linear-gradient(135deg, #FF6A1F 0%, #FF5500 55%, #E8450A 100%);
+    background: linear-gradient(135deg, #FF6510 0%, #F04F00 55%, #D94200 100%);
   }
   .gradient-steel {
     background: linear-gradient(135deg, var(--color-navy), var(--color-steel));
@@ -44,20 +55,25 @@
   .gradient-sky {
     background: linear-gradient(135deg, var(--color-steel), var(--color-cyan));
   }
+
+  /* Light section — cool industrial off-white (NOT flat white) */
   .gradient-mesh-light {
-    background-color: #FBFAF7;
+    background-color: #EDF1F7;
     background-image:
-      radial-gradient(circle at 12% 15%, rgba(255, 85, 0, 0.07) 0%, transparent 45%),
-      radial-gradient(circle at 88% 10%, rgba(126, 200, 227, 0.14) 0%, transparent 45%),
-      radial-gradient(circle at 50% 100%, rgba(255, 179, 65, 0.08) 0%, transparent 50%);
+      radial-gradient(circle at 10% 15%, rgba(240, 79, 0, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 90% 10%, rgba(0, 180, 219, 0.10) 0%, transparent 50%),
+      radial-gradient(circle at 50% 100%, rgba(255, 168, 32, 0.07) 0%, transparent 55%);
   }
+
+  /* Dark mesh — testimonials / CTA bg */
   .gradient-mesh-dark {
-    background-color: #060F1D;
+    background-color: #04101F;
     background-image:
-      radial-gradient(circle at 85% 0%, rgba(255, 179, 65, 0.16) 0%, transparent 45%),
-      radial-gradient(circle at 5% 100%, rgba(126, 200, 227, 0.14) 0%, transparent 45%),
-      linear-gradient(160deg, #050D19 0%, #16263F 55%, #1F4768 100%);
+      radial-gradient(circle at 88% 0%, rgba(255, 168, 32, 0.20) 0%, transparent 45%),
+      radial-gradient(circle at 4% 100%, rgba(0, 180, 219, 0.18) 0%, transparent 45%),
+      linear-gradient(160deg, #04101F 0%, #0C1E3D 55%, #0E3A6A 100%);
   }
+
   .text-gradient-sunrise {
     background: linear-gradient(135deg, var(--color-orange), var(--color-gold));
     -webkit-background-clip: text;
@@ -65,22 +81,38 @@
     color: transparent;
   }
   .text-gradient-sky {
-    background: linear-gradient(135deg, var(--color-navy), var(--color-steel) 60%, var(--color-cyan));
+    background: linear-gradient(135deg, var(--color-steel), var(--color-cyan));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
+
+  /* Cards on LIGHT sections */
   .glow-card {
     position: relative;
-    background-color: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(22, 38, 63, 0.08);
-    box-shadow: 0 4px 24px -10px rgba(30, 58, 92, 0.15);
+    background-color: #ffffff;
+    border: 1px solid rgba(7, 21, 43, 0.10);
+    box-shadow: 0 2px 16px -6px rgba(7, 21, 43, 0.14), 0 1px 4px -2px rgba(7, 21, 43, 0.08);
     transition: box-shadow 0.3s ease, transform 0.3s ease;
   }
   .glow-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 16px 40px -12px rgba(22, 38, 63, 0.18);
+    box-shadow: 0 18px 40px -10px rgba(7, 21, 43, 0.20), 0 4px 12px -4px rgba(0, 180, 219, 0.18);
   }
+
+  /* Cards on DARK sections */
+  .glow-card-dark {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 4px 24px -8px rgba(0, 0, 0, 0.45);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .glow-card-dark:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.18);
+  }
+
   .marquee-track {
     display: flex;
     width: max-content;

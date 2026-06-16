@@ -26,7 +26,7 @@ function CountUp({ value, label }: Stat) {
       ([entry]) => {
         if (!entry.isIntersecting || started.current) return;
         started.current = true;
-        const duration = 1600;
+        const duration = 1800;
         const start = performance.now();
         const tick = (now: number) => {
           const p = Math.min((now - start) / duration, 1);
@@ -44,10 +44,10 @@ function CountUp({ value, label }: Stat) {
 
   return (
     <div ref={elRef} className="flex flex-col items-center text-center">
-      <p className="font-heading text-5xl lg:text-6xl font-bold text-navy tabular-nums">
+      <p className="font-heading text-5xl lg:text-6xl font-bold text-gradient-sunrise tabular-nums">
         {count.toLocaleString()}{suffix}
       </p>
-      <p className="font-body text-sm text-ink/60 mt-2">{label}</p>
+      <p className="font-body text-sm text-white/60 mt-2 uppercase tracking-wider">{label}</p>
     </div>
   );
 }
@@ -61,14 +61,14 @@ const STATS: Stat[] = [
 
 export function StatsSection() {
   return (
-    <section className="bg-white text-ink py-10 border-b border-navy/5">
+    <section className="gradient-power text-white py-12 border-b border-white/5">
       <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0">
           {STATS.map((stat, i) => (
             <div key={stat.label} className="relative">
               {i > 0 && (
                 <div
-                  className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 w-px h-12 bg-navy/10"
+                  className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 w-px h-12 bg-white/15"
                   aria-hidden="true"
                 />
               )}
