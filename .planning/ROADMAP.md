@@ -121,5 +121,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 3. Product Catalog & Media Library | 4/4 | Complete | 2026-06-15 |
 | 4. Lead Capture & Admin Leads | 3/3 | Complete | 2026-06-15 |
 | 5. Blog, Events & Testimonials | 4/4 | Complete | 2026-06-16 |
-| 6. SEO & Admin Configuration | 0/TBD | Not started | - |
+| 6. SEO & Admin Configuration | 0/3 | Planned | - |
 | 7. Lead Notifications | 0/TBD | Not started | - |
