@@ -11,7 +11,8 @@ const GENERAL_FIELDS = [
   { key: 'business_phone',   label: 'Business Phone',    hint: 'Shown on Contact page', type: 'tel' },
   { key: 'business_email',   label: 'Business Email',    hint: 'Shown on Contact page and footer', type: 'email' },
   { key: 'business_address', label: 'Business Address',  hint: 'Shown on Contact page', type: 'text' },
-  { key: 'business_hours',   label: 'Business Hours',    hint: 'e.g. Mon-Sat 10 AM - 6 PM, Closed Sunday', type: 'text' },
+  { key: 'business_hours',       label: 'Business Hours',      hint: 'e.g. Mon-Sat 10 AM - 6 PM, Closed Sunday', type: 'text' },
+  { key: 'notification_email',  label: 'Notification Email',  hint: 'Lead alert emails are sent here. Leave blank to disable notifications.', type: 'email' },
 ] as const;
 
 export function SettingsPage() {
