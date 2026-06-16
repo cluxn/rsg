@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 import { z } from 'zod';
-import { createLead } from '../services/leads.service';
+import { createLead, getLeads, exportLeadsToCSV, importLeadsFromCSV } from '../services/leads.service';
 
 const createLeadSchema = z.object({
   name: z.string().min(1, 'Name is required').max(255),
@@ -15,6 +15,7 @@ const createLeadSchema = z.object({
 });
 
 export async function submitLead(req: Request, res: Response): Promise<void> {
+  if (req.body._hp) { res.status(200).json({ success: true }); return; }
   const parsed = createLeadSchema.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: 'Validation failed', details: parsed.error.flatten() });
@@ -26,5 +27,41 @@ export async function submitLead(req: Request, res: Response): Promise<void> {
   } catch (err) {
     console.error('createLead error:', err);
     res.status(500).json({ error: 'Failed to record your enquiry. Please try again.' });
+  }
+}
+
+export async function listLeads(req: Request, res: Response): Promise<void> {
+  const page = Math.max(1, parseInt(String(req.query.page || '1'), 10));
+  const limit = Math.min(100, Math.max(1, parseInt(String(req.query.limit || '25'), 10)));
+  try {
+    const { leads, total } = await getLeads(page, limit);
+    res.json({ leads, total, page, limit });
+  } catch (err) {
+    console.error('listLeads error:', err);
+    res.status(500).json({ error: 'Failed to fetch leads' });
+  }
+}
+
+export async function exportLeads(req: Request, res: Response): Promise<void> {
+  try {
+    const csv = await exportLeadsToCSV();
+    const date = new Date().toISOString().slice(0, 10);
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', `attachment; filename="rsg-leads-${date}.csv"`);
+    res.send(csv);
+  } catch (err) {
+    console.error('exportLeads error:', err);
+    res.status(500).json({ error: 'Export failed' });
+  }
+}
+
+export async function importLeads(req: Request, res: Response): Promise<void> {
+  if (!req.file) { res.status(400).json({ error: 'No CSV file uploaded' }); return; }
+  try {
+    const result = await importLeadsFromCSV(req.file.buffer);
+    res.json(result);
+  } catch (err) {
+    console.error('importLeads error:', err);
+    res.status(500).json({ error: 'Import failed' });
   }
 }

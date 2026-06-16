@@ -1,3 +1,5 @@
+import { stringify } from 'csv-stringify/sync';
+import { parse } from 'csv-parse/sync';
 import { query } from '../db/connection';
 
 interface CreateLeadInput {
@@ -36,4 +38,74 @@ export async function createLead(input: CreateLeadInput): Promise<number> {
   }
 
   return leadId;
+}
+
+interface LeadRow {
+  id: number;
+  name: string;
+  phone: string | null;
+  email: string | null;
+  product_interest: string | null;
+  message: string | null;
+  source_page: string | null;
+  webhook_sent: boolean;
+  created_at: string;
+}
+
+export async function getLeads(page: number, limit: number): Promise<{ leads: LeadRow[]; total: number }> {
+  const offset = (page - 1) * limit;
+  const leads = await query<LeadRow>(
+    'SELECT id, name, phone, email, product_interest, message, source_page, webhook_sent, created_at FROM leads ORDER BY created_at DESC LIMIT ? OFFSET ?',
+    [limit, offset]
+  );
+  const countResult = await query<{ total: number }>('SELECT COUNT(*) as total FROM leads');
+  const total = countResult[0]?.total ?? 0;
+  return { leads, total };
+}
+
+export async function exportLeadsToCSV(): Promise<string> {
+  const leads = await query<LeadRow>(
+    'SELECT id, name, phone, email, product_interest, message, source_page, webhook_sent, created_at FROM leads ORDER BY created_at DESC'
+  );
+  return stringify(leads as unknown as Record<string, unknown>[], {
+    header: true,
+    columns: [
+      { key: 'id', header: 'ID' },
+      { key: 'name', header: 'Name' },
+      { key: 'phone', header: 'Phone' },
+      { key: 'email', header: 'Email' },
+      { key: 'product_interest', header: 'Product Interest' },
+      { key: 'message', header: 'Message' },
+      { key: 'source_page', header: 'Source Page' },
+      { key: 'webhook_sent', header: 'Webhook Sent' },
+      { key: 'created_at', header: 'Submitted At' },
+    ],
+  });
+}
+
+export async function importLeadsFromCSV(buffer: Buffer): Promise<{ imported: number; skipped: number; errors: string[] }> {
+  const rows: Record<string, string>[] = parse(buffer, { columns: true, skip_empty_lines: true });
+  let imported = 0;
+  let skipped = 0;
+  const errors: string[] = [];
+
+  for (const row of rows) {
+    const name = row['name'] ?? row['Name'] ?? '';
+    if (!name.trim()) { skipped++; continue; }
+    try {
+      await createLead({
+        name: name.trim(),
+        phone: row['phone'] ?? row['Phone'] ?? undefined,
+        email: row['email'] ?? row['Email'] ?? undefined,
+        product_interest: row['product_interest'] ?? row['Product Interest'] ?? undefined,
+        message: row['message'] ?? row['Message'] ?? undefined,
+        source_page: row['source_page'] ?? row['Source Page'] ?? 'import',
+      });
+      imported++;
+    } catch (err) {
+      errors.push(`Row "${name}": ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
+
+  return { imported, skipped, errors };
 }
