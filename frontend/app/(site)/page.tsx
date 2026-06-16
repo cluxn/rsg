@@ -4,9 +4,7 @@ import type { Metadata } from 'next';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import { ScrollHero } from '@/components/sections/ScrollHero';
 import { StatsSection } from '@/components/sections/StatsSection';
-import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
 import HomeQuoteForm from './HomeQuoteForm';
-import { getTestimonials } from '@/lib/content';
 import { getSettings } from '@/lib/api';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -25,12 +23,42 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const FEATURED_PRODUCTS = [
-  { name: 'Colour Coated Roofing Sheet', desc: 'ISI-certified roofing with DuraGlow coating' },
-  { name: 'MS Pipe', desc: 'APL Apollo, Tata & JSW grade structural pipes' },
-  { name: 'Decking Sheet', desc: 'Composite floor decking for multi-storey builds' },
-  { name: 'Purlins', desc: 'Z & C purlins for industrial roofing systems' },
-  { name: 'Polycarbonate Sheet', desc: 'UV-resistant transparent roofing panels' },
-  { name: 'Turbo Air Ventilator', desc: 'Wind-driven industrial roof ventilators' },
+  {
+    name: 'Colour Coated Roofing Sheet',
+    slug: 'colour-coated-roofing-sheet',
+    desc: 'ISI-certified PPGL & PPGI roofing in premium brand finishes from JSW, Tata BlueScope, and Jindal.',
+    image: '/images/hero/industrial-bg.webp',
+  },
+  {
+    name: 'MS Pipe',
+    slug: 'ms-pipe',
+    desc: 'Structural MS pipes from APL Apollo, Tata & JSW — trusted for heavy-duty construction needs.',
+    image: '/images/hero/protection-bg.webp',
+  },
+  {
+    name: 'Decking Sheet',
+    slug: 'decking-sheet',
+    desc: 'Composite floor decking engineered for multi-storey commercial and industrial construction.',
+    image: '/images/hero/dream-home-bg.webp',
+  },
+  {
+    name: 'C and Z Purlins',
+    slug: 'purlins',
+    desc: 'Precision-rolled Z & C purlins for industrial roofing systems — lightweight yet exceptionally strong.',
+    image: '/images/hero/industrial-bg.webp',
+  },
+  {
+    name: 'Polycarbonate Sheet',
+    slug: 'polycarbonate-sheet',
+    desc: 'UV-resistant transparent roofing panels that bring natural daylight into any structure.',
+    image: '/images/hero/protection-bg.webp',
+  },
+  {
+    name: 'Galvanized Plain Sheets',
+    slug: 'galvanized-plain-sheets',
+    desc: 'High-quality GI plain sheets for versatile structural, fabrication, and general applications.',
+    image: '/images/hero/dream-home-bg.webp',
+  },
 ];
 
 const TESTIMONIALS = [
@@ -53,7 +81,6 @@ const PARTNER_LOGOS = [
 ];
 
 export default async function Home() {
-  const testimonials = await getTestimonials();
   return (
     <>
       {/* Section 1 — Hero */}
@@ -73,28 +100,28 @@ export default async function Home() {
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {FEATURED_PRODUCTS.map(product => (
-            <div
-              key={product.name}
-              className="glow-card rounded-xl p-6"
-            >
-              <div className="w-10 h-10 rounded-full border-2 border-orange bg-orange/5 shadow flex items-center justify-center mb-4" aria-hidden="true">
-                <svg className="w-5 h-5 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                </svg>
+            <div key={product.name} className="glow-card rounded-xl overflow-hidden group flex flex-col">
+              <div className="relative h-44 overflow-hidden">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-navy/40" aria-hidden="true" />
               </div>
-              <h3 className="font-heading text-lg text-ink font-semibold mb-1">{product.name}</h3>
-              <p className="font-body text-sm text-ink/60">{product.desc}</p>
+              <div className="p-6 flex flex-col flex-1">
+                <h3 className="font-heading text-lg text-ink font-semibold mb-2">{product.name}</h3>
+                <p className="font-body text-sm text-ink/60 mb-4 flex-1">{product.desc}</p>
+                <Link
+                  href={`/products/${product.slug}`}
+                  className="inline-flex items-center gap-1.5 font-heading text-sm font-semibold text-orange hover:gap-3 transition-all duration-200"
+                >
+                  View Product <span aria-hidden="true">→</span>
+                </Link>
+              </div>
             </div>
           ))}
-        </div>
-        <div className="mt-10 text-center">
-          <Link
-            href="/products"
-            className="group inline-flex items-center justify-center gap-2 font-heading font-semibold rounded-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange bg-transparent text-ink hover:bg-orange hover:text-white hover:border-orange hover:-translate-y-0.5 border border-orange px-6 py-3 text-base"
-          >
-            View All Products
-            <span className="text-orange group-hover:text-white transition-colors" aria-hidden="true">→</span>
-          </Link>
         </div>
       </SectionContainer>
 
@@ -233,7 +260,6 @@ export default async function Home() {
           </div>
         </SectionContainer>
       </section>
-      <TestimonialsSection testimonials={testimonials} />
     </>
   );
 }
