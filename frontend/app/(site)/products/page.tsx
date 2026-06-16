@@ -1,14 +1,25 @@
 import Link from 'next/link';
-import { getProducts, type ProductSummary } from '@/lib/api';
+import type { Metadata } from 'next';
+import { getProducts, getSettings, type ProductSummary } from '@/lib/api';
 import { GradientHero } from '@/components/ui/GradientHero';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 
 export const revalidate = 3600;
 
-export const metadata = {
-  title: 'Our Products | RSG Profile Manufacturing',
-  description: 'Browse RSG Profile Manufacturing’s complete range of colour coated roofing sheets, structural steel, decking, purlins, polycarbonate sheets, and accessories.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const settings = await getSettings();
+    return {
+      title: settings['meta_title_/products'] || 'Our Products | RSG Profile Manufacturing',
+      description: settings['meta_desc_/products'] || 'Browse RSG Profile Manufacturing’s complete range of colour coated roofing sheets, structural steel, decking, purlins, polycarbonate sheets, and accessories.',
+    };
+  } catch {
+    return {
+      title: 'Our Products | RSG Profile Manufacturing',
+      description: 'Browse RSG Profile Manufacturing’s complete range of colour coated roofing sheets, structural steel, decking, purlins, polycarbonate sheets, and accessories.',
+    };
+  }
+}
 
 // Mirrors the public-site hierarchy in components/layout/SiteHeader.tsx
 const CCRS_SLUG = 'colour-coated-roofing-sheet';

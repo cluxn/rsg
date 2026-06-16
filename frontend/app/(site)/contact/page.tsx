@@ -1,12 +1,23 @@
+import type { Metadata } from 'next';
 import { getSettings } from '@/lib/api';
 import { GradientHero } from '@/components/ui/GradientHero';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import { ContactForm } from './ContactForm';
 
-export const metadata = {
-  title: 'Contact Us | RSG Profile Manufacturing',
-  description: 'Get in touch with RSG Profile Manufacturing. Address: Dada Nagar Industrial Estate, Kanpur. Mon-Sat 10 AM - 6 PM.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const settings = await getSettings();
+    return {
+      title: settings['meta_title_/contact'] || 'Contact Us | RSG Profile Manufacturing',
+      description: settings['meta_desc_/contact'] || 'Get in touch with RSG Profile Manufacturing. Address: Dada Nagar Industrial Estate, Kanpur. Mon-Sat 10 AM - 6 PM.',
+    };
+  } catch {
+    return {
+      title: 'Contact Us | RSG Profile Manufacturing',
+      description: 'Get in touch with RSG Profile Manufacturing. Address: Dada Nagar Industrial Estate, Kanpur. Mon-Sat 10 AM - 6 PM.',
+    };
+  }
+}
 
 export default async function ContactPage() {
   let settings: Record<string, string> = {};

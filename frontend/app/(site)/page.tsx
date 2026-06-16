@@ -1,11 +1,28 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import type { Metadata } from 'next';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import { ScrollHero } from '@/components/sections/ScrollHero';
 import { StatsSection } from '@/components/sections/StatsSection';
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
 import HomeQuoteForm from './HomeQuoteForm';
 import { getTestimonials } from '@/lib/content';
+import { getSettings } from '@/lib/api';
+
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const settings = await getSettings();
+    return {
+      title: settings['meta_title_/'] || 'RSG Profile Manufacturing',
+      description: settings['meta_desc_/'] || 'Premium quality roofing sheets, structural steel, and building materials manufacturer.',
+    };
+  } catch {
+    return {
+      title: 'RSG Profile Manufacturing',
+      description: 'Premium quality roofing sheets, structural steel, and building materials manufacturer.',
+    };
+  }
+}
 
 const FEATURED_PRODUCTS = [
   { name: 'Colour Coated Roofing Sheet', desc: 'ISI-certified roofing with DuraGlow coating' },

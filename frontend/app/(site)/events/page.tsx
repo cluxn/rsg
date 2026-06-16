@@ -2,11 +2,22 @@ import { getEvents } from '@/lib/content';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import { GradientHero } from '@/components/ui/GradientHero';
 import type { Metadata } from 'next';
+import { getSettings } from '@/lib/api';
 
-export const metadata: Metadata = {
-  title: 'Events & News | RSG Profile Manufacturing',
-  description: 'Latest events, news, and announcements from RSG Profile Manufacturing.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const settings = await getSettings();
+    return {
+      title: settings['meta_title_/events'] || 'Events & News | RSG Profile Manufacturing',
+      description: settings['meta_desc_/events'] || 'Latest events, news, and announcements from RSG Profile Manufacturing.',
+    };
+  } catch {
+    return {
+      title: 'Events & News | RSG Profile Manufacturing',
+      description: 'Latest events, news, and announcements from RSG Profile Manufacturing.',
+    };
+  }
+}
 
 export default async function EventsPage() {
   const events = await getEvents();

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Sora, Source_Sans_3 } from "next/font/google";
+import { getSettings } from "@/lib/api";
 import "./globals.css";
 
 const sora = Sora({
@@ -14,18 +15,39 @@ const sourceSans = Source_Sans_3({
   variable: "--font-source-sans",
 });
 
-export const metadata: Metadata = {
-  title: "RSG Profile Manufacturing",
-  description: "Premium quality roofing sheets, structural steel, and building materials manufacturer.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "RSG Profile Manufacturing",
+    description: "Premium quality roofing sheets, structural steel, and building materials manufacturer.",
+  };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let headScripts = '';
+  try {
+    const settings = await getSettings();
+    headScripts = settings.seo_head_scripts ?? '';
+  } catch {
+    // backend unreachable — no scripts injected, page still renders
+  }
+
   return (
     <html lang="en" className={`${sora.variable} ${sourceSans.variable}`}>
+      <head>
+        {headScripts && (
+          <script
+            /* dangerouslySetInnerHTML used intentionally — only auth-gated admin can write seo_head_scripts */
+            dangerouslySetInnerHTML={{
+              __html: headScripts.replace(/^\s*<script[^>]*>/i, '').replace(/<\/script>\s*$/i, ''),
+            }}
+            suppressHydrationWarning
+          />
+        )}
+      </head>
       <body className="font-body antialiased bg-off-white text-ink min-h-screen" suppressHydrationWarning>
         {children}
       </body>

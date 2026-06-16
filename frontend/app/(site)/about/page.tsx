@@ -1,14 +1,26 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { GradientHero } from '@/components/ui/GradientHero';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
 import { getTestimonials } from '@/lib/content';
+import { getSettings } from '@/lib/api';
 
-export const metadata = {
-  title: 'About Us | RSG Profile Manufacturing',
-  description: 'Learn about RSG Profile Manufacturing — founded 2019 in Kanpur. Premium roofing sheets and structural steel.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const settings = await getSettings();
+    return {
+      title: settings['meta_title_/about'] || 'About Us | RSG Profile Manufacturing',
+      description: settings['meta_desc_/about'] || 'Learn about RSG Profile Manufacturing — founded 2019 in Kanpur. Premium roofing sheets and structural steel.',
+    };
+  } catch {
+    return {
+      title: 'About Us | RSG Profile Manufacturing',
+      description: 'Learn about RSG Profile Manufacturing — founded 2019 in Kanpur. Premium roofing sheets and structural steel.',
+    };
+  }
+}
 
 const PARTNER_BRANDS = ['Tata Steel', 'JSW Steel', 'Jindal Steel', 'Apollo Pipes', 'Kamdhenu'];
 
