@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import { ScrollHero } from '@/components/sections/ScrollHero';
+import HomeQuoteForm from './HomeQuoteForm';
 
 const FEATURED_PRODUCTS = [
   { name: 'Colour Coated Roofing Sheet', desc: 'ISI-certified roofing with DuraGlow coating' },
@@ -36,8 +37,8 @@ export default function Home() {
         <div className="mx-auto max-w-container px-6 md:px-16 lg:px-20">
           <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-16">
             <div className="flex items-center gap-3">
-              <div className="gradient-sunrise shadow-glow-orange w-11 h-11 rounded-full flex items-center justify-center shrink-0">
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+              <div className="w-11 h-11 rounded-full border-2 border-orange bg-orange/5 shadow flex items-center justify-center shrink-0">
+                <svg className="w-5 h-5 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               </div>
@@ -48,8 +49,8 @@ export default function Home() {
             </div>
             <div className="hidden md:block w-px h-10 bg-navy/10" aria-hidden="true" />
             <div className="flex items-center gap-3">
-              <div className="gradient-sky shadow-glow-cyan w-11 h-11 rounded-full flex items-center justify-center shrink-0">
-                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <div className="w-11 h-11 rounded-full border-2 border-orange bg-orange/5 shadow flex items-center justify-center shrink-0">
+                <svg className="w-5 h-5 text-orange" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                 </svg>
               </div>
@@ -60,8 +61,8 @@ export default function Home() {
             </div>
             <div className="hidden md:block w-px h-10 bg-navy/10" aria-hidden="true" />
             <div className="flex items-center gap-3">
-              <div className="gradient-steel shadow-glow-cyan w-11 h-11 rounded-full flex items-center justify-center shrink-0">
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+              <div className="w-11 h-11 rounded-full border-2 border-orange bg-orange/5 shadow flex items-center justify-center shrink-0">
+                <svg className="w-5 h-5 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
@@ -78,9 +79,10 @@ export default function Home() {
       {/* Section 3 — Products teaser */}
       <SectionContainer>
         <div className="text-center mb-12">
+          <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">What We Offer</p>
           <h2 className="font-heading text-3xl text-ink font-bold mb-3">Our Products</h2>
-          <p className="font-body text-ink/60 max-w-2xl mx-auto">
-            From roofing sheets to structural steel — a complete range for construction projects
+          <p className="font-body text-ink/60 max-w-xl mx-auto">
+            From roofing sheets to structural steel — a complete range for construction projects.
           </p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -89,8 +91,8 @@ export default function Home() {
               key={product.name}
               className="glow-card rounded-xl p-6"
             >
-              <div className="gradient-steel w-10 h-10 rounded-lg flex items-center justify-center mb-4" aria-hidden="true">
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <div className="w-10 h-10 rounded-full border-2 border-orange bg-orange/5 shadow flex items-center justify-center mb-4" aria-hidden="true">
+                <svg className="w-5 h-5 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                 </svg>
               </div>
@@ -102,9 +104,10 @@ export default function Home() {
         <div className="mt-10 text-center">
           <Link
             href="/products"
-            className="inline-flex items-center justify-center font-heading font-semibold rounded-lg transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-navy bg-transparent text-navy hover:bg-navy/5 border border-navy px-6 py-3 text-base"
+            className="group inline-flex items-center justify-center gap-2 font-heading font-semibold rounded-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange bg-transparent text-ink hover:bg-orange hover:text-white hover:border-orange hover:-translate-y-0.5 border border-orange px-6 py-3 text-base"
           >
             View All Products
+            <span className="text-orange group-hover:text-white transition-colors" aria-hidden="true">→</span>
           </Link>
         </div>
       </SectionContainer>
@@ -112,7 +115,11 @@ export default function Home() {
       {/* Section 4 — Why RSG */}
       <SectionContainer>
         <div className="text-center mb-12">
-          <h2 className="font-heading text-3xl text-ink font-bold">Why Choose RSG?</h2>
+          <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Why RSG</p>
+          <h2 className="font-heading text-3xl text-ink font-bold mb-3">Why Choose RSG?</h2>
+          <p className="font-body text-ink/60 max-w-xl mx-auto">
+            Trusted by contractors across UP for quality, speed, and a complete product range.
+          </p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
@@ -122,24 +129,24 @@ export default function Home() {
             { icon: 'award', title: 'Trusted by Leading Brands', desc: 'Preferred supplier to Tata Steel projects and top contractors', badge: 'gradient-sunrise', glow: 'shadow-glow-orange' },
           ].map(item => (
             <div key={item.title} className="glow-card rounded-xl p-6">
-              <div className={`${item.badge} ${item.glow} w-10 h-10 rounded-lg flex items-center justify-center mb-4`} aria-hidden="true">
+              <div className="w-10 h-10 rounded-full border-2 border-orange bg-orange/5 shadow flex items-center justify-center mb-4" aria-hidden="true">
                 {item.icon === 'shield' && (
-                  <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <svg className="w-5 h-5 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
                   </svg>
                 )}
                 {item.icon === 'truck' && (
-                  <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <svg className="w-5 h-5 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                   </svg>
                 )}
                 {item.icon === 'package' && (
-                  <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <svg className="w-5 h-5 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
                   </svg>
                 )}
                 {item.icon === 'award' && (
-                  <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <svg className="w-5 h-5 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0" />
                   </svg>
                 )}
@@ -153,7 +160,13 @@ export default function Home() {
 
       {/* Section 5 — Client logo strip */}
       <SectionContainer>
-        <h2 className="font-heading text-2xl text-ink/50 font-normal text-center mb-8">Our Clients & Partners</h2>
+        <div className="text-center mb-12">
+          <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Trusted By</p>
+          <h2 className="font-heading text-3xl text-ink font-bold mb-3">Our Clients & Partners</h2>
+          <p className="font-body text-ink/60 max-w-xl mx-auto">
+            Working with India's leading steel brands and construction firms.
+          </p>
+        </div>
         <div className="flex flex-wrap justify-center gap-8">
           {PARTNER_BRANDS.map(brand => (
             <span key={brand} className="font-heading text-lg font-semibold text-ink/40 tracking-wide uppercase transition-colors hover:text-orange">
@@ -167,7 +180,13 @@ export default function Home() {
       {/* Section 6 — Testimonials */}
       <section>
         <SectionContainer>
-          <h2 className="font-heading text-3xl text-ink font-bold text-center mb-10">What Our Clients Say</h2>
+          <div className="text-center mb-12">
+            <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Client Reviews</p>
+            <h2 className="font-heading text-3xl text-ink font-bold mb-3">What Our Clients Say</h2>
+            <p className="font-body text-ink/60 max-w-xl mx-auto">
+              Rated 4.7★ on Google — trusted by contractors and homebuilders across Kanpur.
+            </p>
+          </div>
 
           {/* Rating badges */}
           <div className="flex flex-wrap justify-center gap-4 mb-12">
@@ -196,21 +215,28 @@ export default function Home() {
         </SectionContainer>
       </section>
 
-      {/* Section 7 — CTA before footer */}
-      <section className="bg-steel">
-        <SectionContainer noPadding className="py-16 lg:py-20 text-center">
-          <h2 className="font-heading text-white text-2xl lg:text-3xl font-bold mb-3">
-            Ready to Build with RSG?
-          </h2>
-          <p className="font-body text-white/70 text-lg mb-8 max-w-xl mx-auto">
-            Get a custom quote for your project — premium roofing sheets and structural steel, delivered fast across UP.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center font-heading font-semibold rounded-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange gradient-sunrise text-white shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 border border-transparent px-8 py-4 text-lg"
-          >
-            Get a Quote
-          </Link>
+      {/* Section 7 — Get Quote form */}
+      <section className="bg-white border-t border-ink/8">
+        <SectionContainer noPadding className="py-20 lg:py-24">
+          <div className="max-w-xl mx-auto">
+            <div className="text-center mb-8">
+              <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-4">Get Started Today</p>
+              <h2 className="font-heading text-ink text-3xl lg:text-4xl font-bold mb-4 leading-tight">
+                Get a Free Quote
+              </h2>
+              <p className="font-body text-ink/60 text-base max-w-md mx-auto">
+                Tell us your requirement and we&apos;ll get back within 24 hours.
+              </p>
+            </div>
+            <div className="bg-white border border-navy/10 rounded-2xl shadow-sm p-6 lg:p-8">
+              <HomeQuoteForm />
+            </div>
+            <p className="font-body text-center text-sm text-ink/40 mt-4">
+              Or{' '}
+              <Link href="/contact" className="text-orange hover:underline">visit our contact page</Link>
+              {' '}for more options.
+            </p>
+          </div>
         </SectionContainer>
       </section>
     </>

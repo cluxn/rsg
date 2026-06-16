@@ -23,7 +23,7 @@ export function SiteFooter() {
 
           {/* Col 1: Brand + social */}
           <div>
-            <Image src="/rsg-logo.png" alt="RSG Profile Manufacturing" width={54} height={40} className="h-10 w-auto mb-3" />
+            <Image src="/rsg-logo.png" alt="RSG Profile Manufacturing" width={80} height={60} className="h-14 w-auto mb-3" />
             <p className="font-heading font-bold text-white text-lg mb-1">RSG Profile Manufacturing</p>
             <p className="font-body text-white/60 text-sm mb-4">Premium quality building materials, Kanpur</p>
             {/* Social icons */}

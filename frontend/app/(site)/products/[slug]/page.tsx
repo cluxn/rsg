@@ -107,7 +107,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
       <SpecsTable specs={product.specs} />
 
-      <GetQuoteCTA productName={product.name} />
+      <GetQuoteCTA productName={product.name} slug={product.slug} />
     </>
   );
 }

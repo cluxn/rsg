@@ -51,7 +51,7 @@ export function SiteHeader() {
       <div className="mx-auto max-w-container px-6 md:px-16 lg:px-20 flex items-center justify-between h-16">
         {/* Logo */}
         <Link href="/" className="flex items-center">
-          <Image src="/rsg-logo.png" alt="RSG Profile Manufacturing" width={54} height={40} className="h-10 w-auto" priority />
+          <Image src="/rsg-logo.png" alt="RSG Profile Manufacturing" width={80} height={60} className="h-14 w-auto" priority />
         </Link>
 
         {/* Desktop nav */}
