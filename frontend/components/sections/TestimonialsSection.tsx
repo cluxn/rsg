@@ -34,7 +34,7 @@ export function TestimonialsSection({ testimonials }: { testimonials: Testimonia
                     <span className="font-semibold text-navy text-sm">{t.author_name}</span>
                     {t.author_city && <span className="text-navy/50 text-sm"> · {t.author_city}</span>}
                   </div>
-                  {t.rating && <span className="text-orange font-bold text-sm">{t.rating.toFixed(1)}★</span>}
+                  {t.rating && <span className="text-orange font-bold text-sm">{Number(t.rating).toFixed(1)}★</span>}
                 </footer>
               </blockquote>
             ))}
