@@ -94,7 +94,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               )}
               <a
                 href="#get-quote-section"
-                className="inline-flex items-center justify-center font-heading font-semibold rounded-lg transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange bg-orange text-white hover:bg-orange/90 border border-orange w-full lg:w-auto px-8 py-3 text-base"
+                className="inline-flex items-center justify-center font-heading font-semibold text-white gradient-sunrise rounded-lg px-8 py-3 shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 transition-all duration-200 w-full lg:w-auto"
               >
                 Get Quote
               </a>

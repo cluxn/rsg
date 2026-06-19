@@ -1,19 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { CTAButton } from '@/components/ui/CTAButton';
 
-const PRODUCT_OPTIONS = [
-  'General Inquiry',
-  'Colour Coated Roofing Sheet',
-  'MS Plate, Channel & Angle',
-  'MS Pipe',
-  'Decking Sheet',
-  'Purlins',
-  'Polycarbonate Sheet',
-  'Crimping Sheet',
-  'Accessories',
-];
+const inputClass =
+  'w-full border border-navy/20 rounded-lg px-4 py-2.5 font-body text-navy text-sm placeholder:text-ink/35 focus:outline-none focus:ring-2 focus:ring-steel/40 bg-white/80';
+
+const labelClass = 'block font-body text-sm font-semibold text-navy mb-1';
 
 export default function HomeQuoteForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -62,42 +54,104 @@ export default function HomeQuoteForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-4 text-left">
-      {/* Honeypot — filled by bots, ignored by real users */}
+    <form onSubmit={handleSubmit} noValidate className="space-y-4">
+      {/* Honeypot */}
       <input type="text" name="_hp" className="hidden" tabIndex={-1} autoComplete="off" />
 
-      <div>
-        <label htmlFor="hqf-name" className="block font-body text-sm font-semibold text-navy mb-1">Full Name *</label>
-        <input id="hqf-name" name="name" type="text" required
-          className="w-full border border-navy/20 rounded-lg px-4 py-2.5 font-body text-navy text-sm focus:outline-none focus:ring-2 focus:ring-steel/50 bg-white/80" />
-      </div>
-
+      {/* Row 1 — Name + Email */}
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label htmlFor="hqf-phone" className="block font-body text-sm font-semibold text-navy mb-1">Phone</label>
-          <input id="hqf-phone" name="phone" type="tel"
-            className="w-full border border-navy/20 rounded-lg px-4 py-2.5 font-body text-navy text-sm focus:outline-none focus:ring-2 focus:ring-steel/50 bg-white/80" />
+          <label htmlFor="hqf-name" className={labelClass}>
+            Name <span className="text-orange">*</span>
+          </label>
+          <input
+            id="hqf-name" name="name" type="text" required
+            placeholder="Enter your name"
+            className={inputClass}
+          />
         </div>
         <div>
-          <label htmlFor="hqf-email" className="block font-body text-sm font-semibold text-navy mb-1">Email</label>
-          <input id="hqf-email" name="email" type="email"
-            className="w-full border border-navy/20 rounded-lg px-4 py-2.5 font-body text-navy text-sm focus:outline-none focus:ring-2 focus:ring-steel/50 bg-white/80" />
+          <label htmlFor="hqf-email" className={labelClass}>
+            Email <span className="text-orange">*</span>
+          </label>
+          <input
+            id="hqf-email" name="email" type="email" required
+            placeholder="Enter your email"
+            className={inputClass}
+          />
         </div>
       </div>
 
+      {/* Row 2 — Phone + Product */}
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <label htmlFor="hqf-phone" className={labelClass}>
+            Phone Number <span className="text-orange">*</span>
+          </label>
+          <input
+            id="hqf-phone" name="phone" type="tel" required
+            placeholder="Enter your phone number"
+            className={inputClass}
+          />
+        </div>
+        <div>
+          <label htmlFor="hqf-product" className={labelClass}>
+            Product <span className="text-orange">*</span>
+          </label>
+          <input
+            id="hqf-product" name="product_interest" type="text" required
+            placeholder="Enter product name"
+            className={inputClass}
+          />
+        </div>
+      </div>
+
+      {/* Row 3 — City + Country */}
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <label htmlFor="hqf-city" className={labelClass}>
+            City <span className="text-orange">*</span>
+          </label>
+          <input
+            id="hqf-city" name="city" type="text" required
+            placeholder="Enter your city"
+            className={inputClass}
+          />
+        </div>
+        <div>
+          <label htmlFor="hqf-state" className={labelClass}>
+            State <span className="text-orange">*</span>
+          </label>
+          <input
+            id="hqf-state" name="state" type="text" required
+            placeholder="Enter your state"
+            className={inputClass}
+          />
+        </div>
+      </div>
+
+      {/* Row 4 — Message */}
       <div>
-        <label htmlFor="hqf-product" className="block font-body text-sm font-semibold text-navy mb-1">Product Interest</label>
-        <select id="hqf-product" name="product_interest"
-          className="w-full border border-navy/20 rounded-lg px-4 py-2.5 font-body text-navy text-sm focus:outline-none focus:ring-2 focus:ring-steel/50 bg-white/80">
-          {PRODUCT_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-        </select>
+        <label htmlFor="hqf-message" className={labelClass}>Message</label>
+        <textarea
+          id="hqf-message" name="message" rows={4}
+          placeholder="Enter your message"
+          className={`${inputClass} resize-none`}
+        />
       </div>
 
       {error && <p role="alert" className="font-body text-red-600 text-sm">{error}</p>}
 
-      <CTAButton type="submit" variant="primary" size="md" disabled={loading} className="w-full justify-center">
-        {loading ? 'Sending…' : 'Send Enquiry'}
-      </CTAButton>
+      {/* Submit */}
+      <div className="flex justify-center pt-1">
+        <button
+          type="submit"
+          disabled={loading}
+          className="font-heading font-semibold text-white gradient-sunrise rounded-lg px-10 py-3 shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 disabled:opacity-60 transition-all duration-200"
+        >
+          {loading ? 'Sending…' : 'GET QUOTE'}
+        </button>
+      </div>
     </form>
   );
 }

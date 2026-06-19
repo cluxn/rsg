@@ -109,9 +109,9 @@ export function ProductPageHero({ product }: ProductPageHeroProps) {
               )}
               <a
                 href="#product-hero-form"
-                className="inline-flex items-center gap-2 font-heading font-semibold text-white gradient-sunrise rounded-lg px-7 py-3.5 shadow-glow-orange hover:opacity-90 transition-opacity duration-200"
+                className="inline-flex items-center justify-center font-heading font-semibold text-white gradient-sunrise rounded-lg px-7 py-3.5 shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 transition-all duration-200"
               >
-                Get Quote <span aria-hidden="true">→</span>
+                Get Quote
               </a>
             </div>
 
@@ -212,9 +212,9 @@ export function ProductPageHero({ product }: ProductPageHeroProps) {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="w-full gradient-sunrise rounded-lg px-6 py-3 font-heading font-semibold text-white text-base shadow-glow-orange hover:opacity-90 disabled:opacity-60 transition-opacity duration-200"
+                      className="w-full gradient-sunrise rounded-lg px-6 py-3 font-heading font-semibold text-white text-base shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 disabled:opacity-60 transition-all duration-200"
                     >
-                      {loading ? 'Sending…' : 'Send Enquiry →'}
+                      {loading ? 'Sending…' : 'Send Enquiry'}
                     </button>
                   </form>
                 </>

@@ -3,9 +3,9 @@ import { RatingBadge } from './RatingBadge';
 import type { Testimonial } from '@/lib/content';
 
 const AGGREGATE_RATINGS = [
-  { platform: 'Google', rating: 4.7, reviewCount: 19 },
-  { platform: 'IndiaMART', rating: 4.0, reviewCount: 41 },
-  { platform: 'Justdial', rating: 4.3, reviewCount: 25 },
+  { platform: 'Google', rating: 4.8, reviewCount: 219 },
+  { platform: 'IndiaMART', rating: 4.7, reviewCount: 272 },
+  { platform: 'Justdial', rating: 4.9, reviewCount: 184 },
 ];
 
 export function TestimonialsSection({ testimonials }: { testimonials: Testimonial[] }) {

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
@@ -20,9 +20,9 @@ const SCENARIOS: Scenario[] = [
   {
     id: 'dream-home',
     number: '01',
-    eyebrow: 'Residential Roofing',
-    title: 'Build the Home You’ve Always Imagined',
-    body: 'Premium colour-coated roofing sheets and structural steel — engineered for homes that are built to last for generations.',
+    eyebrow: 'Manufacturer & Wholesaler · Roofing Sheets',
+    title: "Build the Home You've Always Imagined",
+    body: 'ISI-certified colour-coated roofing sheets supplied wholesale direct from our Kanpur factory — trade pricing for contractors, builders and bulk buyers across UP.',
     bgImage: '/images/hero/dream-home-bg.webp',
     fgImage: '/images/hero/dream-home-fg.webp',
     fgAlt: 'Couple admiring their newly built home',
@@ -30,9 +30,9 @@ const SCENARIOS: Scenario[] = [
   {
     id: 'protection',
     number: '02',
-    eyebrow: 'Weatherproof Strength',
+    eyebrow: 'Bulk Trader · Roofing Accessories',
     title: 'Built to Shelter What Matters Most',
-    body: 'Monsoon-grade, corrosion-resistant roofing that keeps families safe, dry and comfortable through every storm.',
+    body: 'Monsoon-grade, corrosion-resistant roofing and accessories — available in bulk for distributors, project contractors and wholesale traders at competitive factory rates.',
     bgImage: '/images/hero/protection-bg.webp',
     fgImage: '/images/hero/protection-fg.webp',
     fgAlt: 'Happy family feeling safe at home',
@@ -40,9 +40,9 @@ const SCENARIOS: Scenario[] = [
   {
     id: 'industrial',
     number: '03',
-    eyebrow: 'Industrial & Commercial',
-    title: 'Powering India’s Industrial Backbone',
-    body: 'Factory-grade roofing, purlins and structural steel — trusted by contractors and businesses building across UP.',
+    eyebrow: 'Industrial Supply · Structural Steel',
+    title: "Powering India's Industrial Backbone",
+    body: 'Purlins, MS pipes, decking sheets and structural steel — wholesale supply for industrial contractors and large-scale commercial builders running projects across Uttar Pradesh.',
     bgImage: '/images/hero/industrial-bg.webp',
     fgImage: '/images/hero/industrial-fg.webp',
     fgAlt: 'Confident business owner in front of a warehouse',
@@ -291,29 +291,29 @@ export function ScrollHero() {
                 href="/contact"
                 className="inline-flex items-center justify-center font-heading font-semibold rounded-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange gradient-sunrise text-white shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 border border-transparent px-6 py-3 text-base sm:px-8 sm:py-4 sm:text-lg"
               >
-                Get a Quote
+                Get Bulk Quote
               </Link>
             </div>
             {/* Trust pills */}
             <div className="flex flex-wrap justify-center gap-2 mt-5 lg:mt-6">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/20 px-3 py-1 font-body text-white/85 text-xs sm:text-sm backdrop-blur-sm">
                 <svg className="w-3.5 h-3.5 text-orange shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
-                Founded 2019 · Est. in Kanpur
+                Kanpur Manufacturer · Est. 2019
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/20 px-3 py-1 font-body text-white/85 text-xs sm:text-sm backdrop-blur-sm">
-                <svg className="w-3.5 h-3.5 text-orange shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                <svg className="w-3.5 h-3.5 text-orange shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                 </svg>
-                4.7★ Google Rating · 19 reviews
+                ISI Certified · Wholesale &amp; Bulk Supply
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/20 px-3 py-1 font-body text-white/85 text-xs sm:text-sm backdrop-blur-sm">
                 <svg className="w-3.5 h-3.5 text-orange shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                Kanpur Manufacturer · Pan-UP delivery
+                Pan-UP Delivery · Trade &amp; Project Orders
               </span>
             </div>
           </div>

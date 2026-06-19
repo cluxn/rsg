@@ -27,18 +27,18 @@ const FEATURED_PRODUCTS = [
     name: 'Colour Coated Roofing Sheet',
     slug: 'colour-coated-roofing-sheet',
     desc: 'ISI-certified PPGL & PPGI roofing in premium brand finishes from JSW, Tata BlueScope, and Jindal.',
-    image: '/images/hero/industrial-bg.webp',
-  },
-  {
-    name: 'MS Pipe',
-    slug: 'ms-pipe',
-    desc: 'Structural MS pipes from APL Apollo, Tata & JSW — trusted for heavy-duty construction needs.',
-    image: '/images/hero/protection-bg.webp',
+    image: '/images/products/colour-coated-roofing-sheet.png',
   },
   {
     name: 'Decking Sheet',
     slug: 'decking-sheet',
     desc: 'Composite floor decking engineered for multi-storey commercial and industrial construction.',
+    image: '/images/products/decking-sheet.png',
+  },
+  {
+    name: 'Galvanized Plain Sheets',
+    slug: 'galvanized-plain-sheets',
+    desc: 'High-quality GI plain sheets for versatile structural, fabrication, and general applications.',
     image: '/images/hero/dream-home-bg.webp',
   },
   {
@@ -54,10 +54,10 @@ const FEATURED_PRODUCTS = [
     image: '/images/hero/protection-bg.webp',
   },
   {
-    name: 'Galvanized Plain Sheets',
-    slug: 'galvanized-plain-sheets',
-    desc: 'High-quality GI plain sheets for versatile structural, fabrication, and general applications.',
-    image: '/images/hero/dream-home-bg.webp',
+    name: 'MS Pipe',
+    slug: 'ms-pipe',
+    desc: 'Structural MS pipes from APL Apollo, Tata & JSW — trusted for heavy-duty construction needs.',
+    image: '/images/hero/protection-bg.webp',
   },
 ];
 
@@ -68,9 +68,9 @@ const TESTIMONIALS = [
 ];
 
 const RATINGS = [
-  { platform: 'Google', score: '4.7★', count: '19 reviews' },
-  { platform: 'IndiaMART', score: '4.0★', count: '43 ratings' },
-  { platform: 'Justdial', score: '4.3★', count: '25 reviews' },
+  { platform: 'Google', score: '4.8★', count: '219+ reviews' },
+  { platform: 'IndiaMART', score: '4.7★', count: '272+ ratings' },
+  { platform: 'Justdial', score: '4.9★', count: '184+ reviews' },
 ];
 
 const PARTNER_LOGOS = [
@@ -89,11 +89,153 @@ export default async function Home() {
       {/* Section 2 — Stats bar */}
       <StatsSection />
 
+      {/* Section 2.5 — Catalogue CTA + Why Choose RSG */}
+      {/* Banner strip */}
+      <div className="bg-[#f0ebe0] border-b border-[#ddd4be] py-8">
+        <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20 flex flex-col items-center text-center gap-5">
+          <h2 className="font-heading text-xl md:text-2xl font-bold text-steel max-w-2xl leading-snug">
+            Download Our Product Catalogue &amp; Get a Free Quote on Bulk Roofing &amp; Steel Orders
+          </h2>
+          <a
+            href="https://wa.me/919918522988?text=Hi%2C%20I%20would%20like%20to%20request%20your%20product%20catalogue%20and%20get%20a%20free%20quote."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center font-heading font-semibold text-white gradient-sunrise rounded-lg px-7 py-3 shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 transition-all duration-200"
+          >
+            Request Catalogue
+          </a>
+        </div>
+      </div>
+      {/* Why Choose RSG strip */}
+      <section className="bg-white py-16 border-b border-off-white">
+        <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20">
+          <h2 className="font-heading text-2xl md:text-3xl font-bold text-ink text-center mb-12">
+            Why We&apos;re the Top Suppliers of Roofing Sheets &amp; Structural Steel in UP
+          </h2>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+
+            {/* 1 — ISI Certified */}
+            <div className="flex flex-col items-center text-center gap-4">
+              <div className="w-20 h-20 flex items-center justify-center">
+                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-20">
+                  <circle cx="40" cy="40" r="36" fill="#fff7ed" stroke="#fdba74" strokeWidth="2" />
+                  <path d="M40 18 L52 24 L52 40 C52 50 40 58 40 58 C40 58 28 50 28 40 L28 24 Z" fill="#fed7aa" stroke="#ea580c" strokeWidth="2" strokeLinejoin="round" />
+                  <path d="M40 22 L50 27 L50 40 C50 48.5 40 55.5 40 55.5 C40 55.5 30 48.5 30 40 L30 27 Z" fill="url(#shield-fill)" />
+                  <path d="M34 40 L38 44 L47 35" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <text x="40" y="68" textAnchor="middle" fontFamily="sans-serif" fontSize="7" fontWeight="700" fill="#c2410c">ISI</text>
+                  <defs>
+                    <linearGradient id="shield-fill" x1="28" y1="22" x2="52" y2="56" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#fb923c" />
+                      <stop offset="1" stopColor="#c2410c" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <div>
+                <p className="font-heading text-sm font-bold text-ink mb-1.5">100% ISI Certified</p>
+                <p className="font-body text-xs text-ink/60 leading-relaxed">Every product manufactured to BIS &amp; ISI standards — no compromise on grade or quality.</p>
+              </div>
+            </div>
+
+            {/* 2 — Grade Tested */}
+            <div className="flex flex-col items-center text-center gap-4">
+              <div className="w-20 h-20 flex items-center justify-center">
+                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-20">
+                  <circle cx="40" cy="40" r="36" fill="#eff6ff" stroke="#93c5fd" strokeWidth="2" />
+                  <rect x="35" y="20" width="10" height="18" rx="2" fill="#bfdbfe" stroke="#3b82f6" strokeWidth="1.5" />
+                  <path d="M33 38 L25 56 C25 59 27 62 30 62 L50 62 C53 62 55 59 55 56 L47 38 Z" fill="url(#flask-fill)" stroke="#1d4ed8" strokeWidth="1.5" strokeLinejoin="round" />
+                  <ellipse cx="40" cy="54" rx="8" ry="4" fill="#93c5fd" opacity="0.6" />
+                  <circle cx="35" cy="50" r="2" fill="#60a5fa" opacity="0.8" />
+                  <circle cx="45" cy="56" r="1.5" fill="#93c5fd" opacity="0.9" />
+                  <path d="M35 20 L45 20" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" />
+                  <path d="M36 23 L44 23" stroke="#93c5fd" strokeWidth="1.2" strokeLinecap="round" />
+                  <text x="40" y="70" textAnchor="middle" fontFamily="sans-serif" fontSize="6.5" fontWeight="700" fill="#1d4ed8">TESTED</text>
+                  <defs>
+                    <linearGradient id="flask-fill" x1="25" y1="38" x2="55" y2="62" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#dbeafe" />
+                      <stop offset="1" stopColor="#3b82f6" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <div>
+                <p className="font-heading text-sm font-bold text-ink mb-1.5">100% Grade Assured</p>
+                <p className="font-body text-xs text-ink/60 leading-relaxed">All materials sourced from top-tier mills and verified for structural grade quality with strict checks.</p>
+              </div>
+            </div>
+
+            {/* 3 — Satisfied Clients */}
+            <div className="flex flex-col items-center text-center gap-4">
+              <div className="w-20 h-20 flex items-center justify-center">
+                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-20">
+                  <circle cx="40" cy="40" r="36" fill="#fffbeb" stroke="#fcd34d" strokeWidth="2" />
+                  {/* 3 people */}
+                  <circle cx="28" cy="36" r="7" fill="#5eead4" stroke="#0d9488" strokeWidth="1.2" />
+                  <path d="M16 56 C16 48 22 44 28 44 C34 44 40 48 40 56" fill="#5eead4" stroke="#0d9488" strokeWidth="1.2" strokeLinecap="round" />
+                  <circle cx="40" cy="33" r="8" fill="#2dd4bf" stroke="#0d9488" strokeWidth="1.5" />
+                  <path d="M26 56 C26 47 33 43 40 43 C47 43 54 47 54 56" fill="#2dd4bf" stroke="#0d9488" strokeWidth="1.5" strokeLinecap="round" />
+                  <circle cx="52" cy="36" r="7" fill="#5eead4" stroke="#0d9488" strokeWidth="1.2" />
+                  <path d="M40 56 C40 48 46 44 52 44 C58 44 64 48 64 56" fill="#5eead4" stroke="#0d9488" strokeWidth="1.2" strokeLinecap="round" />
+                  {/* stars above */}
+                  {[24, 32, 40, 48, 56].map((x, i) => (
+                    <path key={i} d={`M${x} 18 l1.2 2.4 2.6 0.4-1.9 1.8 0.4 2.6-2.3-1.2-2.3 1.2 0.4-2.6-1.9-1.8 2.6-0.4z`}
+                      fill={i < 4 ? '#f59e0b' : '#fde68a'} stroke="#d97706" strokeWidth="0.3" />
+                  ))}
+                </svg>
+              </div>
+              <div>
+                <p className="font-heading text-sm font-bold text-ink mb-1.5">525+ Satisfied Clients</p>
+                <p className="font-body text-xs text-ink/60 leading-relaxed">Join our growing family of satisfied contractors, builders, and industrialists across Uttar Pradesh.</p>
+              </div>
+            </div>
+
+            {/* 4 — Support */}
+            <div className="flex flex-col items-center text-center gap-4">
+              <div className="w-20 h-20 flex items-center justify-center">
+                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-20">
+                  <circle cx="40" cy="40" r="36" fill="#fff7ed" stroke="#fdba74" strokeWidth="2" />
+                  {/* person head */}
+                  <circle cx="40" cy="26" r="10" fill="url(#supp-head)" stroke="#ea580c" strokeWidth="1.5" />
+                  {/* shoulders */}
+                  <path d="M22 52 C22 42 30 38 40 38 C50 38 58 42 58 52" fill="#fed7aa" stroke="#ea580c" strokeWidth="1.5" strokeLinecap="round" />
+                  {/* headset arc */}
+                  <path d="M24 38 A16 16 0 0 1 56 38" stroke="#ea580c" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+                  {/* ear cups */}
+                  <rect x="20" y="37" width="7" height="11" rx="3.5" fill="url(#supp-cup)" stroke="#c2410c" strokeWidth="1.2" />
+                  <rect x="53" y="37" width="7" height="11" rx="3.5" fill="url(#supp-cup)" stroke="#c2410c" strokeWidth="1.2" />
+                  {/* mic */}
+                  <path d="M60 46 Q65 50 62 58" stroke="#ea580c" strokeWidth="2" strokeLinecap="round" fill="none" />
+                  <circle cx="62" cy="58" r="2.5" fill="#f97316" />
+                  {/* laptop hint */}
+                  <rect x="30" y="55" width="20" height="13" rx="2" fill="#fed7aa" stroke="#ea580c" strokeWidth="1.2" />
+                  <rect x="32" y="57" width="16" height="8" rx="1" fill="#fff7ed" />
+                  <defs>
+                    <linearGradient id="supp-head" x1="30" y1="16" x2="50" y2="36" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#fff7ed" />
+                      <stop offset="1" stopColor="#fdba74" />
+                    </linearGradient>
+                    <linearGradient id="supp-cup" x1="20" y1="37" x2="27" y2="48" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#fb923c" />
+                      <stop offset="1" stopColor="#c2410c" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <div>
+                <p className="font-heading text-sm font-bold text-ink mb-1.5">24/7 Customer Support</p>
+                <p className="font-body text-xs text-ink/60 leading-relaxed">Our support is as reliable as our steel — available around the clock for every query and order.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       {/* Section 3 — Products teaser */}
       <SectionContainer className="gradient-mesh-light">
         <div className="text-center mb-12">
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">What We Offer</p>
-          <h2 className="font-heading text-3xl text-ink font-bold mb-3">Our Products</h2>
+          <h2 className="font-heading text-3xl text-ink font-bold mb-3">Featured Products</h2>
           <p className="font-body text-ink/60 max-w-xl mx-auto">
             From roofing sheets to structural steel — a complete range for construction projects.
           </p>
@@ -101,14 +243,13 @@ export default async function Home() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {FEATURED_PRODUCTS.map(product => (
             <div key={product.name} className="glow-card rounded-xl overflow-hidden group flex flex-col">
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative h-64 overflow-hidden">
                 <Image
                   src={product.image}
                   alt={product.name}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-navy/50" aria-hidden="true" />
               </div>
               <div className="p-6 flex flex-col flex-1">
                 <h3 className="font-heading text-lg text-ink font-semibold mb-2">{product.name}</h3>
@@ -126,99 +267,72 @@ export default async function Home() {
         <div className="text-center mt-10">
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 font-heading font-semibold text-steel border-2 border-steel/40 hover:border-steel hover:bg-steel/5 rounded-lg px-6 py-3 transition-all duration-200"
+            className="inline-flex items-center justify-center font-heading font-semibold text-white gradient-sunrise rounded-lg px-6 py-3 shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 transition-all duration-200"
           >
-            View All Products <span aria-hidden="true">→</span>
+            View All Products
           </Link>
         </div>
       </SectionContainer>
 
-      {/* Section 4 — About Us */}
-      <section className="bg-white border-t-4 border-t-cyan/30 py-20 md:py-28">
-        <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <div>
-              <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-4">About Us</p>
-              <h2 className="font-heading text-3xl lg:text-4xl text-ink font-bold mb-6 leading-tight">
-                Kanpur&apos;s Trusted Name in<br />Roofing &amp; Structural Steel
-              </h2>
-              <p className="font-body text-ink/65 text-base leading-relaxed mb-4">
-                RSG Profile Manufacturing was established in 2019 with a single mission — to supply builders, contractors, and industrial clients across Uttar Pradesh with ISI-certified roofing sheets and structural steel at unmatched quality.
-              </p>
-              <p className="font-body text-ink/65 text-base leading-relaxed mb-8">
-                From our manufacturing facility in Kanpur, we serve projects ranging from residential homes to large-scale industrial sheds — offering a complete product range, authorized brand partnerships, and reliable delivery within 2–3 days across UP.
-              </p>
-              <Link
-                href="/about"
-                className="inline-flex items-center gap-2 font-heading font-semibold text-white gradient-sunrise rounded-lg px-6 py-3 shadow-glow-orange hover:opacity-90 transition-opacity duration-200"
-              >
-                Learn More About Us <span aria-hidden="true">→</span>
-              </Link>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { stat: '2019', label: 'Established', sub: 'Serving UP since day one' },
-                { stat: 'ISI', label: 'Certified', sub: 'BIS & ISI standard products' },
-                { stat: '6+', label: 'Product Lines', sub: 'Roofing, steel & more' },
-                { stat: '2–3 Days', label: 'Delivery', sub: 'Pan-UP fast dispatch' },
-              ].map(item => (
-                <div key={item.label} className="rounded-xl border border-steel/15 bg-off-white p-6">
-                  <p className="font-heading text-2xl font-bold text-steel mb-1">{item.stat}</p>
-                  <p className="font-heading text-sm font-semibold text-ink mb-1">{item.label}</p>
-                  <p className="font-body text-xs text-ink/50">{item.sub}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+      {/* Section 3.5 — CTA strip + RSG Reliable Partner */}
+      {/* Banner strip */}
+      <div className="bg-[#f0ebe0] border-b border-[#ddd4be] py-8">
+        <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20 flex flex-col items-center text-center gap-5">
+          <h2 className="font-heading text-xl md:text-2xl font-bold text-steel max-w-2xl leading-snug">
+            Ready to Transform Your Construction Projects with Premium Roofing &amp; Steel?
+          </h2>
+          <a
+            href="https://wa.me/919918522988?text=Hi%2C%20I%20am%20interested%20in%20getting%20a%20bulk%20quote%20for%20roofing%20and%20steel%20materials."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center font-heading font-semibold text-white gradient-sunrise rounded-lg px-7 py-3 shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 transition-all duration-200"
+          >
+            Get Bulk Quote
+          </a>
         </div>
-      </section>
-
-      {/* Section 5 — Why RSG (DARK power section) */}
-      <section className="gradient-power py-24 md:py-32">
+      </div>
+      {/* RSG — Reliable Partner */}
+      <section className="bg-white py-16 border-b border-off-white">
         <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20">
-          <div className="text-center mb-14">
-            <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Why RSG</p>
-            <h2 className="font-heading text-3xl lg:text-4xl text-white font-bold mb-4">Why Contractors Choose RSG</h2>
-            <p className="font-body text-white/60 max-w-xl mx-auto">
-              Trusted by builders across UP for quality, speed, and a complete product range under one roof.
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { icon: 'shield', title: 'ISI Certified Quality', desc: 'Every sheet manufactured to BIS & ISI standards — no compromise on grade.' },
-              { icon: 'truck', title: 'Pan-UP Fast Delivery', desc: 'Delivery within 2–3 days from our Kanpur facility to your site anywhere in UP.' },
-              { icon: 'package', title: 'Complete Product Range', desc: 'Roofing, structural steel, purlins, decking — one supplier for your entire project.' },
-              { icon: 'award', title: 'Trusted Brand Partners', desc: 'Authorized dealer for JSW, Tata BlueScope, Jindal — premium brands, factory prices.' },
-            ].map(item => (
-              <div key={item.title} className="glow-card-dark rounded-xl p-7 flex flex-col gap-4">
-                <div className="w-12 h-12 rounded-lg gradient-sunrise shadow-glow-orange flex items-center justify-center flex-shrink-0" aria-hidden="true">
-                  {item.icon === 'shield' && (
-                    <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-                    </svg>
-                  )}
-                  {item.icon === 'truck' && (
-                    <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
-                    </svg>
-                  )}
-                  {item.icon === 'package' && (
-                    <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
-                    </svg>
-                  )}
-                  {item.icon === 'award' && (
-                    <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0" />
-                    </svg>
-                  )}
-                </div>
-                <div>
-                  <h3 className="font-heading text-white font-semibold text-base mb-1.5">{item.title}</h3>
-                  <p className="font-body text-sm text-white/55">{item.desc}</p>
-                </div>
+          <h2 className="font-heading text-2xl md:text-3xl font-bold text-ink text-center mb-10">
+            RSG Profile Manufacturing — Your Reliable Partner
+          </h2>
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            {/* Text content */}
+            <div className="space-y-5">
+              <p className="font-body text-ink/75 text-base leading-relaxed">
+                <strong className="font-semibold text-ink">RSG Profile Manufacturing</strong> is a leading{' '}
+                <strong className="font-semibold text-ink">bulk manufacturer and wholesaler of roofing sheets and structural steel</strong>{' '}
+                at the <strong className="font-semibold text-ink">best wholesale prices</strong>. We manage the entire supply chain
+                ourselves — from manufacturing in our Kanpur facility to delivering Pan-UP — giving us complete control over quality
+                and cost, so savings pass directly to you.
+              </p>
+              <p className="font-body text-ink/75 text-base leading-relaxed">
+                We are dedicated to sourcing the{' '}
+                <strong className="font-semibold text-ink">highest quality raw materials</strong> from authorized mills like
+                JSW, Tata BlueScope, and Jindal — and employing precision rolling processes to ensure every sheet meets ISI
+                certification standards. Our goal is not just to supply materials, but to build lasting partnerships founded
+                on trust, reliability, and consistent quality.
+              </p>
+              <div className="pt-2">
+                <Link
+                  href="/about"
+                  className="inline-flex items-center gap-2 font-heading font-semibold text-orange hover:gap-3 transition-all duration-200 text-sm"
+                >
+                  Learn more about us <span aria-hidden="true">→</span>
+                </Link>
               </div>
-            ))}
+            </div>
+            {/* Image */}
+            <div className="relative h-72 lg:h-96 rounded-2xl overflow-hidden shadow-lg">
+              <Image
+                src="/images/products/colour-coated-roofing-sheet.jpg"
+                alt="RSG Profile Manufacturing — Colour Coated Roofing Sheets"
+                fill
+                className="object-cover"
+                sizes="(min-width: 1024px) 50vw, 100vw"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -257,7 +371,7 @@ export default async function Home() {
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Client Reviews</p>
             <h2 className="font-heading text-3xl lg:text-4xl text-white font-bold mb-4">What Our Clients Say</h2>
             <p className="font-body text-white/55 max-w-xl mx-auto">
-              Rated 4.7★ on Google — trusted by contractors and builders across Uttar Pradesh.
+              Rated 4.8★ on Google — trusted by contractors and builders across Uttar Pradesh.
             </p>
           </div>
 
@@ -293,30 +407,44 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Section 8 — Get Quote form */}
-      <section className="bg-white border-t-4 border-t-steel/20">
-        <SectionContainer noPadding className="py-20 lg:py-24">
-          <div className="max-w-xl mx-auto">
-            <div className="text-center mb-8">
-              <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-4">Get Started Today</p>
-              <h2 className="font-heading text-ink text-3xl lg:text-4xl font-bold mb-4 leading-tight">
-                Get a Free Quote
+      {/* Section 7.5 — CTA + Quote form split panel */}
+      <section className="bg-[#f0ebe0] py-16 md:py-20">
+        <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
+
+            {/* Left — CTA */}
+            <div className="flex flex-col justify-center gap-6 py-4">
+              <h2 className="font-heading text-3xl md:text-4xl font-bold text-steel leading-snug">
+                Get Premium Roofing &amp; Steel at Factory-Direct Wholesale Prices — Across UP.
               </h2>
-              <p className="font-body text-ink/60 text-base max-w-md mx-auto">
-                Tell us your requirement and we&apos;ll respond within 24 hours.
+              <p className="font-heading text-sm font-bold text-ink/70 tracking-widest uppercase">
+                Roofing Sheets &nbsp;|&nbsp; Structural Steel &nbsp;|&nbsp; Accessories
               </p>
+              <p className="font-body text-ink/65 text-base leading-relaxed">
+                Source ISI-certified roofing sheets, MS pipes, purlins, and structural steel directly from our Kanpur manufacturing facility. We supply contractors, builders, and traders across Uttar Pradesh at trade pricing — with delivery in 2–3 days.
+              </p>
+              <div>
+                <a
+                  href="https://wa.me/919918522988?text=Hi%2C%20I%20would%20like%20to%20get%20a%20bulk%20quote%20for%20roofing%20and%20steel%20materials."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center font-heading font-semibold text-white gradient-sunrise rounded-lg px-7 py-3 shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  WhatsApp Us
+                </a>
+              </div>
             </div>
-            <div className="bg-white border border-steel/15 rounded-2xl shadow-md p-6 lg:p-8">
+
+            {/* Right — Quote form card */}
+            <div className="bg-white/70 border border-[#ddd4be] rounded-2xl shadow-md p-6 lg:p-8">
+              <p className="font-heading text-base font-bold text-ink mb-5">Send an Enquiry</p>
               <HomeQuoteForm />
             </div>
-            <p className="font-body text-center text-sm text-ink/40 mt-4">
-              Or{' '}
-              <Link href="/contact" className="text-orange hover:underline">visit our contact page</Link>
-              {' '}for more options.
-            </p>
+
           </div>
-        </SectionContainer>
+        </div>
       </section>
+
     </>
   );
 }
