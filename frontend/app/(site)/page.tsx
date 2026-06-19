@@ -39,25 +39,37 @@ const FEATURED_PRODUCTS = [
     name: 'Galvanized Plain Sheets',
     slug: 'galvanized-plain-sheets',
     desc: 'High-quality GI plain sheets for versatile structural, fabrication, and general applications.',
-    image: '/images/hero/dream-home-bg.webp',
+    image: '/images/products/galvanized-plain-sheets.png',
   },
   {
     name: 'C and Z Purlins',
     slug: 'purlins',
     desc: 'Precision-rolled Z & C purlins for industrial roofing systems — lightweight yet exceptionally strong.',
-    image: '/images/hero/industrial-bg.webp',
+    image: '/images/products/purlins.png',
+  },
+  {
+    name: 'Crimping Sheet',
+    slug: 'crimping-sheet',
+    desc: 'Precision-crimped sheets for versatile industrial and commercial roofing applications.',
+    image: '/images/products/crimping-sheet.png',
+  },
+  {
+    name: 'MS Plate / Channel / Angle',
+    slug: 'ms-plate-channel-angle',
+    desc: 'Structural MS plates, channels and angles for heavy-duty fabrication and construction projects.',
+    image: '/images/products/ms-plate-channel-angle.png',
   },
   {
     name: 'Polycarbonate Sheet',
     slug: 'polycarbonate-sheet',
     desc: 'UV-resistant transparent roofing panels that bring natural daylight into any structure.',
-    image: '/images/hero/protection-bg.webp',
+    image: '/images/products/polycarbonate-sheet.png',
   },
   {
-    name: 'MS Pipe',
+    name: 'Mild Steel Pipes',
     slug: 'ms-pipe',
     desc: 'Structural MS pipes from APL Apollo, Tata & JSW — trusted for heavy-duty construction needs.',
-    image: '/images/hero/protection-bg.webp',
+    image: '/images/products/ms-pipe.png',
   },
 ];
 
@@ -92,7 +104,7 @@ export default async function Home() {
       {/* Section 2.5 — Catalogue CTA + Why Choose RSG */}
       {/* Banner strip */}
       <div className="bg-[#f0ebe0] border-b border-[#ddd4be] py-8">
-        <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20 flex flex-col items-center text-center gap-5">
+        <div className="mx-auto max-w-container px-6 sm:px-10 md:px-16 lg:px-24 flex flex-col items-center text-center gap-5">
           <h2 className="font-heading text-xl md:text-2xl font-bold text-steel max-w-2xl leading-snug">
             Download Our Product Catalogue &amp; Get a Free Quote on Bulk Roofing &amp; Steel Orders
           </h2>
@@ -108,7 +120,7 @@ export default async function Home() {
       </div>
       {/* Why Choose RSG strip */}
       <section className="bg-white py-16 border-b border-off-white">
-        <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20">
+        <div className="mx-auto max-w-container px-6 sm:px-10 md:px-16 lg:px-24">
           <h2 className="font-heading text-2xl md:text-3xl font-bold text-ink text-center mb-12">
             Why We&apos;re the Top Suppliers of Roofing Sheets &amp; Structural Steel in UP
           </h2>
@@ -277,7 +289,7 @@ export default async function Home() {
       {/* Section 3.5 — CTA strip + RSG Reliable Partner */}
       {/* Banner strip */}
       <div className="bg-[#f0ebe0] border-b border-[#ddd4be] py-8">
-        <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20 flex flex-col items-center text-center gap-5">
+        <div className="mx-auto max-w-container px-6 sm:px-10 md:px-16 lg:px-24 flex flex-col items-center text-center gap-5">
           <h2 className="font-heading text-xl md:text-2xl font-bold text-steel max-w-2xl leading-snug">
             Ready to Transform Your Construction Projects with Premium Roofing &amp; Steel?
           </h2>
@@ -293,7 +305,7 @@ export default async function Home() {
       </div>
       {/* RSG — Reliable Partner */}
       <section className="bg-white py-16 border-b border-off-white">
-        <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20">
+        <div className="mx-auto max-w-container px-6 sm:px-10 md:px-16 lg:px-24">
           <h2 className="font-heading text-2xl md:text-3xl font-bold text-ink text-center mb-10">
             RSG Profile Manufacturing — Your Reliable Partner
           </h2>
@@ -326,8 +338,8 @@ export default async function Home() {
             {/* Image */}
             <div className="relative h-72 lg:h-96 rounded-2xl overflow-hidden shadow-lg">
               <Image
-                src="/images/products/colour-coated-roofing-sheet.jpg"
-                alt="RSG Profile Manufacturing — Colour Coated Roofing Sheets"
+                src="/images/about-partner.png"
+                alt="RSG Profile Manufacturing — Your Reliable Partner"
                 fill
                 className="object-cover"
                 sizes="(min-width: 1024px) 50vw, 100vw"
@@ -366,7 +378,7 @@ export default async function Home() {
 
       {/* Section 7 — Testimonials (DARK section) */}
       <section className="gradient-mesh-dark py-24 md:py-32">
-        <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20">
+        <div className="mx-auto max-w-container px-6 sm:px-10 md:px-16 lg:px-24">
           <div className="text-center mb-12">
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Client Reviews</p>
             <h2 className="font-heading text-3xl lg:text-4xl text-white font-bold mb-4">What Our Clients Say</h2>
@@ -409,7 +421,7 @@ export default async function Home() {
 
       {/* Section 7.5 — CTA + Quote form split panel */}
       <section className="bg-[#f0ebe0] py-16 md:py-20">
-        <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20">
+        <div className="mx-auto max-w-container px-6 sm:px-10 md:px-16 lg:px-24">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
 
             {/* Left — CTA */}

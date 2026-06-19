@@ -19,7 +19,7 @@ export function SiteFooter() {
     <footer className="bg-navy text-white/80">
       {/* Top row */}
       <div className="py-10">
-        <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="mx-auto max-w-container px-6 sm:px-10 md:px-16 lg:px-24 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
           {/* Col 1: Brand + social */}
           <div>
@@ -76,9 +76,9 @@ export function SiteFooter() {
 
       {/* Bottom row */}
       <div className="border-t border-white/10 py-4">
-        <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20 flex flex-col md:flex-row items-center justify-between gap-2">
+        <div className="mx-auto max-w-container px-6 sm:px-10 md:px-16 lg:px-24 flex flex-col md:flex-row items-center justify-between gap-2">
           <p className="font-body text-xs text-white/50">
-            © 2024 RSG Profile Manufacturing Pvt Ltd. All rights reserved.
+            © 2026 RSG Profile Manufacturing Pvt Ltd. All rights reserved.
           </p>
           <p className="font-body text-xs text-white/50">
             Developed and managed by{' '}

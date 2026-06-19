@@ -54,7 +54,7 @@ export function SiteHeader({ whatsappNumber }: SiteHeaderProps) {
   const waUrl = `https://wa.me/${waNumber}`;
   return (
     <header className="fixed top-0 left-0 right-0 z-40 bg-navy/95 backdrop-blur-md">
-      <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20 flex items-center justify-between h-16">
+      <div className="mx-auto max-w-container px-6 sm:px-10 md:px-16 lg:px-24 flex items-center justify-between h-16">
         {/* Logo */}
         <Link href="/" className="flex items-center">
           <Image src="/rsg-logo.png" alt="RSG Profile Manufacturing" width={80} height={60} className="h-14 w-auto" priority />
@@ -123,32 +123,88 @@ export function SiteHeader({ whatsappNumber }: SiteHeaderProps) {
             </div>
           </div>
 
-          {/* 2. Work — dropdown: About, Testimonials */}
+          {/* 2. Work — mega menu */}
           <div className="group/work relative">
             <span className="font-body text-sm text-white/80 hover:text-white transition-colors py-4 inline-flex items-center gap-1 cursor-default select-none">
               Work
               <ChevronDown />
             </span>
-            <div className="invisible group-hover/work:visible opacity-0 group-hover/work:opacity-100 transition-opacity absolute top-full left-0 pt-1 w-44 z-50">
-              <ul className={dropdownList}>
-                <li><Link href="/about" className={dropdownItem}>About</Link></li>
-                <li><Link href="/testimonials" className={dropdownItem}>Testimonials</Link></li>
-              </ul>
+            <div className="invisible group-hover/work:visible opacity-0 group-hover/work:opacity-100 transition-opacity absolute top-full -left-4 pt-2 z-50 w-[420px]">
+              <div className="bg-white rounded-xl shadow-2xl border border-navy/8 p-5">
+                <p className="font-body text-[10px] font-semibold tracking-[0.18em] text-navy/40 uppercase mb-4">Our Work &amp; Company</p>
+                <div className="grid grid-cols-2 gap-2">
+                  <Link href="/about" className="flex items-start gap-3 p-3 rounded-lg hover:bg-steel/5 transition-colors group">
+                    <span className="w-9 h-9 rounded-lg bg-steel/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <svg className="w-4.5 h-4.5 text-steel" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      </svg>
+                    </span>
+                    <span>
+                      <span className="block font-heading text-sm font-bold text-navy group-hover:text-steel transition-colors">About RSG</span>
+                      <span className="block font-body text-xs text-navy/50 mt-0.5 leading-snug">Who we are, what we make</span>
+                    </span>
+                  </Link>
+                  <Link href="/testimonials" className="flex items-start gap-3 p-3 rounded-lg hover:bg-steel/5 transition-colors group">
+                    <span className="w-9 h-9 rounded-lg bg-steel/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <svg className="w-4.5 h-4.5 text-steel" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                      </svg>
+                    </span>
+                    <span>
+                      <span className="block font-heading text-sm font-bold text-navy group-hover:text-steel transition-colors">Testimonials</span>
+                      <span className="block font-body text-xs text-navy/50 mt-0.5 leading-snug">What our clients say</span>
+                    </span>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* 3. Resources — dropdown: Blogs, Guide, Events, Contact Us */}
+          {/* 3. Resources — mega menu */}
           <div className="group/resources relative">
             <span className="font-body text-sm text-white/80 hover:text-white transition-colors py-4 inline-flex items-center gap-1 cursor-default select-none">
               Resources
               <ChevronDown />
             </span>
-            <div className="invisible group-hover/resources:visible opacity-0 group-hover/resources:opacity-100 transition-opacity absolute top-full left-0 pt-1 w-44 z-50">
-              <ul className={dropdownList}>
-                <li><Link href="/blog" className={dropdownItem}>Blogs</Link></li>
-                <li><Link href="/events" className={dropdownItem}>Events</Link></li>
-                <li><Link href="/contact" className={dropdownItem}>Contact Us</Link></li>
-              </ul>
+            <div className="invisible group-hover/resources:visible opacity-0 group-hover/resources:opacity-100 transition-opacity absolute top-full -left-4 pt-2 z-50 w-[420px]">
+              <div className="bg-white rounded-xl shadow-2xl border border-navy/8 p-5">
+                <p className="font-body text-[10px] font-semibold tracking-[0.18em] text-navy/40 uppercase mb-4">Resources &amp; Support</p>
+                <div className="grid grid-cols-2 gap-2">
+                  <Link href="/blog" className="flex items-start gap-3 p-3 rounded-lg hover:bg-steel/5 transition-colors group">
+                    <span className="w-9 h-9 rounded-lg bg-steel/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <svg className="w-4.5 h-4.5 text-steel" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </span>
+                    <span>
+                      <span className="block font-heading text-sm font-bold text-navy group-hover:text-steel transition-colors">Blog</span>
+                      <span className="block font-body text-xs text-navy/50 mt-0.5 leading-snug">Industry tips &amp; insights</span>
+                    </span>
+                  </Link>
+                  <Link href="/events" className="flex items-start gap-3 p-3 rounded-lg hover:bg-steel/5 transition-colors group">
+                    <span className="w-9 h-9 rounded-lg bg-steel/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <svg className="w-4.5 h-4.5 text-steel" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </span>
+                    <span>
+                      <span className="block font-heading text-sm font-bold text-navy group-hover:text-steel transition-colors">Events</span>
+                      <span className="block font-body text-xs text-navy/50 mt-0.5 leading-snug">Trade shows &amp; exhibitions</span>
+                    </span>
+                  </Link>
+                  <Link href="/contact" className="flex items-start gap-3 p-3 rounded-lg hover:bg-steel/5 transition-colors group">
+                    <span className="w-9 h-9 rounded-lg bg-steel/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <svg className="w-4.5 h-4.5 text-steel" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                      </svg>
+                    </span>
+                    <span>
+                      <span className="block font-heading text-sm font-bold text-navy group-hover:text-steel transition-colors">Contact Us</span>
+                      <span className="block font-body text-xs text-navy/50 mt-0.5 leading-snug">Get a quote or call us</span>
+                    </span>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
 

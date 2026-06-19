@@ -184,7 +184,7 @@ function StatCard({ icon, topLine, bottomLine }: StatCardProps) {
 export function StatsSection() {
   return (
     <section className="gradient-power py-10 border-b border-white/5">
-      <div className="mx-auto max-w-container px-6 sm:px-8 md:px-16 lg:px-20">
+      <div className="mx-auto max-w-container px-6 sm:px-10 md:px-16 lg:px-24">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0 lg:divide-x lg:divide-white/10">
 
           {/* 1 — Orders */}

@@ -16,7 +16,7 @@
   --font-family-body: var(--font-source-sans), 'Source Sans 3', sans-serif;
 
   /* Layout */
-  --width-container: 1280px;
+  --width-container: 1100px;
 
   /* Gradients */
   --background-image-premium-gradient: linear-gradient(135deg, #07152B 0%, #0E4FA8 55%, #00B4DB 100%);

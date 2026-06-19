@@ -98,11 +98,23 @@ export default function HomeQuoteForm() {
           <label htmlFor="hqf-product" className={labelClass}>
             Product <span className="text-orange">*</span>
           </label>
-          <input
-            id="hqf-product" name="product_interest" type="text" required
-            placeholder="Enter product name"
+          <select
+            id="hqf-product" name="product_interest" required
             className={inputClass}
-          />
+            defaultValue=""
+          >
+            <option value="" disabled>Select a product</option>
+            <option>Colour Coated Roofing Sheet</option>
+            <option>Galvanized Plain Sheet</option>
+            <option>Decking Sheet</option>
+            <option>C and Z Purlins</option>
+            <option>MS Pipe</option>
+            <option>MS Plate, Channel &amp; Angle</option>
+            <option>Polycarbonate Sheet</option>
+            <option>Crimping Sheet</option>
+            <option>Roofing Accessories</option>
+            <option>General Inquiry</option>
+          </select>
         </div>
       </div>
 
