@@ -15,6 +15,9 @@ import blogRouter from './routes/blog';
 import eventsRouter from './routes/events';
 import testimonialsRouter from './routes/testimonials';
 import caseStudiesRouter from './routes/case_studies';
+import clientLogosRouter from './routes/client_logos';
+import authorsRouter from './routes/authors';
+import categoriesRouter from './routes/categories';
 
 dotenv.config();
 
@@ -37,6 +40,9 @@ app.use('/api/blog', blogRouter);
 app.use('/api/events', eventsRouter);
 app.use('/api/testimonials', testimonialsRouter);
 app.use('/api/case-studies', caseStudiesRouter);
+app.use('/api/client-logos', clientLogosRouter);
+app.use('/api/authors', authorsRouter);
+app.use('/api/categories', categoriesRouter);
 
 pool.query('SELECT 1')
   .then(() => console.log('DB connected'))

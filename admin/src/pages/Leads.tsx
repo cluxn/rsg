@@ -1,9 +1,11 @@
 import { useState, useRef } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { Download, Upload } from 'lucide-react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Download, Upload, X, ChevronDown } from 'lucide-react';
 import { AdminLayout } from '@/components/layout/AdminLayout';
 import { Button } from '@/components/ui/button';
 import { api } from '@/lib/api';
+
+type LeadStatus = 'new' | 'contacted' | 'meeting_scheduled' | 'converted' | 'closed' | 'lost' | 'junk';
 
 interface Lead {
   id: number;
@@ -13,50 +15,116 @@ interface Lead {
   product_interest: string | null;
   message: string | null;
   source_page: string | null;
+  lead_status: LeadStatus;
+  follow_up_date: string | null;
+  notes: string | null;
+  last_contact_date: string | null;
   webhook_sent: boolean;
   created_at: string;
 }
 
-interface LeadsResponse {
-  leads: Lead[];
-  total: number;
-  page: number;
-  limit: number;
+interface LeadsResponse { leads: Lead[]; total: number; page: number; limit: number; }
+
+const STATUS_OPTIONS: { value: LeadStatus; label: string; color: string }[] = [
+  { value: 'new', label: 'New', color: 'bg-blue-100 text-blue-700' },
+  { value: 'contacted', label: 'Contacted', color: 'bg-yellow-100 text-yellow-700' },
+  { value: 'meeting_scheduled', label: 'Meeting Scheduled', color: 'bg-purple-100 text-purple-700' },
+  { value: 'converted', label: 'Converted', color: 'bg-green-100 text-green-700' },
+  { value: 'closed', label: 'Closed', color: 'bg-navy/10 text-navy/60' },
+  { value: 'lost', label: 'Lost', color: 'bg-red-100 text-red-500' },
+  { value: 'junk', label: 'Junk', color: 'bg-gray-100 text-gray-500' },
+];
+
+const SOURCE_PAGES = [
+  { label: 'Homepage', value: 'home' },
+  { label: 'Contact Page', value: 'contact' },
+  { label: 'Product — Colour Coated Sheets', value: 'products/colour-coated-sheets' },
+  { label: 'Product — Galvanized Sheets', value: 'products/galvanized-sheets' },
+  { label: 'Product — MS Angles', value: 'products/ms-angles' },
+  { label: 'Product — MS Channels', value: 'products/ms-channels' },
+  { label: 'Product — MS Pipe', value: 'products/ms-pipe' },
+  { label: 'Product — MS Plate', value: 'products/ms-plate' },
+  { label: 'Product — Chequered Plate', value: 'products/chequered-plate' },
+  { label: 'Product — Purlins / Zed Sections', value: 'products/purlins-zed-sections' },
+  { label: 'Manual Entry (Admin)', value: 'admin' },
+];
+
+const PRODUCT_OPTIONS = [
+  'Colour Coated Sheets', 'Galvanized Sheets', 'MS Angles', 'MS Channels',
+  'MS Pipe', 'MS Plate', 'Chequered Plate', 'Purlins / Zed Sections',
+];
+
+const EMPTY_FORM = { name: '', phone: '', email: '', product_interest: '', message: '', source_page: 'admin' };
+
+function statusColor(s: LeadStatus) {
+  return STATUS_OPTIONS.find(o => o.value === s)?.color ?? 'bg-navy/10 text-navy/60';
+}
+function statusLabel(s: LeadStatus) {
+  return STATUS_OPTIONS.find(o => o.value === s)?.label ?? s;
 }
 
 export function LeadsPage() {
+  const qc = useQueryClient();
   const [page, setPage] = useState(1);
   const LIMIT = 25;
 
+  // Filters (applied on click)
+  const [search, setSearch] = useState('');
+  const [sourceFilter, setSourceFilter] = useState('');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
+  const [applied, setApplied] = useState<{ search: string; source_page: string; date_from: string; date_to: string }>({ search: '', source_page: '', date_from: '', date_to: '' });
+
   const { data, isLoading, isError, refetch } = useQuery<LeadsResponse>({
-    queryKey: ['leads', page],
-    queryFn: () => api.get('/leads', { params: { page, limit: LIMIT } }).then(r => r.data),
+    queryKey: ['leads', page, applied],
+    queryFn: () => api.get('/leads', { params: { page, limit: LIMIT, ...applied } }).then(r => r.data),
+  });
+
+  // Inline edit state
+  const [notesOpen, setNotesOpen] = useState<number | null>(null);
+  const [notesText, setNotesText] = useState('');
+
+  const updateMut = useMutation({
+    mutationFn: ({ id, data }: { id: number; data: Record<string, unknown> }) => api.put(`/leads/${id}`, data).then(r => r.data),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['leads'] }),
   });
 
   const importRef = useRef<HTMLInputElement>(null);
   const [importing, setImporting] = useState(false);
   const [importResult, setImportResult] = useState<string | null>(null);
 
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [addForm, setAddForm] = useState({ ...EMPTY_FORM });
+  const [addError, setAddError] = useState('');
+
+  const addMutation = useMutation({
+    mutationFn: (d: typeof EMPTY_FORM) => api.post('/leads/admin', d).then(r => r.data),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['leads'] }); setShowAddModal(false); setAddForm({ ...EMPTY_FORM }); setAddError(''); },
+    onError: () => setAddError('Failed to add lead. Check fields and try again.'),
+  });
+
+  function applyFilters() { setPage(1); setApplied({ search, source_page: sourceFilter, date_from: dateFrom, date_to: dateTo }); }
+  function clearFilters() { setSearch(''); setSourceFilter(''); setDateFrom(''); setDateTo(''); setPage(1); setApplied({ search: '', source_page: '', date_from: '', date_to: '' }); }
+
+  function handleAddSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setAddError('');
+    if (!addForm.name.trim()) { setAddError('Name is required.'); return; }
+    if (!addForm.phone.trim() && !addForm.email.trim()) { setAddError('Either phone or email is required.'); return; }
+    addMutation.mutate(addForm);
+  }
+
   const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setImporting(true);
-    setImportResult(null);
-    const form = new FormData();
-    form.append('file', file);
+    const file = e.target.files?.[0]; if (!file) return;
+    setImporting(true); setImportResult(null);
+    const form = new FormData(); form.append('file', file);
     try {
-      const res = await api.post('/leads/import', form, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+      const res = await api.post('/leads/import', form, { headers: { 'Content-Type': 'multipart/form-data' } });
       const { imported, skipped, errors } = res.data as { imported: number; skipped: number; errors: string[] };
-      setImportResult(`Imported ${imported} leads, skipped ${skipped}.${errors.length ? ` Errors: ${errors.slice(0, 3).join('; ')}` : ''}`);
+      setImportResult(`Imported ${imported}, skipped ${skipped}.${errors.length ? ` Errors: ${errors.slice(0, 3).join('; ')}` : ''}`);
       refetch();
-    } catch {
-      setImportResult('Import failed. Check the CSV format and try again.');
-    } finally {
-      setImporting(false);
-      if (importRef.current) importRef.current.value = '';
-    }
+    } catch { setImportResult('Import failed. Check CSV format.'); }
+    finally { setImporting(false); if (importRef.current) importRef.current.value = ''; }
   };
 
   const totalPages = data ? Math.ceil(data.total / LIMIT) : 1;
@@ -66,118 +134,224 @@ export function LeadsPage() {
   return (
     <AdminLayout>
       <div className="p-8">
-        <div className="flex items-center justify-between mb-6">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-5">
           <div>
             <h1 className="font-heading text-2xl text-navy">Leads</h1>
-            <p className="font-body text-navy/60 text-sm mt-1">
-              {data ? `${data.total} total submissions` : 'All Get Quote submissions'}
-            </p>
+            <p className="font-body text-navy/60 text-sm mt-0.5">{data ? `${data.total} total submissions` : 'All enquiries'}</p>
           </div>
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => window.open('/api/leads/export', '_blank')}
-            >
-              <Download className="w-4 h-4 mr-2" /> Export CSV
-            </Button>
-            <input
-              ref={importRef}
-              type="file"
-              accept=".csv"
-              className="hidden"
-              onChange={handleImport}
-            />
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => importRef.current?.click()}
-              disabled={importing}
-            >
-              <Upload className="w-4 h-4 mr-2" /> {importing ? 'Importing…' : 'Import CSV'}
-            </Button>
+            <Button size="sm" onClick={() => setShowAddModal(true)}>+ Add Lead</Button>
+            <Button variant="outline" size="sm" onClick={() => window.open('/api/leads/export', '_blank')}><Download className="w-4 h-4 mr-1.5" />Export</Button>
+            <input ref={importRef} type="file" accept=".csv" className="hidden" onChange={handleImport} />
+            <Button variant="outline" size="sm" onClick={() => importRef.current?.click()} disabled={importing}><Upload className="w-4 h-4 mr-1.5" />{importing ? 'Importing…' : 'Import'}</Button>
           </div>
         </div>
 
-        {importResult && (
-          <p className="font-body text-sm text-navy/70 mb-4">{importResult}</p>
-        )}
+        {/* Filter bar */}
+        <div className="bg-white border border-navy/10 rounded-xl px-4 py-3 flex flex-wrap gap-3 items-end mb-4">
+          <div>
+            <label className="block text-xs text-navy/50 mb-1">Search</label>
+            <input
+              value={search} onChange={e => setSearch(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && applyFilters()}
+              placeholder="Name, phone or email…"
+              className="border border-navy/20 rounded-lg px-3 py-2 text-sm text-navy outline-none focus:border-steel w-52"
+            />
+          </div>
+          <div>
+            <label className="block text-xs text-navy/50 mb-1">Source</label>
+            <select value={sourceFilter} onChange={e => setSourceFilter(e.target.value)} className="border border-navy/20 rounded-lg px-3 py-2 text-sm text-navy outline-none focus:border-steel">
+              <option value="">All Sources</option>
+              {SOURCE_PAGES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs text-navy/50 mb-1">From</label>
+            <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)} className="border border-navy/20 rounded-lg px-3 py-2 text-sm text-navy outline-none focus:border-steel" />
+          </div>
+          <div>
+            <label className="block text-xs text-navy/50 mb-1">To</label>
+            <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} className="border border-navy/20 rounded-lg px-3 py-2 text-sm text-navy outline-none focus:border-steel" />
+          </div>
+          <Button onClick={applyFilters}>Apply filters</Button>
+          <Button variant="outline" onClick={clearFilters}>Clear</Button>
+        </div>
 
-        {isLoading && (
-          <p className="font-body text-navy/60 p-8">Loading leads…</p>
-        )}
-
-        {isError && (
-          <p className="font-body text-red-600 p-8">Failed to load leads.</p>
-        )}
+        {importResult && <p className="text-sm text-navy/70 mb-3">{importResult}</p>}
+        {isLoading && <p className="text-navy/60 p-8">Loading…</p>}
+        {isError && <p className="text-red-600 p-8">Failed to load leads.</p>}
 
         {!isLoading && !isError && data && data.leads.length === 0 && (
-          <p className="font-body text-navy/60 p-8">
-            No leads yet. Leads appear here when visitors submit a Get Quote form.
-          </p>
+          <p className="text-navy/60 p-8">No leads match your filters.</p>
         )}
 
         {!isLoading && !isError && data && data.leads.length > 0 && (
           <>
             <div className="overflow-x-auto rounded-xl border border-navy/10 bg-white">
-              <table className="w-full text-left">
+              <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="bg-navy/10">
-                    <th className="font-heading text-xs uppercase text-navy/60 px-4 py-3">Name</th>
-                    <th className="font-heading text-xs uppercase text-navy/60 px-4 py-3">Phone</th>
-                    <th className="font-heading text-xs uppercase text-navy/60 px-4 py-3">Email</th>
-                    <th className="font-heading text-xs uppercase text-navy/60 px-4 py-3">Product Interest</th>
-                    <th className="font-heading text-xs uppercase text-navy/60 px-4 py-3">Source</th>
-                    <th className="font-heading text-xs uppercase text-navy/60 px-4 py-3">Date</th>
+                  <tr className="bg-navy/5 border-b border-navy/10">
+                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Name</th>
+                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Contact</th>
+                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Product</th>
+                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Source</th>
+                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Status</th>
+                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Follow-up</th>
+                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Last Contact</th>
+                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Notes</th>
+                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Date</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {data.leads.map((lead, i) => (
-                    <tr key={lead.id} className={i % 2 === 0 ? 'bg-white' : 'bg-off-white/50'}>
-                      <td className="font-body text-sm text-navy px-4 py-3">{lead.name}</td>
-                      <td className="font-body text-sm text-navy px-4 py-3">{lead.phone ?? '—'}</td>
-                      <td className="font-body text-sm text-navy px-4 py-3">{lead.email ?? '—'}</td>
-                      <td className="font-body text-sm text-navy px-4 py-3">{lead.product_interest ?? '—'}</td>
-                      <td className="font-body text-sm text-navy px-4 py-3">{lead.source_page ?? '—'}</td>
-                      <td className="font-body text-sm text-navy px-4 py-3">
-                        {new Date(lead.created_at).toLocaleDateString('en-IN', {
-                          day: '2-digit',
-                          month: 'short',
-                          year: 'numeric',
-                        })}
-                      </td>
-                    </tr>
+                  {data.leads.map(lead => (
+                    <>
+                      <tr key={lead.id} className="border-t border-navy/8 hover:bg-navy/[0.02]">
+                        <td className="px-4 py-3 font-medium text-navy whitespace-nowrap">{lead.name}</td>
+                        <td className="px-4 py-3 text-navy/60 text-xs">
+                          {lead.phone && <div>{lead.phone}</div>}
+                          {lead.email && <div>{lead.email}</div>}
+                        </td>
+                        <td className="px-4 py-3 text-navy/60 text-xs">{lead.product_interest ?? '—'}</td>
+                        <td className="px-4 py-3 text-navy/60 text-xs">{lead.source_page ?? '—'}</td>
+
+                        {/* Status inline select */}
+                        <td className="px-4 py-3">
+                          <div className="relative">
+                            <select
+                              value={lead.lead_status}
+                              onChange={e => updateMut.mutate({ id: lead.id, data: { lead_status: e.target.value } })}
+                              className={`appearance-none pr-6 pl-2 py-0.5 rounded-full text-xs font-semibold border-0 outline-none cursor-pointer ${statusColor(lead.lead_status)}`}
+                            >
+                              {STATUS_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+                            </select>
+                            <ChevronDown className="absolute right-1 top-1 w-3 h-3 pointer-events-none opacity-50" />
+                          </div>
+                        </td>
+
+                        {/* Follow-up date */}
+                        <td className="px-4 py-3 text-xs text-navy/60">
+                          <input
+                            type="date"
+                            defaultValue={lead.follow_up_date ?? ''}
+                            onBlur={e => updateMut.mutate({ id: lead.id, data: { follow_up_date: e.target.value || null } })}
+                            className="border border-navy/15 rounded px-2 py-0.5 text-xs outline-none focus:border-steel w-32"
+                          />
+                        </td>
+
+                        {/* Last contact date */}
+                        <td className="px-4 py-3 text-xs text-navy/60">
+                          <input
+                            type="date"
+                            defaultValue={lead.last_contact_date ?? ''}
+                            onBlur={e => updateMut.mutate({ id: lead.id, data: { last_contact_date: e.target.value || null } })}
+                            className="border border-navy/15 rounded px-2 py-0.5 text-xs outline-none focus:border-steel w-32"
+                          />
+                        </td>
+
+                        {/* Notes toggle */}
+                        <td className="px-4 py-3 text-xs">
+                          <button
+                            onClick={() => {
+                              if (notesOpen === lead.id) { setNotesOpen(null); }
+                              else { setNotesOpen(lead.id); setNotesText(lead.notes ?? ''); }
+                            }}
+                            className="text-steel hover:text-steel/70 font-semibold"
+                          >
+                            {lead.notes ? 'Edit note' : '+ Note'}
+                          </button>
+                        </td>
+
+                        <td className="px-4 py-3 text-xs text-navy/50 whitespace-nowrap">
+                          {new Date(lead.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                        </td>
+                      </tr>
+
+                      {/* Inline notes row */}
+                      {notesOpen === lead.id && (
+                        <tr key={`notes-${lead.id}`} className="bg-navy/[0.02] border-t border-navy/8">
+                          <td colSpan={9} className="px-4 py-3">
+                            <div className="flex gap-2 items-start">
+                              <textarea
+                                value={notesText}
+                                onChange={e => setNotesText(e.target.value)}
+                                rows={2}
+                                placeholder="Add a note about this lead…"
+                                className="flex-1 border border-navy/20 rounded-lg px-3 py-2 text-sm outline-none focus:border-steel resize-none"
+                              />
+                              <Button size="sm" onClick={() => { updateMut.mutate({ id: lead.id, data: { notes: notesText } }); setNotesOpen(null); }}>Save</Button>
+                              <Button size="sm" variant="outline" onClick={() => setNotesOpen(null)}>Cancel</Button>
+                            </div>
+                            {lead.notes && <p className="text-xs text-navy/40 mt-1">Current: {lead.notes}</p>}
+                          </td>
+                        </tr>
+                      )}
+                    </>
                   ))}
                 </tbody>
               </table>
             </div>
 
             <div className="flex items-center justify-between mt-4">
-              <p className="font-body text-sm text-navy/60">
-                Showing {start}–{end} of {data.total} leads
-              </p>
+              <p className="text-sm text-navy/60">Showing {start}–{end} of {data.total}</p>
               <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setPage(p => Math.max(1, p - 1))}
-                  disabled={page === 1}
-                >
-                  Prev
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                  disabled={page === totalPages}
-                >
-                  Next
-                </Button>
+                <Button variant="outline" size="sm" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>Prev</Button>
+                <Button variant="outline" size="sm" onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}>Next</Button>
               </div>
             </div>
           </>
         )}
       </div>
+
+      {/* Add Lead Modal */}
+      {showAddModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-navy/10">
+              <h2 className="font-heading text-navy text-lg font-semibold">Add Lead Manually</h2>
+              <button onClick={() => { setShowAddModal(false); setAddForm({ ...EMPTY_FORM }); setAddError(''); }} className="text-navy/40 hover:text-navy"><X className="w-5 h-5" /></button>
+            </div>
+            <form onSubmit={handleAddSubmit} className="px-6 py-5 flex flex-col gap-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="col-span-2">
+                  <label className="block text-xs font-semibold text-navy/60 mb-1">Full Name *</label>
+                  <input value={addForm.name} onChange={e => setAddForm(f => ({ ...f, name: e.target.value }))} placeholder="e.g. Ramesh Kumar" className="w-full border border-navy/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-steel" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-navy/60 mb-1">Phone</label>
+                  <input type="tel" value={addForm.phone} onChange={e => setAddForm(f => ({ ...f, phone: e.target.value }))} placeholder="+91 98765 43210" className="w-full border border-navy/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-steel" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-navy/60 mb-1">Email</label>
+                  <input type="email" value={addForm.email} onChange={e => setAddForm(f => ({ ...f, email: e.target.value }))} placeholder="client@company.com" className="w-full border border-navy/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-steel" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-navy/60 mb-1">Product Interest</label>
+                  <select value={addForm.product_interest} onChange={e => setAddForm(f => ({ ...f, product_interest: e.target.value }))} className="w-full border border-navy/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-steel">
+                    <option value="">— Select product —</option>
+                    {PRODUCT_OPTIONS.map(p => <option key={p} value={p}>{p}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-navy/60 mb-1">Source / Form</label>
+                  <select value={addForm.source_page} onChange={e => setAddForm(f => ({ ...f, source_page: e.target.value }))} className="w-full border border-navy/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-steel">
+                    {SOURCE_PAGES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
+                  </select>
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-xs font-semibold text-navy/60 mb-1">Message / Notes</label>
+                  <textarea value={addForm.message} onChange={e => setAddForm(f => ({ ...f, message: e.target.value }))} rows={3} placeholder="Quantity, delivery location, requirements…" className="w-full border border-navy/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-steel resize-none" />
+                </div>
+              </div>
+              {addError && <p className="text-red-500 text-xs">{addError}</p>}
+              <div className="flex gap-3">
+                <Button type="submit" disabled={addMutation.isPending}>{addMutation.isPending ? 'Saving…' : 'Add Lead'}</Button>
+                <Button type="button" variant="outline" onClick={() => { setShowAddModal(false); setAddForm({ ...EMPTY_FORM }); setAddError(''); }}>Cancel</Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </AdminLayout>
   );
 }

@@ -10,16 +10,6 @@ import { TiptapEditor } from '@/components/editor/TiptapEditor';
 import { CoverImageUploader } from '@/components/ui/CoverImageUploader';
 import { createBlogPost, type ContentStatus } from '@/lib/api';
 
-const SERVICES = [
-  'Roofing Sheets', 'Wall Cladding', 'Decking Sheets',
-  'Color Coated Sheets', 'Galvanized Sheets', 'Polycarbonate Sheets', 'Industrial Roofing',
-];
-
-const INDUSTRIES = [
-  'Construction', 'Infrastructure', 'Real Estate',
-  'Agriculture', 'Manufacturing', 'Warehousing', 'Logistics',
-];
-
 const schema = z.object({
   title: z.string().min(1, 'Required'),
   slug: z.string().min(1, 'Required'),
@@ -27,8 +17,6 @@ const schema = z.object({
   body: z.string().default(''),
   author_name: z.string().optional(),
   category: z.string().optional(),
-  service: z.string().optional(),
-  industry: z.string().optional(),
   featured: z.boolean().default(false),
   featured_image: z.string().optional(),
   status: z.enum(['draft', 'scheduled', 'published']).default('draft'),
@@ -175,20 +163,6 @@ export function BlogCreatePage() {
                 <div>
                   <label className={labelCls}>Category</label>
                   <input {...register('category')} className={inputCls} placeholder="e.g. Industry Insights" />
-                </div>
-                <div>
-                  <label className={labelCls}>Service</label>
-                  <select {...register('service')} className={inputCls}>
-                    <option value="">— None —</option>
-                    {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label className={labelCls}>Industry</label>
-                  <select {...register('industry')} className={inputCls}>
-                    <option value="">— None —</option>
-                    {INDUSTRIES.map(i => <option key={i} value={i}>{i}</option>)}
-                  </select>
                 </div>
               </div>
 

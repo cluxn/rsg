@@ -60,6 +60,8 @@ export async function createLead(input: CreateLeadInput): Promise<number> {
   return leadId;
 }
 
+export type LeadStatus = 'new' | 'contacted' | 'meeting_scheduled' | 'converted' | 'closed' | 'lost' | 'junk';
+
 interface LeadRow {
   id: number;
   name: string;
@@ -68,20 +70,77 @@ interface LeadRow {
   product_interest: string | null;
   message: string | null;
   source_page: string | null;
+  lead_status: LeadStatus;
+  follow_up_date: string | null;
+  notes: string | null;
+  last_contact_date: string | null;
   webhook_sent: boolean;
   email_sent: boolean;
   created_at: string;
 }
 
-export async function getLeads(page: number, limit: number): Promise<{ leads: LeadRow[]; total: number }> {
+const LEAD_SELECT = 'id, name, phone, email, product_interest, message, source_page, lead_status, follow_up_date, notes, last_contact_date, webhook_sent, email_sent, created_at';
+
+export interface LeadFilters {
+  search?: string;
+  source_page?: string;
+  date_from?: string;
+  date_to?: string;
+}
+
+export async function getLeads(page: number, limit: number, filters?: LeadFilters): Promise<{ leads: LeadRow[]; total: number }> {
   const offset = (page - 1) * limit;
+  const conditions: string[] = [];
+  const params: (string | number)[] = [];
+
+  if (filters?.search) {
+    conditions.push('(name LIKE ? OR phone LIKE ? OR email LIKE ?)');
+    const like = `%${filters.search}%`;
+    params.push(like, like, like);
+  }
+  if (filters?.source_page) {
+    conditions.push('source_page = ?');
+    params.push(filters.source_page);
+  }
+  if (filters?.date_from) {
+    conditions.push('DATE(created_at) >= ?');
+    params.push(filters.date_from);
+  }
+  if (filters?.date_to) {
+    conditions.push('DATE(created_at) <= ?');
+    params.push(filters.date_to);
+  }
+
+  const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
+
   const leads = await query<LeadRow>(
-    'SELECT id, name, phone, email, product_interest, message, source_page, webhook_sent, email_sent, created_at FROM leads ORDER BY created_at DESC LIMIT ? OFFSET ?',
-    [limit, offset]
+    `SELECT ${LEAD_SELECT} FROM leads ${where} ORDER BY created_at DESC LIMIT ? OFFSET ?`,
+    [...params, limit, offset]
   );
-  const countResult = await query<{ total: number }>('SELECT COUNT(*) as total FROM leads');
+  const countResult = await query<{ total: number }>(
+    `SELECT COUNT(*) as total FROM leads ${where}`,
+    params
+  );
   const total = countResult[0]?.total ?? 0;
   return { leads, total };
+}
+
+export async function updateLead(id: number, data: {
+  lead_status?: LeadStatus;
+  follow_up_date?: string | null;
+  notes?: string | null;
+  last_contact_date?: string | null;
+}): Promise<void> {
+  const fields: string[] = [];
+  const params: (string | null)[] = [];
+
+  if (data.lead_status !== undefined) { fields.push('lead_status = ?'); params.push(data.lead_status); }
+  if (data.follow_up_date !== undefined) { fields.push('follow_up_date = ?'); params.push(data.follow_up_date); }
+  if (data.notes !== undefined) { fields.push('notes = ?'); params.push(data.notes); }
+  if (data.last_contact_date !== undefined) { fields.push('last_contact_date = ?'); params.push(data.last_contact_date); }
+
+  if (!fields.length) return;
+  await query(`UPDATE leads SET ${fields.join(', ')} WHERE id = ?`, [...params, id]);
 }
 
 export async function exportLeadsToCSV(): Promise<string> {

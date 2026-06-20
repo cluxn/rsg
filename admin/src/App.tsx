@@ -27,6 +27,7 @@ import { ClientLogosPage } from '@/pages/ClientLogos';
 import { AuthorsPage } from '@/pages/Authors';
 import { CategoriesPage } from '@/pages/Categories';
 import { MarketingPage } from '@/pages/Marketing';
+import { SidebarProvider } from '@/contexts/SidebarContext';
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
+        <SidebarProvider>
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
@@ -113,6 +115,7 @@ export default function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
+        </SidebarProvider>
       </AuthProvider>
     </QueryClientProvider>
   );
