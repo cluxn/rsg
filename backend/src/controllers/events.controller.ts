@@ -13,8 +13,19 @@ const createEventSchema = z.object({
   title: z.string().min(1),
   slug: z.string().min(1),
   body: z.string().default(''),
+  event_type: z.string().optional(),
+  location: z.string().optional(),
+  excerpt: z.string().optional(),
+  cover_image: z.string().optional(),
   event_date: z.string().optional(),
-  published: z.boolean().default(false),
+  end_date: z.string().optional(),
+  meta_title: z.string().optional(),
+  meta_description: z.string().optional(),
+  canonical_url: z.string().optional(),
+  og_image: z.string().optional(),
+  featured: z.boolean().default(false),
+  status: z.enum(['draft', 'scheduled', 'published']).default('draft'),
+  scheduled_at: z.string().nullable().optional(),
 });
 
 export async function getPublishedEvents(_req: Request, res: Response): Promise<void> {

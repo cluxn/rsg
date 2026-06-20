@@ -2,7 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Users, FileText, Megaphone, Search, Settings2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const CONTENT_PREFIXES = ['/blog', '/case-studies', '/testimonials', '/media', '/client-logos', '/authors', '/categories'];
+const CONTENT_PREFIXES = ['/blog', '/events', '/testimonials', '/media', '/client-logos', '/authors', '/categories'];
 
 const navItems = [
   { label: 'Dashboard', to: '/', exact: true },

@@ -13,9 +13,19 @@ const createPostSchema = z.object({
   title: z.string().min(1),
   slug: z.string().min(1),
   body: z.string().default(''),
+  category: z.string().optional(),
+  service: z.string().optional(),
+  industry: z.string().optional(),
+  excerpt: z.string().optional(),
+  featured_image: z.string().optional(),
+  author_name: z.string().optional(),
+  featured: z.boolean().default(false),
   meta_title: z.string().optional(),
   meta_description: z.string().optional(),
-  published: z.boolean().default(false),
+  canonical_url: z.string().optional(),
+  og_image: z.string().optional(),
+  status: z.enum(['draft', 'scheduled', 'published']).default('draft'),
+  scheduled_at: z.string().nullable().optional(),
 });
 
 export async function getPublishedPosts(_req: Request, res: Response): Promise<void> {

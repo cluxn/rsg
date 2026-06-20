@@ -1,9 +1,17 @@
-import { getBlogPost, getBlogPosts } from '@/lib/content';
+import { getBlogPost, getBlogPosts, BLOG_COVER_PLACEHOLDER } from '@/lib/content';
+import { extractToc } from '@/lib/toc';
 import { BlogPostBody } from '@/components/blog/BlogPostBody';
+import { TableOfContents } from '@/components/blog/TableOfContents';
+import { ShareButtons } from '@/components/blog/ShareButtons';
+import { BlogLeadForm } from '@/components/blog/BlogLeadForm';
+import { BlogCard } from '@/components/blog/BlogCard';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rsgprofilesheets.com';
 
 interface Props { params: Promise<{ slug: string }> }
 
@@ -13,7 +21,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return { title: 'Post Not Found' };
   return {
     title: post.meta_title ?? `${post.title} | RSG Profile Manufacturing`,
-    description: post.meta_description ?? undefined,
+    description: post.meta_description ?? post.excerpt ?? undefined,
+    alternates: post.canonical_url ? { canonical: post.canonical_url } : undefined,
+    openGraph: post.og_image ? { images: [post.og_image] } : undefined,
   };
 }
 
@@ -24,25 +34,88 @@ export async function generateStaticParams() {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = await getBlogPost(slug);
+  const [post, allPosts] = await Promise.all([getBlogPost(slug), getBlogPosts()]);
   if (!post) notFound();
+
+  const { html: bodyWithIds, toc } = extractToc(post.body ?? '');
+
   const date = new Date(post.published_at ?? post.created_at).toLocaleDateString('en-IN', {
     day: 'numeric', month: 'long', year: 'numeric',
   });
+
+  const recommended = allPosts.filter(p => p.slug !== slug).slice(0, 3);
+  const postUrl = `${SITE_URL}/blog/${slug}`;
+
   return (
     <>
-      <div className="bg-gradient-to-br from-navy via-steel to-cyan py-16 px-4">
+      {/* Dark hero */}
+      <div className="bg-gradient-to-br from-navy via-steel to-cyan py-12 px-4">
         <SectionContainer noPadding>
           <Link href="/blog" className="text-cyan/80 hover:text-cyan text-sm mb-4 inline-block">← Back to Blog</Link>
-          <h1 className="font-heading text-3xl md:text-4xl font-bold text-white leading-tight mb-3">{post.title}</h1>
-          <p className="text-white/60 text-sm">{date}</p>
+          <div className="flex flex-wrap gap-2 mb-3">
+            {post.category && (
+              <span className="inline-flex items-center rounded-full bg-white/15 text-white font-body text-xs font-semibold uppercase tracking-wide px-3 py-1">
+                {post.category}
+              </span>
+            )}
+            {post.service && (
+              <span className="inline-flex items-center rounded-full bg-orange/20 text-orange font-body text-xs font-semibold uppercase tracking-wide px-3 py-1">
+                {post.service}
+              </span>
+            )}
+          </div>
+          <h1 className="font-heading text-3xl md:text-4xl font-bold text-white leading-tight mb-3 max-w-3xl">{post.title}</h1>
+          <div className="flex items-center gap-4 text-white/60 text-sm">
+            {post.author_name && <span>{post.author_name}</span>}
+            <span>{date}</span>
+          </div>
         </SectionContainer>
       </div>
-      <SectionContainer className="py-16">
-        <div className="max-w-3xl mx-auto">
-          <BlogPostBody html={post.body} />
+
+      {/* Cover image */}
+      <div className="relative w-full h-64 md:h-96 overflow-hidden">
+        <Image
+          src={post.featured_image || BLOG_COVER_PLACEHOLDER}
+          alt={post.title}
+          fill
+          className="object-cover"
+          priority
+        />
+      </div>
+
+      {/* 3-column content */}
+      <SectionContainer className="py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr_280px] gap-8 items-start">
+
+          {/* Left: TOC + Share */}
+          <aside className="lg:sticky lg:top-24 self-start space-y-8">
+            <TableOfContents items={toc} />
+            <ShareButtons url={postUrl} title={post.title} />
+          </aside>
+
+          {/* Center: article body */}
+          <article className="min-w-0">
+            <BlogPostBody html={bodyWithIds} />
+          </article>
+
+          {/* Right: lead form */}
+          <aside className="lg:sticky lg:top-24 self-start">
+            <BlogLeadForm sourcePage={`blog/${slug}`} />
+          </aside>
         </div>
       </SectionContainer>
+
+      {/* Recommended posts */}
+      {recommended.length > 0 && (
+        <div className="border-t border-navy/10 bg-navy/[0.02]">
+          <SectionContainer className="py-12">
+            <h2 className="font-heading text-2xl text-navy font-bold mb-6">You might also like</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {recommended.map(p => <BlogCard key={p.slug} post={p} />)}
+            </div>
+          </SectionContainer>
+        </div>
+      )}
     </>
   );
 }

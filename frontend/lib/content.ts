@@ -1,11 +1,24 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
 
+export type ContentStatus = 'draft' | 'scheduled' | 'published';
+
+export const BLOG_COVER_PLACEHOLDER = '/images/blog-placeholder.svg';
+export const EVENT_COVER_PLACEHOLDER = '/images/event-placeholder.svg';
+
 export interface BlogListItem {
   id: number;
   slug: string;
   title: string;
+  category?: string;
+  service?: string;
+  industry?: string;
+  excerpt?: string;
+  featured_image?: string;
+  author_name?: string;
+  featured: boolean;
+  status: ContentStatus;
   meta_description?: string;
-  published_at: string;
+  published_at: string | null;
   created_at: string;
 }
 
@@ -13,10 +26,20 @@ export interface BlogPost {
   id: number;
   slug: string;
   title: string;
+  category?: string;
+  service?: string;
+  industry?: string;
+  excerpt?: string;
+  featured_image?: string;
+  author_name?: string;
+  featured: boolean;
   body: string;
   meta_title?: string;
   meta_description?: string;
-  published_at: string;
+  canonical_url?: string;
+  og_image?: string;
+  status: ContentStatus;
+  published_at: string | null;
   created_at: string;
 }
 
@@ -24,8 +47,20 @@ export interface EventItem {
   id: number;
   slug: string;
   title: string;
+  event_type?: string;
+  location?: string;
+  excerpt?: string;
+  cover_image?: string;
   body: string;
   event_date?: string;
+  end_date?: string;
+  featured: boolean;
+  status: ContentStatus;
+  meta_title?: string;
+  meta_description?: string;
+  canonical_url?: string;
+  og_image?: string;
+  published_at: string | null;
   created_at: string;
 }
 
@@ -53,6 +88,12 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
 export async function getEvents(): Promise<EventItem[]> {
   const res = await fetch(`${API_URL}/api/events`, { next: { revalidate: 60 } });
   if (!res.ok) return [];
+  return res.json();
+}
+
+export async function getEvent(slug: string): Promise<EventItem | null> {
+  const res = await fetch(`${API_URL}/api/events/${slug}`, { next: { revalidate: 60 } });
+  if (!res.ok) return null;
   return res.json();
 }
 
