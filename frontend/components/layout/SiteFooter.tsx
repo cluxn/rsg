@@ -24,7 +24,7 @@ interface SiteFooterProps {
 export function SiteFooter({ address, phone, email, hours }: SiteFooterProps) {
   const displayAddress = address || '53-A, Industrial Estate, Dada Nagar, Kanpur, UP 208022';
   const displayPhone   = phone   || '+91-9918522988';
-  const displayEmail   = email   || 'info@rsgprofilesheets.com';
+  const displayEmail   = email   || 'shivamgupta@rsgprofilesheets.com';
   const displayHours   = hours   || 'Mon–Sat 10 AM – 6 PM';
 
   return (
@@ -69,9 +69,9 @@ export function SiteFooter({ address, phone, email, hours }: SiteFooterProps) {
             ))}
           </nav>
 
-          {/* Col 3: Work */}
+          {/* Col 3: Company */}
           <nav className="flex flex-col gap-2">
-            <p className="font-heading text-white text-sm font-semibold mb-1">Work</p>
+            <p className="font-heading text-white text-sm font-semibold mb-1">Company</p>
             <Link href="/about" className={linkCls}>About</Link>
             <Link href="/testimonials" className={linkCls}>Testimonials</Link>
           </nav>

@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import { ScrollHero } from '@/components/sections/ScrollHero';
 import { StatsSection } from '@/components/sections/StatsSection';
+import { CapabilitySection } from '@/components/sections/CapabilitySection';
 import HomeQuoteForm from './HomeQuoteForm';
 import { getSettings } from '@/lib/api';
 
@@ -137,121 +138,8 @@ export default async function Home() {
           </a>
         </div>
       </div>
-      {/* Why Choose RSG strip */}
-      <section className="bg-white py-24 md:py-32 border-b border-off-white">
-        <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
-          <h2 className="font-heading text-2xl md:text-3xl font-bold text-ink text-center mb-12">
-            Why We&apos;re the Top Suppliers of Roofing Sheets &amp; Structural Steel in UP
-          </h2>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
-
-            {/* 1 — ISI Certified */}
-            <div className="flex flex-col items-center text-center gap-5 max-w-[220px] mx-auto" data-animate>
-              <div className="w-28 h-28 flex-shrink-0 flex items-center justify-center">
-                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-28 h-28 block">
-                  {/* sparkle accents */}
-                  <path d="M10 30 l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#fbbf24"/>
-                  <path d="M88 68 l1.5 3.5 3.5 1.5-3.5 1.5-1.5 3.5-1.5-3.5-3.5-1.5 3.5-1.5z" fill="#fdba74"/>
-                  <circle cx="90" cy="28" r="5" fill="#fbbf24" opacity="0.75"/>
-                  <circle cx="12" cy="76" r="4" fill="#fdba74" opacity="0.9"/>
-                  {/* shield — light fill + orange stroke outline */}
-                  <path d="M50 13 L82 26 L82 54 C82 76 50 94 50 94 C50 94 18 76 18 54 L18 26 Z" fill="#fff7ed" stroke="#f97316" strokeWidth="3.5" strokeLinejoin="round"/>
-                  {/* inner shield highlight band */}
-                  <path d="M50 20 L75 31 L75 54 C75 71 50 86 50 86 C50 86 25 71 25 54 L25 31 Z" fill="none" stroke="#fdba74" strokeWidth="1.5" opacity="0.7"/>
-                  {/* ISI text in orange */}
-                  <text x="50" y="50" textAnchor="middle" fontSize="17" fontWeight="900" fill="#ea580c" fontFamily="Arial, sans-serif" letterSpacing="2">ISI</text>
-                  {/* checkmark in orange */}
-                  <path d="M35 62 L45 73 L68 48" stroke="#f97316" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                </svg>
-              </div>
-              <div>
-                <p className="font-heading text-base font-bold text-ink mb-2">100% ISI Certified</p>
-                <p className="font-body text-sm text-ink/60 leading-relaxed">Every product manufactured to BIS &amp; ISI standards — no compromise on grade or quality.</p>
-              </div>
-            </div>
-
-            {/* 2 — Grade Assured */}
-            <div className="flex flex-col items-center text-center gap-5 max-w-[220px] mx-auto" data-animate="delay-1">
-              <div className="w-28 h-28 flex-shrink-0 flex items-center justify-center">
-                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-28 h-28 block">
-                  <circle cx="50" cy="8" r="6.5" fill="#fdba74" opacity="0.7"/>
-                  <circle cx="40" cy="4" r="4.5" fill="#fed7aa" opacity="0.6"/>
-                  <circle cx="61" cy="5" r="4" fill="#fdba74" opacity="0.55"/>
-                  <path d="M40 16 L60 16 L60 36 L40 36 Z" fill="#fdba74"/>
-                  <rect x="36" y="11" width="28" height="8" rx="4" fill="#fbbf24"/>
-                  <path d="M40 36 L60 36 L82 82 Q79 94 50 94 Q21 94 18 82 Z" fill="#fb923c"/>
-                  <path d="M40 36 L60 36 L82 82 Q79 94 50 94 Q21 94 18 82 Z" fill="none" stroke="#ea580c" strokeWidth="2"/>
-                  <path d="M34 64 L66 64 L82 82 Q79 94 50 94 Q21 94 18 82 Z" fill="#f97316"/>
-                  <path d="M34 64 Q40 59 46 64 Q52 69 58 64 Q62 61 66 64" stroke="white" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                  <circle cx="36" cy="78" r="6" fill="white" opacity="0.45"/>
-                  <circle cx="52" cy="72" r="4.5" fill="white" opacity="0.38"/>
-                  <circle cx="64" cy="80" r="4" fill="white" opacity="0.35"/>
-                  <line x1="62" y1="45" x2="67" y2="45" stroke="#ea580c" strokeWidth="2.5" strokeLinecap="round"/>
-                  <line x1="64" y1="53" x2="69" y2="53" stroke="#ea580c" strokeWidth="2.5" strokeLinecap="round"/>
-                  <line x1="62" y1="37" x2="67" y2="37" stroke="#ea580c" strokeWidth="2.5" strokeLinecap="round"/>
-                  <rect x="44" y="18" width="5" height="16" rx="2.5" fill="white" opacity="0.3"/>
-                  <path d="M46 38 L49 86" stroke="white" strokeWidth="4" opacity="0.22" strokeLinecap="round"/>
-                </svg>
-              </div>
-              <div>
-                <p className="font-heading text-base font-bold text-ink mb-2">100% Grade Assured</p>
-                <p className="font-body text-sm text-ink/60 leading-relaxed">All materials sourced from top-tier mills and verified for structural grade quality with strict checks.</p>
-              </div>
-            </div>
-
-            {/* 3 — Satisfied Clients */}
-            <div className="flex flex-col items-center text-center gap-5 max-w-[220px] mx-auto" data-animate="delay-2">
-              <div className="w-28 h-28 flex-shrink-0 flex items-center justify-center">
-                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-28 h-28 block">
-                  <path d="M22 7 L25 16 L34 16 L27 22 L30 31 L22 25 L14 31 L17 22 L10 16 L19 16 Z" fill="#FFC107"/>
-                  <path d="M50 4 L53 13 L62 13 L55 19 L58 28 L50 22 L42 28 L45 19 L38 13 L47 13 Z" fill="#FFC107"/>
-                  <path d="M78 7 L81 16 L90 16 L83 22 L86 31 L78 25 L70 31 L73 22 L66 16 L75 16 Z" fill="#FFC107"/>
-                  <path d="M5 98 C5 80 12 74 22 74 C32 74 39 80 39 98" fill="#fed7aa"/>
-                  <circle cx="22" cy="60" r="13" fill="#fed7aa"/>
-                  <path d="M61 98 C61 80 68 74 78 74 C88 74 95 80 95 98" fill="#fb923c"/>
-                  <circle cx="78" cy="60" r="13" fill="#fb923c"/>
-                  <path d="M30 98 C30 78 38 71 50 71 C62 71 70 78 70 98" fill="#f97316"/>
-                  <circle cx="50" cy="55" r="15" fill="#f97316"/>
-                </svg>
-              </div>
-              <div>
-                <p className="font-heading text-base font-bold text-ink mb-2">525+ Satisfied Clients</p>
-                <p className="font-body text-sm text-ink/60 leading-relaxed">Join our growing family of satisfied contractors, builders, and industrialists across Uttar Pradesh.</p>
-              </div>
-            </div>
-
-            {/* 4 — Support */}
-            <div className="flex flex-col items-center text-center gap-5 max-w-[220px] mx-auto" data-animate="delay-3">
-              <div className="w-28 h-28 flex-shrink-0 flex items-center justify-center">
-                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-28 h-28 block">
-                  <rect x="58" y="4" width="38" height="24" rx="7" fill="#f97316"/>
-                  <path d="M64 28 l-5 9 10-4" fill="#f97316"/>
-                  <circle cx="67" cy="16" r="3.5" fill="white"/>
-                  <circle cx="77" cy="16" r="3.5" fill="white"/>
-                  <circle cx="87" cy="16" r="3.5" fill="white"/>
-                  <circle cx="36" cy="32" r="18" fill="#fed7aa"/>
-                  <path d="M18 29 Q18 11 36 11 Q54 11 54 29 L54 20 Q54 9 36 9 Q18 9 18 20 Z" fill="#c2410c"/>
-                  <path d="M16 32 A20 20 0 0 1 56 32" stroke="#7c2d12" strokeWidth="5.5" fill="none" strokeLinecap="round"/>
-                  <rect x="10" y="29" width="10" height="17" rx="5" fill="#ea580c"/>
-                  <rect x="52" y="29" width="10" height="17" rx="5" fill="#ea580c"/>
-                  <path d="M62 42 Q68 47 65 58" stroke="#7c2d12" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
-                  <circle cx="64" cy="59" r="4.5" fill="#f97316"/>
-                  <path d="M10 72 C10 55 20 48 36 48 C52 48 62 55 62 72 L65 94 L8 94 Z" fill="#fb923c"/>
-                  <rect x="12" y="74" width="52" height="28" rx="4" fill="#7c2d12" opacity="0.8"/>
-                  <rect x="14" y="76" width="48" height="24" rx="3" fill="#fff7ed"/>
-                  <line x1="20" y1="83" x2="56" y2="83" stroke="#fdba74" strokeWidth="3" strokeLinecap="round"/>
-                  <line x1="20" y1="90" x2="50" y2="90" stroke="#fdba74" strokeWidth="3" strokeLinecap="round"/>
-                  <rect x="8" y="101" width="62" height="5" rx="2.5" fill="#ea580c" opacity="0.75"/>
-                </svg>
-              </div>
-              <div>
-                <p className="font-heading text-base font-bold text-ink mb-2">24/7 Customer Support</p>
-                <p className="font-body text-sm text-ink/60 leading-relaxed">Our support is as reliable as our steel — available around the clock for every query and order.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Why Choose RSG strip — capability bento section */}
+      <CapabilitySection />
 
       {/* Section 3 — Products teaser */}
       <SectionContainer className="gradient-mesh-light">
@@ -286,14 +174,6 @@ export default async function Home() {
             </div>
           ))}
         </div>
-        <div className="text-center mt-10">
-          <Link
-            href="/products"
-            className="inline-flex items-center justify-center font-heading font-semibold text-white gradient-sunrise rounded-lg px-6 py-3 shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 transition-all duration-200"
-          >
-            View All Products
-          </Link>
-        </div>
       </SectionContainer>
 
       {/* Section 3.5 — CTA strip + RSG Reliable Partner */}
@@ -315,10 +195,16 @@ export default async function Home() {
       </div>
       {/* RSG — Reliable Partner */}
       <SectionContainer className="bg-white border-b border-off-white">
-          <h2 className="font-heading text-2xl md:text-3xl font-bold text-ink text-center mb-10">
-            RSG Profile Manufacturing — Your Reliable Partner
-          </h2>
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-5xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Who We Are</p>
+            <h2 className="font-heading text-2xl md:text-3xl font-bold text-ink mb-3 max-w-2xl mx-auto">
+              RSG Profile Manufacturing — Your Reliable Partner
+            </h2>
+            <p className="font-body text-ink/60 max-w-xl mx-auto">
+              From our Kanpur facility to construction sites across UP — quality you can build on.
+            </p>
+          </div>
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Text content */}
             <div className="space-y-5">
               <p className="font-body text-ink/75 text-base leading-relaxed">
@@ -442,6 +328,7 @@ export default async function Home() {
 
             {/* Left — CTA + map */}
             <div className="flex flex-col gap-6 py-4">
+              <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em]">Get A Quote</p>
               <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy leading-snug">
                 Get Premium Roofing &amp; Steel at Factory-Direct Wholesale Prices — Across UP.
               </h2>
