@@ -54,7 +54,7 @@ export function SiteHeader({ whatsappNumber }: SiteHeaderProps) {
   const waUrl = `https://wa.me/${waNumber}`;
   return (
     <header className="fixed top-0 left-0 right-0 z-40 bg-navy/95 backdrop-blur-md">
-      <div className="mx-auto max-w-container px-6 sm:px-10 md:px-16 lg:px-24 flex items-center justify-between h-16">
+      <div className="mx-auto max-w-container px-8 sm:px-10 md:px-14 lg:px-16 flex items-center justify-between h-16">
         {/* Logo */}
         <Link href="/" className="flex items-center">
           <Image src="/rsg-logo.png" alt="RSG Profile Manufacturing" width={80} height={60} className="h-14 w-auto" priority />

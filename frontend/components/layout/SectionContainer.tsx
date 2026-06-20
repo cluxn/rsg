@@ -13,7 +13,7 @@ export function SectionContainer({
 }: SectionContainerProps) {
   return (
     <Tag className={`${noPadding ? '' : 'py-24 md:py-32'} ${className}`}>
-      <div className="mx-auto max-w-container px-6 sm:px-10 md:px-16 lg:px-24">
+      <div className="mx-auto max-w-container px-8 sm:px-10 md:px-14 lg:px-16">
         {children}
       </div>
     </Tag>
