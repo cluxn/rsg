@@ -66,7 +66,7 @@ export function GetQuoteCTA({ productName, slug }: GetQuoteCTAProps) {
           <>
             {!expanded && (
               <CTAButton variant="primary" size="lg" type="button" onClick={() => setExpanded(true)}>
-                Get Quote
+                Get Free Quote
               </CTAButton>
             )}
 
@@ -104,7 +104,7 @@ export function GetQuoteCTA({ productName, slug }: GetQuoteCTAProps) {
 
                   <div className="flex gap-3">
                     <CTAButton type="submit" variant="primary" size="md" disabled={loading} className="flex-1 justify-center">
-                      {loading ? 'Sending…' : 'Send Enquiry'}
+                      {loading ? 'Sending…' : 'Get Free Quote'}
                     </CTAButton>
                     <button
                       type="button"

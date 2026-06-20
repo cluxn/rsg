@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { getProduct, getProducts } from '@/lib/api';
 import { ProductPageHero } from '@/components/ui/ProductPageHero';
+import { StatsSection } from '@/components/sections/StatsSection';
 import { SpecsTable } from '@/components/ui/SpecsTable';
 import { GetQuoteCTA } from '@/components/ui/GetQuoteCTA';
 import { SectionContainer } from '@/components/layout/SectionContainer';
@@ -34,6 +35,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   return (
     <>
       <ProductPageHero product={product} />
+
+      <StatsSection />
 
       {/* Two-column section */}
       <SectionContainer>

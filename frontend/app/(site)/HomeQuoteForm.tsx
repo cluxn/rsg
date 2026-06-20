@@ -7,7 +7,26 @@ const inputClass =
 
 const labelClass = 'block font-body text-sm font-semibold text-navy mb-1';
 
-export default function HomeQuoteForm() {
+const PRODUCT_OPTIONS = [
+  'Colour Coated Roofing Sheet',
+  'Galvanized Plain Sheets',
+  'Decking Sheet',
+  'C and Z Purlins',
+  'MS Pipe',
+  'MS Plate, Channel & Angle',
+  'Polycarbonate Sheet',
+  'Crimping Sheet',
+  'Accessories',
+  'General Inquiry',
+];
+
+interface HomeQuoteFormProps {
+  defaultProduct?: string;
+  sourcePage?: string;
+  submitLabel?: string;
+}
+
+export default function HomeQuoteForm({ defaultProduct, sourcePage, submitLabel = 'Get Free Quote' }: HomeQuoteFormProps) {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -37,7 +56,7 @@ export default function HomeQuoteForm() {
       const res = await fetch(`${apiBase}/api/leads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, source_page: 'home', _hp: '' }),
+        body: JSON.stringify({ ...data, source_page: sourcePage ?? 'home', _hp: '' }),
       });
       if (res.status === 429) {
         setError('Too many requests — please try again in a few minutes.');
@@ -101,19 +120,12 @@ export default function HomeQuoteForm() {
           <select
             id="hqf-product" name="product_interest" required
             className={inputClass}
-            defaultValue=""
+            defaultValue={defaultProduct ?? ''}
           >
             <option value="" disabled>Select a product</option>
-            <option>Colour Coated Roofing Sheet</option>
-            <option>Galvanized Plain Sheet</option>
-            <option>Decking Sheet</option>
-            <option>C and Z Purlins</option>
-            <option>MS Pipe</option>
-            <option>MS Plate, Channel &amp; Angle</option>
-            <option>Polycarbonate Sheet</option>
-            <option>Crimping Sheet</option>
-            <option>Roofing Accessories</option>
-            <option>General Inquiry</option>
+            {PRODUCT_OPTIONS.map(opt => (
+              <option key={opt} value={opt}>{opt}</option>
+            ))}
           </select>
         </div>
       </div>
@@ -161,7 +173,7 @@ export default function HomeQuoteForm() {
           disabled={loading}
           className="font-heading font-semibold text-white gradient-sunrise rounded-lg px-10 py-3 shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 disabled:opacity-60 transition-all duration-200"
         >
-          {loading ? 'Sending…' : 'GET QUOTE'}
+          {loading ? 'Sending…' : submitLabel}
         </button>
       </div>
     </form>

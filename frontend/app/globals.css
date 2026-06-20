@@ -2,10 +2,20 @@
 @import "../../tailwind.shared.css";
 @plugin "@tailwindcss/typography";
 
+/* Bump the Tailwind font-size scale up one step so body copy is comfortably
+   readable for an older B2B audience without touching individual components. */
+@theme {
+  --font-size-xs:   0.875rem;   /* was 0.75  → 14px  */
+  --font-size-sm:   1rem;       /* was 0.875 → 16px  */
+  --font-size-base: 1.125rem;   /* was 1     → 18px  */
+  --font-size-lg:   1.25rem;    /* was 1.125 → 20px  */
+  --font-size-xl:   1.375rem;   /* was 1.25  → 22px  */
+}
+
 @layer base {
   body {
-    font-size: 1rem;
-    line-height: 1.7;
+    font-size: 1.0625rem;  /* 17px floor */
+    line-height: 1.75;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-sora), sans-serif;
@@ -14,7 +24,7 @@
   }
   p, span, li, td, label {
     font-family: var(--font-source-sans), sans-serif;
-    font-size: clamp(1rem, 1.1vw, 1.125rem);
+    font-size: clamp(1.0625rem, 1.25vw, 1.1875rem); /* 17px → 19px */
   }
 }
 

@@ -102,7 +102,7 @@ export function ContactForm() {
       {error && <p role="alert" className="font-body text-red-600 text-sm">{error}</p>}
 
       <CTAButton type="submit" variant="primary" size="lg" disabled={loading} className="w-full justify-center">
-        {loading ? 'Sending…' : 'Send Enquiry'}
+        {loading ? 'Sending…' : 'Get Free Quote'}
       </CTAButton>
     </form>
   );

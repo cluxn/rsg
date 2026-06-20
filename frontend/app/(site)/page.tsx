@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 import { SectionContainer } from '@/components/layout/SectionContainer';
@@ -143,91 +143,112 @@ export default async function Home() {
           <h2 className="font-heading text-2xl md:text-3xl font-bold text-ink text-center mb-12">
             Why We&apos;re the Top Suppliers of Roofing Sheets &amp; Structural Steel in UP
           </h2>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
 
             {/* 1 — ISI Certified */}
-            <div className="flex flex-col items-center text-center gap-4" data-animate>
-              <div className="w-20 h-20 flex items-center justify-center">
-                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-20">
-                  <circle cx="40" cy="40" r="36" fill="#fff7ed" stroke="#fdba74" strokeWidth="2" />
-                  <path d="M40 18 L52 24 L52 40 C52 50 40 58 40 58 C40 58 28 50 28 40 L28 24 Z" fill="#fed7aa" stroke="#ea580c" strokeWidth="2" strokeLinejoin="round" />
-                  <path d="M40 22 L50 27 L50 40 C50 48.5 40 55.5 40 55.5 C40 55.5 30 48.5 30 40 L30 27 Z" fill="url(#shield-fill)" />
-                  <path d="M34 40 L38 44 L47 35" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                  <text x="40" y="68" textAnchor="middle" fontFamily="sans-serif" fontSize="7" fontWeight="700" fill="#c2410c">ISI</text>
-                  <defs>
-                    <linearGradient id="shield-fill" x1="28" y1="22" x2="52" y2="56" gradientUnits="userSpaceOnUse">
-                      <stop stopColor="#fb923c" />
-                      <stop offset="1" stopColor="#c2410c" />
-                    </linearGradient>
-                  </defs>
+            <div className="flex flex-col items-center text-center gap-5 max-w-[220px] mx-auto" data-animate>
+              <div className="w-28 h-28 flex-shrink-0 flex items-center justify-center">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-28 h-28 block">
+                  {/* sparkle accents */}
+                  <path d="M10 30 l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#fbbf24"/>
+                  <path d="M88 68 l1.5 3.5 3.5 1.5-3.5 1.5-1.5 3.5-1.5-3.5-3.5-1.5 3.5-1.5z" fill="#fdba74"/>
+                  <circle cx="90" cy="28" r="5" fill="#fbbf24" opacity="0.75"/>
+                  <circle cx="12" cy="76" r="4" fill="#fdba74" opacity="0.9"/>
+                  {/* shield — light fill + orange stroke outline */}
+                  <path d="M50 13 L82 26 L82 54 C82 76 50 94 50 94 C50 94 18 76 18 54 L18 26 Z" fill="#fff7ed" stroke="#f97316" strokeWidth="3.5" strokeLinejoin="round"/>
+                  {/* inner shield highlight band */}
+                  <path d="M50 20 L75 31 L75 54 C75 71 50 86 50 86 C50 86 25 71 25 54 L25 31 Z" fill="none" stroke="#fdba74" strokeWidth="1.5" opacity="0.7"/>
+                  {/* ISI text in orange */}
+                  <text x="50" y="50" textAnchor="middle" fontSize="17" fontWeight="900" fill="#ea580c" fontFamily="Arial, sans-serif" letterSpacing="2">ISI</text>
+                  {/* checkmark in orange */}
+                  <path d="M35 62 L45 73 L68 48" stroke="#f97316" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
                 </svg>
               </div>
               <div>
-                <p className="font-heading text-sm font-bold text-ink mb-1.5">100% ISI Certified</p>
-                <p className="font-body text-xs text-ink/60 leading-relaxed">Every product manufactured to BIS &amp; ISI standards — no compromise on grade or quality.</p>
+                <p className="font-heading text-base font-bold text-ink mb-2">100% ISI Certified</p>
+                <p className="font-body text-sm text-ink/60 leading-relaxed">Every product manufactured to BIS &amp; ISI standards — no compromise on grade or quality.</p>
               </div>
             </div>
 
             {/* 2 — Grade Assured */}
-            <div className="flex flex-col items-center text-center gap-4" data-animate="delay-1">
-              <div className="w-20 h-20 flex items-center justify-center">
-                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-20">
-                  <circle cx="40" cy="40" r="36" fill="#fff7ed" stroke="#fdba74" strokeWidth="2" />
-                  <path d="M28 28 L28 52 C28 56 32 58 40 58 C48 58 52 56 52 52 L52 28" stroke="#ea580c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="#fed7aa" />
-                  <path d="M24 28 L56 28" stroke="#ea580c" strokeWidth="2.5" strokeLinecap="round" />
-                  <path d="M35 28 L35 22 L45 22 L45 28" stroke="#ea580c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                  <path d="M33 38 L37 42 L47 33" stroke="#ea580c" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                  <text x="40" y="70" textAnchor="middle" fontFamily="sans-serif" fontSize="6.5" fontWeight="700" fill="#c2410c">TESTED</text>
+            <div className="flex flex-col items-center text-center gap-5 max-w-[220px] mx-auto" data-animate="delay-1">
+              <div className="w-28 h-28 flex-shrink-0 flex items-center justify-center">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-28 h-28 block">
+                  <circle cx="50" cy="8" r="6.5" fill="#fdba74" opacity="0.7"/>
+                  <circle cx="40" cy="4" r="4.5" fill="#fed7aa" opacity="0.6"/>
+                  <circle cx="61" cy="5" r="4" fill="#fdba74" opacity="0.55"/>
+                  <path d="M40 16 L60 16 L60 36 L40 36 Z" fill="#fdba74"/>
+                  <rect x="36" y="11" width="28" height="8" rx="4" fill="#fbbf24"/>
+                  <path d="M40 36 L60 36 L82 82 Q79 94 50 94 Q21 94 18 82 Z" fill="#fb923c"/>
+                  <path d="M40 36 L60 36 L82 82 Q79 94 50 94 Q21 94 18 82 Z" fill="none" stroke="#ea580c" strokeWidth="2"/>
+                  <path d="M34 64 L66 64 L82 82 Q79 94 50 94 Q21 94 18 82 Z" fill="#f97316"/>
+                  <path d="M34 64 Q40 59 46 64 Q52 69 58 64 Q62 61 66 64" stroke="white" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                  <circle cx="36" cy="78" r="6" fill="white" opacity="0.45"/>
+                  <circle cx="52" cy="72" r="4.5" fill="white" opacity="0.38"/>
+                  <circle cx="64" cy="80" r="4" fill="white" opacity="0.35"/>
+                  <line x1="62" y1="45" x2="67" y2="45" stroke="#ea580c" strokeWidth="2.5" strokeLinecap="round"/>
+                  <line x1="64" y1="53" x2="69" y2="53" stroke="#ea580c" strokeWidth="2.5" strokeLinecap="round"/>
+                  <line x1="62" y1="37" x2="67" y2="37" stroke="#ea580c" strokeWidth="2.5" strokeLinecap="round"/>
+                  <rect x="44" y="18" width="5" height="16" rx="2.5" fill="white" opacity="0.3"/>
+                  <path d="M46 38 L49 86" stroke="white" strokeWidth="4" opacity="0.22" strokeLinecap="round"/>
                 </svg>
               </div>
               <div>
-                <p className="font-heading text-sm font-bold text-ink mb-1.5">100% Grade Assured</p>
-                <p className="font-body text-xs text-ink/60 leading-relaxed">All materials sourced from top-tier mills and verified for structural grade quality with strict checks.</p>
+                <p className="font-heading text-base font-bold text-ink mb-2">100% Grade Assured</p>
+                <p className="font-body text-sm text-ink/60 leading-relaxed">All materials sourced from top-tier mills and verified for structural grade quality with strict checks.</p>
               </div>
             </div>
 
             {/* 3 — Satisfied Clients */}
-            <div className="flex flex-col items-center text-center gap-4" data-animate="delay-2">
-              <div className="w-20 h-20 flex items-center justify-center">
-                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-20">
-                  <circle cx="40" cy="40" r="36" fill="#fff7ed" stroke="#fdba74" strokeWidth="2" />
-                  <circle cx="28" cy="34" r="7" fill="#fed7aa" stroke="#ea580c" strokeWidth="1.5" />
-                  <path d="M14 56 C14 47 20 43 28 43 C34 43 39 46 40 50" fill="#fed7aa" stroke="#ea580c" strokeWidth="1.5" strokeLinecap="round" />
-                  <circle cx="40" cy="31" r="9" fill="#fb923c" stroke="#ea580c" strokeWidth="1.5" />
-                  <path d="M24 58 C24 47 31 43 40 43 C49 43 56 47 56 58" fill="#fb923c" stroke="#ea580c" strokeWidth="1.5" strokeLinecap="round" />
-                  <circle cx="52" cy="34" r="7" fill="#fed7aa" stroke="#ea580c" strokeWidth="1.5" />
-                  <path d="M40 50 C41 46 46 43 52 43 C60 43 66 47 66 56" fill="#fed7aa" stroke="#ea580c" strokeWidth="1.5" strokeLinecap="round" />
-                  {[26,33,40,47,54].map((x,i) => (
-                    <path key={i} d={`M${x} 17 l1.2 2.4 2.6 0.4-1.9 1.8 0.4 2.6-2.3-1.2-2.3 1.2 0.4-2.6-1.9-1.8 2.6-0.4z`} fill={i<4?'#f97316':'#fed7aa'} />
-                  ))}
+            <div className="flex flex-col items-center text-center gap-5 max-w-[220px] mx-auto" data-animate="delay-2">
+              <div className="w-28 h-28 flex-shrink-0 flex items-center justify-center">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-28 h-28 block">
+                  <path d="M22 7 L25 16 L34 16 L27 22 L30 31 L22 25 L14 31 L17 22 L10 16 L19 16 Z" fill="#FFC107"/>
+                  <path d="M50 4 L53 13 L62 13 L55 19 L58 28 L50 22 L42 28 L45 19 L38 13 L47 13 Z" fill="#FFC107"/>
+                  <path d="M78 7 L81 16 L90 16 L83 22 L86 31 L78 25 L70 31 L73 22 L66 16 L75 16 Z" fill="#FFC107"/>
+                  <path d="M5 98 C5 80 12 74 22 74 C32 74 39 80 39 98" fill="#fed7aa"/>
+                  <circle cx="22" cy="60" r="13" fill="#fed7aa"/>
+                  <path d="M61 98 C61 80 68 74 78 74 C88 74 95 80 95 98" fill="#fb923c"/>
+                  <circle cx="78" cy="60" r="13" fill="#fb923c"/>
+                  <path d="M30 98 C30 78 38 71 50 71 C62 71 70 78 70 98" fill="#f97316"/>
+                  <circle cx="50" cy="55" r="15" fill="#f97316"/>
                 </svg>
               </div>
               <div>
-                <p className="font-heading text-sm font-bold text-ink mb-1.5">525+ Satisfied Clients</p>
-                <p className="font-body text-xs text-ink/60 leading-relaxed">Join our growing family of satisfied contractors, builders, and industrialists across Uttar Pradesh.</p>
+                <p className="font-heading text-base font-bold text-ink mb-2">525+ Satisfied Clients</p>
+                <p className="font-body text-sm text-ink/60 leading-relaxed">Join our growing family of satisfied contractors, builders, and industrialists across Uttar Pradesh.</p>
               </div>
             </div>
 
             {/* 4 — Support */}
-            <div className="flex flex-col items-center text-center gap-4" data-animate="delay-3">
-              <div className="w-20 h-20 flex items-center justify-center">
-                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-20">
-                  <circle cx="40" cy="40" r="36" fill="#fff7ed" stroke="#fdba74" strokeWidth="2" />
-                  <circle cx="40" cy="26" r="10" fill="#fed7aa" stroke="#ea580c" strokeWidth="1.5" />
-                  <path d="M22 52 C22 42 30 38 40 38 C50 38 58 42 58 52" fill="#fed7aa" stroke="#ea580c" strokeWidth="1.5" strokeLinecap="round" />
-                  <path d="M24 38 A16 16 0 0 1 56 38" stroke="#ea580c" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-                  <rect x="20" y="37" width="7" height="11" rx="3.5" fill="#fb923c" stroke="#c2410c" strokeWidth="1.2" />
-                  <rect x="53" y="37" width="7" height="11" rx="3.5" fill="#fb923c" stroke="#c2410c" strokeWidth="1.2" />
-                  <path d="M60 46 Q65 50 62 58" stroke="#ea580c" strokeWidth="2" strokeLinecap="round" fill="none" />
-                  <circle cx="62" cy="58" r="2.5" fill="#f97316" />
+            <div className="flex flex-col items-center text-center gap-5 max-w-[220px] mx-auto" data-animate="delay-3">
+              <div className="w-28 h-28 flex-shrink-0 flex items-center justify-center">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-28 h-28 block">
+                  <rect x="58" y="4" width="38" height="24" rx="7" fill="#f97316"/>
+                  <path d="M64 28 l-5 9 10-4" fill="#f97316"/>
+                  <circle cx="67" cy="16" r="3.5" fill="white"/>
+                  <circle cx="77" cy="16" r="3.5" fill="white"/>
+                  <circle cx="87" cy="16" r="3.5" fill="white"/>
+                  <circle cx="36" cy="32" r="18" fill="#fed7aa"/>
+                  <path d="M18 29 Q18 11 36 11 Q54 11 54 29 L54 20 Q54 9 36 9 Q18 9 18 20 Z" fill="#c2410c"/>
+                  <path d="M16 32 A20 20 0 0 1 56 32" stroke="#7c2d12" strokeWidth="5.5" fill="none" strokeLinecap="round"/>
+                  <rect x="10" y="29" width="10" height="17" rx="5" fill="#ea580c"/>
+                  <rect x="52" y="29" width="10" height="17" rx="5" fill="#ea580c"/>
+                  <path d="M62 42 Q68 47 65 58" stroke="#7c2d12" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
+                  <circle cx="64" cy="59" r="4.5" fill="#f97316"/>
+                  <path d="M10 72 C10 55 20 48 36 48 C52 48 62 55 62 72 L65 94 L8 94 Z" fill="#fb923c"/>
+                  <rect x="12" y="74" width="52" height="28" rx="4" fill="#7c2d12" opacity="0.8"/>
+                  <rect x="14" y="76" width="48" height="24" rx="3" fill="#fff7ed"/>
+                  <line x1="20" y1="83" x2="56" y2="83" stroke="#fdba74" strokeWidth="3" strokeLinecap="round"/>
+                  <line x1="20" y1="90" x2="50" y2="90" stroke="#fdba74" strokeWidth="3" strokeLinecap="round"/>
+                  <rect x="8" y="101" width="62" height="5" rx="2.5" fill="#ea580c" opacity="0.75"/>
                 </svg>
               </div>
               <div>
-                <p className="font-heading text-sm font-bold text-ink mb-1.5">24/7 Customer Support</p>
-                <p className="font-body text-xs text-ink/60 leading-relaxed">Our support is as reliable as our steel — available around the clock for every query and order.</p>
+                <p className="font-heading text-base font-bold text-ink mb-2">24/7 Customer Support</p>
+                <p className="font-body text-sm text-ink/60 leading-relaxed">Our support is as reliable as our steel — available around the clock for every query and order.</p>
               </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -241,10 +262,10 @@ export default async function Home() {
             From roofing sheets to structural steel — a complete range for construction projects.
           </p>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {FEATURED_PRODUCTS.map(product => (
             <div key={product.name} className="glow-card rounded-xl overflow-hidden group flex flex-col">
-              <div className="relative h-64 overflow-hidden">
+              <div className="relative h-44 overflow-hidden">
                 <Image
                   src={product.image}
                   alt={product.name}
@@ -252,9 +273,9 @@ export default async function Home() {
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
-              <div className="p-6 flex flex-col flex-1">
-                <h3 className="font-heading text-lg text-ink font-semibold mb-2">{product.name}</h3>
-                <p className="font-body text-sm text-ink/60 mb-4 flex-1">{product.desc}</p>
+              <div className="p-4 flex flex-col flex-1">
+                <h3 className="font-heading text-base text-ink font-semibold mb-1.5">{product.name}</h3>
+                <p className="font-body text-sm text-ink/60 mb-3 flex-1 line-clamp-2">{product.desc}</p>
                 <Link
                   href={`/products/${product.slug}`}
                   className="inline-flex items-center gap-1.5 font-heading text-sm font-semibold text-orange hover:gap-3 transition-all duration-200"
@@ -276,10 +297,10 @@ export default async function Home() {
       </SectionContainer>
 
       {/* Section 3.5 — CTA strip + RSG Reliable Partner */}
-      {/* Banner strip */}
-      <div className="bg-[#f0ebe0] border-b border-[#ddd4be] py-12">
+      {/* Banner strip — dark to break color rhythm after consecutive light sections */}
+      <div className="gradient-mesh-dark py-16">
         <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32 flex flex-col items-center text-center gap-5">
-          <h2 className="font-heading text-xl md:text-2xl font-bold text-navy max-w-2xl leading-snug">
+          <h2 className="font-heading text-xl md:text-2xl font-bold text-white max-w-2xl leading-snug">
             Ready to Transform Your Construction Projects with Premium Roofing &amp; Steel?
           </h2>
           <a
@@ -288,17 +309,16 @@ export default async function Home() {
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center font-heading font-semibold text-white gradient-sunrise rounded-lg px-7 py-3 shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 transition-all duration-200"
           >
-            Get Bulk Quote
+            Get Free Quote
           </a>
         </div>
       </div>
       {/* RSG — Reliable Partner */}
-      <section className="bg-white py-24 md:py-32 border-b border-off-white">
-        <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
+      <SectionContainer className="bg-white border-b border-off-white">
           <h2 className="font-heading text-2xl md:text-3xl font-bold text-ink text-center mb-10">
             RSG Profile Manufacturing — Your Reliable Partner
           </h2>
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-5xl mx-auto">
             {/* Text content */}
             <div className="space-y-5">
               <p className="font-body text-ink/75 text-base leading-relaxed">
@@ -335,11 +355,10 @@ export default async function Home() {
               />
             </div>
           </div>
-        </div>
-      </section>
+      </SectionContainer>
 
       {/* Section 6 — Client logo strip */}
-      <SectionContainer className="bg-white border-t-4 border-t-orange">
+      <SectionContainer className="gradient-mesh-light">
         <div className="text-center mb-12">
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Brand Partners</p>
           <h2 className="font-heading text-3xl text-ink font-bold mb-3">Our Clients & Partners</h2>
@@ -388,28 +407,30 @@ export default async function Home() {
 
         </div>
 
-        {/* Single scrolling row — all testimonials, full viewport width */}
-        <div
-          className="mt-14 overflow-hidden"
-          style={{ WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)', maskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)' }}
-        >
-          <div className="marquee-track gap-5" style={{ animationDuration: '70s' }}>
+        {/* Single scrolling row */}
+        <div className="mt-14 px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
+          <div
+            className="overflow-hidden"
+            style={{ WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)', maskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)' }}
+          >
+          <div className="marquee-track gap-6" style={{ animationDuration: '120s' }}>
             {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
-              <div key={i} className="glow-card-dark rounded-xl p-5 w-72 flex-shrink-0">
-                <div className="flex gap-0.5 mb-3">
+              <div key={i} className="glow-card-dark rounded-xl p-6 w-80 flex-shrink-0">
+                <div className="flex gap-1 mb-4">
                   {Array.from({ length: t.rating }).map((_, j) => (
-                    <svg key={j} className="w-3.5 h-3.5 text-gold" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                    <svg key={j} className="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
                 </div>
-                <p className="font-body text-white/80 italic mb-3 leading-relaxed text-sm">"{t.quote}"</p>
+                <p className="font-body text-white/80 italic mb-4 leading-relaxed text-base">"{t.quote}"</p>
                 <div>
-                  <p className="font-heading text-sm text-white font-semibold">{t.name}</p>
-                  <p className="font-body text-xs text-white/45 mt-0.5">{t.source}</p>
+                  <p className="font-heading text-base text-white font-semibold">{t.name}</p>
+                  <p className="font-body text-sm text-white/50 mt-1">{t.source}</p>
                 </div>
               </div>
             ))}
+          </div>
           </div>
         </div>
       </section>
@@ -419,8 +440,8 @@ export default async function Home() {
         <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
 
-            {/* Left — CTA */}
-            <div className="flex flex-col justify-center gap-6 py-4">
+            {/* Left — CTA + map */}
+            <div className="flex flex-col gap-6 py-4">
               <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy leading-snug">
                 Get Premium Roofing &amp; Steel at Factory-Direct Wholesale Prices — Across UP.
               </h2>
@@ -430,6 +451,18 @@ export default async function Home() {
               <p className="font-body text-ink/65 text-base leading-relaxed">
                 Source ISI-certified roofing sheets, MS pipes, purlins, and structural steel directly from our Kanpur manufacturing facility. We supply contractors, builders, and traders across Uttar Pradesh at trade pricing — with delivery in 2–3 days.
               </p>
+              {/* Map — helps B2B buyers verify the facility is real */}
+              <div className="rounded-xl overflow-hidden border border-[#ddd4be] shadow-sm flex-1 min-h-[220px]">
+                <iframe
+                  src="https://maps.google.com/maps?q=RSG+Profile+Manufacturing+Pvt+Ltd,+Dada+Nagar+Industrial+Estate,+Kanpur&output=embed"
+                  width="100%"
+                  height="100%"
+                  loading="lazy"
+                  title="RSG Profile Manufacturing — Kanpur facility"
+                  className="block w-full h-full min-h-[220px]"
+                />
+              </div>
+
               <div>
                 <a
                   href="https://wa.me/919918522988?text=Hi%2C%20I%20would%20like%20to%20get%20a%20bulk%20quote%20for%20roofing%20and%20steel%20materials."

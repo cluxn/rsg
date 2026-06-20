@@ -138,15 +138,15 @@ export function SiteHeader({ whatsappNumber }: SiteHeaderProps) {
             </div>
           </div>
 
-          {/* 2. Work — mega menu */}
+          {/* 2. Company — mega menu */}
           <div className="group/work relative">
             <span className="font-body text-sm text-white/80 hover:text-white transition-colors py-4 inline-flex items-center gap-1 cursor-default select-none">
-              Work
+              Company
               <ChevronDown />
             </span>
             <div className="invisible group-hover/work:visible opacity-0 group-hover/work:opacity-100 transition-opacity absolute top-full -left-4 pt-2 z-50 w-[420px]">
               <div className="bg-white rounded-xl shadow-2xl border border-navy/8 p-5">
-                <p className="font-body text-[10px] font-semibold tracking-[0.18em] text-navy/40 uppercase mb-4">Our Work &amp; Company</p>
+                <p className="font-body text-[10px] font-semibold tracking-[0.18em] text-navy/40 uppercase mb-4">Our Company &amp; Company</p>
                 <div className="grid grid-cols-2 gap-2">
                   <Link href="/about" className="flex items-start gap-3 p-3 rounded-lg hover:bg-orange/5 transition-colors group">
                     <span className="w-9 h-9 rounded-lg bg-orange/10 flex items-center justify-center shrink-0 mt-0.5">
@@ -232,7 +232,7 @@ export function SiteHeader({ whatsappNumber }: SiteHeaderProps) {
           rel="noopener noreferrer"
           className="inline-flex items-center justify-center font-heading font-semibold rounded-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange gradient-sunrise text-white shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 border border-transparent px-4 py-2 text-sm"
         >
-          Get Quote
+          Get Free Quote
         </a>
 
         {/* Mobile menu — CSS-only disclosure */}
@@ -289,10 +289,10 @@ export function SiteHeader({ whatsappNumber }: SiteHeaderProps) {
               </div>
             </details>
 
-            {/* Work */}
+            {/* Company */}
             <details className="group">
               <summary className="list-none cursor-pointer font-body text-white/80 hover:text-white transition-colors flex items-center justify-between">
-                Work
+                Company
                 <ChevronDown />
               </summary>
               <div className="pl-4 mt-2 flex flex-col gap-3">
