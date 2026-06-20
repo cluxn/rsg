@@ -12,8 +12,8 @@ export function SectionContainer({
   noPadding = false,
 }: SectionContainerProps) {
   return (
-    <Tag className={`${noPadding ? '' : 'py-24 md:py-32'} ${className}`}>
-      <div className="mx-auto max-w-container px-8 sm:px-10 md:px-14 lg:px-16">
+    <Tag className={`${noPadding ? '' : 'py-28 md:py-40'} ${className}`}>
+      <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
         {children}
       </div>
     </Tag>

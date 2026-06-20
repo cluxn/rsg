@@ -20,13 +20,13 @@ const PPGI_BRANDS = [
 ];
 
 const PRODUCT_CATEGORIES = [
-  { name: 'Decking Sheet', slug: 'decking-sheet' },
-  { name: 'Galvanized Plain Sheets', slug: 'galvanized-plain-sheets' },
-  { name: 'C and Z Purlins', slug: 'purlins' },
-  { name: 'Crimping Sheet', slug: 'crimping-sheet' },
-  { name: 'MS Plate / Channel / Angle', slug: 'ms-plate-channel-angle' },
-  { name: 'Polycarbonate Sheet', slug: 'polycarbonate-sheet' },
-  { name: 'MS Pipe', slug: 'ms-pipe' },
+  { name: 'Decking Sheet', slug: 'decking-sheet', iconPath: 'M3 7h18M3 12h18M3 17h18' },
+  { name: 'Galvanized Plain Sheets', slug: 'galvanized-plain-sheets', iconPath: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
+  { name: 'C and Z Purlins', slug: 'purlins', iconPath: 'M4 5h7M4 9h7M4 13h7M16 5v14M20 5v14' },
+  { name: 'Crimping Sheet', slug: 'crimping-sheet', iconPath: 'M6 9c1.5-2 3-2 4.5 0s3 2 4.5 0M6 15c1.5-2 3-2 4.5 0s3 2 4.5 0M3 5h18M3 19h18' },
+  { name: 'MS Plate / Channel / Angle', slug: 'ms-plate-channel-angle', iconPath: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4' },
+  { name: 'Polycarbonate Sheet', slug: 'polycarbonate-sheet', iconPath: 'M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z' },
+  { name: 'MS Pipe', slug: 'ms-pipe', iconPath: 'M12 6v6m0 0v6m0-6h6m-6 0H6' },
 ];
 
 function ChevronRight() {
@@ -45,16 +45,16 @@ function ChevronDown() {
   );
 }
 
-const dropdownItem = 'block px-4 py-2 text-sm font-body text-navy hover:bg-steel/10 transition-colors';
+const dropdownItem = 'block px-4 py-2 text-sm font-body text-navy hover:bg-orange/10 transition-colors';
 const dropdownList = 'rounded-md shadow-xl border border-navy/10 bg-white py-2';
-const flyout = 'invisible group-hover/products:visible opacity-0 group-hover/products:opacity-100 transition-opacity absolute top-full left-0 pt-1 w-64 z-50';
+const flyout = 'invisible group-hover/products:visible opacity-0 group-hover/products:opacity-100 transition-opacity absolute top-full -left-4 pt-2 w-72 z-50';
 
 export function SiteHeader({ whatsappNumber }: SiteHeaderProps) {
   const waNumber = (whatsappNumber ?? '9918522988').replace(/[^0-9+]/g, '');
   const waUrl = `https://wa.me/${waNumber}`;
   return (
     <header className="fixed top-0 left-0 right-0 z-40 bg-navy/95 backdrop-blur-md">
-      <div className="mx-auto max-w-container px-8 sm:px-10 md:px-14 lg:px-16 flex items-center justify-between h-16">
+      <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32 flex items-center justify-between h-16">
         {/* Logo */}
         <Link href="/" className="flex items-center">
           <Image src="/rsg-logo.png" alt="RSG Profile Manufacturing" width={80} height={60} className="h-14 w-auto" priority />
@@ -70,56 +70,71 @@ export function SiteHeader({ whatsappNumber }: SiteHeaderProps) {
               <ChevronDown />
             </Link>
             <div className={flyout}>
-              <ul className={dropdownList}>
-                <li className="group/ccrs relative">
-                  <Link href="/products/colour-coated-roofing-sheet" className="flex items-center justify-between gap-2 px-4 py-2 text-sm font-body text-navy hover:bg-steel/10 transition-colors">
-                    Colour Coated Roofing Sheet
-                    <ChevronRight />
-                  </Link>
-                  <div className="invisible group-hover/ccrs:visible opacity-0 group-hover/ccrs:opacity-100 transition-opacity absolute left-full top-0 pl-1 w-56 z-50">
-                    <ul className={dropdownList}>
-                      <li className="group/ppgl relative">
-                        <span className="flex items-center justify-between gap-2 px-4 py-2 text-sm font-body text-navy hover:bg-steel/10 transition-colors cursor-default">
-                          PPGL
-                          <ChevronRight />
-                        </span>
-                        <div className="invisible group-hover/ppgl:visible opacity-0 group-hover/ppgl:opacity-100 transition-opacity absolute left-full top-0 pl-1 w-52 z-50">
-                          <ul className={dropdownList}>
-                            {PPGL_BRANDS.map((b) => (
-                              <li key={b.slug}>
-                                <Link href={`/products/${b.slug}`} className={dropdownItem}>{b.name}</Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </li>
-                      <li className="group/ppgi relative">
-                        <span className="flex items-center justify-between gap-2 px-4 py-2 text-sm font-body text-navy hover:bg-steel/10 transition-colors cursor-default">
-                          PPGI
-                          <ChevronRight />
-                        </span>
-                        <div className="invisible group-hover/ppgi:visible opacity-0 group-hover/ppgi:opacity-100 transition-opacity absolute left-full top-0 pl-1 w-52 z-50">
-                          <ul className={dropdownList}>
-                            {PPGI_BRANDS.map((b) => (
-                              <li key={b.slug}>
-                                <Link href={`/products/${b.slug}`} className={dropdownItem}>{b.name}</Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </li>
-                      <li>
-                        <Link href="/products/accessories" className={dropdownItem}>Accessories</Link>
-                      </li>
-                    </ul>
+              <div className="bg-white rounded-xl shadow-2xl border border-navy/8 p-4">
+                <p className="font-body text-[10px] font-semibold tracking-[0.18em] text-navy/40 uppercase mb-3">Roofing &amp; Steel Products</p>
+                <div className="flex flex-col gap-0.5">
+                  {/* Colour Coated Roofing Sheet — has sub-flyout */}
+                  <div className="group/ccrs relative">
+                    <Link href="/products/colour-coated-roofing-sheet" className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-orange/5 transition-colors group">
+                      <span className="w-8 h-8 rounded-lg bg-orange/10 flex items-center justify-center shrink-0">
+                        <svg className="w-4 h-4 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9" />
+                        </svg>
+                      </span>
+                      <span className="flex-1 font-heading text-sm font-bold text-navy group-hover:text-orange transition-colors">Colour Coated Roofing Sheet</span>
+                      <ChevronRight />
+                    </Link>
+                    <div className="invisible group-hover/ccrs:visible opacity-0 group-hover/ccrs:opacity-100 transition-opacity absolute left-full top-0 pl-1 w-56 z-50">
+                      <ul className={dropdownList}>
+                        <li className="group/ppgl relative">
+                          <span className="flex items-center justify-between gap-2 px-4 py-2 text-sm font-body text-navy hover:bg-orange/10 transition-colors cursor-default">
+                            PPGL
+                            <ChevronRight />
+                          </span>
+                          <div className="invisible group-hover/ppgl:visible opacity-0 group-hover/ppgl:opacity-100 transition-opacity absolute left-full top-0 pl-1 w-52 z-50">
+                            <ul className={dropdownList}>
+                              {PPGL_BRANDS.map((b) => (
+                                <li key={b.slug}>
+                                  <Link href={`/products/${b.slug}`} className={dropdownItem}>{b.name}</Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </li>
+                        <li className="group/ppgi relative">
+                          <span className="flex items-center justify-between gap-2 px-4 py-2 text-sm font-body text-navy hover:bg-orange/10 transition-colors cursor-default">
+                            PPGI
+                            <ChevronRight />
+                          </span>
+                          <div className="invisible group-hover/ppgi:visible opacity-0 group-hover/ppgi:opacity-100 transition-opacity absolute left-full top-0 pl-1 w-52 z-50">
+                            <ul className={dropdownList}>
+                              {PPGI_BRANDS.map((b) => (
+                                <li key={b.slug}>
+                                  <Link href={`/products/${b.slug}`} className={dropdownItem}>{b.name}</Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </li>
+                        <li>
+                          <Link href="/products/accessories" className={dropdownItem}>Accessories</Link>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                </li>
-                {PRODUCT_CATEGORIES.map((c) => (
-                  <li key={c.slug}>
-                    <Link href={`/products/${c.slug}`} className={dropdownItem}>{c.name}</Link>
-                  </li>
-                ))}
-              </ul>
+                  {/* Other product categories */}
+                  {PRODUCT_CATEGORIES.map((c) => (
+                    <Link key={c.slug} href={`/products/${c.slug}`} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-orange/5 transition-colors group">
+                      <span className="w-8 h-8 rounded-lg bg-orange/10 flex items-center justify-center shrink-0">
+                        <svg className="w-4 h-4 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d={c.iconPath} />
+                        </svg>
+                      </span>
+                      <span className="font-heading text-sm font-bold text-navy group-hover:text-orange transition-colors">{c.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 
@@ -133,25 +148,25 @@ export function SiteHeader({ whatsappNumber }: SiteHeaderProps) {
               <div className="bg-white rounded-xl shadow-2xl border border-navy/8 p-5">
                 <p className="font-body text-[10px] font-semibold tracking-[0.18em] text-navy/40 uppercase mb-4">Our Work &amp; Company</p>
                 <div className="grid grid-cols-2 gap-2">
-                  <Link href="/about" className="flex items-start gap-3 p-3 rounded-lg hover:bg-steel/5 transition-colors group">
-                    <span className="w-9 h-9 rounded-lg bg-steel/10 flex items-center justify-center shrink-0 mt-0.5">
-                      <svg className="w-4.5 h-4.5 text-steel" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                  <Link href="/about" className="flex items-start gap-3 p-3 rounded-lg hover:bg-orange/5 transition-colors group">
+                    <span className="w-9 h-9 rounded-lg bg-orange/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <svg className="w-4.5 h-4.5 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                       </svg>
                     </span>
                     <span>
-                      <span className="block font-heading text-sm font-bold text-navy group-hover:text-steel transition-colors">About RSG</span>
+                      <span className="block font-heading text-sm font-bold text-navy group-hover:text-orange transition-colors">About RSG</span>
                       <span className="block font-body text-xs text-navy/50 mt-0.5 leading-snug">Who we are, what we make</span>
                     </span>
                   </Link>
-                  <Link href="/testimonials" className="flex items-start gap-3 p-3 rounded-lg hover:bg-steel/5 transition-colors group">
-                    <span className="w-9 h-9 rounded-lg bg-steel/10 flex items-center justify-center shrink-0 mt-0.5">
-                      <svg className="w-4.5 h-4.5 text-steel" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                  <Link href="/testimonials" className="flex items-start gap-3 p-3 rounded-lg hover:bg-orange/5 transition-colors group">
+                    <span className="w-9 h-9 rounded-lg bg-orange/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <svg className="w-4.5 h-4.5 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                       </svg>
                     </span>
                     <span>
-                      <span className="block font-heading text-sm font-bold text-navy group-hover:text-steel transition-colors">Testimonials</span>
+                      <span className="block font-heading text-sm font-bold text-navy group-hover:text-orange transition-colors">Testimonials</span>
                       <span className="block font-body text-xs text-navy/50 mt-0.5 leading-snug">What our clients say</span>
                     </span>
                   </Link>
@@ -170,36 +185,36 @@ export function SiteHeader({ whatsappNumber }: SiteHeaderProps) {
               <div className="bg-white rounded-xl shadow-2xl border border-navy/8 p-5">
                 <p className="font-body text-[10px] font-semibold tracking-[0.18em] text-navy/40 uppercase mb-4">Resources &amp; Support</p>
                 <div className="grid grid-cols-2 gap-2">
-                  <Link href="/blog" className="flex items-start gap-3 p-3 rounded-lg hover:bg-steel/5 transition-colors group">
-                    <span className="w-9 h-9 rounded-lg bg-steel/10 flex items-center justify-center shrink-0 mt-0.5">
-                      <svg className="w-4.5 h-4.5 text-steel" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                  <Link href="/blog" className="flex items-start gap-3 p-3 rounded-lg hover:bg-orange/5 transition-colors group">
+                    <span className="w-9 h-9 rounded-lg bg-orange/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <svg className="w-4.5 h-4.5 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
                     </span>
                     <span>
-                      <span className="block font-heading text-sm font-bold text-navy group-hover:text-steel transition-colors">Blog</span>
+                      <span className="block font-heading text-sm font-bold text-navy group-hover:text-orange transition-colors">Blog</span>
                       <span className="block font-body text-xs text-navy/50 mt-0.5 leading-snug">Industry tips &amp; insights</span>
                     </span>
                   </Link>
-                  <Link href="/events" className="flex items-start gap-3 p-3 rounded-lg hover:bg-steel/5 transition-colors group">
-                    <span className="w-9 h-9 rounded-lg bg-steel/10 flex items-center justify-center shrink-0 mt-0.5">
-                      <svg className="w-4.5 h-4.5 text-steel" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                  <Link href="/events" className="flex items-start gap-3 p-3 rounded-lg hover:bg-orange/5 transition-colors group">
+                    <span className="w-9 h-9 rounded-lg bg-orange/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <svg className="w-4.5 h-4.5 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                     </span>
                     <span>
-                      <span className="block font-heading text-sm font-bold text-navy group-hover:text-steel transition-colors">Events</span>
+                      <span className="block font-heading text-sm font-bold text-navy group-hover:text-orange transition-colors">Events</span>
                       <span className="block font-body text-xs text-navy/50 mt-0.5 leading-snug">Trade shows &amp; exhibitions</span>
                     </span>
                   </Link>
-                  <Link href="/contact" className="flex items-start gap-3 p-3 rounded-lg hover:bg-steel/5 transition-colors group">
-                    <span className="w-9 h-9 rounded-lg bg-steel/10 flex items-center justify-center shrink-0 mt-0.5">
-                      <svg className="w-4.5 h-4.5 text-steel" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                  <Link href="/contact" className="flex items-start gap-3 p-3 rounded-lg hover:bg-orange/5 transition-colors group">
+                    <span className="w-9 h-9 rounded-lg bg-orange/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <svg className="w-4.5 h-4.5 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
                     </span>
                     <span>
-                      <span className="block font-heading text-sm font-bold text-navy group-hover:text-steel transition-colors">Contact Us</span>
+                      <span className="block font-heading text-sm font-bold text-navy group-hover:text-orange transition-colors">Contact Us</span>
                       <span className="block font-body text-xs text-navy/50 mt-0.5 leading-snug">Get a quote or call us</span>
                     </span>
                   </Link>

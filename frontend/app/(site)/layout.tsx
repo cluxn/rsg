@@ -1,6 +1,7 @@
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { WhatsAppFloat } from '@/components/layout/WhatsAppFloat';
+import { AnimationObserver } from '@/components/ui/AnimationObserver';
 import { getSettings } from '@/lib/api';
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
@@ -13,6 +14,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   return (
     <>
       <SiteHeader whatsappNumber={settings.whatsapp_number} />
+      <AnimationObserver />
       <main className="pt-16 overflow-x-hidden">{children}</main>
       <SiteFooter />
       <WhatsAppFloat number={settings.whatsapp_number ?? ''} />

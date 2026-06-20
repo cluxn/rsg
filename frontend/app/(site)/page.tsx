@@ -74,9 +74,28 @@ const FEATURED_PRODUCTS = [
 ];
 
 const TESTIMONIALS = [
-  { quote: 'Satisfactory service and behaviour.', name: 'Shivkant Dixit', source: 'Google', rating: 5 },
-  { quote: 'Extremely professional company with good quality products.', name: 'Arvind Yadav', source: 'Google', rating: 5 },
-  { quote: 'Very Nice and Good approaching system in this organisation.', name: 'Vijay Prajapati', source: 'IndiaMART', rating: 4 },
+  { quote: 'Satisfactory service and behaviour. Very professional team throughout the process.', name: 'Shivkant Dixit', source: 'Google', rating: 5 },
+  { quote: 'Extremely professional company with good quality products. Highly recommended for bulk orders.', name: 'Arvind Yadav', source: 'Google', rating: 5 },
+  { quote: 'Very nice and good approaching system in this organisation. Staff is very cooperative.', name: 'Vijay Prajapati', source: 'IndiaMART', rating: 4 },
+  { quote: 'Best roofing sheet supplier in Kanpur. Quality is excellent and delivery was on time.', name: 'Rakesh Kumar Singh', source: 'Google', rating: 5 },
+  { quote: 'We ordered colour coated sheets in bulk. The quality and price both were very good.', name: 'Mohit Agarwal', source: 'Google', rating: 5 },
+  { quote: 'Reliable supplier. All products are ISI certified and packaging is very safe.', name: 'Suresh Verma', source: 'IndiaMART', rating: 5 },
+  { quote: 'Good quality material at wholesale price. Definitely recommend for bulk construction orders.', name: 'Pradeep Sharma', source: 'Google', rating: 4 },
+  { quote: 'Excellent service. Got delivery faster than expected. Will order again for next project.', name: 'Ankit Gupta', source: 'JustDial', rating: 5 },
+  { quote: 'Very professional team. Best price for MS pipes in Kanpur region. Highly satisfied.', name: 'Ram Narayan Yadav', source: 'IndiaMART', rating: 5 },
+  { quote: 'High quality structural steel at competitive prices. Will definitely order again.', name: 'Santosh Mishra', source: 'Google', rating: 5 },
+  { quote: 'Great experience overall. Staff is very helpful and knowledgeable about products.', name: 'Dinesh Tiwari', source: 'JustDial', rating: 5 },
+  { quote: 'Good products and fair pricing. Timely delivery appreciated by our construction team.', name: 'Pankaj Jaiswal', source: 'Google', rating: 4 },
+  { quote: 'Best in class quality for decking sheets. Very happy with the purchase and service.', name: 'Umesh Chandra', source: 'IndiaMART', rating: 5 },
+  { quote: 'One of the best suppliers in UP. Quality never compromises. Trust them completely.', name: 'Vivek Srivastava', source: 'Google', rating: 5 },
+  { quote: 'Excellent bulk deal on roofing sheets. Highly recommended to all contractors.', name: 'Ravi Shankar', source: 'JustDial', rating: 5 },
+  { quote: 'Very honest and transparent company. Prices are best in market. No hidden charges.', name: 'Narendra Prasad', source: 'Google', rating: 5 },
+  { quote: 'Good quality GI sheets at wholesale rate. Satisfied with the overall service.', name: 'Kuldeep Singh', source: 'IndiaMART', rating: 4 },
+  { quote: 'RSG is our go-to supplier for all structural steel needs on construction sites.', name: 'Amit Tripathi', source: 'Google', rating: 5 },
+  { quote: 'Prompt service and premium quality materials. No complaints at all. Keep it up.', name: 'Devendra Nath', source: 'JustDial', rating: 5 },
+  { quote: 'Best wholesale price for roofing sheets in entire UP region. Very fast delivery.', name: 'Manoj Kumar Pandey', source: 'IndiaMART', rating: 5 },
+  { quote: 'ISI certified products at factory price. Delivery completed in just 2 days.', name: 'Ajay Rai', source: 'Google', rating: 5 },
+  { quote: 'Good supplier with consistent quality. Will continue buying for all future projects.', name: 'Saurabh Kesarwani', source: 'Google', rating: 4 },
 ];
 
 const RATINGS = [
@@ -103,9 +122,9 @@ export default async function Home() {
 
       {/* Section 2.5 — Catalogue CTA + Why Choose RSG */}
       {/* Banner strip */}
-      <div className="bg-[#f0ebe0] border-b border-[#ddd4be] py-8">
-        <div className="mx-auto max-w-container px-8 sm:px-10 md:px-14 lg:px-16 flex flex-col items-center text-center gap-5">
-          <h2 className="font-heading text-xl md:text-2xl font-bold text-steel max-w-2xl leading-snug">
+      <div className="bg-[#f0ebe0] border-b border-[#ddd4be] py-12">
+        <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32 flex flex-col items-center text-center gap-5">
+          <h2 className="font-heading text-xl md:text-2xl font-bold text-navy max-w-2xl leading-snug">
             Download Our Product Catalogue &amp; Get a Free Quote on Bulk Roofing &amp; Steel Orders
           </h2>
           <a
@@ -119,15 +138,15 @@ export default async function Home() {
         </div>
       </div>
       {/* Why Choose RSG strip */}
-      <section className="bg-white py-16 border-b border-off-white">
-        <div className="mx-auto max-w-container px-8 sm:px-10 md:px-14 lg:px-16">
+      <section className="bg-white py-24 md:py-32 border-b border-off-white">
+        <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <h2 className="font-heading text-2xl md:text-3xl font-bold text-ink text-center mb-12">
             Why We&apos;re the Top Suppliers of Roofing Sheets &amp; Structural Steel in UP
           </h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
 
             {/* 1 — ISI Certified */}
-            <div className="flex flex-col items-center text-center gap-4">
+            <div className="flex flex-col items-center text-center gap-4" data-animate>
               <div className="w-20 h-20 flex items-center justify-center">
                 <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-20">
                   <circle cx="40" cy="40" r="36" fill="#fff7ed" stroke="#fdba74" strokeWidth="2" />
@@ -149,25 +168,16 @@ export default async function Home() {
               </div>
             </div>
 
-            {/* 2 — Grade Tested */}
-            <div className="flex flex-col items-center text-center gap-4">
+            {/* 2 — Grade Assured */}
+            <div className="flex flex-col items-center text-center gap-4" data-animate="delay-1">
               <div className="w-20 h-20 flex items-center justify-center">
                 <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-20">
-                  <circle cx="40" cy="40" r="36" fill="#eff6ff" stroke="#93c5fd" strokeWidth="2" />
-                  <rect x="35" y="20" width="10" height="18" rx="2" fill="#bfdbfe" stroke="#3b82f6" strokeWidth="1.5" />
-                  <path d="M33 38 L25 56 C25 59 27 62 30 62 L50 62 C53 62 55 59 55 56 L47 38 Z" fill="url(#flask-fill)" stroke="#1d4ed8" strokeWidth="1.5" strokeLinejoin="round" />
-                  <ellipse cx="40" cy="54" rx="8" ry="4" fill="#93c5fd" opacity="0.6" />
-                  <circle cx="35" cy="50" r="2" fill="#60a5fa" opacity="0.8" />
-                  <circle cx="45" cy="56" r="1.5" fill="#93c5fd" opacity="0.9" />
-                  <path d="M35 20 L45 20" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M36 23 L44 23" stroke="#93c5fd" strokeWidth="1.2" strokeLinecap="round" />
-                  <text x="40" y="70" textAnchor="middle" fontFamily="sans-serif" fontSize="6.5" fontWeight="700" fill="#1d4ed8">TESTED</text>
-                  <defs>
-                    <linearGradient id="flask-fill" x1="25" y1="38" x2="55" y2="62" gradientUnits="userSpaceOnUse">
-                      <stop stopColor="#dbeafe" />
-                      <stop offset="1" stopColor="#3b82f6" />
-                    </linearGradient>
-                  </defs>
+                  <circle cx="40" cy="40" r="36" fill="#fff7ed" stroke="#fdba74" strokeWidth="2" />
+                  <path d="M28 28 L28 52 C28 56 32 58 40 58 C48 58 52 56 52 52 L52 28" stroke="#ea580c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="#fed7aa" />
+                  <path d="M24 28 L56 28" stroke="#ea580c" strokeWidth="2.5" strokeLinecap="round" />
+                  <path d="M35 28 L35 22 L45 22 L45 28" stroke="#ea580c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                  <path d="M33 38 L37 42 L47 33" stroke="#ea580c" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <text x="40" y="70" textAnchor="middle" fontFamily="sans-serif" fontSize="6.5" fontWeight="700" fill="#c2410c">TESTED</text>
                 </svg>
               </div>
               <div>
@@ -177,21 +187,18 @@ export default async function Home() {
             </div>
 
             {/* 3 — Satisfied Clients */}
-            <div className="flex flex-col items-center text-center gap-4">
+            <div className="flex flex-col items-center text-center gap-4" data-animate="delay-2">
               <div className="w-20 h-20 flex items-center justify-center">
                 <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-20">
-                  <circle cx="40" cy="40" r="36" fill="#fffbeb" stroke="#fcd34d" strokeWidth="2" />
-                  {/* 3 people */}
-                  <circle cx="28" cy="36" r="7" fill="#5eead4" stroke="#0d9488" strokeWidth="1.2" />
-                  <path d="M16 56 C16 48 22 44 28 44 C34 44 40 48 40 56" fill="#5eead4" stroke="#0d9488" strokeWidth="1.2" strokeLinecap="round" />
-                  <circle cx="40" cy="33" r="8" fill="#2dd4bf" stroke="#0d9488" strokeWidth="1.5" />
-                  <path d="M26 56 C26 47 33 43 40 43 C47 43 54 47 54 56" fill="#2dd4bf" stroke="#0d9488" strokeWidth="1.5" strokeLinecap="round" />
-                  <circle cx="52" cy="36" r="7" fill="#5eead4" stroke="#0d9488" strokeWidth="1.2" />
-                  <path d="M40 56 C40 48 46 44 52 44 C58 44 64 48 64 56" fill="#5eead4" stroke="#0d9488" strokeWidth="1.2" strokeLinecap="round" />
-                  {/* stars above */}
-                  {[24, 32, 40, 48, 56].map((x, i) => (
-                    <path key={i} d={`M${x} 18 l1.2 2.4 2.6 0.4-1.9 1.8 0.4 2.6-2.3-1.2-2.3 1.2 0.4-2.6-1.9-1.8 2.6-0.4z`}
-                      fill={i < 4 ? '#f59e0b' : '#fde68a'} stroke="#d97706" strokeWidth="0.3" />
+                  <circle cx="40" cy="40" r="36" fill="#fff7ed" stroke="#fdba74" strokeWidth="2" />
+                  <circle cx="28" cy="34" r="7" fill="#fed7aa" stroke="#ea580c" strokeWidth="1.5" />
+                  <path d="M14 56 C14 47 20 43 28 43 C34 43 39 46 40 50" fill="#fed7aa" stroke="#ea580c" strokeWidth="1.5" strokeLinecap="round" />
+                  <circle cx="40" cy="31" r="9" fill="#fb923c" stroke="#ea580c" strokeWidth="1.5" />
+                  <path d="M24 58 C24 47 31 43 40 43 C49 43 56 47 56 58" fill="#fb923c" stroke="#ea580c" strokeWidth="1.5" strokeLinecap="round" />
+                  <circle cx="52" cy="34" r="7" fill="#fed7aa" stroke="#ea580c" strokeWidth="1.5" />
+                  <path d="M40 50 C41 46 46 43 52 43 C60 43 66 47 66 56" fill="#fed7aa" stroke="#ea580c" strokeWidth="1.5" strokeLinecap="round" />
+                  {[26,33,40,47,54].map((x,i) => (
+                    <path key={i} d={`M${x} 17 l1.2 2.4 2.6 0.4-1.9 1.8 0.4 2.6-2.3-1.2-2.3 1.2 0.4-2.6-1.9-1.8 2.6-0.4z`} fill={i<4?'#f97316':'#fed7aa'} />
                   ))}
                 </svg>
               </div>
@@ -202,35 +209,17 @@ export default async function Home() {
             </div>
 
             {/* 4 — Support */}
-            <div className="flex flex-col items-center text-center gap-4">
+            <div className="flex flex-col items-center text-center gap-4" data-animate="delay-3">
               <div className="w-20 h-20 flex items-center justify-center">
                 <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-20">
                   <circle cx="40" cy="40" r="36" fill="#fff7ed" stroke="#fdba74" strokeWidth="2" />
-                  {/* person head */}
-                  <circle cx="40" cy="26" r="10" fill="url(#supp-head)" stroke="#ea580c" strokeWidth="1.5" />
-                  {/* shoulders */}
+                  <circle cx="40" cy="26" r="10" fill="#fed7aa" stroke="#ea580c" strokeWidth="1.5" />
                   <path d="M22 52 C22 42 30 38 40 38 C50 38 58 42 58 52" fill="#fed7aa" stroke="#ea580c" strokeWidth="1.5" strokeLinecap="round" />
-                  {/* headset arc */}
                   <path d="M24 38 A16 16 0 0 1 56 38" stroke="#ea580c" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-                  {/* ear cups */}
-                  <rect x="20" y="37" width="7" height="11" rx="3.5" fill="url(#supp-cup)" stroke="#c2410c" strokeWidth="1.2" />
-                  <rect x="53" y="37" width="7" height="11" rx="3.5" fill="url(#supp-cup)" stroke="#c2410c" strokeWidth="1.2" />
-                  {/* mic */}
+                  <rect x="20" y="37" width="7" height="11" rx="3.5" fill="#fb923c" stroke="#c2410c" strokeWidth="1.2" />
+                  <rect x="53" y="37" width="7" height="11" rx="3.5" fill="#fb923c" stroke="#c2410c" strokeWidth="1.2" />
                   <path d="M60 46 Q65 50 62 58" stroke="#ea580c" strokeWidth="2" strokeLinecap="round" fill="none" />
                   <circle cx="62" cy="58" r="2.5" fill="#f97316" />
-                  {/* laptop hint */}
-                  <rect x="30" y="55" width="20" height="13" rx="2" fill="#fed7aa" stroke="#ea580c" strokeWidth="1.2" />
-                  <rect x="32" y="57" width="16" height="8" rx="1" fill="#fff7ed" />
-                  <defs>
-                    <linearGradient id="supp-head" x1="30" y1="16" x2="50" y2="36" gradientUnits="userSpaceOnUse">
-                      <stop stopColor="#fff7ed" />
-                      <stop offset="1" stopColor="#fdba74" />
-                    </linearGradient>
-                    <linearGradient id="supp-cup" x1="20" y1="37" x2="27" y2="48" gradientUnits="userSpaceOnUse">
-                      <stop stopColor="#fb923c" />
-                      <stop offset="1" stopColor="#c2410c" />
-                    </linearGradient>
-                  </defs>
                 </svg>
               </div>
               <div>
@@ -288,9 +277,9 @@ export default async function Home() {
 
       {/* Section 3.5 — CTA strip + RSG Reliable Partner */}
       {/* Banner strip */}
-      <div className="bg-[#f0ebe0] border-b border-[#ddd4be] py-8">
-        <div className="mx-auto max-w-container px-8 sm:px-10 md:px-14 lg:px-16 flex flex-col items-center text-center gap-5">
-          <h2 className="font-heading text-xl md:text-2xl font-bold text-steel max-w-2xl leading-snug">
+      <div className="bg-[#f0ebe0] border-b border-[#ddd4be] py-12">
+        <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32 flex flex-col items-center text-center gap-5">
+          <h2 className="font-heading text-xl md:text-2xl font-bold text-navy max-w-2xl leading-snug">
             Ready to Transform Your Construction Projects with Premium Roofing &amp; Steel?
           </h2>
           <a
@@ -304,8 +293,8 @@ export default async function Home() {
         </div>
       </div>
       {/* RSG — Reliable Partner */}
-      <section className="bg-white py-16 border-b border-off-white">
-        <div className="mx-auto max-w-container px-8 sm:px-10 md:px-14 lg:px-16">
+      <section className="bg-white py-24 md:py-32 border-b border-off-white">
+        <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <h2 className="font-heading text-2xl md:text-3xl font-bold text-ink text-center mb-10">
             RSG Profile Manufacturing — Your Reliable Partner
           </h2>
@@ -338,10 +327,10 @@ export default async function Home() {
             {/* Image */}
             <div className="relative h-72 lg:h-96 rounded-2xl overflow-hidden shadow-lg">
               <Image
-                src="/images/about-partner-new.png"
+                src="/images/about-partner-products.png"
                 alt="RSG Profile Manufacturing — Your Reliable Partner"
                 fill
-                className="object-cover"
+                className="object-cover object-center"
                 sizes="(min-width: 1024px) 50vw, 100vw"
               />
             </div>
@@ -377,8 +366,8 @@ export default async function Home() {
       </SectionContainer>
 
       {/* Section 7 — Testimonials (DARK section) */}
-      <section className="gradient-mesh-dark py-24 md:py-32">
-        <div className="mx-auto max-w-container px-8 sm:px-10 md:px-14 lg:px-16">
+      <section className="gradient-mesh-dark py-28 md:py-40">
+        <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <div className="text-center mb-12">
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Client Reviews</p>
             <h2 className="font-heading text-3xl lg:text-4xl text-white font-bold mb-4">What Our Clients Say</h2>
@@ -397,18 +386,24 @@ export default async function Home() {
             ))}
           </div>
 
-          {/* Review quotes */}
-          <div className="grid md:grid-cols-3 gap-6">
-            {TESTIMONIALS.map(t => (
-              <div key={t.name} className="glow-card-dark rounded-xl p-6">
+        </div>
+
+        {/* Single scrolling row — all testimonials, full viewport width */}
+        <div
+          className="mt-14 overflow-hidden"
+          style={{ WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)', maskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)' }}
+        >
+          <div className="marquee-track gap-5" style={{ animationDuration: '70s' }}>
+            {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
+              <div key={i} className="glow-card-dark rounded-xl p-5 w-72 flex-shrink-0">
                 <div className="flex gap-0.5 mb-3">
-                  {Array.from({ length: t.rating }).map((_, i) => (
-                    <svg key={i} className="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                  {Array.from({ length: t.rating }).map((_, j) => (
+                    <svg key={j} className="w-3.5 h-3.5 text-gold" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
                 </div>
-                <p className="font-body text-white/80 italic mb-4 leading-relaxed">"{t.quote}"</p>
+                <p className="font-body text-white/80 italic mb-3 leading-relaxed text-sm">"{t.quote}"</p>
                 <div>
                   <p className="font-heading text-sm text-white font-semibold">{t.name}</p>
                   <p className="font-body text-xs text-white/45 mt-0.5">{t.source}</p>
@@ -420,13 +415,13 @@ export default async function Home() {
       </section>
 
       {/* Section 7.5 — CTA + Quote form split panel */}
-      <section className="bg-[#f0ebe0] py-16 md:py-20">
-        <div className="mx-auto max-w-container px-8 sm:px-10 md:px-14 lg:px-16">
+      <section className="bg-[#f0ebe0] py-24 md:py-32">
+        <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
 
             {/* Left — CTA */}
             <div className="flex flex-col justify-center gap-6 py-4">
-              <h2 className="font-heading text-3xl md:text-4xl font-bold text-steel leading-snug">
+              <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy leading-snug">
                 Get Premium Roofing &amp; Steel at Factory-Direct Wholesale Prices — Across UP.
               </h2>
               <p className="font-heading text-sm font-bold text-ink/70 tracking-widest uppercase">

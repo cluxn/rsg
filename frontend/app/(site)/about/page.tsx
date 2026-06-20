@@ -117,7 +117,7 @@ export default async function AboutPage() {
 
       {/* SECTION 2 — About Company (DARK — continues from hero, stat chips + intro) */}
       <section className="gradient-power py-16 border-b border-white/5">
-        <div className="mx-auto max-w-container px-8 sm:px-10 md:px-14 lg:px-16">
+        <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <div className="grid md:grid-cols-2 gap-10 lg:gap-20 items-center">
             <div>
               <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Who We Are</p>
@@ -153,7 +153,7 @@ export default async function AboutPage() {
 
       {/* SECTION 3 — Our Story (LIGHT — first break, detailed history) */}
       <section className="gradient-mesh-light py-24">
-        <div className="mx-auto max-w-container px-8 sm:px-10 md:px-14 lg:px-16">
+        <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-start">
             <div>
               <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Our Journey</p>
@@ -201,7 +201,7 @@ export default async function AboutPage() {
 
       {/* SECTION 4 — Why Us (DARK — like Why RSG on homepage but deeper) */}
       <section className="gradient-power py-24 md:py-32">
-        <div className="mx-auto max-w-container px-8 sm:px-10 md:px-14 lg:px-16">
+        <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <div className="text-center mb-14">
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Why Choose RSG</p>
             <h2 className="font-heading text-3xl lg:text-4xl text-white font-bold mb-4">6 Reasons Contractors Pick RSG</h2>
@@ -230,7 +230,7 @@ export default async function AboutPage() {
 
       {/* SECTION 6 — Leadership (DARK) */}
       <section className="gradient-power py-24">
-        <div className="mx-auto max-w-container px-8 sm:px-10 md:px-14 lg:px-16">
+        <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <div className="text-center mb-12">
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Our Leadership</p>
             <h2 className="font-heading text-3xl text-white font-bold mb-3">The People Behind RSG</h2>
@@ -271,7 +271,7 @@ export default async function AboutPage() {
 
       {/* SECTION 7 — Mission / Vision / Values + Process (LIGHT) */}
       <section className="gradient-mesh-light py-20">
-        <div className="mx-auto max-w-container px-8 sm:px-10 md:px-14 lg:px-16">
+        <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <div className="text-center mb-12">
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Our Commitment</p>
             <h2 className="font-heading text-3xl text-ink font-bold mb-4">Mission, Vision &amp; Values</h2>
