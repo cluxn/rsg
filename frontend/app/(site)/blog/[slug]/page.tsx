@@ -66,8 +66,8 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </section>
 
-      {/* Cover image + article body — white background */}
-      <div className="bg-white">
+      {/* Cover image + article body */}
+      <div className="gradient-mesh-light">
         {/* Cover image — contained, not full-bleed */}
         <div className="max-w-4xl mx-auto px-4 md:px-8 pt-8 pb-2">
           <div className="relative w-full h-56 md:h-80 overflow-hidden rounded-2xl shadow-md">

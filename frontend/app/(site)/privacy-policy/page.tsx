@@ -18,7 +18,7 @@ export default function PrivacyPolicyPage() {
         </SectionContainer>
       </SimpleHero>
 
-      <div className="bg-white">
+      <div className="gradient-mesh-light">
         <SectionContainer className="py-12">
           <div className="max-w-3xl mx-auto prose prose-neutral prose-headings:font-heading prose-headings:text-navy prose-p:font-body prose-p:text-ink/75 prose-li:font-body prose-li:text-ink/75">
 

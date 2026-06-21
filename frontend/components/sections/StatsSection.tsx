@@ -181,9 +181,14 @@ function StatCard({ icon, topLine, bottomLine }: StatCardProps) {
   );
 }
 
-export function StatsSection() {
+interface StatsSectionProps {
+  /** Set when nesting inside a parent that already paints the gradient-power background, to avoid a seam between stacked dark sections. */
+  transparentBg?: boolean;
+}
+
+export function StatsSection({ transparentBg = false }: StatsSectionProps) {
   return (
-    <section className="gradient-power py-10 border-b border-white/5">
+    <section className={`py-10 ${transparentBg ? '' : 'gradient-power'}`}>
       <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0 lg:divide-x lg:divide-white/10">
 

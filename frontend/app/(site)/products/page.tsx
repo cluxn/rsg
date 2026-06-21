@@ -117,7 +117,7 @@ export default function ProductsPage() {
         </div>
       </SectionContainer>
 
-      <SectionContainer className="bg-steel/5 border-y border-navy/8">
+      <SectionContainer className="gradient-mesh-light">
         <div className="text-center mb-10">
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">
             Explore Our Range

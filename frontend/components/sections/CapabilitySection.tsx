@@ -79,7 +79,12 @@ function ChecklistRows({ items, step, compact = false }: { items: string[]; step
   );
 }
 
-export function CapabilitySection() {
+interface CapabilitySectionProps {
+  /** Set when nesting inside a parent that already paints the gradient-mesh-light background, to avoid a seam between stacked light sections. */
+  transparentBg?: boolean;
+}
+
+export function CapabilitySection({ transparentBg = false }: CapabilitySectionProps) {
   const clStep    = useCycler(INCOMING_CHECKS.length + 1, 1700, 2);
   const plStep    = useCycler(PRODUCTION_STAGES.length + 1, 1900, 3);
   const tickerIdx = useCycler(DISPATCH_TICKER.length, 2800);
@@ -142,7 +147,7 @@ export function CapabilitySection() {
         @media(prefers-reduced-motion:reduce){ .cap-net-line,.cap-ticker-line,.cap-live-dot { animation:none!important; } }
       `}</style>
 
-      <section className="gradient-mesh-light py-16 md:py-20">
+      <section className={`py-16 md:py-20 ${transparentBg ? '' : 'gradient-mesh-light'}`}>
         <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
 
           {/* Section header */}

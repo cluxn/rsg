@@ -45,7 +45,114 @@ function ChevronDown() {
   );
 }
 
-const dropdownItem = 'block px-4 py-2 text-sm font-body text-navy hover:bg-orange/10 transition-colors';
+const iconCls = 'w-4 h-4 text-orange';
+
+function LayersIcon() {
+  return (
+    <svg className={iconCls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3 3 8l9 5 9-5-9-5Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l9 5 9-5" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 16l9 5 9-5" />
+    </svg>
+  );
+}
+
+function SwatchGridIcon() {
+  return (
+    <svg className={iconCls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
+      <rect x="3" y="3" width="7" height="7" rx="1.5" />
+      <rect x="14" y="3" width="7" height="7" rx="1.5" />
+      <rect x="3" y="14" width="7" height="7" rx="1.5" />
+      <rect x="14" y="14" width="7" height="7" rx="1.5" />
+    </svg>
+  );
+}
+
+function PaletteIcon() {
+  return (
+    <svg className={iconCls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 2-2s-.5-1.5-.5-2.5A2.5 2.5 0 0 1 16 14h2a3 3 0 0 0 3-3 9 9 0 0 0-9-8Z" />
+      <circle cx="7.5" cy="10.5" r=".9" fill="currentColor" stroke="none" />
+      <circle cx="9.5" cy="7" r=".9" fill="currentColor" stroke="none" />
+      <circle cx="14.5" cy="7" r=".9" fill="currentColor" stroke="none" />
+      <circle cx="16.5" cy="10.5" r=".9" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function ShieldCheckIcon() {
+  return (
+    <svg className={iconCls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3 4 6v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V6l-8-3Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.5 11 14.5 15 9.5" />
+    </svg>
+  );
+}
+
+function TrendingUpIcon() {
+  return (
+    <svg className={iconCls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 17l5-5 4 4 7-8" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M14 8h5v5" />
+    </svg>
+  );
+}
+
+function BoltIcon() {
+  return (
+    <svg className={iconCls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" />
+    </svg>
+  );
+}
+
+function SparkleIcon() {
+  return (
+    <svg className={iconCls} viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M11 2 12.7 8.3 19 10 12.7 11.7 11 18 9.3 11.7 3 10 9.3 8.3 11 2Z" />
+      <circle cx="18.5" cy="17.5" r="1.1" fill="currentColor" />
+    </svg>
+  );
+}
+
+function RainbowIcon() {
+  return (
+    <svg className={iconCls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
+      <path strokeLinecap="round" d="M3 16a9 9 0 0 1 18 0" />
+      <path strokeLinecap="round" d="M6.5 16a5.5 5.5 0 0 1 11 0" />
+    </svg>
+  );
+}
+
+function SunIcon() {
+  return (
+    <svg className={iconCls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
+      <circle cx="12" cy="12" r="4" />
+      <path strokeLinecap="round" d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1" />
+    </svg>
+  );
+}
+
+function GlobeIcon() {
+  return (
+    <svg className={iconCls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <path strokeLinecap="round" d="M3 12h18M12 3a13 13 0 0 1 0 18M12 3a13 13 0 0 0 0 18" />
+    </svg>
+  );
+}
+
+const BRAND_ICONS: Record<string, () => React.JSX.Element> = {
+  'jsw-colouron': PaletteIcon,
+  'jsw-silveron': ShieldCheckIcon,
+  'jsw-pragati': TrendingUpIcon,
+  'jsw-endura': BoltIcon,
+  'tata-durashine': SparkleIcon,
+  'jindal-sabrang': RainbowIcon,
+  'dura-glow': SunIcon,
+  'am-ns': GlobeIcon,
+};
+
 const dropdownList = 'rounded-md shadow-xl border border-navy/10 bg-white py-2';
 const flyout = 'invisible group-hover/products:visible opacity-0 group-hover/products:opacity-100 transition-opacity absolute top-full -left-4 pt-2 w-72 z-50';
 
@@ -84,40 +191,70 @@ export function SiteHeader({ whatsappNumber }: SiteHeaderProps) {
                       <span className="flex-1 font-heading text-sm font-bold text-navy group-hover:text-orange transition-colors">Colour Coated Roofing Sheet</span>
                       <ChevronRight />
                     </Link>
-                    <div className="invisible group-hover/ccrs:visible opacity-0 group-hover/ccrs:opacity-100 transition-opacity absolute left-full top-0 pl-1 w-56 z-50">
-                      <ul className={dropdownList}>
+                    <div className="invisible group-hover/ccrs:visible opacity-0 group-hover/ccrs:opacity-100 transition-opacity absolute left-full top-0 pl-1 w-60 z-50">
+                      <ul className={`${dropdownList} p-2`}>
                         <li className="group/ppgl relative">
-                          <span className="flex items-center justify-between gap-2 px-4 py-2 text-sm font-body text-navy hover:bg-orange/10 transition-colors cursor-default">
-                            PPGL
+                          <span className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-orange/5 transition-colors cursor-default">
+                            <span className="w-8 h-8 rounded-lg bg-orange/10 flex items-center justify-center shrink-0">
+                              <LayersIcon />
+                            </span>
+                            <span className="flex-1 font-heading text-sm font-bold text-navy">PPGL</span>
                             <ChevronRight />
                           </span>
-                          <div className="invisible group-hover/ppgl:visible opacity-0 group-hover/ppgl:opacity-100 transition-opacity absolute left-full top-0 pl-1 w-52 z-50">
-                            <ul className={dropdownList}>
-                              {PPGL_BRANDS.map((b) => (
-                                <li key={b.slug}>
-                                  <Link href={`/products/${b.slug}`} className={dropdownItem}>{b.name}</Link>
-                                </li>
-                              ))}
+                          <div className="invisible group-hover/ppgl:visible opacity-0 group-hover/ppgl:opacity-100 transition-opacity absolute left-full top-0 pl-1 w-56 z-50">
+                            <ul className={`${dropdownList} p-2`}>
+                              {PPGL_BRANDS.map((b) => {
+                                const BrandIcon = BRAND_ICONS[b.slug] ?? PaletteIcon;
+                                return (
+                                  <li key={b.slug}>
+                                    <Link href={`/products/${b.slug}`} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-orange/5 transition-colors group">
+                                      <span className="w-8 h-8 rounded-lg bg-orange/10 flex items-center justify-center shrink-0">
+                                        <BrandIcon />
+                                      </span>
+                                      <span className="font-heading text-sm font-bold text-navy group-hover:text-orange transition-colors">{b.name}</span>
+                                    </Link>
+                                  </li>
+                                );
+                              })}
                             </ul>
                           </div>
                         </li>
                         <li className="group/ppgi relative">
-                          <span className="flex items-center justify-between gap-2 px-4 py-2 text-sm font-body text-navy hover:bg-orange/10 transition-colors cursor-default">
-                            PPGI
+                          <span className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-orange/5 transition-colors cursor-default">
+                            <span className="w-8 h-8 rounded-lg bg-orange/10 flex items-center justify-center shrink-0">
+                              <SwatchGridIcon />
+                            </span>
+                            <span className="flex-1 font-heading text-sm font-bold text-navy">PPGI</span>
                             <ChevronRight />
                           </span>
-                          <div className="invisible group-hover/ppgi:visible opacity-0 group-hover/ppgi:opacity-100 transition-opacity absolute left-full top-0 pl-1 w-52 z-50">
-                            <ul className={dropdownList}>
-                              {PPGI_BRANDS.map((b) => (
-                                <li key={b.slug}>
-                                  <Link href={`/products/${b.slug}`} className={dropdownItem}>{b.name}</Link>
-                                </li>
-                              ))}
+                          <div className="invisible group-hover/ppgi:visible opacity-0 group-hover/ppgi:opacity-100 transition-opacity absolute left-full top-0 pl-1 w-56 z-50">
+                            <ul className={`${dropdownList} p-2`}>
+                              {PPGI_BRANDS.map((b) => {
+                                const BrandIcon = BRAND_ICONS[b.slug] ?? PaletteIcon;
+                                return (
+                                  <li key={b.slug}>
+                                    <Link href={`/products/${b.slug}`} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-orange/5 transition-colors group">
+                                      <span className="w-8 h-8 rounded-lg bg-orange/10 flex items-center justify-center shrink-0">
+                                        <BrandIcon />
+                                      </span>
+                                      <span className="font-heading text-sm font-bold text-navy group-hover:text-orange transition-colors">{b.name}</span>
+                                    </Link>
+                                  </li>
+                                );
+                              })}
                             </ul>
                           </div>
                         </li>
                         <li>
-                          <Link href="/products/accessories" className={dropdownItem}>Accessories</Link>
+                          <Link href="/products/accessories" className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-orange/5 transition-colors group">
+                            <span className="w-8 h-8 rounded-lg bg-orange/10 flex items-center justify-center shrink-0">
+                              <svg className="w-4 h-4 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M20.59 13.41 11 3.83A2 2 0 0 0 9.59 3.24H4a1 1 0 0 0-1 1v5.59a2 2 0 0 0 .59 1.41l9.58 9.58a2 2 0 0 0 2.83 0l5.59-5.59a2 2 0 0 0 0-2.82Z" />
+                                <circle cx="7.5" cy="7.5" r="1.2" fill="currentColor" stroke="none" />
+                              </svg>
+                            </span>
+                            <span className="font-heading text-sm font-bold text-navy group-hover:text-orange transition-colors">Accessories</span>
+                          </Link>
                         </li>
                       </ul>
                     </div>

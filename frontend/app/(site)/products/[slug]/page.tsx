@@ -8,6 +8,8 @@ import { SectionContainer } from '@/components/layout/SectionContainer';
 import HomeQuoteForm from '@/app/(site)/HomeQuoteForm';
 import { CcrsBrandExplorer } from '@/components/ui/CcrsBrandExplorer';
 import { AccessoryShowcase } from '@/components/ui/AccessoryShowcase';
+import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
+import { getTestimonials } from '@/lib/content';
 import { PPGL_BRANDS, PPGI_BRANDS } from '@/components/layout/SiteHeader';
 
 // Fallback to homepage product card images when CMS has no media uploaded
@@ -54,6 +56,12 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const product = await getProduct(slug);
   if (!product) notFound();
 
+  const allTestimonials = await getTestimonials();
+  const matching = allTestimonials.filter(
+    t => t.product_bought?.toLowerCase() === product.name.toLowerCase()
+  );
+  const productTestimonials = matching.length > 0 ? matching : allTestimonials;
+
   const primaryMedia = product.media[0] ?? null;
   const additionalMedia = product.media.slice(1);
   const cardImageUrl = PRODUCT_CARD_IMAGE[product.slug] ?? null;
@@ -64,6 +72,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       <ProductPageHero product={product} />
 
       <StatsSection />
+
+      <div className="gradient-mesh-light">
 
       {/* Two-column section with section heading above */}
       <SectionContainer>
@@ -147,7 +157,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
       {/* Accessory Showcase — Accessories parent page only */}
       {product.slug === 'accessories' && (
-        <SectionContainer className="bg-white">
+        <SectionContainer>
           <div className="text-center mb-12">
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">
               What We Supply
@@ -165,7 +175,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
       {/* Brands & Variants — Colour Coated Roofing Sheet parent page only */}
       {product.slug === 'colour-coated-roofing-sheet' && (
-        <SectionContainer className="bg-steel/5 border-y border-navy/8">
+        <SectionContainer>
           <div className="text-center mb-10">
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">
               Explore Our Range
@@ -184,7 +194,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
       {/* Colour Options — Brand Products Only */}
       {BRAND_PRODUCT_SLUGS.has(product.slug) && (
-        <SectionContainer className="bg-white">
+        <SectionContainer>
           <div className="text-center mb-10">
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">
               Available Colours
@@ -211,7 +221,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
       {/* Brand Advantages — Brand Products Only */}
       {BRAND_PRODUCT_SLUGS.has(product.slug) && (BRAND_ADVANTAGES[product.slug] ?? []).length > 0 && (
-        <SectionContainer className="bg-steel/5 border-y border-navy/8">
+        <SectionContainer>
           <div className="text-center mb-12">
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">
               Why Choose {product.name}
@@ -241,7 +251,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
       {/* Sheet Specifications — Brand Products Only */}
       {BRAND_PRODUCT_SLUGS.has(product.slug) && (
-        <SectionContainer className="bg-white">
+        <SectionContainer>
           <div className="text-center mb-10">
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">
               Technical Details
@@ -291,7 +301,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       )}
 
       {/* Why Choose RSG */}
-      <SectionContainer className="bg-steel/5 border-y border-navy/8">
+      <SectionContainer>
         <div className="text-center mb-12">
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Why RSG</p>
           <h2 className="font-heading text-3xl text-navy font-bold mb-3">Why Choose RSG for {product.name}?</h2>
@@ -317,7 +327,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
       {/* Key Benefits — not shown for Accessories; AccessoryShowcase already covers per-item benefits */}
       {product.slug !== 'accessories' && (
-      <SectionContainer className="bg-white">
+      <SectionContainer>
         <div className="text-center mb-12">
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Key Benefits</p>
           <h2 className="font-heading text-3xl text-navy font-bold mb-3">Benefits of {product.name}</h2>
@@ -344,7 +354,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
       {/* Applications — not shown for Accessories; AccessoryShowcase already covers per-item use */}
       {product.slug !== 'accessories' && (
-      <SectionContainer className="bg-steel/5 border-y border-navy/8">
+      <SectionContainer>
         <div className="text-center mb-12">
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Where It&apos;s Used</p>
           <h2 className="font-heading text-3xl text-navy font-bold mb-3">Applications of {product.name}</h2>
@@ -370,7 +380,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       )}
 
       {/* CTA Banner */}
-      <div className="gradient-mesh-light border-b border-navy/10 py-12">
+      <div className="py-12">
         <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32 flex flex-col items-center text-center gap-5">
           <h2 className="font-heading text-xl md:text-2xl font-bold text-navy max-w-2xl leading-snug">
             Trusted Manufacturer &amp; Wholesale Supplier of {product.name} in Kanpur, India
@@ -389,7 +399,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
       {/* Manufacturing process — not shown for Accessories (bought-in items like screws/turbo fans aren't roll-formed in-house) */}
       {product.slug !== 'accessories' && (
-      <SectionContainer className="bg-white">
+      <SectionContainer>
         <div className="text-center mb-12">
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">From Raw Steel to Your Site</p>
           <h2 className="font-heading text-3xl text-navy font-bold mb-3">Our Manufacturing Process</h2>
@@ -417,8 +427,15 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </SectionContainer>
       )}
 
+      </div>
+
+      {/* Testimonials */}
+      <TestimonialsSection testimonials={productTestimonials} />
+
+      <div className="gradient-mesh-light">
+
       {/* FAQs */}
-      <SectionContainer className="bg-steel/5 border-y border-navy/8">
+      <SectionContainer>
         <div className="text-center mb-12">
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Got Questions?</p>
           <h2 className="font-heading text-3xl text-navy font-bold mb-3">Frequently Asked Questions</h2>
@@ -443,7 +460,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </SectionContainer>
 
       {/* Contact — CTA + Quote form split panel (same as homepage) */}
-      <section className="gradient-mesh-light py-24 md:py-32">
+      <section className="py-24 md:py-32">
         <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
 
@@ -495,6 +512,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </div>
         </div>
       </section>
+
+      </div>
 
     </>
   );
@@ -677,12 +696,12 @@ const BRAND_SHEET_APPLICATIONS = [
 
 // ─── End brand product shared data ───────────────────────────────────────────
 
-const PRODUCT_BENEFITS: Record<string, { title: string; body: string }[]> = {
+const PRODUCT_BENEFITS: Record<string, { title: string; body: string; image?: string }[]> = {
   'colour-coated-roofing-sheet': [
-    { title: 'Superior Corrosion Resistance', body: 'PPGL/PPGI coating with a zinc-aluminium layer resists rust even in humid and coastal climates.' },
-    { title: 'Vibrant, Long-Lasting Colour', body: 'Factory-baked colour coating resists fading and chalking for 10+ years of outdoor exposure.' },
-    { title: 'Lightweight Yet Strong', body: 'Reduces structural load on trusses while maintaining high tensile strength.' },
-    { title: 'Reflects Heat, Stays Cool', body: 'Reflective coating reduces heat absorption, keeping interiors noticeably cooler.' },
+    { title: 'Superior Corrosion Resistance', body: 'PPGL/PPGI coating with a zinc-aluminium layer resists rust even in humid and coastal climates.', image: '/images/product-page/benefits/corrosion-resistance.png' },
+    { title: 'Vibrant, Long-Lasting Colour', body: 'Factory-baked colour coating resists fading and chalking for 10+ years of outdoor exposure.', image: '/images/product-page/benefits/vibrant-colour.png' },
+    { title: 'Lightweight Yet Strong', body: 'Reduces structural load on trusses while maintaining high tensile strength.', image: '/images/product-page/benefits/lightweight-strong.png' },
+    { title: 'Reflects Heat, Stays Cool', body: 'Reflective coating reduces heat absorption, keeping interiors noticeably cooler.', image: '/images/product-page/benefits/heat-reflective.png' },
   ],
   'ms-plate-channel-angle': [
     { title: 'High Load-Bearing Strength', body: 'Engineered for heavy structural and fabrication loads without compromising on safety margins.' },
@@ -746,8 +765,8 @@ const DEFAULT_BENEFITS = [
 
 function productBenefits(slug: string) {
   const items = PRODUCT_BENEFITS[slug] ?? DEFAULT_BENEFITS;
-  const image = PRODUCT_CARD_IMAGE[slug] ?? null;
-  return items.map(item => ({ ...item, image }));
+  const fallbackImage = PRODUCT_CARD_IMAGE[slug] ?? null;
+  return items.map(item => ({ ...item, image: item.image ?? fallbackImage }));
 }
 
 const APPLICATION_IMAGES = [

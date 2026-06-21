@@ -28,7 +28,7 @@ export default async function TestimonialsPage() {
       </SimpleHero>
 
       {/* Rating badges + testimonial grid — single white section */}
-      <SectionContainer className="bg-white">
+      <SectionContainer className="gradient-mesh-light">
         {/* Heading */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Client Reviews</p>

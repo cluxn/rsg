@@ -84,31 +84,34 @@ export default async function Home() {
       {/* Section 1 — Hero */}
       <ScrollHero />
 
-      {/* Section 2 — Stats bar */}
-      <StatsSection />
+      {/* Section 2 — Stats bar + Catalogue CTA: merged into one shared dark background so the seam between the two stacked dark sections disappears */}
+      <div className="gradient-power">
+        <StatsSection transparentBg />
 
-      {/* Section 2.5 — Catalogue CTA + Why Choose RSG */}
-      {/* Banner strip */}
-      <div className="gradient-mesh-light border-b border-navy/10 py-12">
-        <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32 flex flex-col items-center text-center gap-5">
-          <h2 className="font-heading text-xl md:text-2xl font-bold text-navy max-w-2xl leading-snug">
-            Download Our Product Catalogue &amp; Get a Free Quote on Bulk Roofing &amp; Steel Orders
-          </h2>
-          <a
-            href="https://wa.me/919918522988?text=Hi%2C%20I%20would%20like%20to%20request%20your%20product%20catalogue%20and%20get%20a%20free%20quote."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center font-heading font-semibold text-white gradient-sunrise rounded-lg px-7 py-3 shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 transition-all duration-200"
-          >
-            Request Catalogue
-          </a>
+        {/* Banner strip */}
+        <div className="py-12">
+          <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32 flex flex-col items-center text-center gap-5">
+            <h2 className="font-heading text-xl md:text-2xl font-bold text-white max-w-2xl leading-snug">
+              Download Our Product Catalogue &amp; Get a Free Quote on Bulk Roofing &amp; Steel Orders
+            </h2>
+            <a
+              href="https://wa.me/919918522988?text=Hi%2C%20I%20would%20like%20to%20request%20your%20product%20catalogue%20and%20get%20a%20free%20quote."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center font-heading font-semibold text-white gradient-sunrise rounded-lg px-7 py-3 shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 transition-all duration-200"
+            >
+              Request Catalogue
+            </a>
+          </div>
         </div>
       </div>
-      {/* Why Choose RSG strip — capability bento section */}
-      <CapabilitySection />
 
-      {/* Section 3 — Products teaser */}
-      <SectionContainer className="gradient-mesh-light">
+      {/* Why Choose RSG + Products teaser: merged into one shared light background to avoid the seam between the two stacked light sections */}
+      <div className="gradient-mesh-light">
+        <CapabilitySection transparentBg />
+
+        {/* Section 3 — Products teaser */}
+        <SectionContainer>
         <div className="text-center mb-12">
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">What We Offer</p>
           <h2 className="font-heading text-3xl text-ink font-bold mb-3">Featured Products</h2>
@@ -141,6 +144,7 @@ export default async function Home() {
           ))}
         </div>
       </SectionContainer>
+      </div>
 
       {/* Section 3.5 — CTA strip + RSG Reliable Partner */}
       {/* Banner strip — dark to break color rhythm after consecutive light sections */}
@@ -159,8 +163,9 @@ export default async function Home() {
           </a>
         </div>
       </div>
-      {/* RSG — Reliable Partner */}
-      <SectionContainer className="bg-white border-b border-off-white">
+      {/* RSG — Reliable Partner + Client logo strip: merged into one shared light background to avoid the seam between the two stacked light sections */}
+      <div className="gradient-mesh-light">
+      <SectionContainer>
           <div className="text-center mb-10">
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Who We Are</p>
             <h2 className="font-heading text-2xl md:text-3xl font-bold text-ink mb-3 max-w-2xl mx-auto">
@@ -210,7 +215,7 @@ export default async function Home() {
       </SectionContainer>
 
       {/* Section 6 — Client logo strip */}
-      <SectionContainer className="gradient-mesh-light">
+      <SectionContainer>
         <div className="text-center mb-12">
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Brand Partners</p>
           <h2 className="font-heading text-3xl text-ink font-bold mb-3">Our Clients & Partners</h2>
@@ -235,6 +240,7 @@ export default async function Home() {
           </div>
         </div>
       </SectionContainer>
+      </div>
 
       {/* Section 7 — Testimonials (DARK section) */}
       <section className="gradient-mesh-dark py-28 md:py-40">
@@ -267,7 +273,18 @@ export default async function Home() {
           >
           <div className="marquee-track gap-6" style={{ animationDuration: '120s' }}>
             {[...testimonials, ...testimonials].map((t, i) => (
-              <div key={`${t.id}-${i}`} className="glow-card-dark rounded-xl p-6 w-80 flex-shrink-0">
+              <div key={`${t.id}-${i}`} className="glow-card-dark rounded-xl p-6 w-80 flex-shrink-0 flex flex-col">
+                <div className="flex items-start justify-between gap-3 mb-3">
+                  <svg className="w-7 h-7 text-white/70 shrink-0" fill="currentColor" viewBox="0 0 32 32" aria-hidden="true">
+                    <path d="M10 8c-3.3 0-6 2.7-6 6v10h10V14h-6c0-1.1.9-2 2-2V8zm14 0c-3.3 0-6 2.7-6 6v10h10V14h-6c0-1.1.9-2 2-2V8z" />
+                  </svg>
+                  {t.product_bought && (
+                    <span className="font-body text-[10.5px] text-white/70 font-semibold uppercase tracking-wide text-right shrink-0 max-w-[60%] leading-tight">
+                      {t.product_bought}
+                    </span>
+                  )}
+                </div>
+
                 {t.rating && (
                   <div className="flex gap-1 mb-4">
                     {Array.from({ length: Math.round(t.rating) }).map((_, j) => (
@@ -277,10 +294,32 @@ export default async function Home() {
                     ))}
                   </div>
                 )}
-                <p className="font-body text-white/80 italic mb-4 leading-relaxed text-base">&ldquo;{t.text}&rdquo;</p>
-                <div>
-                  <p className="font-heading text-base text-white font-semibold">{t.author_name}</p>
-                  <p className="font-body text-sm text-white/50 mt-1">{t.source}{t.author_city ? ` · ${t.author_city}` : ''}</p>
+
+                <p className="font-body text-white/80 italic mb-5 leading-relaxed text-base flex-1">&ldquo;{t.text}&rdquo;</p>
+
+                <div className="flex items-center gap-3 pt-4 border-t border-white/10">
+                  {t.author_image ? (
+                    <Image
+                      src={t.author_image}
+                      alt={t.author_name}
+                      width={40}
+                      height={40}
+                      className="w-10 h-10 rounded-full object-cover shrink-0"
+                    />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                      <span className="font-heading text-white/60 font-bold text-sm">{t.author_name[0]}</span>
+                    </div>
+                  )}
+                  <div>
+                    <p className="font-heading text-base text-white font-semibold leading-tight">{t.author_name}</p>
+                    {(t.designation || t.company) && (
+                      <p className="font-body text-xs text-white/50 mt-0.5">
+                        {[t.designation, t.company].filter(Boolean).join(', ')}
+                      </p>
+                    )}
+                    <p className="font-body text-xs text-white/50 mt-0.5">{t.source}{t.author_city ? ` · ${t.author_city}` : ''}</p>
+                  </div>
                 </div>
               </div>
             ))}

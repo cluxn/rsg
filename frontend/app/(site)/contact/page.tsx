@@ -37,7 +37,7 @@ export default async function ContactPage() {
         </SectionContainer>
       </SimpleHero>
 
-      <SectionContainer className="bg-white">
+      <SectionContainer className="gradient-mesh-light">
         <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-stretch">
           <div className="flex flex-col h-full">
             <h2 className="font-heading text-2xl text-navy mb-6">Our Office</h2>
