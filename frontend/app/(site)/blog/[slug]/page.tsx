@@ -8,7 +8,6 @@ import { BlogCard } from '@/components/blog/BlogCard';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import { ContactFormSection } from '@/components/sections/ContactFormSection';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 
@@ -53,19 +52,11 @@ export default async function BlogPostPage({ params }: Props) {
       <section className="gradient-power w-full flex items-center justify-center min-h-[300px]">
         <div className="w-full py-16 text-center">
           <SectionContainer noPadding>
-            <Link href="/blog" className="text-cyan/80 hover:text-cyan text-sm mb-6 inline-block">← Back to Blog</Link>
-            <div className="flex flex-wrap gap-2 justify-center mb-3">
-              {post.category && (
-                <span className="inline-flex items-center rounded-full bg-white/15 text-white font-body text-xs font-semibold uppercase tracking-wide px-3 py-1">
-                  {post.category}
-                </span>
-              )}
-              {post.service && (
-                <span className="inline-flex items-center rounded-full bg-orange/20 text-orange font-body text-xs font-semibold uppercase tracking-wide px-3 py-1">
-                  {post.service}
-                </span>
-              )}
-            </div>
+            {(post.category || post.service) && (
+              <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">
+                {post.service || post.category}
+              </p>
+            )}
             <h1 className="font-heading text-3xl md:text-4xl font-bold text-white leading-tight mb-3 max-w-3xl mx-auto">{post.title}</h1>
             <div className="flex items-center justify-center gap-4 text-white/60 text-sm">
               {post.author_name && <span>{post.author_name}</span>}
@@ -75,40 +66,43 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </section>
 
-      {/* Cover image — contained, not full-bleed */}
-      <div className="max-w-4xl mx-auto px-4 md:px-8 pt-8 pb-2">
-        <div className="relative w-full h-56 md:h-80 overflow-hidden rounded-2xl shadow-md">
-          <Image
-            src={post.featured_image || BLOG_COVER_PLACEHOLDER}
-            alt={post.title}
-            fill
-            className="object-cover"
-            priority
-          />
+      {/* Cover image + article body — white background */}
+      <div className="bg-white">
+        {/* Cover image — contained, not full-bleed */}
+        <div className="max-w-4xl mx-auto px-4 md:px-8 pt-8 pb-2">
+          <div className="relative w-full h-56 md:h-80 overflow-hidden rounded-2xl shadow-md">
+            <Image
+              src={post.featured_image || BLOG_COVER_PLACEHOLDER}
+              alt={post.title}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
         </div>
+
+        {/* 3-column content */}
+        <SectionContainer className="py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr_280px] gap-8 items-start">
+
+            {/* Left: TOC + Share */}
+            <aside className="lg:sticky lg:top-24 self-start space-y-8">
+              <TableOfContents items={toc} />
+              <ShareButtons url={postUrl} title={post.title} />
+            </aside>
+
+            {/* Center: article body */}
+            <article className="min-w-0">
+              <BlogPostBody html={bodyWithIds} />
+            </article>
+
+            {/* Right: lead form */}
+            <aside className="lg:sticky lg:top-24 self-start">
+              <BlogLeadForm sourcePage={`blog/${slug}`} />
+            </aside>
+          </div>
+        </SectionContainer>
       </div>
-
-      {/* 3-column content */}
-      <SectionContainer className="py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr_280px] gap-8 items-start">
-
-          {/* Left: TOC + Share */}
-          <aside className="lg:sticky lg:top-24 self-start space-y-8">
-            <TableOfContents items={toc} />
-            <ShareButtons url={postUrl} title={post.title} />
-          </aside>
-
-          {/* Center: article body */}
-          <article className="min-w-0">
-            <BlogPostBody html={bodyWithIds} />
-          </article>
-
-          {/* Right: lead form */}
-          <aside className="lg:sticky lg:top-24 self-start">
-            <BlogLeadForm sourcePage={`blog/${slug}`} />
-          </aside>
-        </div>
-      </SectionContainer>
 
       {/* Recommended posts */}
       {recommended.length > 0 && (

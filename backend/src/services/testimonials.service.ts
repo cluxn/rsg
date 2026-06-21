@@ -5,6 +5,10 @@ export interface Testimonial {
   text: string;
   author_name: string;
   author_city?: string;
+  author_image?: string;
+  company?: string;
+  designation?: string;
+  product_bought?: string;
   rating?: number;
   source: 'google' | 'indiamart' | 'justdial' | 'other';
   active: boolean;
@@ -15,6 +19,10 @@ export interface CreateTestimonialData {
   text: string;
   author_name: string;
   author_city?: string;
+  author_image?: string;
+  company?: string;
+  designation?: string;
+  product_bought?: string;
   rating?: number;
   source?: string;
   active?: boolean;
@@ -22,7 +30,7 @@ export interface CreateTestimonialData {
 
 export async function listActiveTestimonials(): Promise<Omit<Testimonial, 'active'>[]> {
   return query(
-    'SELECT id, text, author_name, author_city, rating, source FROM testimonials WHERE active = TRUE ORDER BY created_at DESC'
+    'SELECT id, text, author_name, author_city, author_image, company, designation, product_bought, rating, source FROM testimonials WHERE active = TRUE ORDER BY created_at DESC'
   );
 }
 
@@ -31,10 +39,10 @@ export async function getAllTestimonials(): Promise<Testimonial[]> {
 }
 
 export async function createTestimonial(data: CreateTestimonialData): Promise<{ insertId: number }> {
-  const { text, author_name, author_city, rating, source = 'google', active = true } = data;
+  const { text, author_name, author_city, author_image, company, designation, product_bought, rating, source = 'google', active = true } = data;
   const [result] = await pool.execute(
-    'INSERT INTO testimonials (text, author_name, author_city, rating, source, active) VALUES (?, ?, ?, ?, ?, ?)',
-    [text, author_name, author_city ?? null, rating ?? null, source, active]
+    'INSERT INTO testimonials (text, author_name, author_city, author_image, company, designation, product_bought, rating, source, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    [text, author_name, author_city ?? null, author_image ?? null, company ?? null, designation ?? null, product_bought ?? null, rating ?? null, source, active]
   ) as [{ insertId: number }, unknown];
   return result;
 }
@@ -46,6 +54,10 @@ export async function updateTestimonial(id: number, data: Partial<CreateTestimon
   if (data.text !== undefined) { fields.push('text = ?'); params.push(data.text); }
   if (data.author_name !== undefined) { fields.push('author_name = ?'); params.push(data.author_name); }
   if (data.author_city !== undefined) { fields.push('author_city = ?'); params.push(data.author_city); }
+  if (data.author_image !== undefined) { fields.push('author_image = ?'); params.push(data.author_image); }
+  if (data.company !== undefined) { fields.push('company = ?'); params.push(data.company); }
+  if (data.designation !== undefined) { fields.push('designation = ?'); params.push(data.designation); }
+  if (data.product_bought !== undefined) { fields.push('product_bought = ?'); params.push(data.product_bought); }
   if (data.rating !== undefined) { fields.push('rating = ?'); params.push(data.rating); }
   if (data.source !== undefined) { fields.push('source = ?'); params.push(data.source); }
   if (data.active !== undefined) { fields.push('active = ?'); params.push(data.active); }

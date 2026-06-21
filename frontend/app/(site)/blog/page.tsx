@@ -26,7 +26,7 @@ export default async function BlogPage() {
     <>
       <SimpleHero minHeight="min-h-[300px]">
         <SectionContainer noPadding>
-          <p className="font-body text-sm text-cyan/80 tracking-widest uppercase mb-3">RSG BLOG</p>
+          <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">RSG BLOG</p>
           <h1 className="font-heading text-4xl md:text-5xl text-white mb-4">Industry Insights</h1>
           <p className="font-body text-xl text-white/80 max-w-2xl mx-auto">
             Roofing guides, product updates, and news from RSG Profile Manufacturing

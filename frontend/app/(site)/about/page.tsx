@@ -27,31 +27,37 @@ const WHY_US = [
     icon: 'certified',
     title: 'ISI Certified Quality',
     desc: 'Every product manufactured to BIS & ISI standards. Each batch undergoes rigorous testing before dispatch — zero compromise on grade.',
+    img: 'https://images.unsplash.com/photo-1564182842834-681b7be6de4b?w=400&q=80',
   },
   {
     icon: 'brands',
     title: 'Premium Brand Portfolio',
     desc: 'Authorized dealer for JSW Colouron+, Tata BlueScope Durashine, Jindal Sabrang, and more — factory-direct, no middlemen.',
+    img: 'https://images.unsplash.com/photo-1598299803204-b73796f43289?w=400&q=80',
   },
   {
     icon: 'range',
     title: 'Complete One-Stop Solution',
     desc: '10+ product categories under one roof: colour-coated roofing, MS pipes, structural steel, purlins, decking, polycarbonate — everything your project needs.',
+    img: 'https://images.unsplash.com/photo-1616432043562-3671ea2e5242?w=400&q=80',
   },
   {
     icon: 'delivery',
     title: 'Pan-UP Fast Delivery',
     desc: 'Dispatch within 24 hours, delivery within 2–3 days to any location across Uttar Pradesh from our Kanpur facility.',
+    img: 'https://images.unsplash.com/photo-1616432043562-3671ea2e5242?w=400&q=80',
   },
   {
     icon: 'experience',
     title: 'Experienced Team',
     desc: 'Founded in 2019 with a team of qualified managers, engineers, and skilled technicians — built on deep industry expertise.',
+    img: 'https://images.unsplash.com/photo-1778546978267-b93e8c6ea099?w=400&q=80',
   },
   {
     icon: 'pricing',
     title: 'Competitive B2B Pricing',
     desc: 'Factory-direct pricing with transparent quotations — no hidden charges, fair terms for retailers, contractors, and builders.',
+    img: 'https://images.unsplash.com/photo-1598299803204-b73796f43289?w=400&q=80',
   },
 ];
 
@@ -99,7 +105,7 @@ export default async function AboutPage() {
       {/* SECTION 1 — Hero */}
       <SimpleHero minHeight="min-h-[420px]">
         <SectionContainer noPadding>
-          <p className="font-body text-sm text-cyan/80 tracking-widest uppercase mb-3">About RSG</p>
+          <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">About RSG</p>
           <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl text-white font-bold mb-5 leading-tight">
             Built on Integrity,<br className="hidden sm:block" /> Driven by Quality
           </h1>
@@ -206,11 +212,16 @@ export default async function AboutPage() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {WHY_US.map(item => (
-              <div key={item.title} className="glow-card-dark rounded-xl p-6 flex gap-4">
-                <div className="w-12 h-12 rounded-lg gradient-sunrise flex items-center justify-center flex-shrink-0 shadow-glow-orange">
-                  <WhyIcon type={item.icon} />
+              <div key={item.title} className="glow-card-dark rounded-xl overflow-hidden flex flex-col">
+                {/* Card image */}
+                <div className="relative w-full h-36">
+                  <Image src={item.img} alt={item.title} fill className="object-cover" sizes="(max-width: 640px) 90vw, 33vw" />
+                  <div className="absolute inset-0 bg-navy/50" />
+                  <div className="absolute bottom-3 left-4 w-10 h-10 rounded-lg gradient-sunrise flex items-center justify-center shadow-glow-orange">
+                    <WhyIcon type={item.icon} />
+                  </div>
                 </div>
-                <div>
+                <div className="p-6">
                   <h3 className="font-heading text-white font-semibold mb-2">{item.title}</h3>
                   <p className="font-body text-white/55 text-sm leading-relaxed">{item.desc}</p>
                 </div>
@@ -270,9 +281,9 @@ export default async function AboutPage() {
           {/* Director — quote left, photo right */}
           <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center mb-20">
             <div className="order-2 md:order-1">
-              <p className="font-body text-sm text-cyan font-semibold uppercase tracking-[0.18em] mb-2">Message from Our Directors</p>
+              <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-2">Message from Our Directors</p>
               <h3 className="font-heading text-2xl lg:text-3xl text-white font-bold mb-1">Mr. Raman Kumar Gupta</h3>
-              <p className="font-body text-cyan/80 text-xs font-semibold uppercase tracking-widest mb-6">Director</p>
+              <p className="font-body text-orange/80 text-xs font-semibold uppercase tracking-widest mb-6">Director</p>
               <blockquote className="border-l-4 border-cyan pl-5">
                 <p className="font-body text-white/75 leading-relaxed italic text-base lg:text-lg">
                   &ldquo;Our mission is to ensure every sheet we produce meets the highest standards of quality.
@@ -353,17 +364,22 @@ export default async function AboutPage() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { step: '01', title: 'Consultation', desc: 'We work closely with you to understand project requirements, quantities, and specifications.' },
-              { step: '02', title: 'Custom Manufacturing', desc: 'Our team manufactures to your exact profile requirements using premium raw materials.' },
-              { step: '03', title: 'Quality Control', desc: 'Each batch undergoes rigorous testing before it leaves our Kanpur facility.' },
-              { step: '04', title: 'Fast Delivery', desc: 'Reliable delivery within 2–3 days across Uttar Pradesh — direct to your site.' },
+              { step: '01', title: 'Consultation', desc: 'We work closely with you to understand project requirements, quantities, and specifications.', img: 'https://images.unsplash.com/photo-1778546978267-b93e8c6ea099?w=600&q=80' },
+              { step: '02', title: 'Custom Manufacturing', desc: 'Our team manufactures to your exact profile requirements using premium raw materials.', img: 'https://images.unsplash.com/photo-1598299803204-b73796f43289?w=600&q=80' },
+              { step: '03', title: 'Quality Control', desc: 'Each batch undergoes rigorous testing before it leaves our Kanpur facility.', img: 'https://images.unsplash.com/photo-1564182842834-681b7be6de4b?w=600&q=80' },
+              { step: '04', title: 'Fast Delivery', desc: 'Reliable delivery within 2–3 days across Uttar Pradesh — direct to your site.', img: 'https://images.unsplash.com/photo-1616432043562-3671ea2e5242?w=600&q=80' },
             ].map((item, i) => (
-              <div key={item.step} className="relative flex flex-col items-start">
+              <div key={item.step} className="relative flex flex-col">
                 {i < 3 && (
                   <div className="hidden lg:block absolute top-6 left-full w-full h-px bg-orange/20 z-0" aria-hidden="true" />
                 )}
-                <div className="relative z-10 w-12 h-12 rounded-full gradient-sunrise flex items-center justify-center mb-5 shadow-glow-orange flex-shrink-0">
-                  <span className="font-heading text-white font-bold text-sm">{item.step}</span>
+                {/* Step image */}
+                <div className="relative w-full h-40 rounded-xl overflow-hidden mb-5 shadow-sm">
+                  <Image src={item.img} alt={item.title} fill className="object-cover" sizes="(max-width: 640px) 90vw, 25vw" />
+                  <div className="absolute inset-0 bg-navy/30" />
+                  <div className="absolute top-3 left-3 z-10 w-10 h-10 rounded-full gradient-sunrise flex items-center justify-center shadow-glow-orange">
+                    <span className="font-heading text-white font-bold text-xs">{item.step}</span>
+                  </div>
                 </div>
                 <h3 className="font-heading text-ink font-semibold text-lg mb-2">{item.title}</h3>
                 <p className="font-body text-ink/60 text-sm leading-relaxed">{item.desc}</p>

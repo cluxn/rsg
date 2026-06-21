@@ -41,9 +41,10 @@ export function TestimonialListPage() {
             <table className="w-full text-sm">
               <thead className="bg-navy/5 text-navy/60 text-left">
                 <tr>
-                  <th className="px-4 py-3 font-semibold">Text</th>
                   <th className="px-4 py-3 font-semibold">Author</th>
-                  <th className="px-4 py-3 font-semibold">City</th>
+                  <th className="px-4 py-3 font-semibold">Company / Designation</th>
+                  <th className="px-4 py-3 font-semibold">Product Bought</th>
+                  <th className="px-4 py-3 font-semibold">Review</th>
                   <th className="px-4 py-3 font-semibold">Rating</th>
                   <th className="px-4 py-3 font-semibold">Source</th>
                   <th className="px-4 py-3 font-semibold">Active</th>
@@ -53,11 +54,27 @@ export function TestimonialListPage() {
               <tbody>
                 {testimonials.map(t => (
                   <tr key={t.id} className="border-t border-navy/10">
-                    <td className="px-4 py-3 text-navy max-w-xs">
-                      <span className="line-clamp-2">{t.text.length > 60 ? t.text.slice(0, 60) + '…' : t.text}</span>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        {t.author_image
+                          ? <img src={t.author_image} alt={t.author_name} className="w-8 h-8 rounded-full object-cover shrink-0" />
+                          : <div className="w-8 h-8 rounded-full bg-navy/10 flex items-center justify-center text-navy/40 text-xs font-bold shrink-0">{t.author_name[0]}</div>
+                        }
+                        <div>
+                          <p className="font-medium text-navy text-sm">{t.author_name}</p>
+                          {t.author_city && <p className="text-xs text-navy/50">{t.author_city}</p>}
+                        </div>
+                      </div>
                     </td>
-                    <td className="px-4 py-3 font-medium text-navy">{t.author_name}</td>
-                    <td className="px-4 py-3 text-navy/60 text-xs">{t.author_city ?? '—'}</td>
+                    <td className="px-4 py-3 text-navy/60 text-xs">
+                      {t.company && <p className="font-medium text-navy/80">{t.company}</p>}
+                      {t.designation && <p>{t.designation}</p>}
+                      {!t.company && !t.designation && '—'}
+                    </td>
+                    <td className="px-4 py-3 text-navy/60 text-xs">{t.product_bought ?? '—'}</td>
+                    <td className="px-4 py-3 text-navy max-w-xs">
+                      <span className="line-clamp-2 text-sm">{t.text.length > 60 ? t.text.slice(0, 60) + '…' : t.text}</span>
+                    </td>
                     <td className="px-4 py-3 text-navy/60 text-xs">{t.rating ? `${t.rating}★` : '—'}</td>
                     <td className="px-4 py-3 text-navy/60 text-xs capitalize">{t.source}</td>
                     <td className="px-4 py-3">

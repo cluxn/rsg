@@ -114,10 +114,15 @@ export function SiteFooter({ address, phone, email, hours }: SiteFooterProps) {
 
       {/* Bottom row */}
       <div className="border-t border-white/10 py-4">
-        <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32 flex flex-col md:flex-row items-center justify-between gap-2">
+        <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32 flex flex-col md:flex-row items-center justify-between gap-3">
           <p className="font-body text-xs text-white/50">
             © 2026 RSG Profile Manufacturing Pvt Ltd. All rights reserved.
           </p>
+          <div className="flex items-center gap-4">
+            <Link href="/privacy-policy" className="font-body text-xs text-white/50 hover:text-white transition-colors">Privacy Policy</Link>
+            <span className="text-white/20">·</span>
+            <Link href="/terms-and-conditions" className="font-body text-xs text-white/50 hover:text-white transition-colors">Terms &amp; Conditions</Link>
+          </div>
           <p className="font-body text-xs text-white/50">
             Developed and managed by{' '}
             <a href="https://buildera.co/" target="_blank" rel="noopener" className="text-white/70 hover:text-white transition-colors underline">

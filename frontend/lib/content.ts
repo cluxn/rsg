@@ -70,6 +70,10 @@ export interface Testimonial {
   text: string;
   author_name: string;
   author_city?: string;
+  author_image?: string;
+  company?: string;
+  designation?: string;
+  product_bought?: string;
   rating?: number;
   source: 'google' | 'indiamart' | 'justdial' | 'other';
 }

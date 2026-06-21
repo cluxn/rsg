@@ -6,7 +6,6 @@ import { EventRegistrationForm } from '@/components/events/EventRegistrationForm
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import { ContactFormSection } from '@/components/sections/ContactFormSection';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 
@@ -94,13 +93,8 @@ export default async function EventDetailPage({ params }: Props) {
       <section className="gradient-power w-full flex items-center justify-center min-h-[300px]">
         <div className="w-full py-16 text-center">
           <SectionContainer noPadding>
-            <Link href="/events" className="text-cyan/80 hover:text-cyan text-sm mb-6 inline-block">← Back to Events</Link>
             {event.event_type && (
-              <div className="mb-3">
-                <span className="inline-flex items-center rounded-full bg-white/15 text-white font-body text-xs font-semibold uppercase tracking-wide px-3 py-1">
-                  {event.event_type}
-                </span>
-              </div>
+              <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">{event.event_type}</p>
             )}
             <h1 className="font-heading text-3xl md:text-4xl font-bold text-white leading-tight mb-3 max-w-3xl mx-auto">{event.title}</h1>
             {event.excerpt && (
@@ -138,7 +132,8 @@ export default async function EventDetailPage({ params }: Props) {
         </div>
       )}
 
-      {/* Cover image */}
+      {/* Cover image + article body — white background */}
+      <div className="bg-white">
       <div className="max-w-4xl mx-auto px-4 md:px-8 pt-8 pb-2">
         <div className="relative w-full h-56 md:h-80 overflow-hidden rounded-2xl shadow-md">
           <Image
@@ -150,7 +145,6 @@ export default async function EventDetailPage({ params }: Props) {
           />
         </div>
       </div>
-
       {/* Article body — with optional sticky sidebar registration form */}
       <SectionContainer className="py-10">
         {event.show_sidebar_form ? (
@@ -168,21 +162,22 @@ export default async function EventDetailPage({ params }: Props) {
           </article>
         )}
       </SectionContainer>
+      </div>
 
-      {/* 2-column registration section — light theme */}
-      <section className="bg-slate-50 border-t border-navy/10">
+      {/* 2-column registration section — dark theme */}
+      <section className="bg-navy border-t border-white/10">
         <SectionContainer className="py-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
 
             {/* Left: eyebrow, heading, para, WhatsApp CTA */}
             <div className="space-y-5">
               <p className="font-body text-xs text-orange uppercase tracking-widest font-semibold">Don&apos;t Miss Out</p>
-              <h2 className="font-heading text-3xl md:text-4xl text-navy font-bold leading-tight">{event.title}</h2>
+              <h2 className="font-heading text-3xl md:text-4xl text-white font-bold leading-tight">{event.title}</h2>
               {event.excerpt && (
-                <p className="font-body text-navy/65 text-base leading-relaxed">{event.excerpt}</p>
+                <p className="font-body text-white/65 text-base leading-relaxed">{event.excerpt}</p>
               )}
               {dateRange && (
-                <p className="font-body text-navy/50 text-sm">
+                <p className="font-body text-white/50 text-sm">
                   {dateRange}{event.location ? ` · ${event.location}` : ''}
                 </p>
               )}
