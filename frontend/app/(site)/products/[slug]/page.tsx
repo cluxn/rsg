@@ -240,8 +240,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 <h3 className="font-heading text-white font-bold text-base">1220MM Sheet Specifications</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2">
-                <div className="relative h-56 md:h-auto min-h-[200px]">
-                  <Image src="/images/product-page/specs/1220mm.jpg" alt="1220MM Colour Coated Roofing Sheet" fill className="object-cover" />
+                <div className="relative bg-white flex items-center justify-center min-h-[280px]">
+                  <Image src="/images/product-page/specs/1220mm.jpg" alt="1220MM Colour Coated Roofing Sheet" fill className="object-contain p-4" />
                 </div>
                 <table className="w-full text-sm">
                   <tbody>
@@ -261,8 +261,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 <h3 className="font-heading text-white font-bold text-base">1440MM Sheet Specifications</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2">
-                <div className="relative h-56 md:h-auto min-h-[200px]">
-                  <Image src="/images/product-page/specs/1440mm.jpg" alt="1440MM Colour Coated Roofing Sheet" fill className="object-cover" />
+                <div className="relative bg-white flex items-center justify-center min-h-[280px]">
+                  <Image src="/images/product-page/specs/1440mm.jpg" alt="1440MM Colour Coated Roofing Sheet" fill className="object-contain p-4" />
                 </div>
                 <table className="w-full text-sm">
                   <tbody>
