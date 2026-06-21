@@ -192,8 +192,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </SectionContainer>
       )}
 
-      {/* Colour Options — Brand Products Only */}
-      {BRAND_PRODUCT_SLUGS.has(product.slug) && (
+      {/* Colour Options — JSW Colouron+ only */}
+      {product.slug === 'jsw-colouron' && (
         <SectionContainer>
           <div className="text-center mb-10">
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">
@@ -219,37 +219,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </SectionContainer>
       )}
 
-      {/* Brand Advantages — Brand Products Only */}
-      {BRAND_PRODUCT_SLUGS.has(product.slug) && (BRAND_ADVANTAGES[product.slug] ?? []).length > 0 && (
-        <SectionContainer>
-          <div className="text-center mb-12">
-            <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">
-              Why Choose {product.name}
-            </p>
-            <h2 className="font-heading text-3xl text-navy font-bold mb-3">
-              Advantages of {product.name}
-            </h2>
-            <p className="font-body text-navy/60 max-w-xl mx-auto">
-              What sets {product.name} apart as a premium colour-coated roofing solution.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {(BRAND_ADVANTAGES[product.slug] ?? []).map((adv) => (
-              <div key={adv.title} className="bg-white rounded-xl border border-navy/8 shadow-sm p-6 flex flex-col gap-2">
-                <div className="w-8 h-8 rounded-lg bg-orange/10 flex items-center justify-center shrink-0 mb-1">
-                  <svg className="w-4 h-4 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <h3 className="font-heading text-navy text-base font-bold">{adv.title}</h3>
-                <p className="font-body text-navy/60 text-sm leading-relaxed">{adv.body}</p>
-              </div>
-            ))}
-          </div>
-        </SectionContainer>
-      )}
-
-      {/* Sheet Specifications — Brand Products Only */}
+      {/* Sheet Specifications — Brand Products Only, 2-column image+table layout */}
       {BRAND_PRODUCT_SLUGS.has(product.slug) && (
         <SectionContainer>
           <div className="text-center mb-10">
@@ -263,38 +233,48 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               Available in two standard profile widths — 1220MM and 1440MM — with thicknesses from 0.30mm to 0.70mm.
             </p>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 gap-8">
             {/* 1220MM */}
             <div className="rounded-xl border border-navy/10 overflow-hidden shadow-sm">
               <div className="bg-navy px-5 py-3">
                 <h3 className="font-heading text-white font-bold text-base">1220MM Sheet Specifications</h3>
               </div>
-              <table className="w-full text-sm">
-                <tbody>
-                  {SHEET_SPECS_1220.map((row) => (
-                    <tr key={row.label} className="border-b border-navy/8 last:border-0">
-                      <td className="font-heading text-navy font-semibold px-5 py-3 bg-steel/5 w-[45%]">{row.label}</td>
-                      <td className="font-body text-navy/70 px-5 py-3">{row.value}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                <div className="relative h-56 md:h-auto min-h-[200px]">
+                  <Image src="/images/product-page/specs/1220mm.jpg" alt="1220MM Colour Coated Roofing Sheet" fill className="object-cover" />
+                </div>
+                <table className="w-full text-sm">
+                  <tbody>
+                    {SHEET_SPECS_1220.map((row) => (
+                      <tr key={row.label} className="border-b border-navy/8 last:border-0">
+                        <td className="font-heading text-navy font-semibold px-5 py-3 bg-steel/5 w-[45%]">{row.label}</td>
+                        <td className="font-body text-navy/70 px-5 py-3">{row.value}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
             {/* 1440MM */}
             <div className="rounded-xl border border-navy/10 overflow-hidden shadow-sm">
               <div className="bg-navy px-5 py-3">
                 <h3 className="font-heading text-white font-bold text-base">1440MM Sheet Specifications</h3>
               </div>
-              <table className="w-full text-sm">
-                <tbody>
-                  {SHEET_SPECS_1440.map((row) => (
-                    <tr key={row.label} className="border-b border-navy/8 last:border-0">
-                      <td className="font-heading text-navy font-semibold px-5 py-3 bg-steel/5 w-[45%]">{row.label}</td>
-                      <td className="font-body text-navy/70 px-5 py-3">{row.value}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                <div className="relative h-56 md:h-auto min-h-[200px]">
+                  <Image src="/images/product-page/specs/1440mm.jpg" alt="1440MM Colour Coated Roofing Sheet" fill className="object-cover" />
+                </div>
+                <table className="w-full text-sm">
+                  <tbody>
+                    {SHEET_SPECS_1440.map((row) => (
+                      <tr key={row.label} className="border-b border-navy/8 last:border-0">
+                        <td className="font-heading text-navy font-semibold px-5 py-3 bg-steel/5 w-[45%]">{row.label}</td>
+                        <td className="font-body text-navy/70 px-5 py-3">{row.value}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </SectionContainer>
@@ -325,31 +305,43 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </div>
       </SectionContainer>
 
-      {/* Key Benefits — not shown for Accessories; AccessoryShowcase already covers per-item benefits */}
-      {product.slug !== 'accessories' && (
-      <SectionContainer>
-        <div className="text-center mb-12">
-          <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Key Benefits</p>
-          <h2 className="font-heading text-3xl text-navy font-bold mb-3">Benefits of {product.name}</h2>
-          <p className="font-body text-navy/60 max-w-xl mx-auto">
-            What makes {product.name.toLowerCase()} the right choice for your project.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {productBenefits(product.slug).map((b) => (
-            <div key={b.title} className="rounded-xl overflow-hidden border border-navy/8 shadow-sm flex flex-col">
-              <div className="relative h-36 overflow-hidden">
-                <Image src={b.image ?? displayImageUrl ?? '/images/product-page/factory.jpg'} alt={b.title} fill className="object-cover" />
+      {/* Brand Advantages — after Why RSG, with images for jsw-colouron */}
+      {BRAND_PRODUCT_SLUGS.has(product.slug) && (BRAND_ADVANTAGES[product.slug] ?? []).length > 0 && (
+        <SectionContainer>
+          <div className="text-center mb-12">
+            <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">
+              Why Choose {product.name}
+            </p>
+            <h2 className="font-heading text-3xl text-navy font-bold mb-3">
+              Advantages of {product.name}
+            </h2>
+            <p className="font-body text-navy/60 max-w-xl mx-auto">
+              What sets {product.name} apart as a premium colour-coated roofing solution.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {(BRAND_ADVANTAGES[product.slug] ?? []).map((adv) => (
+              <div key={adv.title} className="bg-white rounded-xl border border-navy/8 shadow-sm overflow-hidden flex flex-col">
+                {adv.img && (
+                  <div className="relative h-36 overflow-hidden">
+                    <Image src={adv.img} alt={adv.title} fill className="object-cover" />
+                  </div>
+                )}
+                <div className="p-5 flex flex-col gap-2">
+                  {!adv.img && (
+                    <div className="w-8 h-8 rounded-lg bg-orange/10 flex items-center justify-center shrink-0 mb-1">
+                      <svg className="w-4 h-4 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  )}
+                  <h3 className="font-heading text-navy text-base font-bold">{adv.title}</h3>
+                  <p className="font-body text-navy/60 text-sm leading-relaxed">{adv.body}</p>
+                </div>
               </div>
-              <div className="p-5">
-                <h4 className="font-heading text-navy text-base font-bold mb-2">{b.title}</h4>
-                <p className="font-body text-navy/60 text-sm leading-relaxed">{b.body}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </SectionContainer>
+            ))}
+          </div>
+        </SectionContainer>
       )}
 
       {/* Applications — not shown for Accessories; AccessoryShowcase already covers per-item use */}
@@ -596,14 +588,14 @@ const COLOUR_PALETTE = [
   { name: 'Brick Red',         img: '/images/colour-swatches/brick-red-2.png' },
 ];
 
-const BRAND_ADVANTAGES: Record<string, { title: string; body: string }[]> = {
+const BRAND_ADVANTAGES: Record<string, { title: string; body: string; img?: string }[]> = {
   'jsw-colouron': [
-    { title: '15-Year Warranty', body: "India's first ISI certified colour coated sheet — backed by a 15-year manufacturer warranty." },
-    { title: 'Advanced Anti-Corrosion', body: 'Al-Zn alloy (Galvalume) coating provides superior rust resistance even in coastal and high-humidity environments.' },
-    { title: 'ISI Certified Quality', body: "India's first ISI certified colour coated sheet, meeting the highest Bureau of Indian Standards benchmarks." },
-    { title: 'Superior Paint Durability', body: 'Factory-baked colour coating resists fading, chalking, and UV degradation for 15+ years of outdoor exposure.' },
-    { title: 'High Tensile Strength', body: 'Yield strength of 550 MPa — engineered to handle structural loads across large-span roofing applications.' },
-    { title: 'Heat Reflective Coating', body: 'Reflective coating reduces heat absorption and keeps interiors cooler, lowering energy costs in warm climates.' },
+    { title: '15-Year Warranty', body: "India's first ISI certified colour coated sheet — backed by a 15-year manufacturer warranty.", img: '/images/product-page/advantages/jsw-product-banner.jpg' },
+    { title: 'Advanced Anti-Corrosion', body: 'Al-Zn alloy (Galvalume) coating provides superior rust resistance even in coastal and high-humidity environments.', img: '/images/product-page/benefits/corrosion-resistance.png' },
+    { title: 'ISI Certified Quality', body: "India's first ISI certified colour coated sheet, meeting the highest Bureau of Indian Standards benchmarks.", img: '/images/product-page/advantages/profile-sheet.png' },
+    { title: 'Superior Paint Durability', body: 'Factory-baked colour coating resists fading, chalking, and UV degradation for 15+ years of outdoor exposure.', img: '/images/product-page/benefits/vibrant-colour.png' },
+    { title: 'High Tensile Strength', body: 'Yield strength of 550 MPa — engineered to handle structural loads across large-span roofing applications.', img: '/images/product-page/benefits/lightweight-strong.png' },
+    { title: 'Heat Reflective Coating', body: 'Reflective coating reduces heat absorption and keeps interiors cooler, lowering energy costs in warm climates.', img: '/images/product-page/benefits/heat-reflective.png' },
   ],
   'jsw-silveron': [
     { title: 'Premium Alloy Substrate', body: 'Aluminium-Zinc-Silicon alloy applied via hot-dip process for unmatched corrosion resistance over zinc-only coatings.' },
