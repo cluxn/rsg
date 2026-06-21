@@ -216,14 +216,12 @@ export default async function Home() {
 
       {/* Section 6 — Client logo strip */}
       <SectionContainer>
-        <div className="text-center mb-12">
-          <div className="max-w-2xl mx-auto">
-            <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Brand Partners</p>
-            <h2 className="font-heading text-3xl text-ink font-bold mb-3">Our Clients & Partners</h2>
-            <p className="font-body text-ink/60">
-              Authorized dealer for India&apos;s leading steel brands — delivering premium quality at factory prices.
-            </p>
-          </div>
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Brand Partners</p>
+          <h2 className="font-heading text-3xl text-ink font-bold mb-3">Our Clients & Partners</h2>
+          <p className="font-body text-ink/60">
+            Authorized dealer for India&apos;s leading steel brands — delivering premium quality at factory prices.
+          </p>
         </div>
         {/* Moving logo marquee */}
         <div className="overflow-hidden" aria-label="Partner logos">
