@@ -102,8 +102,9 @@ export async function getEvent(slug: string): Promise<EventItem | null> {
   return res.json();
 }
 
-export async function getTestimonials(): Promise<Testimonial[]> {
-  const res = await fetch(`${API_URL}/api/testimonials`, { next: { revalidate: 60 } });
+export async function getTestimonials(page?: 'home' | 'about'): Promise<Testimonial[]> {
+  const qs = page ? `?page=${page}` : '';
+  const res = await fetch(`${API_URL}/api/testimonials${qs}`, { next: { revalidate: 60 } });
   if (!res.ok) return [];
   return res.json();
 }

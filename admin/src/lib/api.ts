@@ -103,6 +103,8 @@ export interface Testimonial {
   rating?: number;
   source: 'google' | 'indiamart' | 'justdial' | 'other';
   active: boolean;
+  show_on_home: boolean;
+  show_on_about: boolean;
   created_at: string;
 }
 
@@ -117,6 +119,8 @@ export interface CreateTestimonialInput {
   rating?: number;
   source: 'google' | 'indiamart' | 'justdial' | 'other';
   active: boolean;
+  show_on_home?: boolean;
+  show_on_about?: boolean;
 }
 
 // ─── Axios instance ───────────────────────────────────────────────────────────

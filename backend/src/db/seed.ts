@@ -15,7 +15,6 @@ async function seed() {
     INSERT IGNORE INTO settings (\`key\`, value) VALUES
     ('whatsapp_number', '919918522988'),
     ('business_email', 'shivamgupta@rsgprofilesheets.com'),
-    ('seo_scripts', ''),
     ('business_address', '53-A, Industrial Estate, Dada Nagar, Kanpur, Uttar Pradesh 208022, India'),
     ('business_hours', 'Mon–Sat 10 AM – 6 PM, Closed Sunday'),
     ('business_phone', '+91-9918522988')
@@ -41,13 +40,18 @@ async function seed() {
     );
   }
 
-  await pool.query(`
-    INSERT IGNORE INTO testimonials (text, author_name, author_city, rating, source, active) VALUES
-    ('Satisfactory service and behaviour.', 'Shivkant Dixit', 'Kanpur', 4.5, 'google', TRUE),
-    ('Extremely professional company with good quality products.', 'Arvind Yadav', 'Kanpur', 5.0, 'google', TRUE),
-    ('Very Nice and Good approaching system in this organisation.', 'Vijay Prajapati', 'Mumbai', 4.0, 'indiamart', TRUE),
-    ('Good quality and timely delivery.', 'Santosh Gupta', 'Mumbai', 4.0, 'indiamart', TRUE)
-  `);
+  const [[{ testimonialCount }]] = await pool.query(
+    'SELECT COUNT(*) as testimonialCount FROM testimonials'
+  ) as [{ testimonialCount: number }[], unknown];
+  if (testimonialCount === 0) {
+    await pool.query(`
+      INSERT INTO testimonials (text, author_name, author_city, rating, source, active) VALUES
+      ('Satisfactory service and behaviour.', 'Shivkant Dixit', 'Kanpur', 4.5, 'google', TRUE),
+      ('Extremely professional company with good quality products.', 'Arvind Yadav', 'Kanpur', 5.0, 'google', TRUE),
+      ('Very Nice and Good approaching system in this organisation.', 'Vijay Prajapati', 'Mumbai', 4.0, 'indiamart', TRUE),
+      ('Good quality and timely delivery.', 'Santosh Gupta', 'Mumbai', 4.0, 'indiamart', TRUE)
+    `);
+  }
 
   const blogPosts = [
     {

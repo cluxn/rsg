@@ -157,7 +157,7 @@ export function BlogEditPage() {
         {/* 2-column body */}
         <div className="flex min-h-[calc(100vh-8rem)]">
           {/* Left: main content */}
-          <div className="flex-1 px-8 py-6 overflow-y-auto space-y-5">
+          <div className="flex-1 px-8 py-6 space-y-5">
             <div>
               <label className="block text-sm font-semibold text-navy mb-1">Title *</label>
               <input {...register('title')} className={inputCls} />

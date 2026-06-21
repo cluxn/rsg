@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import type { Testimonial } from '@/lib/content';
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 21;
 
 function Stars({ rating }: { rating: number }) {
   return (
@@ -38,23 +38,24 @@ export function TestimonialsGrid({ testimonials }: Props) {
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {slice.map((t) => (
           <div key={t.id} className="glow-card rounded-xl p-6 flex flex-col">
-            <svg className="w-7 h-7 text-orange/30 mb-3" fill="currentColor" viewBox="0 0 32 32" aria-hidden="true">
-              <path d="M10 8c-3.3 0-6 2.7-6 6v10h10V14h-6c0-1.1.9-2 2-2V8zm14 0c-3.3 0-6 2.7-6 6v10h10V14h-6c0-1.1.9-2 2-2V8z" />
-            </svg>
+            {/* Header row — quote icon + product badge */}
+            <div className="flex items-start justify-between gap-3 mb-3">
+              <svg className="w-7 h-7 text-orange/30" fill="currentColor" viewBox="0 0 32 32" aria-hidden="true">
+                <path d="M10 8c-3.3 0-6 2.7-6 6v10h10V14h-6c0-1.1.9-2 2-2V8zm14 0c-3.3 0-6 2.7-6 6v10h10V14h-6c0-1.1.9-2 2-2V8z" />
+              </svg>
+              {t.product_bought && (
+                <span className="font-body text-[11px] text-orange font-semibold uppercase tracking-wide bg-orange/8 rounded-full px-3 py-1 text-right shrink-0 max-w-[55%] leading-tight">
+                  {t.product_bought}
+                </span>
+              )}
+            </div>
 
             {t.rating && <Stars rating={t.rating} />}
 
-            <p className="font-body text-ink/75 italic mb-4 leading-relaxed text-base flex-1">&ldquo;{t.text}&rdquo;</p>
-
-            {/* Product tag */}
-            {t.product_bought && (
-              <p className="font-body text-xs text-orange font-semibold uppercase tracking-wide mb-3">
-                {t.product_bought}
-              </p>
-            )}
+            <p className="font-body text-ink/75 italic mb-5 leading-relaxed text-base flex-1">&ldquo;{t.text}&rdquo;</p>
 
             {/* Author row */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 pt-4 border-t border-navy/8">
               {t.author_image ? (
                 <Image
                   src={t.author_image}

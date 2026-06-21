@@ -9,12 +9,9 @@ import TextAlign from '@tiptap/extension-text-align';
 import { TextStyle } from '@tiptap/extension-text-style';
 import { Color } from '@tiptap/extension-color';
 import { Highlight } from '@tiptap/extension-highlight';
-import { Image } from '@tiptap/extension-image';
+import { ResizableImage } from './ResizableImage';
 import { Youtube } from '@tiptap/extension-youtube';
-import Table from '@tiptap/extension-table';
-import TableRow from '@tiptap/extension-table-row';
-import TableHeader from '@tiptap/extension-table-header';
-import TableCell from '@tiptap/extension-table-cell';
+import { Table, TableRow, TableHeader, TableCell } from '@tiptap/extension-table';
 import { cn } from '@/lib/utils';
 import { api } from '@/lib/api';
 
@@ -79,7 +76,7 @@ export function TiptapEditor({ value, onChange, placeholder }: TiptapEditorProps
       TextStyle,
       Color,
       Highlight.configure({ multicolor: true }),
-      Image.configure({ HTMLAttributes: { class: 'max-w-full rounded-lg my-2' } }),
+      ResizableImage,
       Youtube.configure({ width: 640, height: 360, HTMLAttributes: { class: 'rounded-lg my-2 w-full' } }),
       FontSize,
       Table.configure({ resizable: true }),
@@ -98,7 +95,7 @@ export function TiptapEditor({ value, onChange, placeholder }: TiptapEditorProps
       const rect = range.getBoundingClientRect();
       const wrapRect = editorWrapRef.current?.getBoundingClientRect();
       if (!wrapRect || rect.width === 0) { setBubblePos(null); return; }
-      setBubblePos({ top: rect.top - wrapRect.top - 44, left: rect.left - wrapRect.left + rect.width / 2 - 120 });
+      setBubblePos({ top: rect.top - wrapRect.top - 48, left: rect.left - wrapRect.left + rect.width / 2 - 220 });
     },
     editorProps: {
       attributes: {
@@ -235,20 +232,64 @@ export function TiptapEditor({ value, onChange, placeholder }: TiptapEditorProps
         <div
           onMouseDown={e => e.stopPropagation()}
           style={{ top: bubblePos.top, left: Math.max(4, bubblePos.left) }}
-          className="absolute z-30 flex items-center gap-0.5 bg-navy rounded-lg shadow-xl px-1.5 py-1 pointer-events-auto"
+          className="absolute z-30 flex items-center flex-wrap gap-0.5 bg-white border border-navy/15 rounded-lg shadow-lg px-1.5 py-1 pointer-events-auto min-w-max"
         >
+          {/* Text style */}
           <button type="button" onClick={() => editor.chain().focus().toggleBold().run()}
-            className={cn('px-2 py-0.5 text-xs font-bold rounded', editor.isActive('bold') ? 'bg-white text-navy' : 'text-white hover:bg-white/20')}><b>B</b></button>
+            className={cn('px-2 py-0.5 text-xs font-bold rounded', editor.isActive('bold') ? 'bg-steel text-white' : 'text-navy hover:bg-navy/10')}><b>B</b></button>
           <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={cn('px-2 py-0.5 text-xs rounded', editor.isActive('italic') ? 'bg-white text-navy' : 'text-white hover:bg-white/20')}><i>I</i></button>
+            className={cn('px-2 py-0.5 text-xs rounded', editor.isActive('italic') ? 'bg-steel text-white' : 'text-navy hover:bg-navy/10')}><i>I</i></button>
           <button type="button" onClick={() => editor.chain().focus().toggleUnderline().run()}
-            className={cn('px-2 py-0.5 text-xs rounded', editor.isActive('underline') ? 'bg-white text-navy' : 'text-white hover:bg-white/20')}><u>U</u></button>
+            className={cn('px-2 py-0.5 text-xs rounded', editor.isActive('underline') ? 'bg-steel text-white' : 'text-navy hover:bg-navy/10')}><u>U</u></button>
+          <button type="button" onClick={() => editor.chain().focus().toggleStrike().run()}
+            className={cn('px-2 py-0.5 text-xs rounded', editor.isActive('strike') ? 'bg-steel text-white' : 'text-navy hover:bg-navy/10')}><s>S</s></button>
+
+          <span className="w-px bg-navy/15 self-stretch mx-0.5" />
+
+          {/* Headings */}
+          {([1, 2, 3] as const).map(level => (
+            <button key={level} type="button"
+              onClick={() => editor.chain().focus().toggleHeading({ level }).run()}
+              className={cn('px-2 py-0.5 text-xs font-semibold rounded', editor.isActive('heading', { level }) ? 'bg-steel text-white' : 'text-navy hover:bg-navy/10')}>
+              H{level}
+            </button>
+          ))}
+
+          <span className="w-px bg-navy/15 self-stretch mx-0.5" />
+
+          {/* Alignment */}
+          <button type="button" onClick={() => editor.chain().focus().setTextAlign('left').run()}
+            className={cn('px-2 py-0.5 text-xs rounded', editor.isActive({ textAlign: 'left' }) ? 'bg-steel text-white' : 'text-navy hover:bg-navy/10')}>≡L</button>
+          <button type="button" onClick={() => editor.chain().focus().setTextAlign('center').run()}
+            className={cn('px-2 py-0.5 text-xs rounded', editor.isActive({ textAlign: 'center' }) ? 'bg-steel text-white' : 'text-navy hover:bg-navy/10')}>≡C</button>
+          <button type="button" onClick={() => editor.chain().focus().setTextAlign('right').run()}
+            className={cn('px-2 py-0.5 text-xs rounded', editor.isActive({ textAlign: 'right' }) ? 'bg-steel text-white' : 'text-navy hover:bg-navy/10')}>≡R</button>
+
+          <span className="w-px bg-navy/15 self-stretch mx-0.5" />
+
+          {/* Font size */}
+          <select
+            defaultValue=""
+            onChange={e => {
+              const val = e.target.value;
+              if (!val) (editor.chain().focus() as any).unsetFontSize().run();
+              else (editor.chain().focus() as any).setFontSize(val).run();
+            }}
+            className="text-xs border border-navy/20 rounded px-1 py-0.5 text-navy hover:border-navy/40 bg-white"
+          >
+            <option value="">Size</option>
+            {FONT_SIZES.map(s => <option key={s} value={s}>{s.replace('px', '')}</option>)}
+          </select>
+
+          <span className="w-px bg-navy/15 self-stretch mx-0.5" />
+
+          {/* Highlight + link + clear */}
           <button type="button" onClick={() => editor.chain().focus().toggleHighlight({ color: '#fef08a' }).run()}
-            className="px-2 py-0.5 text-xs rounded bg-yellow-400/80 text-navy hover:bg-yellow-400">HL</button>
+            className={cn('px-2 py-0.5 text-xs rounded font-semibold', editor.isActive('highlight') ? 'bg-yellow-300 text-navy' : 'bg-yellow-100 text-navy hover:bg-yellow-200')}>HL</button>
           <button type="button" onClick={setLink}
-            className={cn('px-2 py-0.5 text-xs rounded', editor.isActive('link') ? 'bg-white text-navy' : 'text-white hover:bg-white/20')}>🔗</button>
-          <button type="button" onClick={() => editor.chain().focus().unsetAllMarks().run()}
-            className="px-2 py-0.5 text-xs rounded text-white/60 hover:bg-white/20">✕</button>
+            className={cn('px-2 py-0.5 text-xs rounded', editor.isActive('link') ? 'bg-steel text-white' : 'text-navy hover:bg-navy/10')}>🔗</button>
+          <button type="button" onClick={() => editor.chain().focus().unsetColor().unsetHighlight().unsetAllMarks().run()}
+            className="px-2 py-0.5 text-xs rounded text-navy/50 hover:bg-navy/10 hover:text-navy">✕A</button>
         </div>
       )}
 

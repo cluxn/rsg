@@ -10,6 +10,7 @@
   --color-gold: #FFA820;       /* Warm amber — premium warmth */
   --color-off-white: #EDF1F7;  /* Cool industrial white — not flat, has depth */
   --color-ink: #141E30;        /* Deep blue-black */
+  --color-graphite: #4A5568;   /* Steel-grey neutral — technical plates, ledgers, hairline borders */
 
   /* Typography */
   --font-family-heading: var(--font-sora), 'Sora', sans-serif;

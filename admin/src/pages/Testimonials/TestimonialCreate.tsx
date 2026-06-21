@@ -19,6 +19,8 @@ const schema = z.object({
   rating: z.preprocess(v => (v === '' || v === null || v === undefined) ? undefined : Number(v), z.number().min(1).max(5).optional()),
   source: z.enum(['google', 'indiamart', 'justdial', 'other']),
   active: z.boolean().default(true),
+  show_on_home: z.boolean().default(false),
+  show_on_about: z.boolean().default(false),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -118,7 +120,22 @@ export function TestimonialCreatePage() {
           {/* Active */}
           <div className="flex items-center gap-2">
             <input type="checkbox" id="active" {...register('active')} className="w-4 h-4 accent-steel" />
-            <label htmlFor="active" className="text-sm font-semibold text-navy">Show on public site</label>
+            <label htmlFor="active" className="text-sm font-semibold text-navy">Show on Testimonials page</label>
+          </div>
+
+          {/* Page placement */}
+          <div>
+            <label className={labelCls}>Also Show On</label>
+            <div className="flex items-center gap-5 mt-1">
+              <div className="flex items-center gap-2">
+                <input type="checkbox" id="show_on_home" {...register('show_on_home')} className="w-4 h-4 accent-steel" />
+                <label htmlFor="show_on_home" className="text-sm text-navy">Homepage</label>
+              </div>
+              <div className="flex items-center gap-2">
+                <input type="checkbox" id="show_on_about" {...register('show_on_about')} className="w-4 h-4 accent-steel" />
+                <label htmlFor="show_on_about" className="text-sm text-navy">About page</label>
+              </div>
+            </div>
           </div>
 
           <div className="flex gap-3 pt-2">

@@ -1,5 +1,13 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
 
+export function report404(url: string): void {
+  fetch(`${API_BASE}/api/404-logs`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url }),
+  }).catch(() => {});
+}
+
 export async function getSettings(): Promise<Record<string, string>> {
   const res = await fetch(`${API_BASE}/api/settings`, {
     next: { revalidate: 3600, tags: ['settings'] },

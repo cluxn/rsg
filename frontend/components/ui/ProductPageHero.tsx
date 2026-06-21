@@ -11,15 +11,16 @@ const PRODUCT_CARD_IMAGE: Record<string, string> = {
   'ms-plate-channel-angle': '/images/products/ms-plate-channel-angle.png',
   'polycarbonate-sheet': '/images/products/polycarbonate-sheet.png',
   'ms-pipe': '/images/products/ms-pipe.png',
-  // Colour-coated brand products
-  'jsw-colouron':   '/images/products/jsw-colouron.jpg',
-  'jsw-silveron':   '/images/products/colour-coated-roofing-sheet-new.png',
-  'jsw-pragati':    '/images/products/colour-coated-roofing-sheet-new.png',
-  'jsw-endura':     '/images/products/colour-coated-roofing-sheet-new.png',
-  'tata-durashine': '/images/products/colour-coated-roofing-sheet-new.png',
-  'jindal-sabrang': '/images/products/colour-coated-roofing-sheet-new.png',
-  'dura-glow':      '/images/products/colour-coated-roofing-sheet-new.png',
-  'am-ns':          '/images/products/colour-coated-roofing-sheet-new.png',
+  'accessories': '/images/products/accessories/corner-accessory.jpg',
+  // Colour-coated brand products — official brand banners
+  'jsw-colouron':   '/images/products/brands/jsw-colouron.jpg',
+  'jsw-silveron':   '/images/products/brands/jsw-silveron.jpg',
+  'jsw-pragati':    '/images/products/brands/jsw-pragati.jpg',
+  'jsw-endura':     '/images/products/brands/jsw-endura.jpg',
+  'tata-durashine': '/images/products/brands/tata-durashine.jpg',
+  'jindal-sabrang': '/images/products/brands/jindal-sabrang.jpg',
+  'dura-glow':      '/images/products/brands/dura-glow.png',
+  'am-ns':          '/images/products/brands/am-ns.jpg',
 };
 
 const FORM_OPTION: Record<string, string> = {

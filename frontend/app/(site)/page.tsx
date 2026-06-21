@@ -7,7 +7,8 @@ import { StatsSection } from '@/components/sections/StatsSection';
 import { CapabilitySection } from '@/components/sections/CapabilitySection';
 import HomeQuoteForm from './HomeQuoteForm';
 import { getSettings } from '@/lib/api';
-import { TESTIMONIALS, RATINGS, PARTNER_LOGOS } from '@/lib/testimonials-data';
+import { getTestimonials } from '@/lib/content';
+import { RATINGS, PARTNER_LOGOS } from '@/lib/testimonials-data';
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
@@ -76,6 +77,8 @@ const FEATURED_PRODUCTS = [
 ];
 
 export default async function Home() {
+  const testimonials = await getTestimonials('home');
+
   return (
     <>
       {/* Section 1 — Hero */}
@@ -263,19 +266,21 @@ export default async function Home() {
             style={{ WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)', maskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)' }}
           >
           <div className="marquee-track gap-6" style={{ animationDuration: '120s' }}>
-            {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
-              <div key={i} className="glow-card-dark rounded-xl p-6 w-80 flex-shrink-0">
-                <div className="flex gap-1 mb-4">
-                  {Array.from({ length: t.rating }).map((_, j) => (
-                    <svg key={j} className="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="font-body text-white/80 italic mb-4 leading-relaxed text-base">"{t.quote}"</p>
+            {[...testimonials, ...testimonials].map((t, i) => (
+              <div key={`${t.id}-${i}`} className="glow-card-dark rounded-xl p-6 w-80 flex-shrink-0">
+                {t.rating && (
+                  <div className="flex gap-1 mb-4">
+                    {Array.from({ length: Math.round(t.rating) }).map((_, j) => (
+                      <svg key={j} className="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                )}
+                <p className="font-body text-white/80 italic mb-4 leading-relaxed text-base">&ldquo;{t.text}&rdquo;</p>
                 <div>
-                  <p className="font-heading text-base text-white font-semibold">{t.name}</p>
-                  <p className="font-body text-sm text-white/50 mt-1">{t.source}</p>
+                  <p className="font-heading text-base text-white font-semibold">{t.author_name}</p>
+                  <p className="font-body text-sm text-white/50 mt-1">{t.source}{t.author_city ? ` · ${t.author_city}` : ''}</p>
                 </div>
               </div>
             ))}

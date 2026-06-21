@@ -19,10 +19,13 @@ const createTestimonialSchema = z.object({
   rating: z.number().min(1).max(5).optional(),
   source: z.enum(['google', 'indiamart', 'justdial', 'other']).default('google'),
   active: z.boolean().default(true),
+  show_on_home: z.boolean().default(false),
+  show_on_about: z.boolean().default(false),
 });
 
-export async function getActiveTestimonials(_req: Request, res: Response): Promise<void> {
-  res.json(await listActiveTestimonials());
+export async function getActiveTestimonials(req: Request, res: Response): Promise<void> {
+  const page = req.query.page === 'home' || req.query.page === 'about' ? req.query.page : undefined;
+  res.json(await listActiveTestimonials(page));
 }
 
 export async function getAllTestimonialsAdmin(_req: Request, res: Response): Promise<void> {

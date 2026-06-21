@@ -12,6 +12,8 @@ export interface Testimonial {
   rating?: number;
   source: 'google' | 'indiamart' | 'justdial' | 'other';
   active: boolean;
+  show_on_home: boolean;
+  show_on_about: boolean;
   created_at: string;
 }
 
@@ -26,11 +28,15 @@ export interface CreateTestimonialData {
   rating?: number;
   source?: string;
   active?: boolean;
+  show_on_home?: boolean;
+  show_on_about?: boolean;
 }
 
-export async function listActiveTestimonials(): Promise<Omit<Testimonial, 'active'>[]> {
+export async function listActiveTestimonials(page?: 'home' | 'about'): Promise<Omit<Testimonial, 'active'>[]> {
+  const pageFilter = page === 'home' ? 'AND show_on_home = TRUE' : page === 'about' ? 'AND show_on_about = TRUE' : '';
   return query(
-    'SELECT id, text, author_name, author_city, author_image, company, designation, product_bought, rating, source FROM testimonials WHERE active = TRUE ORDER BY created_at DESC'
+    `SELECT id, text, author_name, author_city, author_image, company, designation, product_bought, rating, source, show_on_home, show_on_about
+     FROM testimonials WHERE active = TRUE ${pageFilter} ORDER BY created_at DESC`
   );
 }
 
@@ -39,10 +45,10 @@ export async function getAllTestimonials(): Promise<Testimonial[]> {
 }
 
 export async function createTestimonial(data: CreateTestimonialData): Promise<{ insertId: number }> {
-  const { text, author_name, author_city, author_image, company, designation, product_bought, rating, source = 'google', active = true } = data;
+  const { text, author_name, author_city, author_image, company, designation, product_bought, rating, source = 'google', active = true, show_on_home = false, show_on_about = false } = data;
   const [result] = await pool.execute(
-    'INSERT INTO testimonials (text, author_name, author_city, author_image, company, designation, product_bought, rating, source, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-    [text, author_name, author_city ?? null, author_image ?? null, company ?? null, designation ?? null, product_bought ?? null, rating ?? null, source, active]
+    'INSERT INTO testimonials (text, author_name, author_city, author_image, company, designation, product_bought, rating, source, active, show_on_home, show_on_about) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    [text, author_name, author_city ?? null, author_image ?? null, company ?? null, designation ?? null, product_bought ?? null, rating ?? null, source, active, show_on_home, show_on_about]
   ) as [{ insertId: number }, unknown];
   return result;
 }
@@ -61,6 +67,8 @@ export async function updateTestimonial(id: number, data: Partial<CreateTestimon
   if (data.rating !== undefined) { fields.push('rating = ?'); params.push(data.rating); }
   if (data.source !== undefined) { fields.push('source = ?'); params.push(data.source); }
   if (data.active !== undefined) { fields.push('active = ?'); params.push(data.active); }
+  if (data.show_on_home !== undefined) { fields.push('show_on_home = ?'); params.push(data.show_on_home); }
+  if (data.show_on_about !== undefined) { fields.push('show_on_about = ?'); params.push(data.show_on_about); }
   params.push(id);
 
   await query(`UPDATE testimonials SET ${fields.join(', ')} WHERE id = ?`, params);

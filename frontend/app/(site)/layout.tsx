@@ -20,7 +20,6 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         address={settings.business_address}
         phone={settings.business_phone}
         email={settings.business_email}
-        hours={settings.business_hours}
       />
       <WhatsAppFloat number={settings.whatsapp_number ?? ''} />
     </>

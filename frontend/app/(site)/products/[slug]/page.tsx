@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
 import Image from 'next/image';
 import { getProduct, getProducts } from '@/lib/api';
 import { ProductPageHero } from '@/components/ui/ProductPageHero';
@@ -7,6 +6,8 @@ import { StatsSection } from '@/components/sections/StatsSection';
 import { SpecsTable } from '@/components/ui/SpecsTable';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import HomeQuoteForm from '@/app/(site)/HomeQuoteForm';
+import { CcrsBrandExplorer } from '@/components/ui/CcrsBrandExplorer';
+import { AccessoryShowcase } from '@/components/ui/AccessoryShowcase';
 import { PPGL_BRANDS, PPGI_BRANDS } from '@/components/layout/SiteHeader';
 
 // Fallback to homepage product card images when CMS has no media uploaded
@@ -19,15 +20,16 @@ const PRODUCT_CARD_IMAGE: Record<string, string> = {
   'ms-plate-channel-angle':      '/images/products/ms-plate-channel-angle.png',
   'polycarbonate-sheet':         '/images/products/polycarbonate-sheet.png',
   'ms-pipe':                     '/images/products/ms-pipe.png',
-  // Colour-coated brand products
-  'jsw-colouron':   '/images/products/jsw-colouron.jpg',
-  'jsw-silveron':   '/images/products/colour-coated-roofing-sheet-new.png',
-  'jsw-pragati':    '/images/products/colour-coated-roofing-sheet-new.png',
-  'jsw-endura':     '/images/products/colour-coated-roofing-sheet-new.png',
-  'tata-durashine': '/images/products/colour-coated-roofing-sheet-new.png',
-  'jindal-sabrang': '/images/products/colour-coated-roofing-sheet-new.png',
-  'dura-glow':      '/images/products/colour-coated-roofing-sheet-new.png',
-  'am-ns':          '/images/products/colour-coated-roofing-sheet-new.png',
+  'accessories':                 '/images/products/accessories/accessories-overview.jpg',
+  // Colour-coated brand products — official brand banners
+  'jsw-colouron':   '/images/products/brands/jsw-colouron.jpg',
+  'jsw-silveron':   '/images/products/brands/jsw-silveron.jpg',
+  'jsw-pragati':    '/images/products/brands/jsw-pragati.jpg',
+  'jsw-endura':     '/images/products/brands/jsw-endura.jpg',
+  'tata-durashine': '/images/products/brands/tata-durashine.jpg',
+  'jindal-sabrang': '/images/products/brands/jindal-sabrang.jpg',
+  'dura-glow':      '/images/products/brands/dura-glow.png',
+  'am-ns':          '/images/products/brands/am-ns.jpg',
 };
 
 export const revalidate = 3600;
@@ -137,9 +139,29 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </div>
       </SectionContainer>
 
-      <div id="specs-section">
-        <SpecsTable specs={product.specs} />
-      </div>
+      {product.slug !== 'accessories' && (
+        <div id="specs-section">
+          <SpecsTable specs={product.specs} />
+        </div>
+      )}
+
+      {/* Accessory Showcase — Accessories parent page only */}
+      {product.slug === 'accessories' && (
+        <SectionContainer className="bg-white">
+          <div className="text-center mb-12">
+            <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">
+              What We Supply
+            </p>
+            <h2 className="font-heading text-navy text-2xl sm:text-3xl font-bold leading-tight mb-3">
+              Roofing Accessories — Built to Finish the Job
+            </h2>
+            <p className="font-body text-navy/60 text-base max-w-xl mx-auto">
+              Every accessory needed to seal, drain, vent, and fix a roofing sheet installation — supplied wholesale alongside your sheet order.
+            </p>
+          </div>
+          <AccessoryShowcase />
+        </SectionContainer>
+      )}
 
       {/* Brands & Variants — Colour Coated Roofing Sheet parent page only */}
       {product.slug === 'colour-coated-roofing-sheet' && (
@@ -156,61 +178,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* PPGL */}
-            <div className="bg-white rounded-xl border border-navy/8 shadow-sm p-6">
-              <p className="font-body text-xs font-semibold tracking-[0.14em] text-orange uppercase mb-4">PPGL</p>
-              <div className="flex flex-col gap-1">
-                {PPGL_BRANDS.map((b) => (
-                  <Link
-                    key={b.slug}
-                    href={`/products/${b.slug}`}
-                    className="flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg hover:bg-orange/5 transition-colors group"
-                  >
-                    <span className="font-heading text-sm font-bold text-navy group-hover:text-orange transition-colors">{b.name}</span>
-                    <svg className="w-3.5 h-3.5 text-navy/30 group-hover:text-orange transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* PPGI */}
-            <div className="bg-white rounded-xl border border-navy/8 shadow-sm p-6">
-              <p className="font-body text-xs font-semibold tracking-[0.14em] text-orange uppercase mb-4">PPGI</p>
-              <div className="flex flex-col gap-1">
-                {PPGI_BRANDS.map((b) => (
-                  <Link
-                    key={b.slug}
-                    href={`/products/${b.slug}`}
-                    className="flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg hover:bg-orange/5 transition-colors group"
-                  >
-                    <span className="font-heading text-sm font-bold text-navy group-hover:text-orange transition-colors">{b.name}</span>
-                    <svg className="w-3.5 h-3.5 text-navy/30 group-hover:text-orange transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Accessories */}
-            <div className="bg-white rounded-xl border border-navy/8 shadow-sm p-6">
-              <p className="font-body text-xs font-semibold tracking-[0.14em] text-orange uppercase mb-4">Accessories</p>
-              <div className="flex flex-col gap-1">
-                <Link
-                  href="/products/accessories"
-                  className="flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg hover:bg-orange/5 transition-colors group"
-                >
-                  <span className="font-heading text-sm font-bold text-navy group-hover:text-orange transition-colors">Roofing Accessories</span>
-                  <svg className="w-3.5 h-3.5 text-navy/30 group-hover:text-orange transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              </div>
-            </div>
-          </div>
+          <CcrsBrandExplorer ppglBrands={PPGL_BRANDS} ppgiBrands={PPGI_BRANDS} />
         </SectionContainer>
       )}
 
@@ -347,7 +315,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </div>
       </SectionContainer>
 
-      {/* Key Benefits */}
+      {/* Key Benefits — not shown for Accessories; AccessoryShowcase already covers per-item benefits */}
+      {product.slug !== 'accessories' && (
       <SectionContainer className="bg-white">
         <div className="text-center mb-12">
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Key Benefits</p>
@@ -371,8 +340,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           ))}
         </div>
       </SectionContainer>
+      )}
 
-      {/* Applications */}
+      {/* Applications — not shown for Accessories; AccessoryShowcase already covers per-item use */}
+      {product.slug !== 'accessories' && (
       <SectionContainer className="bg-steel/5 border-y border-navy/8">
         <div className="text-center mb-12">
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Where It&apos;s Used</p>
@@ -396,6 +367,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           ))}
         </div>
       </SectionContainer>
+      )}
 
       {/* CTA Banner */}
       <div className="gradient-mesh-light border-b border-navy/10 py-12">
@@ -415,7 +387,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </div>
       </div>
 
-      {/* Manufacturing process */}
+      {/* Manufacturing process — not shown for Accessories (bought-in items like screws/turbo fans aren't roll-formed in-house) */}
+      {product.slug !== 'accessories' && (
       <SectionContainer className="bg-white">
         <div className="text-center mb-12">
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">From Raw Steel to Your Site</p>
@@ -442,6 +415,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           ))}
         </div>
       </SectionContainer>
+      )}
 
       {/* FAQs */}
       <SectionContainer className="bg-steel/5 border-y border-navy/8">

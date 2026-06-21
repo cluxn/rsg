@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Package, Users, FileText, Megaphone, Search, Settings2 } from 'lucide-react';
+import { LayoutDashboard, Package, Users, FileText, Megaphone, Search, Settings2, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useSidebar } from '@/contexts/SidebarContext';
 
@@ -27,7 +27,7 @@ const icons: Record<string, React.ElementType> = {
 
 export function Sidebar() {
   const location = useLocation();
-  const { collapsed } = useSidebar();
+  const { collapsed, toggle } = useSidebar();
 
   return (
     <aside className={cn(
@@ -71,6 +71,18 @@ export function Sidebar() {
           );
         })}
       </nav>
+
+      <button
+        onClick={toggle}
+        title={collapsed ? 'Show sidebar' : 'Hide sidebar'}
+        className={cn(
+          'flex items-center gap-2 px-3 py-3 border-t border-navy/10 font-body text-sm text-navy/60 hover:text-navy hover:bg-navy/5 transition-colors',
+          collapsed ? 'justify-center' : ''
+        )}
+      >
+        {collapsed ? <ChevronsRight className="w-4 h-4 shrink-0" /> : <ChevronsLeft className="w-4 h-4 shrink-0" />}
+        {!collapsed && 'Hide sidebar'}
+      </button>
     </aside>
   );
 }

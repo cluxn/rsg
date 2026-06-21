@@ -1,5 +1,7 @@
 import express from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -19,13 +21,22 @@ import clientLogosRouter from './routes/client_logos';
 import authorsRouter from './routes/authors';
 import categoriesRouter from './routes/categories';
 import dashboardRouter from './routes/dashboard';
+import notFoundLogsRouter from './routes/not_found_logs';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(cors({ origin: ['http://localhost:3000', 'http://localhost:5173'], credentials: true }));
+const allowedOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(',').map(o => o.trim())
+  : [process.env.FRONTEND_URL || 'http://localhost:3000', 'http://localhost:5173'];
+
+app.use(helmet({
+  // Uploaded media (product/blog images) must load cross-origin into the Next.js frontend.
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+}));
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
@@ -45,6 +56,15 @@ app.use('/api/client-logos', clientLogosRouter);
 app.use('/api/authors', authorsRouter);
 app.use('/api/categories', categoriesRouter);
 app.use('/api/dashboard', dashboardRouter);
+app.use('/api/404-logs', notFoundLogsRouter);
+
+// Global error handler — must be registered after all routes.
+// Prevents unhandled errors from leaking stack traces via Express's default handler.
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  console.error(err);
+  if (res.headersSent) return;
+  res.status(500).json({ error: 'Internal server error' });
+});
 
 pool.query('SELECT 1')
   .then(() => console.log('DB connected'))
