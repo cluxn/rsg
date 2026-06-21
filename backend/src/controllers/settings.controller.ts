@@ -12,5 +12,13 @@ export async function updateSettings(req: Request, res: Response): Promise<void>
       await upsertSetting(key, value);
     }
   }
+
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+  fetch(`${frontendUrl}/api/revalidate`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ secret: process.env.REVALIDATE_SECRET, tag: 'settings' }),
+  }).catch(() => {});
+
   res.json({ ok: true });
 }

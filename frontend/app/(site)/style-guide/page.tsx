@@ -28,11 +28,12 @@ export default function StyleGuidePage() {
         <h2 className="font-heading text-2xl text-navy mb-6">Color Palette</h2>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           {[
-            { name: 'Navy', hex: '#0F2B4C', cls: 'bg-navy' },
-            { name: 'Steel', hex: '#2E6DA4', cls: 'bg-steel' },
-            { name: 'Cyan', hex: '#4AB3D3', cls: 'bg-cyan' },
-            { name: 'Orange', hex: '#E8590C', cls: 'bg-orange' },
-            { name: 'Off-white', hex: '#F5F6F8', cls: 'bg-off-white border border-gray-200' },
+            { name: 'Navy', hex: '#07152B', cls: 'bg-navy' },
+            { name: 'Steel', hex: '#0E4FA8', cls: 'bg-steel' },
+            { name: 'Cyan', hex: '#00B4DB', cls: 'bg-cyan' },
+            { name: 'Orange', hex: '#F04F00', cls: 'bg-orange' },
+            { name: 'Gold', hex: '#FFA820', cls: 'bg-gold' },
+            { name: 'Off-white', hex: '#EDF1F7', cls: 'bg-off-white border border-gray-200' },
           ].map(c => (
             <div key={c.name} className="text-center">
               <div className={`h-20 rounded-lg mb-2 ${c.cls}`} />

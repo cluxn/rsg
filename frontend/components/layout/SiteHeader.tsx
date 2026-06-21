@@ -5,7 +5,7 @@ interface SiteHeaderProps {
   whatsappNumber?: string;
 }
 
-const PPGL_BRANDS = [
+export const PPGL_BRANDS = [
   { name: 'JSW Colouron+', slug: 'jsw-colouron' },
   { name: 'JSW Silveron+', slug: 'jsw-silveron' },
   { name: 'JSW Pragati+', slug: 'jsw-pragati' },
@@ -14,7 +14,7 @@ const PPGL_BRANDS = [
   { name: 'JINDAL Sabrang', slug: 'jindal-sabrang' },
 ];
 
-const PPGI_BRANDS = [
+export const PPGI_BRANDS = [
   { name: 'Dura Glow', slug: 'dura-glow' },
   { name: 'AM/NS', slug: 'am-ns' },
 ];
@@ -65,10 +65,10 @@ export function SiteHeader({ whatsappNumber }: SiteHeaderProps) {
 
           {/* 1. Products — mega-menu with flyouts */}
           <div className="group/products relative">
-            <Link href="/products" className="font-body text-sm text-white/80 hover:text-white transition-colors py-4 inline-flex items-center gap-1">
+            <span className="font-body text-sm text-white/80 hover:text-white transition-colors py-4 inline-flex items-center gap-1 cursor-default select-none">
               Products
               <ChevronDown />
-            </Link>
+            </span>
             <div className={flyout}>
               <div className="bg-white rounded-xl shadow-2xl border border-navy/8 p-4">
                 <p className="font-body text-[10px] font-semibold tracking-[0.18em] text-navy/40 uppercase mb-3">Roofing &amp; Steel Products</p>
@@ -146,7 +146,7 @@ export function SiteHeader({ whatsappNumber }: SiteHeaderProps) {
             </span>
             <div className="invisible group-hover/work:visible opacity-0 group-hover/work:opacity-100 transition-opacity absolute top-full -left-4 pt-2 z-50 w-[420px]">
               <div className="bg-white rounded-xl shadow-2xl border border-navy/8 p-5">
-                <p className="font-body text-[10px] font-semibold tracking-[0.18em] text-navy/40 uppercase mb-4">Our Company &amp; Company</p>
+                <p className="font-body text-[10px] font-semibold tracking-[0.18em] text-navy/40 uppercase mb-4">Our Company</p>
                 <div className="grid grid-cols-2 gap-2">
                   <Link href="/about" className="flex items-start gap-3 p-3 rounded-lg hover:bg-orange/5 transition-colors group">
                     <span className="w-9 h-9 rounded-lg bg-orange/10 flex items-center justify-center shrink-0 mt-0.5">

@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import Image from 'next/image';
 import { getProduct, getProducts } from '@/lib/api';
 import { ProductPageHero } from '@/components/ui/ProductPageHero';
@@ -6,6 +7,7 @@ import { StatsSection } from '@/components/sections/StatsSection';
 import { SpecsTable } from '@/components/ui/SpecsTable';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import HomeQuoteForm from '@/app/(site)/HomeQuoteForm';
+import { PPGL_BRANDS, PPGI_BRANDS } from '@/components/layout/SiteHeader';
 
 // Fallback to homepage product card images when CMS has no media uploaded
 const PRODUCT_CARD_IMAGE: Record<string, string> = {
@@ -138,6 +140,79 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       <div id="specs-section">
         <SpecsTable specs={product.specs} />
       </div>
+
+      {/* Brands & Variants — Colour Coated Roofing Sheet parent page only */}
+      {product.slug === 'colour-coated-roofing-sheet' && (
+        <SectionContainer className="bg-steel/5 border-y border-navy/8">
+          <div className="text-center mb-10">
+            <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">
+              Explore Our Range
+            </p>
+            <h2 className="font-heading text-navy text-2xl sm:text-3xl font-bold leading-tight mb-3">
+              Colour Coated Roofing Sheet Brands &amp; Variants
+            </h2>
+            <p className="font-body text-navy/60 text-base max-w-xl mx-auto">
+              We stock colour coated roofing sheets across leading brands in both PPGL and PPGI categories, plus matching accessories.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* PPGL */}
+            <div className="bg-white rounded-xl border border-navy/8 shadow-sm p-6">
+              <p className="font-body text-xs font-semibold tracking-[0.14em] text-orange uppercase mb-4">PPGL</p>
+              <div className="flex flex-col gap-1">
+                {PPGL_BRANDS.map((b) => (
+                  <Link
+                    key={b.slug}
+                    href={`/products/${b.slug}`}
+                    className="flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg hover:bg-orange/5 transition-colors group"
+                  >
+                    <span className="font-heading text-sm font-bold text-navy group-hover:text-orange transition-colors">{b.name}</span>
+                    <svg className="w-3.5 h-3.5 text-navy/30 group-hover:text-orange transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* PPGI */}
+            <div className="bg-white rounded-xl border border-navy/8 shadow-sm p-6">
+              <p className="font-body text-xs font-semibold tracking-[0.14em] text-orange uppercase mb-4">PPGI</p>
+              <div className="flex flex-col gap-1">
+                {PPGI_BRANDS.map((b) => (
+                  <Link
+                    key={b.slug}
+                    href={`/products/${b.slug}`}
+                    className="flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg hover:bg-orange/5 transition-colors group"
+                  >
+                    <span className="font-heading text-sm font-bold text-navy group-hover:text-orange transition-colors">{b.name}</span>
+                    <svg className="w-3.5 h-3.5 text-navy/30 group-hover:text-orange transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* Accessories */}
+            <div className="bg-white rounded-xl border border-navy/8 shadow-sm p-6">
+              <p className="font-body text-xs font-semibold tracking-[0.14em] text-orange uppercase mb-4">Accessories</p>
+              <div className="flex flex-col gap-1">
+                <Link
+                  href="/products/accessories"
+                  className="flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg hover:bg-orange/5 transition-colors group"
+                >
+                  <span className="font-heading text-sm font-bold text-navy group-hover:text-orange transition-colors">Roofing Accessories</span>
+                  <svg className="w-3.5 h-3.5 text-navy/30 group-hover:text-orange transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </SectionContainer>
+      )}
 
       {/* Colour Options — Brand Products Only */}
       {BRAND_PRODUCT_SLUGS.has(product.slug) && (
@@ -323,7 +398,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </SectionContainer>
 
       {/* CTA Banner */}
-      <div className="bg-[#f0ebe0] border-b border-[#ddd4be] py-12">
+      <div className="gradient-mesh-light border-b border-navy/10 py-12">
         <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32 flex flex-col items-center text-center gap-5">
           <h2 className="font-heading text-xl md:text-2xl font-bold text-navy max-w-2xl leading-snug">
             Trusted Manufacturer &amp; Wholesale Supplier of {product.name} in Kanpur, India
@@ -394,7 +469,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </SectionContainer>
 
       {/* Contact — CTA + Quote form split panel (same as homepage) */}
-      <section className="bg-[#f0ebe0] py-24 md:py-32">
+      <section className="gradient-mesh-light py-24 md:py-32">
         <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
 
@@ -410,7 +485,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 pricing — with delivery in 2–3 days.
               </p>
               {/* Map — helps B2B buyers verify the facility is real */}
-              <div className="rounded-xl overflow-hidden border border-[#ddd4be] shadow-sm flex-1 min-h-[220px]">
+              <div className="rounded-xl overflow-hidden border border-navy/10 shadow-sm flex-1 min-h-[220px]">
                 <iframe
                   src="https://maps.google.com/maps?q=RSG+Profile+Manufacturing+Pvt+Ltd,+Dada+Nagar+Industrial+Estate,+Kanpur&output=embed"
                   width="100%"
@@ -434,7 +509,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             </div>
 
             {/* Right — Quote form card */}
-            <div className="bg-white/70 border border-[#ddd4be] rounded-2xl shadow-md p-6 lg:p-8">
+            <div className="bg-white/70 border border-navy/10 rounded-2xl shadow-md p-6 lg:p-8">
               <p className="font-heading text-base font-bold text-ink mb-5">Send an Enquiry</p>
               <HomeQuoteForm
                 defaultProduct={product.name}

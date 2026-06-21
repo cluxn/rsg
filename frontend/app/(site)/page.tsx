@@ -86,7 +86,7 @@ export default async function Home() {
 
       {/* Section 2.5 — Catalogue CTA + Why Choose RSG */}
       {/* Banner strip */}
-      <div className="bg-[#f0ebe0] border-b border-[#ddd4be] py-12">
+      <div className="gradient-mesh-light border-b border-navy/10 py-12">
         <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32 flex flex-col items-center text-center gap-5">
           <h2 className="font-heading text-xl md:text-2xl font-bold text-navy max-w-2xl leading-snug">
             Download Our Product Catalogue &amp; Get a Free Quote on Bulk Roofing &amp; Steel Orders
@@ -285,7 +285,7 @@ export default async function Home() {
       </section>
 
       {/* Section 7.5 — CTA + Quote form split panel */}
-      <section className="bg-[#f0ebe0] py-24 md:py-32">
+      <section className="gradient-mesh-light py-24 md:py-32">
         <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
 
@@ -302,7 +302,7 @@ export default async function Home() {
                 Source ISI-certified roofing sheets, MS pipes, purlins, and structural steel directly from our Kanpur manufacturing facility. We supply contractors, builders, and traders across Uttar Pradesh at trade pricing — with delivery in 2–3 days.
               </p>
               {/* Map — helps B2B buyers verify the facility is real */}
-              <div className="rounded-xl overflow-hidden border border-[#ddd4be] shadow-sm flex-1 min-h-[220px]">
+              <div className="rounded-xl overflow-hidden border border-navy/10 shadow-sm flex-1 min-h-[220px]">
                 <iframe
                   src="https://maps.google.com/maps?q=RSG+Profile+Manufacturing+Pvt+Ltd,+Dada+Nagar+Industrial+Estate,+Kanpur&output=embed"
                   width="100%"
@@ -326,7 +326,7 @@ export default async function Home() {
             </div>
 
             {/* Right — Quote form card */}
-            <div className="bg-white/70 border border-[#ddd4be] rounded-2xl shadow-md p-6 lg:p-8">
+            <div className="bg-white/70 border border-navy/10 rounded-2xl shadow-md p-6 lg:p-8">
               <p className="font-heading text-base font-bold text-ink mb-5">Send an Enquiry</p>
               <HomeQuoteForm />
             </div>

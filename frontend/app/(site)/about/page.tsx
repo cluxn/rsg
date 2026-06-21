@@ -153,7 +153,7 @@ export default async function AboutPage() {
       </section>
 
       {/* SECTION 3 — Our Story (LIGHT — first break, detailed history) */}
-      <section className="gradient-mesh-light py-24">
+      <section className="gradient-mesh-light py-28 md:py-40">
         <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-start">
             <div>
@@ -201,7 +201,7 @@ export default async function AboutPage() {
       </section>
 
       {/* SECTION 4 — Why Us (DARK — like Why RSG on homepage but deeper) */}
-      <section className="gradient-power py-24 md:py-32">
+      <section className="gradient-power py-28 md:py-40">
         <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <div className="text-center mb-14">
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Why Choose RSG</p>
@@ -235,7 +235,7 @@ export default async function AboutPage() {
       <StatsSection />
 
       {/* SECTION 6 — Leadership (DARK) */}
-      <section className="gradient-power py-24">
+      <section className="gradient-power py-28 md:py-40">
         <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <div className="text-center mb-16">
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Our Leadership</p>
@@ -336,7 +336,7 @@ export default async function AboutPage() {
       </section>
 
       {/* SECTION 7 — Mission / Vision / Values + Process (LIGHT) */}
-      <section className="gradient-mesh-light py-20">
+      <section className="gradient-mesh-light py-28 md:py-40">
         <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <div className="text-center mb-12">
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Our Commitment</p>
@@ -454,7 +454,7 @@ export default async function AboutPage() {
       </section>
 
       {/* SECTION 10 — Get a Quote (matches homepage panel) */}
-      <section className="bg-[#f0ebe0] py-24 md:py-32">
+      <section className="gradient-mesh-light py-24 md:py-32">
         <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
             <div className="flex flex-col gap-6 py-4">
@@ -470,7 +470,7 @@ export default async function AboutPage() {
                 manufacturing facility. We supply contractors, builders, and traders across Uttar Pradesh at trade
                 pricing — with delivery in 2–3 days.
               </p>
-              <div className="rounded-xl overflow-hidden border border-[#ddd4be] shadow-sm flex-1 min-h-[220px]">
+              <div className="rounded-xl overflow-hidden border border-navy/10 shadow-sm flex-1 min-h-[220px]">
                 <iframe
                   src="https://maps.google.com/maps?q=RSG+Profile+Manufacturing+Pvt+Ltd,+Dada+Nagar+Industrial+Estate,+Kanpur&output=embed"
                   width="100%"
@@ -491,7 +491,7 @@ export default async function AboutPage() {
                 </a>
               </div>
             </div>
-            <div className="bg-white/70 border border-[#ddd4be] rounded-2xl shadow-md p-6 lg:p-8">
+            <div className="bg-white/70 border border-navy/10 rounded-2xl shadow-md p-6 lg:p-8">
               <p className="font-heading text-base font-bold text-ink mb-5">Send an Enquiry</p>
               <HomeQuoteForm sourcePage="about" />
             </div>

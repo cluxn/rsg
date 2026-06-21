@@ -7,7 +7,7 @@ interface ContactFormSectionProps {
 
 export function ContactFormSection({ waNumber = '919918522988', sourcePage = 'contact-section' }: ContactFormSectionProps) {
   return (
-    <section className="bg-[#f0ebe0] py-24 md:py-32">
+    <section className="gradient-mesh-light py-24 md:py-32">
       <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
 
@@ -25,7 +25,7 @@ export function ContactFormSection({ waNumber = '919918522988', sourcePage = 'co
               manufacturing facility. We supply contractors, builders, and traders across Uttar Pradesh at trade
               pricing — with delivery in 2–3 days.
             </p>
-            <div className="rounded-xl overflow-hidden border border-[#ddd4be] shadow-sm flex-1 min-h-[220px]">
+            <div className="rounded-xl overflow-hidden border border-navy/10 shadow-sm flex-1 min-h-[220px]">
               <iframe
                 src="https://maps.google.com/maps?q=RSG+Profile+Manufacturing+Pvt+Ltd,+Dada+Nagar+Industrial+Estate,+Kanpur&output=embed"
                 width="100%"
@@ -48,7 +48,7 @@ export function ContactFormSection({ waNumber = '919918522988', sourcePage = 'co
           </div>
 
           {/* Right — Quote form card */}
-          <div className="bg-white/70 border border-[#ddd4be] rounded-2xl shadow-md p-6 lg:p-8">
+          <div className="bg-white/70 border border-navy/10 rounded-2xl shadow-md p-6 lg:p-8">
             <p className="font-heading text-base font-bold text-ink mb-5">Send an Enquiry</p>
             <HomeQuoteForm sourcePage={sourcePage} />
           </div>
