@@ -218,7 +218,7 @@ export default async function Home() {
       <SectionContainer>
         <div className="text-center mb-12">
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Brand Partners</p>
-          <h2 className="font-heading text-3xl text-ink font-bold mb-3">Our Clients & Partners</h2>
+          <h2 className="font-heading text-3xl text-ink font-bold mb-3 max-w-2xl mx-auto">Our Clients & Partners</h2>
           <p className="font-body text-ink/60 max-w-xl mx-auto">
             Authorized dealer for India's leading steel brands — delivering premium quality at factory prices.
           </p>
