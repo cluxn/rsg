@@ -8,15 +8,30 @@ import { upload } from '../middleware/upload';
 
 const router = Router();
 const UPLOADS_DIR = path.join(__dirname, '../../uploads');
+const FRONTEND_PUBLIC = path.join(__dirname, '../../../frontend/public');
+const STATIC_IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg']);
 
 function thumbnailUrl(url: string): string {
   return url.replace('.webp', '_thumb.webp');
 }
 
+function walkImages(dir: string, base: string, results: string[] = []): string[] {
+  if (!fs.existsSync(dir)) return results;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      walkImages(full, base, results);
+    } else if (STATIC_IMAGE_EXTS.has(path.extname(entry.name).toLowerCase())) {
+      results.push('/' + path.relative(base, full).replace(/\\/g, '/'));
+    }
+  }
+  return results;
+}
+
 router.post('/upload', requireAuth, upload.single('file'), async (req: Request, res: Response): Promise<void> => {
-  const altText = (req.body?.alt_text as string | undefined)?.trim();
-  if (!altText) { res.status(400).json({ error: 'alt_text is required' }); return; }
   if (!req.file) { res.status(400).json({ error: 'file is required' }); return; }
+  const rawAlt = (req.body?.alt_text as string | undefined)?.trim();
+  const altText = rawAlt || req.file.originalname.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
 
   const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
   const fileUrl = `/uploads/${filename}.webp`;
@@ -52,9 +67,16 @@ router.get('/', requireAuth, async (_req: Request, res: Response): Promise<void>
 
 router.put('/:id', requireAuth, async (req: Request, res: Response): Promise<void> => {
   const altText = (req.body?.alt_text as string | undefined)?.trim();
-  if (!altText) { res.status(400).json({ error: 'alt_text is required' }); return; }
+  const originalName = (req.body?.original_name as string | undefined)?.trim();
+  if (!altText && !originalName) { res.status(400).json({ error: 'alt_text or original_name is required' }); return; }
 
-  await pool.query('UPDATE media SET alt_text = ? WHERE id = ?', [altText, req.params.id]);
+  const fields: string[] = [];
+  const params: (string | number)[] = [];
+  if (altText) { fields.push('alt_text = ?'); params.push(altText); }
+  if (originalName) { fields.push('original_name = ?'); params.push(originalName); }
+  params.push(Number(req.params.id));
+
+  await pool.query(`UPDATE media SET ${fields.join(', ')} WHERE id = ?`, params);
 
   const [rows] = await pool.query(
     'SELECT id, filename, original_name, alt_text, url, uploaded_at FROM media WHERE id = ?',
@@ -105,6 +127,30 @@ router.delete('/:id', requireAuth, async (req: Request, res: Response): Promise<
   }
 
   res.json({ deleted: true });
+});
+
+router.post('/sync-static', requireAuth, async (_req: Request, res: Response): Promise<void> => {
+  const imagePaths = walkImages(path.join(FRONTEND_PUBLIC, 'images'), FRONTEND_PUBLIC);
+
+  const [existingRows] = await pool.query('SELECT url FROM media') as [{ url: string }[], unknown];
+  const existingUrls = new Set(existingRows.map(r => r.url));
+
+  let added = 0;
+  for (const imgPath of imagePaths) {
+    if (existingUrls.has(imgPath)) continue;
+    const filename = path.basename(imgPath, path.extname(imgPath));
+    const altText = filename.replace(/[-_]/g, ' ').replace(/\s+/g, ' ').trim();
+    const originalName = path.basename(imgPath);
+    const ext = path.extname(imgPath).toLowerCase();
+    const mime = ext === '.png' ? 'image/png' : ext === '.webp' ? 'image/webp' : ext === '.svg' ? 'image/svg+xml' : 'image/jpeg';
+    await pool.query(
+      'INSERT INTO media (filename, original_name, alt_text, mime_type, size, url) VALUES (?, ?, ?, ?, ?, ?)',
+      [filename, originalName, altText, mime, 0, imgPath]
+    );
+    added++;
+  }
+
+  res.json({ added, total: imagePaths.length });
 });
 
 export { router as mediaRouter };

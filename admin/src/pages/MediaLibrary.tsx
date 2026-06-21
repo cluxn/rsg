@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Upload } from 'lucide-react';
+import { Upload, RefreshCw } from 'lucide-react';
 import { AdminLayout } from '@/components/layout/AdminLayout';
 import { ContentTabs } from '@/components/ContentTabs';
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,7 @@ export function MediaLibraryPage() {
   const [uploadOpen, setUploadOpen] = useState(false);
   const [editItem, setEditItem] = useState<MediaItem | null>(null);
   const [editAltText, setEditAltText] = useState('');
+  const [editName, setEditName] = useState('');
   const [deleteItem, setDeleteItem] = useState<MediaItem | null>(null);
   const [deleteUsage, setDeleteUsage] = useState<{ used: boolean; products: { slug: string; name: string }[] } | null>(null);
 
@@ -22,9 +23,19 @@ export function MediaLibraryPage() {
   });
 
   const editMutation = useMutation({
-    mutationFn: ({ id, alt_text }: { id: number; alt_text: string }) =>
-      api.put(`/media/${id}`, { alt_text }).then(r => r.data),
+    mutationFn: ({ id, alt_text, original_name }: { id: number; alt_text: string; original_name: string }) =>
+      api.put(`/media/${id}`, { alt_text, original_name }).then(r => r.data),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['media'] }); setEditItem(null); },
+  });
+
+  const [syncMsg, setSyncMsg] = useState('');
+  const syncMutation = useMutation({
+    mutationFn: () => api.post('/media/sync-static').then(r => r.data as { added: number; total: number }),
+    onSuccess: (data) => {
+      qc.invalidateQueries({ queryKey: ['media'] });
+      setSyncMsg(`Synced: ${data.added} new image${data.added !== 1 ? 's' : ''} added (${data.total} total found)`);
+      setTimeout(() => setSyncMsg(''), 5000);
+    },
   });
 
   const deleteMutation = useMutation({
@@ -47,9 +58,21 @@ export function MediaLibraryPage() {
             <h1 className="font-heading text-2xl text-navy mb-2">Media Library</h1>
             <p className="font-body text-navy/60">Manage uploaded images and alt text</p>
           </div>
-          <Button onClick={() => setUploadOpen(true)} className="gap-2 bg-accent text-white hover:bg-accent/90">
-            <Upload className="w-4 h-4" /> Upload New
-          </Button>
+          <div className="flex items-center gap-3">
+            {syncMsg && <span className="font-body text-xs text-green-600">{syncMsg}</span>}
+            <Button
+              variant="outline"
+              onClick={() => syncMutation.mutate()}
+              disabled={syncMutation.isPending}
+              className="gap-2"
+            >
+              <RefreshCw className={`w-4 h-4 ${syncMutation.isPending ? 'animate-spin' : ''}`} />
+              {syncMutation.isPending ? 'Syncing…' : 'Sync from Website'}
+            </Button>
+            <Button onClick={() => setUploadOpen(true)} className="gap-2 bg-accent text-white hover:bg-accent/90">
+              <Upload className="w-4 h-4" /> Upload New
+            </Button>
+          </div>
         </div>
 
         {isLoading ? (
@@ -64,7 +87,7 @@ export function MediaLibraryPage() {
               <MediaCard
                 key={item.id}
                 item={item}
-                onEdit={item => { setEditItem(item); setEditAltText(item.alt_text); }}
+                onEdit={item => { setEditItem(item); setEditAltText(item.alt_text); setEditName(item.original_name); }}
                 onDelete={handleDeleteClick}
               />
             ))}
@@ -77,17 +100,32 @@ export function MediaLibraryPage() {
         {editItem && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm mx-4 p-6">
-              <h2 className="font-heading text-navy text-lg font-semibold mb-4">Edit Alt Text</h2>
-              <textarea
-                value={editAltText}
-                onChange={e => setEditAltText(e.target.value)}
-                rows={3}
-                className="w-full rounded-lg border border-navy/20 p-3 font-body text-sm text-navy resize-none focus:outline-none focus:ring-2 focus:ring-steel/40 mb-4"
-              />
+              <h2 className="font-heading text-navy text-lg font-semibold mb-4">Edit Media Details</h2>
+              <div className="space-y-4 mb-4">
+                <div>
+                  <label className="font-body text-navy/70 text-sm block mb-1">File Name</label>
+                  <input
+                    value={editName}
+                    onChange={e => setEditName(e.target.value)}
+                    className="w-full rounded-lg border border-navy/20 p-3 font-body text-sm text-navy focus:outline-none focus:ring-2 focus:ring-steel/40"
+                  />
+                </div>
+                <div>
+                  <label className="font-body text-navy/70 text-sm block mb-1">
+                    Alt Text <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    value={editAltText}
+                    onChange={e => setEditAltText(e.target.value)}
+                    rows={3}
+                    className="w-full rounded-lg border border-navy/20 p-3 font-body text-sm text-navy resize-none focus:outline-none focus:ring-2 focus:ring-steel/40"
+                  />
+                </div>
+              </div>
               <div className="flex gap-3">
                 <Button variant="outline" onClick={() => setEditItem(null)} className="flex-1">Cancel</Button>
                 <Button
-                  onClick={() => editMutation.mutate({ id: editItem.id, alt_text: editAltText.trim() })}
+                  onClick={() => editMutation.mutate({ id: editItem.id, alt_text: editAltText.trim(), original_name: editName.trim() })}
                   disabled={!editAltText.trim() || editMutation.isPending}
                   className="flex-1 bg-accent text-white hover:bg-accent/90 disabled:opacity-50"
                 >

@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Upload } from 'lucide-react';
 import { AdminLayout } from '@/components/layout/AdminLayout';
 import { ContentTabs } from '@/components/ContentTabs';
 import { Button } from '@/components/ui/button';
+import { api } from '@/lib/api';
 import {
   getClientLogosAdmin, createClientLogo, updateClientLogo,
   deleteClientLogo, reorderClientLogos, type ClientLogo, type ClientLogoInput,
@@ -29,6 +31,25 @@ export function ClientLogosPage() {
   const [showAdd, setShowAdd] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<Partial<ClientLogoInput>>({});
+  const [addUploading, setAddUploading] = useState(false);
+  const [editUploading, setEditUploading] = useState(false);
+  const addFileRef = useRef<HTMLInputElement>(null);
+  const editFileRef = useRef<HTMLInputElement>(null);
+
+  const handleUploadLogo = async (file: File, target: 'add' | 'edit') => {
+    const setter = target === 'add' ? setAddUploading : setEditUploading;
+    setter(true);
+    try {
+      const form = new FormData();
+      form.append('file', file);
+      form.append('alt_text', file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ') + ' logo');
+      const res = await api.post<{ url: string }>('/media/upload', form);
+      if (target === 'add') setAddForm(f => ({ ...f, logo_url: res.data.url }));
+      else setEditForm(f => ({ ...f, logo_url: res.data.url }));
+    } finally {
+      setter(false);
+    }
+  };
 
   const invalidate = () => qc.invalidateQueries({ queryKey: ['client-logos'] });
 
@@ -104,13 +125,29 @@ export function ClientLogosPage() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-navy/60 mb-1">Logo URL *</label>
-                <input
-                  value={addForm.logo_url}
-                  onChange={e => setAddForm(f => ({ ...f, logo_url: e.target.value }))}
-                  placeholder="/images/logos/example.png"
-                  className="w-full border border-navy/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-steel"
-                />
+                <label className="block text-xs font-semibold text-navy/60 mb-1">Logo Image *</label>
+                <div className="flex gap-2">
+                  <input
+                    value={addForm.logo_url}
+                    onChange={e => setAddForm(f => ({ ...f, logo_url: e.target.value }))}
+                    placeholder="URL or upload →"
+                    className="flex-1 border border-navy/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-steel"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => addFileRef.current?.click()}
+                    disabled={addUploading}
+                    className="flex items-center gap-1 px-3 py-2 text-xs border border-navy/20 rounded-lg hover:bg-navy/5 disabled:opacity-50 whitespace-nowrap"
+                  >
+                    <Upload className="w-3 h-3" />
+                    {addUploading ? 'Uploading…' : 'Upload'}
+                  </button>
+                  <input ref={addFileRef} type="file" accept="image/*" className="hidden"
+                    onChange={e => e.target.files?.[0] && handleUploadLogo(e.target.files[0], 'add')} />
+                </div>
+                {addForm.logo_url && (
+                  <img src={addForm.logo_url} alt="preview" className="mt-2 h-10 object-contain rounded border border-navy/10" />
+                )}
               </div>
             </div>
             <div className="flex gap-2">
@@ -181,12 +218,25 @@ export function ClientLogosPage() {
                       placeholder="Company name"
                       className="w-full border border-navy/20 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-steel"
                     />
-                    <input
-                      value={editForm.logo_url ?? ''}
-                      onChange={e => setEditForm(f => ({ ...f, logo_url: e.target.value }))}
-                      placeholder="Logo URL"
-                      className="w-full border border-navy/20 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-steel"
-                    />
+                    <div className="flex gap-1">
+                      <input
+                        value={editForm.logo_url ?? ''}
+                        onChange={e => setEditForm(f => ({ ...f, logo_url: e.target.value }))}
+                        placeholder="Logo URL"
+                        className="flex-1 border border-navy/20 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-steel"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => editFileRef.current?.click()}
+                        disabled={editUploading}
+                        className="px-2 py-1 text-xs border border-navy/20 rounded hover:bg-navy/5 disabled:opacity-50"
+                        title="Upload image"
+                      >
+                        <Upload className="w-3 h-3" />
+                      </button>
+                      <input ref={editFileRef} type="file" accept="image/*" className="hidden"
+                        onChange={e => e.target.files?.[0] && handleUploadLogo(e.target.files[0], 'edit')} />
+                    </div>
                     <div className="flex gap-1">
                       <button onClick={() => handleEditSave(logo.id)} className="flex-1 text-xs bg-steel text-white rounded py-1 hover:bg-steel/90">Save</button>
                       <button onClick={() => setEditId(null)} className="flex-1 text-xs border border-navy/20 rounded py-1 hover:bg-navy/5">Cancel</button>

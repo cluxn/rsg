@@ -18,6 +18,7 @@ import caseStudiesRouter from './routes/case_studies';
 import clientLogosRouter from './routes/client_logos';
 import authorsRouter from './routes/authors';
 import categoriesRouter from './routes/categories';
+import dashboardRouter from './routes/dashboard';
 
 dotenv.config();
 
@@ -43,6 +44,7 @@ app.use('/api/case-studies', caseStudiesRouter);
 app.use('/api/client-logos', clientLogosRouter);
 app.use('/api/authors', authorsRouter);
 app.use('/api/categories', categoriesRouter);
+app.use('/api/dashboard', dashboardRouter);
 
 pool.query('SELECT 1')
   .then(() => console.log('DB connected'))
