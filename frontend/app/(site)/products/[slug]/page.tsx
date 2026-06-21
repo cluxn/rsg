@@ -379,13 +379,15 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </SectionContainer>
       )}
 
+      </div>
+
       {/* CTA Banner */}
-      <div className="py-12">
+      <div className="gradient-power py-12">
         <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32 flex flex-col items-center text-center gap-5">
-          <h2 className="font-heading text-xl md:text-2xl font-bold text-navy max-w-2xl leading-snug">
+          <h2 className="font-heading text-xl md:text-2xl font-bold text-white max-w-2xl leading-snug">
             Trusted Manufacturer &amp; Wholesale Supplier of {product.name} in Kanpur, India
           </h2>
-          <p className="font-body text-navy/60 text-sm max-w-md">
+          <p className="font-body text-white/60 text-sm max-w-md">
             Get factory-direct pricing and bulk availability for your next project.
           </p>
           <a
@@ -396,6 +398,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </a>
         </div>
       </div>
+
+      <div className="gradient-mesh-light">
 
       {/* Manufacturing process — not shown for Accessories (bought-in items like screws/turbo fans aren't roll-formed in-house) */}
       {product.slug !== 'accessories' && (
