@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
+import { Extension } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Underline from '@tiptap/extension-underline';
@@ -10,8 +11,39 @@ import { Color } from '@tiptap/extension-color';
 import { Highlight } from '@tiptap/extension-highlight';
 import { Image } from '@tiptap/extension-image';
 import { Youtube } from '@tiptap/extension-youtube';
+import Table from '@tiptap/extension-table';
+import TableRow from '@tiptap/extension-table-row';
+import TableHeader from '@tiptap/extension-table-header';
+import TableCell from '@tiptap/extension-table-cell';
 import { cn } from '@/lib/utils';
 import { api } from '@/lib/api';
+
+// Inline font-size extension (no separate package needed)
+const FontSize = Extension.create({
+  name: 'fontSize',
+  addGlobalAttributes() {
+    return [{
+      types: ['textStyle'],
+      attributes: {
+        fontSize: {
+          default: null,
+          parseHTML: el => el.style.fontSize || null,
+          renderHTML: attrs => attrs.fontSize ? { style: `font-size: ${attrs.fontSize}` } : {},
+        },
+      },
+    }];
+  },
+  addCommands() {
+    return {
+      setFontSize: (size: string) => ({ chain }: { chain: () => any }) =>
+        chain().setMark('textStyle', { fontSize: size }).run(),
+      unsetFontSize: () => ({ chain }: { chain: () => any }) =>
+        chain().setMark('textStyle', { fontSize: null }).removeEmptyTextStyle().run(),
+    };
+  },
+});
+
+const FONT_SIZES = ['12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px', '36px', '48px'];
 
 interface TiptapEditorProps {
   value: string;
@@ -49,13 +81,17 @@ export function TiptapEditor({ value, onChange, placeholder }: TiptapEditorProps
       Highlight.configure({ multicolor: true }),
       Image.configure({ HTMLAttributes: { class: 'max-w-full rounded-lg my-2' } }),
       Youtube.configure({ width: 640, height: 360, HTMLAttributes: { class: 'rounded-lg my-2 w-full' } }),
+      FontSize,
+      Table.configure({ resizable: true }),
+      TableRow,
+      TableHeader,
+      TableCell,
     ],
     content: value,
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
     onSelectionUpdate: ({ editor }) => {
       const { from, to } = editor.state.selection;
       if (from === to) { setBubblePos(null); return; }
-      // Position bubble menu near selection
       const domSelection = window.getSelection();
       if (!domSelection || domSelection.rangeCount === 0) { setBubblePos(null); return; }
       const range = domSelection.getRangeAt(0);
@@ -107,7 +143,11 @@ export function TiptapEditor({ value, onChange, placeholder }: TiptapEditorProps
     }
   }, [editor]);
 
-  // Close bubble on click outside
+  const insertTable = useCallback(() => {
+    if (!editor) return;
+    editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
+  }, [editor]);
+
   useEffect(() => {
     const handler = () => setBubblePos(null);
     document.addEventListener('mousedown', handler);
@@ -128,26 +168,12 @@ export function TiptapEditor({ value, onChange, placeholder }: TiptapEditorProps
         <Btn title="Inline code" active={editor.isActive('code')} onClick={() => editor.chain().focus().toggleCode().run()}>{'<>'}</Btn>
         <Sep />
 
-        {/* Color + highlight pickers */}
-        <label title="Text color" className="flex items-center px-1 cursor-pointer rounded hover:bg-navy/10">
-          <span className="text-sm font-medium text-navy/70 mr-0.5">A</span>
-          <input type="color" className="w-4 h-4 cursor-pointer border-0 p-0 opacity-0 absolute"
-            onChange={e => editor.chain().focus().setColor(e.target.value).run()} />
-          <span className="text-xs">🎨</span>
-        </label>
-        <label title="Highlight color" className="flex items-center px-1 cursor-pointer rounded hover:bg-navy/10">
-          <span className="text-sm font-medium mr-0.5 bg-yellow-200 px-0.5">H</span>
-          <input type="color" defaultValue="#fef08a" className="w-4 h-4 cursor-pointer border-0 p-0 opacity-0 absolute"
-            onChange={e => editor.chain().focus().setHighlight({ color: e.target.value }).run()} />
-          <span className="text-xs">✏️</span>
-        </label>
-        <Btn title="Clear formatting" onClick={() => editor.chain().focus().unsetColor().unsetHighlight().unsetAllMarks().run()}>✕A</Btn>
-        <Sep />
-
         {/* Headings */}
         <Btn title="Heading 1" active={editor.isActive('heading', { level: 1 })} onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>H1</Btn>
         <Btn title="Heading 2" active={editor.isActive('heading', { level: 2 })} onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>H2</Btn>
         <Btn title="Heading 3" active={editor.isActive('heading', { level: 3 })} onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}>H3</Btn>
+        <Btn title="Heading 4" active={editor.isActive('heading', { level: 4 })} onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}>H4</Btn>
+        <Btn title="Heading 5" active={editor.isActive('heading', { level: 5 })} onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}>H5</Btn>
         <Sep />
 
         {/* Lists + blocks */}
@@ -164,11 +190,44 @@ export function TiptapEditor({ value, onChange, placeholder }: TiptapEditorProps
         <Btn title="Justify" active={editor.isActive({ textAlign: 'justify' })} onClick={() => editor.chain().focus().setTextAlign('justify').run()}>≡J</Btn>
         <Sep />
 
-        {/* Link, rule, image, YouTube */}
+        {/* Link, rule, image, YouTube, table */}
         <Btn title="Insert/edit link" active={editor.isActive('link')} onClick={setLink}>🔗</Btn>
         <Btn title="Horizontal rule" onClick={() => editor.chain().focus().setHorizontalRule().run()}>—</Btn>
         <Btn title="Insert image (upload)" onClick={() => fileRef.current?.click()}>🖼</Btn>
         <Btn title="Embed YouTube video" onClick={insertYoutube}>▶ YT</Btn>
+        <Btn title="Insert table (3×3)" onClick={insertTable}>⊞</Btn>
+        <Sep />
+
+        {/* Color + highlight pickers */}
+        <label title="Text color" className="flex items-center px-1 cursor-pointer rounded hover:bg-navy/10">
+          <span className="text-sm font-medium text-navy/70 mr-0.5">A</span>
+          <input type="color" className="w-4 h-4 cursor-pointer border-0 p-0 opacity-0 absolute"
+            onChange={e => editor.chain().focus().setColor(e.target.value).run()} />
+          <span className="text-xs">🎨</span>
+        </label>
+        <label title="Highlight color" className="flex items-center px-1 cursor-pointer rounded hover:bg-navy/10">
+          <span className="text-sm font-medium mr-0.5 bg-yellow-200 px-0.5">H</span>
+          <input type="color" defaultValue="#fef08a" className="w-4 h-4 cursor-pointer border-0 p-0 opacity-0 absolute"
+            onChange={e => editor.chain().focus().setHighlight({ color: e.target.value }).run()} />
+          <span className="text-xs">✏️</span>
+        </label>
+        <Btn title="Clear formatting" onClick={() => editor.chain().focus().unsetColor().unsetHighlight().unsetAllMarks().run()}>✕A</Btn>
+        <Sep />
+
+        {/* Font size */}
+        <select
+          title="Font size"
+          defaultValue=""
+          onChange={e => {
+            const val = e.target.value;
+            if (!val) (editor.chain().focus() as any).unsetFontSize().run();
+            else (editor.chain().focus() as any).setFontSize(val).run();
+          }}
+          className="text-xs border border-navy/20 rounded px-1 py-0.5 text-navy/70 hover:border-navy/40 bg-white"
+        >
+          <option value="">Size</option>
+          {FONT_SIZES.map(s => <option key={s} value={s}>{s.replace('px', '')}</option>)}
+        </select>
       </div>
 
       {/* Bubble menu — appears when text is selected */}
@@ -195,7 +254,7 @@ export function TiptapEditor({ value, onChange, placeholder }: TiptapEditorProps
 
       <EditorContent
         editor={editor}
-        className="prose prose-sm max-w-none min-h-[320px] px-4 py-3 focus:outline-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:min-h-[320px]"
+        className="prose prose-sm max-w-none min-h-[320px] px-4 py-3 focus:outline-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:min-h-[320px] [&_table]:border-collapse [&_table]:w-full [&_td]:border [&_td]:border-navy/20 [&_td]:p-2 [&_th]:border [&_th]:border-navy/20 [&_th]:p-2 [&_th]:bg-navy/5 [&_th]:font-semibold"
       />
 
       <input ref={fileRef} type="file" accept="image/*" className="hidden"

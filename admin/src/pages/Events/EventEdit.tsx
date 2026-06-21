@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -6,7 +6,6 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AdminLayout } from '@/components/layout/AdminLayout';
 import { ContentTabs } from '@/components/ContentTabs';
-import { Button } from '@/components/ui/button';
 import { TiptapEditor } from '@/components/editor/TiptapEditor';
 import { CoverImageUploader } from '@/components/ui/CoverImageUploader';
 import { getEventsAdmin, updateEvent, type EventRecord, type ContentStatus } from '@/lib/api';
@@ -39,6 +38,8 @@ const labelCls = 'block text-xs font-semibold text-navy mb-1';
 export function EventEditPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [showSaveMenu, setShowSaveMenu] = useState(false);
 
   const { data: events = [] } = useQuery<EventRecord[]>({
     queryKey: ['events-admin'],
@@ -47,7 +48,7 @@ export function EventEditPage() {
 
   const event = events.find(e => String(e.id) === id);
 
-  const { register, handleSubmit, control, reset, watch, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, control, reset, watch, setValue, getValues, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: { body: '', status: 'draft', featured: false },
   });
@@ -81,6 +82,20 @@ export function EventEditPage() {
     onSuccess: () => navigate('/events'),
   });
 
+  const submitWithStatus = (targetStatus: 'draft' | 'published' | 'scheduled') => {
+    setValue('status', targetStatus);
+    setShowSaveMenu(false);
+    setTimeout(() => handleSubmit(d => mutation.mutate(d))(), 0);
+  };
+
+  const handlePreview = () => {
+    const s = getValues('slug');
+    if (!s) { alert('No slug set for preview.'); return; }
+    window.open(`http://localhost:3000/events/${s}`, '_blank');
+  };
+
+  const saveLabel = watch('status') === 'published' ? 'Update' : watch('status') === 'scheduled' ? 'Schedule' : 'Save Draft';
+
   if (!event) return <AdminLayout><ContentTabs /><div className="p-8 text-navy/60">Loading…</div></AdminLayout>;
 
   return (
@@ -99,17 +114,43 @@ export function EventEditPage() {
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <button type="button" onClick={() => navigate('/events')} className="font-body text-sm text-navy/60 hover:text-navy px-3 py-1.5 rounded border border-navy/20">Cancel</button>
-            <Button type="submit" disabled={mutation.isPending}>
-              {mutation.isPending ? 'Saving…' : 'Save'}
-            </Button>
+            <button type="button" onClick={() => navigate('/events')}
+              className="font-body text-sm text-navy/60 hover:text-navy px-3 py-1.5 rounded border border-navy/20">
+              Cancel
+            </button>
+            <button type="button" onClick={handlePreview}
+              className="font-body text-sm text-navy/70 hover:text-navy px-3 py-1.5 rounded border border-navy/20 hover:bg-navy/5">
+              Preview
+            </button>
+            <div className="relative" ref={dropdownRef}>
+              <div className="flex">
+                <button type="submit" disabled={mutation.isPending}
+                  className="bg-steel text-white text-sm font-body px-4 py-1.5 rounded-l-lg hover:bg-steel/90 disabled:opacity-60">
+                  {mutation.isPending ? 'Saving…' : saveLabel}
+                </button>
+                <button type="button" onClick={() => setShowSaveMenu(v => !v)}
+                  className="bg-steel text-white px-2 py-1.5 rounded-r-lg border-l border-white/30 hover:bg-steel/90">
+                  ▾
+                </button>
+              </div>
+              {showSaveMenu && (
+                <div className="absolute right-0 top-full mt-1 bg-white border border-navy/20 rounded-lg shadow-lg py-1 z-50 w-40">
+                  <button type="button" onClick={() => submitWithStatus('draft')}
+                    className="w-full text-left px-4 py-2 text-sm text-navy hover:bg-navy/5">Save Draft</button>
+                  <button type="button" onClick={() => submitWithStatus('published')}
+                    className="w-full text-left px-4 py-2 text-sm text-navy hover:bg-navy/5">Publish Now</button>
+                  <button type="button" onClick={() => { setValue('status', 'scheduled'); setShowSaveMenu(false); }}
+                    className="w-full text-left px-4 py-2 text-sm text-navy hover:bg-navy/5">Schedule…</button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
         {/* 2-column body */}
         <div className="flex min-h-[calc(100vh-8rem)]">
           {/* Left: main content */}
-          <div className="flex-1 px-8 py-6 overflow-y-auto space-y-5 max-w-3xl">
+          <div className="flex-1 px-8 py-6 overflow-y-auto space-y-5">
             <div>
               <label className="block text-sm font-semibold text-navy mb-1">Title *</label>
               <input {...register('title')} className={inputCls} />

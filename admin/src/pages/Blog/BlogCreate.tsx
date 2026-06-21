@@ -1,14 +1,21 @@
+import { useRef, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { AdminLayout } from '@/components/layout/AdminLayout';
 import { ContentTabs } from '@/components/ContentTabs';
-import { Button } from '@/components/ui/button';
 import { TiptapEditor } from '@/components/editor/TiptapEditor';
 import { CoverImageUploader } from '@/components/ui/CoverImageUploader';
-import { createBlogPost, type ContentStatus } from '@/lib/api';
+import {
+  createBlogPost,
+  getAuthorsAdmin,
+  getCategoriesAdmin,
+  type ContentStatus,
+  type Author,
+  type Category,
+} from '@/lib/api';
 
 const schema = z.object({
   title: z.string().min(1, 'Required'),
@@ -37,12 +44,20 @@ const labelCls = 'block text-xs font-semibold text-navy mb-1';
 
 export function BlogCreatePage() {
   const navigate = useNavigate();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [showSaveMenu, setShowSaveMenu] = useState(false);
+
   const { register, handleSubmit, control, setValue, getValues, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: { body: '', status: 'draft', featured: false },
   });
 
   const status = watch('status') as ContentStatus;
+  const slug = watch('slug');
+
+  const { data: authors = [] } = useQuery<Author[]>({ queryKey: ['authors-admin'], queryFn: getAuthorsAdmin });
+  const { data: categories = [] } = useQuery<Category[]>({ queryKey: ['categories-admin'], queryFn: getCategoriesAdmin });
+  const blogCategories = categories.filter(c => !c.type || c.type === 'blog');
 
   const mutation = useMutation({
     mutationFn: createBlogPost,
@@ -53,6 +68,20 @@ export function BlogCreatePage() {
     const title = getValues('title');
     if (title) setValue('slug', slugify(title));
   };
+
+  const submitWithStatus = (targetStatus: 'draft' | 'published' | 'scheduled') => {
+    setValue('status', targetStatus);
+    setShowSaveMenu(false);
+    setTimeout(() => handleSubmit(d => mutation.mutate(d))(), 0);
+  };
+
+  const handlePreview = () => {
+    const s = getValues('slug');
+    if (!s) { alert('Enter a slug first to preview.'); return; }
+    window.open(`http://localhost:3000/blog/${s}`, '_blank');
+  };
+
+  const saveLabel = status === 'published' ? 'Update' : status === 'scheduled' ? 'Schedule' : 'Save Draft';
 
   return (
     <AdminLayout>
@@ -70,17 +99,44 @@ export function BlogCreatePage() {
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <button type="button" onClick={() => navigate('/blog')} className="font-body text-sm text-navy/60 hover:text-navy px-3 py-1.5 rounded border border-navy/20">Cancel</button>
-            <Button type="submit" disabled={mutation.isPending}>
-              {mutation.isPending ? 'Saving…' : 'Save'}
-            </Button>
+            <button type="button" onClick={() => navigate('/blog')}
+              className="font-body text-sm text-navy/60 hover:text-navy px-3 py-1.5 rounded border border-navy/20">
+              Cancel
+            </button>
+            <button type="button" onClick={handlePreview}
+              className="font-body text-sm text-navy/70 hover:text-navy px-3 py-1.5 rounded border border-navy/20 hover:bg-navy/5">
+              Preview
+            </button>
+            {/* Split save button */}
+            <div className="relative" ref={dropdownRef}>
+              <div className="flex">
+                <button type="submit" disabled={mutation.isPending}
+                  className="bg-steel text-white text-sm font-body px-4 py-1.5 rounded-l-lg hover:bg-steel/90 disabled:opacity-60">
+                  {mutation.isPending ? 'Saving…' : saveLabel}
+                </button>
+                <button type="button" onClick={() => setShowSaveMenu(v => !v)}
+                  className="bg-steel text-white px-2 py-1.5 rounded-r-lg border-l border-white/30 hover:bg-steel/90">
+                  ▾
+                </button>
+              </div>
+              {showSaveMenu && (
+                <div className="absolute right-0 top-full mt-1 bg-white border border-navy/20 rounded-lg shadow-lg py-1 z-50 w-40">
+                  <button type="button" onClick={() => submitWithStatus('draft')}
+                    className="w-full text-left px-4 py-2 text-sm text-navy hover:bg-navy/5">Save Draft</button>
+                  <button type="button" onClick={() => submitWithStatus('published')}
+                    className="w-full text-left px-4 py-2 text-sm text-navy hover:bg-navy/5">Publish Now</button>
+                  <button type="button" onClick={() => { setValue('status', 'scheduled'); setShowSaveMenu(false); }}
+                    className="w-full text-left px-4 py-2 text-sm text-navy hover:bg-navy/5">Schedule…</button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
         {/* 2-column body */}
         <div className="flex min-h-[calc(100vh-8rem)]">
           {/* Left: main content */}
-          <div className="flex-1 px-8 py-6 overflow-y-auto space-y-5 max-w-3xl">
+          <div className="flex-1 px-8 py-6 overflow-y-auto space-y-5">
             <div>
               <label className="block text-sm font-semibold text-navy mb-1">Title *</label>
               <input {...register('title')} onBlur={onTitleBlur} className={inputCls} placeholder="Post title" />
@@ -158,11 +214,17 @@ export function BlogCreatePage() {
                 <p className="text-xs font-semibold text-navy/50 uppercase tracking-wide">Details</p>
                 <div>
                   <label className={labelCls}>Author</label>
-                  <input {...register('author_name')} className={inputCls} placeholder="Author name" />
+                  <select {...register('author_name')} className={inputCls}>
+                    <option value="">— Select author —</option>
+                    {authors.map(a => <option key={a.id} value={a.name}>{a.name}</option>)}
+                  </select>
                 </div>
                 <div>
                   <label className={labelCls}>Category</label>
-                  <input {...register('category')} className={inputCls} placeholder="e.g. Industry Insights" />
+                  <select {...register('category')} className={inputCls}>
+                    <option value="">— Select category —</option>
+                    {blogCategories.map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
+                  </select>
                 </div>
               </div>
 
