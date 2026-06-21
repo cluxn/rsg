@@ -1,12 +1,11 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import type { Metadata } from 'next';
 import { SimpleHero } from '@/components/ui/SimpleHero';
 import { SectionContainer } from '@/components/layout/SectionContainer';
-import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
 import { StatsSection } from '@/components/sections/StatsSection';
-import { getTestimonials } from '@/lib/content';
 import { getSettings } from '@/lib/api';
+import { TESTIMONIALS, RATINGS, PARTNER_LOGOS } from '@/lib/testimonials-data';
+import HomeQuoteForm from '../HomeQuoteForm';
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
@@ -22,8 +21,6 @@ export async function generateMetadata(): Promise<Metadata> {
     };
   }
 }
-
-const PARTNER_BRANDS = ['Tata Steel', 'JSW Steel', 'Jindal Steel', 'Apollo Pipes', 'Kamdhenu'];
 
 const WHY_US = [
   {
@@ -93,10 +90,7 @@ function WhyIcon({ type }: { type: string }) {
 }
 
 export default async function AboutPage() {
-  const [testimonials, settings] = await Promise.all([
-    getTestimonials(),
-    getSettings().catch(() => ({} as Record<string, string>)),
-  ]);
+  const settings = await getSettings().catch(() => ({} as Record<string, string>));
   const waNumber = (settings.whatsapp_number ?? '9918522988').replace(/[^0-9+]/g, '');
   const waUrl = `https://wa.me/${waNumber}`;
 
@@ -379,31 +373,115 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* SECTION 8 — Clients & Partners (WHITE) */}
-      <SectionContainer className="bg-white border-t-4 border-t-orange">
-        <h2 className="font-heading text-2xl text-ink text-center mb-2">Our Clients &amp; Brand Partners</h2>
-        <p className="font-body text-ink/55 text-center mb-10">Premium brands we stock and supply</p>
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {PARTNER_BRANDS.map(brand => (
-            <span key={brand} className="font-heading text-sm font-bold text-steel/80 tracking-widest uppercase border border-steel/20 rounded-lg px-4 py-2 bg-steel/5">
-              {brand}
-            </span>
-          ))}
+      {/* SECTION 8 — Brand Partners (marquee, matches homepage) */}
+      <SectionContainer className="gradient-mesh-light">
+        <div className="text-center mb-12">
+          <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Brand Partners</p>
+          <h2 className="font-heading text-3xl text-ink font-bold mb-3">Our Clients &amp; Partners</h2>
+          <p className="font-body text-ink/60 max-w-xl mx-auto">
+            Authorized dealer for India&apos;s leading steel brands — delivering premium quality at factory prices.
+          </p>
         </div>
-        <div className="text-center">
-          <a
-            href={waUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center font-heading font-semibold text-white gradient-sunrise rounded-lg px-8 py-4 shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 transition-all duration-200"
-          >
-            Chat on WhatsApp
-          </a>
+        <div className="overflow-hidden" aria-label="Partner logos">
+          <div className="marquee-track gap-16 items-center">
+            {[...PARTNER_LOGOS, ...PARTNER_LOGOS, ...PARTNER_LOGOS, ...PARTNER_LOGOS].map((logo, i) => (
+              <div key={i} className="flex-shrink-0 flex items-center justify-center h-14 w-36 grayscale hover:grayscale-0 opacity-50 hover:opacity-100 transition-all duration-300">
+                <Image src={logo.src} alt={logo.alt} width={144} height={56} className="object-contain max-h-14" />
+              </div>
+            ))}
+          </div>
         </div>
       </SectionContainer>
 
-      {/* SECTION 9 — Testimonials (DARK) */}
-      <TestimonialsSection testimonials={testimonials} />
+      {/* SECTION 9 — Testimonials (DARK, matches homepage style) */}
+      <section className="gradient-mesh-dark py-28 md:py-40">
+        <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
+          <div className="text-center mb-12">
+            <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Client Reviews</p>
+            <h2 className="font-heading text-3xl lg:text-4xl text-white font-bold mb-4">What Our Clients Say</h2>
+            <p className="font-body text-white/55 max-w-xl mx-auto">
+              Rated 4.8★ on Google — trusted by contractors and builders across Uttar Pradesh.
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-4 mb-12">
+            {RATINGS.map(r => (
+              <div key={r.platform} className="glow-card-dark rounded-xl px-6 py-4 text-center">
+                <p className="font-heading text-2xl text-gradient-sunrise font-bold">{r.score}</p>
+                <p className="font-body text-sm text-white/55 mt-1">{r.platform} · {r.count}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div
+          className="overflow-hidden px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32"
+          style={{ WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)', maskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)' }}
+        >
+          <div className="marquee-track gap-6" style={{ animationDuration: '120s' }}>
+            {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
+              <div key={i} className="glow-card-dark rounded-xl p-6 w-80 flex-shrink-0">
+                <div className="flex gap-1 mb-4">
+                  {Array.from({ length: t.rating }).map((_, j) => (
+                    <svg key={j} className="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="font-body text-white/80 italic mb-4 leading-relaxed text-base">&ldquo;{t.quote}&rdquo;</p>
+                <div>
+                  <p className="font-heading text-base text-white font-semibold">{t.name}</p>
+                  <p className="font-body text-sm text-white/50 mt-1">{t.source}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 10 — Get a Quote (matches homepage panel) */}
+      <section className="bg-[#f0ebe0] py-24 md:py-32">
+        <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
+            <div className="flex flex-col gap-6 py-4">
+              <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em]">Get A Quote</p>
+              <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy leading-snug">
+                Get Premium Roofing &amp; Steel at Factory-Direct Wholesale Prices — Across UP.
+              </h2>
+              <p className="font-heading text-sm font-bold text-ink/70 tracking-widest uppercase">
+                Roofing Sheets &nbsp;|&nbsp; Structural Steel &nbsp;|&nbsp; Accessories
+              </p>
+              <p className="font-body text-ink/65 text-base leading-relaxed">
+                Source ISI-certified roofing sheets, MS pipes, purlins, and structural steel directly from our Kanpur
+                manufacturing facility. We supply contractors, builders, and traders across Uttar Pradesh at trade
+                pricing — with delivery in 2–3 days.
+              </p>
+              <div className="rounded-xl overflow-hidden border border-[#ddd4be] shadow-sm flex-1 min-h-[220px]">
+                <iframe
+                  src="https://maps.google.com/maps?q=RSG+Profile+Manufacturing+Pvt+Ltd,+Dada+Nagar+Industrial+Estate,+Kanpur&output=embed"
+                  width="100%"
+                  height="100%"
+                  loading="lazy"
+                  title="RSG Profile Manufacturing — Kanpur facility"
+                  className="block w-full h-full min-h-[220px]"
+                />
+              </div>
+              <div>
+                <a
+                  href={`https://wa.me/${waNumber}?text=Hi%2C%20I%20would%20like%20to%20get%20a%20bulk%20quote%20for%20roofing%20and%20steel%20materials.`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center font-heading font-semibold text-white gradient-sunrise rounded-lg px-7 py-3 shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  WhatsApp Us
+                </a>
+              </div>
+            </div>
+            <div className="bg-white/70 border border-[#ddd4be] rounded-2xl shadow-md p-6 lg:p-8">
+              <p className="font-heading text-base font-bold text-ink mb-5">Send an Enquiry</p>
+              <HomeQuoteForm sourcePage="about" />
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
