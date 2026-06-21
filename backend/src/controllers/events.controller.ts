@@ -23,6 +23,7 @@ const createEventSchema = z.object({
   meta_description: z.string().optional(),
   canonical_url: z.string().optional(),
   og_image: z.string().optional(),
+  show_sidebar_form: z.boolean().default(true),
   featured: z.boolean().default(false),
   status: z.enum(['draft', 'scheduled', 'published']).default('draft'),
   scheduled_at: z.string().nullable().optional(),

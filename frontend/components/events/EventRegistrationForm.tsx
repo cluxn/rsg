@@ -62,25 +62,37 @@ export function EventRegistrationForm({ eventTitle, eventSlug }: EventRegistrati
   }
 
   return (
-    <div className="bg-white rounded-2xl p-6 border border-navy/10 shadow-md">
+    <div className="bg-white rounded-2xl p-6 border border-navy/10 shadow-md h-full flex flex-col">
       <div className="mb-5">
         <span className="inline-block font-body text-xs text-orange uppercase tracking-widest font-semibold mb-2">Register Now</span>
         <p className="font-heading text-navy text-xl font-bold leading-snug">Reserve Your Spot</p>
         <p className="font-body text-navy/50 text-sm mt-1">Seats are limited — secure your place today.</p>
       </div>
 
-      <form onSubmit={handleSubmit} noValidate className="space-y-3">
+      <form onSubmit={handleSubmit} noValidate className="flex flex-col flex-1 gap-3">
         <input type="text" name="_hp" className="hidden" tabIndex={-1} autoComplete="off" />
-        <input name="name" type="text" required placeholder="Full name *" className={inp} />
-        <input name="phone" type="tel" required placeholder="Phone number *" className={inp} />
-        <input name="email" type="email" required placeholder="Email address *" className={inp} />
-        <input name="company" type="text" placeholder="Company / Organisation" className={inp} />
-        <textarea name="message" rows={2} placeholder="Any questions for us? (optional)" className={`${inp} resize-none`} />
+
+        {/* Row 1: Name + Phone */}
+        <div className="grid grid-cols-2 gap-3">
+          <input name="name" type="text" required placeholder="Full name *" className={inp} />
+          <input name="phone" type="tel" required placeholder="Phone *" className={inp} />
+        </div>
+
+        {/* Row 2: Email + Company */}
+        <div className="grid grid-cols-2 gap-3">
+          <input name="email" type="email" required placeholder="Email *" className={inp} />
+          <input name="company" type="text" placeholder="Company" className={inp} />
+        </div>
+
+        {/* Row 3: Message */}
+        <textarea name="message" rows={3} placeholder="Any questions for us? (optional)" className={`${inp} resize-none flex-1`} />
+
         {error && <p className="text-red-600 text-xs">{error}</p>}
+
         <button
           type="submit"
           disabled={loading}
-          className="w-full font-heading font-semibold text-white gradient-sunrise rounded-lg py-3 text-sm hover:shadow-glow-orange disabled:opacity-60 transition-all duration-200"
+          className="w-full font-heading font-semibold text-white gradient-sunrise rounded-lg py-3 text-sm shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 disabled:opacity-60 transition-all duration-200"
         >
           {loading ? 'Registering…' : 'Confirm My Registration'}
         </button>

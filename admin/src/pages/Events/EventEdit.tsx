@@ -22,6 +22,7 @@ const schema = z.object({
   event_date: z.string().optional(),
   end_date: z.string().optional(),
   cover_image: z.string().optional(),
+  show_sidebar_form: z.boolean().default(true),
   featured: z.boolean().default(false),
   status: z.enum(['draft', 'scheduled', 'published']).default('draft'),
   scheduled_at: z.string().nullable().optional(),
@@ -67,6 +68,7 @@ export function EventEditPage() {
         event_date: event.event_date ?? '',
         end_date: event.end_date ?? '',
         cover_image: event.cover_image ?? '',
+        show_sidebar_form: event.show_sidebar_form ?? true,
         featured: event.featured,
         status: event.status,
         scheduled_at: event.scheduled_at ?? '',
@@ -220,6 +222,10 @@ export function EventEditPage() {
                 <div className="flex items-center gap-2">
                   <input type="checkbox" id="featured" {...register('featured')} className="rounded" />
                   <label htmlFor="featured" className="text-sm text-navy">Featured event</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input type="checkbox" id="show_sidebar_form" {...register('show_sidebar_form')} className="rounded" />
+                  <label htmlFor="show_sidebar_form" className="text-sm text-navy">Show sidebar registration form</label>
                 </div>
               </div>
 

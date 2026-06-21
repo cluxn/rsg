@@ -1,0 +1,2 @@
+ALTER TABLE events
+  ADD COLUMN show_sidebar_form BOOLEAN NOT NULL DEFAULT TRUE AFTER og_image;

@@ -6,6 +6,7 @@ import { ShareButtons } from '@/components/blog/ShareButtons';
 import { BlogLeadForm } from '@/components/blog/BlogLeadForm';
 import { BlogCard } from '@/components/blog/BlogCard';
 import { SectionContainer } from '@/components/layout/SectionContainer';
+import { ContactFormSection } from '@/components/sections/ContactFormSection';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -48,29 +49,31 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <>
-      {/* Dark hero */}
-      <div className="gradient-power py-12 px-4">
-        <SectionContainer noPadding>
-          <Link href="/blog" className="text-cyan/80 hover:text-cyan text-sm mb-4 inline-block">← Back to Blog</Link>
-          <div className="flex flex-wrap gap-2 mb-3">
-            {post.category && (
-              <span className="inline-flex items-center rounded-full bg-white/15 text-white font-body text-xs font-semibold uppercase tracking-wide px-3 py-1">
-                {post.category}
-              </span>
-            )}
-            {post.service && (
-              <span className="inline-flex items-center rounded-full bg-orange/20 text-orange font-body text-xs font-semibold uppercase tracking-wide px-3 py-1">
-                {post.service}
-              </span>
-            )}
-          </div>
-          <h1 className="font-heading text-3xl md:text-4xl font-bold text-white leading-tight mb-3 max-w-3xl">{post.title}</h1>
-          <div className="flex items-center gap-4 text-white/60 text-sm">
-            {post.author_name && <span>{post.author_name}</span>}
-            <span>{date}</span>
-          </div>
-        </SectionContainer>
-      </div>
+      {/* Hero — consistent with blog list page: gradient-power, centered, padded */}
+      <section className="gradient-power w-full flex items-center justify-center min-h-[300px]">
+        <div className="w-full py-16 text-center">
+          <SectionContainer noPadding>
+            <Link href="/blog" className="text-cyan/80 hover:text-cyan text-sm mb-6 inline-block">← Back to Blog</Link>
+            <div className="flex flex-wrap gap-2 justify-center mb-3">
+              {post.category && (
+                <span className="inline-flex items-center rounded-full bg-white/15 text-white font-body text-xs font-semibold uppercase tracking-wide px-3 py-1">
+                  {post.category}
+                </span>
+              )}
+              {post.service && (
+                <span className="inline-flex items-center rounded-full bg-orange/20 text-orange font-body text-xs font-semibold uppercase tracking-wide px-3 py-1">
+                  {post.service}
+                </span>
+              )}
+            </div>
+            <h1 className="font-heading text-3xl md:text-4xl font-bold text-white leading-tight mb-3 max-w-3xl mx-auto">{post.title}</h1>
+            <div className="flex items-center justify-center gap-4 text-white/60 text-sm">
+              {post.author_name && <span>{post.author_name}</span>}
+              <span>{date}</span>
+            </div>
+          </SectionContainer>
+        </div>
+      </section>
 
       {/* Cover image — contained, not full-bleed */}
       <div className="max-w-4xl mx-auto px-4 md:px-8 pt-8 pb-2">
@@ -118,6 +121,9 @@ export default async function BlogPostPage({ params }: Props) {
           </SectionContainer>
         </div>
       )}
+
+      {/* Contact form section — exact homepage section */}
+      <ContactFormSection sourcePage={`blog/${slug}`} />
     </>
   );
 }

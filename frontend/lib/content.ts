@@ -60,6 +60,7 @@ export interface EventItem {
   meta_description?: string;
   canonical_url?: string;
   og_image?: string;
+  show_sidebar_form: boolean;
   published_at: string | null;
   created_at: string;
 }

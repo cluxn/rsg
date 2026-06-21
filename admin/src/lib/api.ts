@@ -62,6 +62,7 @@ export interface EventRecord {
   meta_description?: string;
   canonical_url?: string;
   og_image?: string;
+  show_sidebar_form: boolean;
   featured: boolean;
   published: boolean;
   status: ContentStatus;
@@ -84,6 +85,7 @@ export interface CreateEventInput {
   meta_description?: string;
   canonical_url?: string;
   og_image?: string;
+  show_sidebar_form?: boolean;
   featured?: boolean;
   status: ContentStatus;
   scheduled_at?: string | null;

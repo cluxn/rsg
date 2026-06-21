@@ -22,6 +22,7 @@ const schema = z.object({
   event_date: z.string().optional(),
   end_date: z.string().optional(),
   cover_image: z.string().optional(),
+  show_sidebar_form: z.boolean().default(true),
   featured: z.boolean().default(false),
   status: z.enum(['draft', 'scheduled', 'published']).default('draft'),
   scheduled_at: z.string().nullable().optional(),
@@ -46,7 +47,7 @@ export function EventCreatePage() {
 
   const { register, handleSubmit, control, setValue, getValues, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: { body: '', status: 'draft', featured: false },
+    defaultValues: { body: '', status: 'draft', featured: false, show_sidebar_form: true },
   });
 
   const status = watch('status') as ContentStatus;
@@ -197,6 +198,10 @@ export function EventCreatePage() {
                 <div className="flex items-center gap-2">
                   <input type="checkbox" id="featured" {...register('featured')} className="rounded" />
                   <label htmlFor="featured" className="text-sm text-navy">Featured event</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input type="checkbox" id="show_sidebar_form" {...register('show_sidebar_form')} className="rounded" />
+                  <label htmlFor="show_sidebar_form" className="text-sm text-navy">Show sidebar registration form</label>
                 </div>
               </div>
 

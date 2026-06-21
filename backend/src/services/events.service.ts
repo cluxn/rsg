@@ -17,6 +17,7 @@ export interface EventRecord {
   meta_description?: string;
   canonical_url?: string;
   og_image?: string;
+  show_sidebar_form: boolean;
   featured: boolean;
   published: boolean;
   status: ContentStatus;
@@ -40,6 +41,7 @@ export interface CreateEventData {
   meta_description?: string;
   canonical_url?: string;
   og_image?: string;
+  show_sidebar_form?: boolean;
   featured?: boolean;
   status?: ContentStatus;
   scheduled_at?: string | null;
@@ -85,20 +87,20 @@ function resolvePublishFields(status: ContentStatus | undefined, scheduledAt: st
 export async function createEvent(data: CreateEventData): Promise<{ insertId: number }> {
   const {
     title, slug, body, event_type, location, excerpt, cover_image, event_date, end_date,
-    meta_title, meta_description, canonical_url, og_image, featured = false, status, scheduled_at,
+    meta_title, meta_description, canonical_url, og_image, show_sidebar_form = true, featured = false, status, scheduled_at,
   } = data;
   const resolved = resolvePublishFields(status, scheduled_at);
   const published_at = resolved.published ? new Date().toISOString().slice(0, 19).replace('T', ' ') : null;
   const rows = await query<{ insertId: number }>(
     `INSERT INTO events
       (slug, title, body, event_type, location, excerpt, cover_image, event_date, end_date,
-       meta_title, meta_description, canonical_url, og_image, featured, published, status, scheduled_at, published_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       meta_title, meta_description, canonical_url, og_image, show_sidebar_form, featured, published, status, scheduled_at, published_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       slug, title, body, event_type ?? null, location ?? null, excerpt ?? null, cover_image ?? null,
       event_date ?? null, end_date ?? null,
-      meta_title ?? null, meta_description ?? null, canonical_url ?? null, og_image ?? null, featured,
-      resolved.published, resolved.status, resolved.scheduled_at, published_at,
+      meta_title ?? null, meta_description ?? null, canonical_url ?? null, og_image ?? null, show_sidebar_form,
+      featured, resolved.published, resolved.status, resolved.scheduled_at, published_at,
     ]
   );
   return rows[0];
@@ -121,6 +123,7 @@ export async function updateEvent(id: number, data: Partial<CreateEventData>): P
   if (data.meta_description !== undefined) { fields.push('meta_description = ?'); params.push(data.meta_description); }
   if (data.canonical_url !== undefined) { fields.push('canonical_url = ?'); params.push(data.canonical_url); }
   if (data.og_image !== undefined) { fields.push('og_image = ?'); params.push(data.og_image); }
+  if (data.show_sidebar_form !== undefined) { fields.push('show_sidebar_form = ?'); params.push(data.show_sidebar_form); }
   if (data.featured !== undefined) { fields.push('featured = ?'); params.push(data.featured); }
 
   if (data.status !== undefined) {
