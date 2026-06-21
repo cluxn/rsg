@@ -35,7 +35,7 @@ export function SiteFooter({ address, phone, email }: SiteFooterProps) {
           <div className="lg:col-span-1">
             <Image src="/rsg-logo.png" alt="RSG Profile Manufacturing" width={80} height={60} className="h-14 w-auto mb-3" />
             <p className="font-heading font-bold text-white text-lg mb-1">RSG Profile Manufacturing Private Limited</p>
-            <p className="font-body text-white/60 text-sm mb-4">Premium quality building materials, Kanpur</p>
+            <p className="font-body text-white/60 text-sm mb-4">RSG Profile Manufacturing Private Limited is one of the top makers of roofing sheets with a selection of profiles to meet customer needs, to satisfy the various demands of the industry.</p>
 
             {/* Social icons */}
             <div className="flex gap-4">
