@@ -11,6 +11,15 @@ const PRODUCT_CARD_IMAGE: Record<string, string> = {
   'ms-plate-channel-angle': '/images/products/ms-plate-channel-angle.png',
   'polycarbonate-sheet': '/images/products/polycarbonate-sheet.png',
   'ms-pipe': '/images/products/ms-pipe.png',
+  // Colour-coated brand products
+  'jsw-colouron':   '/images/products/jsw-colouron.jpg',
+  'jsw-silveron':   '/images/products/colour-coated-roofing-sheet-new.png',
+  'jsw-pragati':    '/images/products/colour-coated-roofing-sheet-new.png',
+  'jsw-endura':     '/images/products/colour-coated-roofing-sheet-new.png',
+  'tata-durashine': '/images/products/colour-coated-roofing-sheet-new.png',
+  'jindal-sabrang': '/images/products/colour-coated-roofing-sheet-new.png',
+  'dura-glow':      '/images/products/colour-coated-roofing-sheet-new.png',
+  'am-ns':          '/images/products/colour-coated-roofing-sheet-new.png',
 };
 
 const FORM_OPTION: Record<string, string> = {
@@ -23,6 +32,14 @@ const FORM_OPTION: Record<string, string> = {
   'crimping-sheet': 'Crimping Sheet',
   'accessories': 'Accessories',
   'galvanized-plain-sheets': 'Galvanized Plain Sheets',
+  'jsw-colouron':   'JSW Colouron+',
+  'jsw-silveron':   'JSW Silveron+',
+  'jsw-pragati':    'JSW Pragati+',
+  'jsw-endura':     'JSW Endura+',
+  'tata-durashine': 'Tata Durashine',
+  'jindal-sabrang': 'JINDAL Sabrang',
+  'dura-glow':      'Dura Glow',
+  'am-ns':          'AM/NS',
 };
 
 // Dark overlay: left side dense (text legible), right fades so image shows through

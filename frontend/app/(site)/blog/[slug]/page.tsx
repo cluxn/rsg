@@ -49,7 +49,7 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <>
       {/* Dark hero */}
-      <div className="bg-gradient-to-br from-navy via-steel to-cyan py-12 px-4">
+      <div className="gradient-power py-12 px-4">
         <SectionContainer noPadding>
           <Link href="/blog" className="text-cyan/80 hover:text-cyan text-sm mb-4 inline-block">← Back to Blog</Link>
           <div className="flex flex-wrap gap-2 mb-3">
@@ -72,15 +72,17 @@ export default async function BlogPostPage({ params }: Props) {
         </SectionContainer>
       </div>
 
-      {/* Cover image */}
-      <div className="relative w-full h-64 md:h-96 overflow-hidden">
-        <Image
-          src={post.featured_image || BLOG_COVER_PLACEHOLDER}
-          alt={post.title}
-          fill
-          className="object-cover"
-          priority
-        />
+      {/* Cover image — contained, not full-bleed */}
+      <div className="max-w-4xl mx-auto px-4 md:px-8 pt-8 pb-2">
+        <div className="relative w-full h-56 md:h-80 overflow-hidden rounded-2xl shadow-md">
+          <Image
+            src={post.featured_image || BLOG_COVER_PLACEHOLDER}
+            alt={post.title}
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
       </div>
 
       {/* 3-column content */}

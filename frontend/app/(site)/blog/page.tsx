@@ -1,5 +1,5 @@
 import { getBlogPosts } from '@/lib/content';
-import { BlogCard } from '@/components/blog/BlogCard';
+import { BlogGrid } from '@/components/blog/BlogGrid';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import { SimpleHero } from '@/components/ui/SimpleHero';
 import type { Metadata } from 'next';
@@ -37,9 +37,7 @@ export default async function BlogPage() {
         {posts.length === 0 ? (
           <p className="text-center text-navy/50 py-16 text-lg">No posts yet — check back soon.</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {posts.map(post => <BlogCard key={post.id} post={post} />)}
-          </div>
+          <BlogGrid posts={posts} />
         )}
       </SectionContainer>
     </>

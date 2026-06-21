@@ -17,6 +17,15 @@ const PRODUCT_CARD_IMAGE: Record<string, string> = {
   'ms-plate-channel-angle':      '/images/products/ms-plate-channel-angle.png',
   'polycarbonate-sheet':         '/images/products/polycarbonate-sheet.png',
   'ms-pipe':                     '/images/products/ms-pipe.png',
+  // Colour-coated brand products
+  'jsw-colouron':   '/images/products/jsw-colouron.jpg',
+  'jsw-silveron':   '/images/products/colour-coated-roofing-sheet-new.png',
+  'jsw-pragati':    '/images/products/colour-coated-roofing-sheet-new.png',
+  'jsw-endura':     '/images/products/colour-coated-roofing-sheet-new.png',
+  'tata-durashine': '/images/products/colour-coated-roofing-sheet-new.png',
+  'jindal-sabrang': '/images/products/colour-coated-roofing-sheet-new.png',
+  'dura-glow':      '/images/products/colour-coated-roofing-sheet-new.png',
+  'am-ns':          '/images/products/colour-coated-roofing-sheet-new.png',
 };
 
 export const revalidate = 3600;
@@ -130,6 +139,114 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <SpecsTable specs={product.specs} />
       </div>
 
+      {/* Colour Options — Brand Products Only */}
+      {BRAND_PRODUCT_SLUGS.has(product.slug) && (
+        <SectionContainer className="bg-white">
+          <div className="text-center mb-10">
+            <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">
+              Available Colours
+            </p>
+            <h2 className="font-heading text-navy text-2xl sm:text-3xl font-bold leading-tight mb-3">
+              Variety of Colour Options to Choose From
+            </h2>
+            <p className="font-body text-navy/60 text-base max-w-xl mx-auto">
+              {product.name} is available in 14 vibrant shades suited for every architectural style and climate.
+            </p>
+          </div>
+          <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-5 gap-6 lg:gap-8">
+            {COLOUR_PALETTE.map((c) => (
+              <div key={c.name + c.img} className="flex flex-col items-center gap-2">
+                <div className="relative w-full aspect-[4/3]">
+                  <Image src={c.img} alt={c.name} fill className="object-contain" />
+                </div>
+                <span className="font-body text-navy font-semibold text-xs text-center leading-tight">{c.name}</span>
+              </div>
+            ))}
+          </div>
+        </SectionContainer>
+      )}
+
+      {/* Brand Advantages — Brand Products Only */}
+      {BRAND_PRODUCT_SLUGS.has(product.slug) && (BRAND_ADVANTAGES[product.slug] ?? []).length > 0 && (
+        <SectionContainer className="bg-steel/5 border-y border-navy/8">
+          <div className="text-center mb-12">
+            <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">
+              Why Choose {product.name}
+            </p>
+            <h2 className="font-heading text-3xl text-navy font-bold mb-3">
+              Advantages of {product.name}
+            </h2>
+            <p className="font-body text-navy/60 max-w-xl mx-auto">
+              What sets {product.name} apart as a premium colour-coated roofing solution.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {(BRAND_ADVANTAGES[product.slug] ?? []).map((adv) => (
+              <div key={adv.title} className="bg-white rounded-xl border border-navy/8 shadow-sm p-6 flex flex-col gap-2">
+                <div className="w-8 h-8 rounded-lg bg-orange/10 flex items-center justify-center shrink-0 mb-1">
+                  <svg className="w-4 h-4 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h3 className="font-heading text-navy text-base font-bold">{adv.title}</h3>
+                <p className="font-body text-navy/60 text-sm leading-relaxed">{adv.body}</p>
+              </div>
+            ))}
+          </div>
+        </SectionContainer>
+      )}
+
+      {/* Sheet Specifications — Brand Products Only */}
+      {BRAND_PRODUCT_SLUGS.has(product.slug) && (
+        <SectionContainer className="bg-white">
+          <div className="text-center mb-10">
+            <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">
+              Technical Details
+            </p>
+            <h2 className="font-heading text-2xl sm:text-3xl text-navy font-bold mb-3">
+              Sheet Specifications
+            </h2>
+            <p className="font-body text-navy/60 max-w-xl mx-auto">
+              Available in two standard profile widths — 1220MM and 1440MM — with thicknesses from 0.30mm to 0.70mm.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* 1220MM */}
+            <div className="rounded-xl border border-navy/10 overflow-hidden shadow-sm">
+              <div className="bg-navy px-5 py-3">
+                <h3 className="font-heading text-white font-bold text-base">1220MM Sheet Specifications</h3>
+              </div>
+              <table className="w-full text-sm">
+                <tbody>
+                  {SHEET_SPECS_1220.map((row) => (
+                    <tr key={row.label} className="border-b border-navy/8 last:border-0">
+                      <td className="font-heading text-navy font-semibold px-5 py-3 bg-steel/5 w-[45%]">{row.label}</td>
+                      <td className="font-body text-navy/70 px-5 py-3">{row.value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {/* 1440MM */}
+            <div className="rounded-xl border border-navy/10 overflow-hidden shadow-sm">
+              <div className="bg-navy px-5 py-3">
+                <h3 className="font-heading text-white font-bold text-base">1440MM Sheet Specifications</h3>
+              </div>
+              <table className="w-full text-sm">
+                <tbody>
+                  {SHEET_SPECS_1440.map((row) => (
+                    <tr key={row.label} className="border-b border-navy/8 last:border-0">
+                      <td className="font-heading text-navy font-semibold px-5 py-3 bg-steel/5 w-[45%]">{row.label}</td>
+                      <td className="font-body text-navy/70 px-5 py-3">{row.value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </SectionContainer>
+      )}
+
       {/* Why Choose RSG */}
       <SectionContainer className="bg-steel/5 border-y border-navy/8">
         <div className="text-center mb-12">
@@ -161,19 +278,44 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Key Benefits</p>
           <h2 className="font-heading text-3xl text-navy font-bold mb-3">Benefits of {product.name}</h2>
           <p className="font-body text-navy/60 max-w-xl mx-auto">
-            Built for performance, durability, and ease of use on real construction sites.
+            What makes {product.name.toLowerCase()} the right choice for your project.
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {productBenefits(product.name).map((b) => (
+          {productBenefits(product.slug).map((b) => (
             <div key={b.title} className="rounded-xl overflow-hidden border border-navy/8 shadow-sm flex flex-col">
               <div className="relative h-36 overflow-hidden">
-                <Image src={b.image} alt={b.title} fill className="object-cover" />
+                <Image src={b.image ?? displayImageUrl ?? '/images/product-page/factory.jpg'} alt={b.title} fill className="object-cover" />
               </div>
               <div className="p-5">
                 <h4 className="font-heading text-navy text-base font-bold mb-2">{b.title}</h4>
                 <p className="font-body text-navy/60 text-sm leading-relaxed">{b.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </SectionContainer>
+
+      {/* Applications */}
+      <SectionContainer className="bg-steel/5 border-y border-navy/8">
+        <div className="text-center mb-12">
+          <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Where It&apos;s Used</p>
+          <h2 className="font-heading text-3xl text-navy font-bold mb-3">Applications of {product.name}</h2>
+          <p className="font-body text-navy/60 max-w-xl mx-auto">
+            Trusted across industrial, commercial, and residential projects throughout India.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {productApplications(product.slug).map((a) => (
+            <div key={a.title} className="glow-card rounded-xl overflow-hidden flex flex-col">
+              <div className="relative h-36 overflow-hidden">
+                <Image src={a.image} alt={a.title} fill className="object-cover" />
+              </div>
+              <div className="p-5">
+                <h4 className="font-heading text-navy text-base font-bold mb-2">{a.title}</h4>
+                <p className="font-body text-navy/60 text-sm leading-relaxed">{a.body}</p>
               </div>
             </div>
           ))}
@@ -357,29 +499,285 @@ const WHY_CHOOSE_US = [
   },
 ];
 
-function productBenefits(productName: string) {
-  return [
-    {
-      title: 'Durability That Lasts',
-      body: `${productName} is engineered to withstand harsh Indian weather conditions — corrosion-resistant and built for long-term performance.`,
-      image: '/images/product-page/steel-mill.jpg',
-    },
-    {
-      title: 'Faster, Easier Installation',
-      body: `Precision-rolled dimensions and consistent quality reduce on-site fitting time for your project teams.`,
-      image: '/images/product-page/roof-install.jpg',
-    },
-    {
-      title: 'Cost-Effective at Scale',
-      body: `Wholesale pricing on ${productName} means lower per-unit cost as your order volume grows.`,
-      image: '/images/product-page/warehouse.jpg',
-    },
-    {
-      title: 'Backed by Expertise',
-      body: `Our engineering team monitors every production run of ${productName} for consistent, dependable output.`,
-      image: '/images/product-page/engineer-tablet.jpg',
-    },
-  ];
+// ─── Brand product shared data ────────────────────────────────────────────────
+
+const BRAND_PRODUCT_SLUGS = new Set([
+  'jsw-colouron', 'jsw-silveron', 'jsw-pragati', 'jsw-endura',
+  'tata-durashine', 'jindal-sabrang', 'dura-glow', 'am-ns',
+]);
+
+const COLOUR_PALETTE = [
+  { name: 'Turquoise Blue',    img: '/images/colour-swatches/turquoise-blue.png' },
+  { name: 'Tomato Red',        img: '/images/colour-swatches/tomato-red.png' },
+  { name: 'Terra Cota',        img: '/images/colour-swatches/terra-cota.png' },
+  { name: 'Seco Red',          img: '/images/colour-swatches/seco-red.png' },
+  { name: 'Brick Red',         img: '/images/colour-swatches/brick-red.png' },
+  { name: 'Pepsi Blue',        img: '/images/colour-swatches/pepsi-blue.png' },
+  { name: 'Off White',         img: '/images/colour-swatches/off-white.png' },
+  { name: 'Nova Blue',         img: '/images/colour-swatches/nova-blue.png' },
+  { name: 'Mist Green',        img: '/images/colour-swatches/mist-green.png' },
+  { name: 'Light Blue',        img: '/images/colour-swatches/light-blue.png' },
+  { name: 'Caulifield Green',  img: '/images/colour-swatches/caulfield-green.png' },
+  { name: 'Graphite Grey',     img: '/images/colour-swatches/graphite-grey.png' },
+  { name: 'Environment Green', img: '/images/colour-swatches/environment-green.png' },
+  { name: 'Capri Blue',        img: '/images/colour-swatches/capri-blue.png' },
+  { name: 'Brick Red',         img: '/images/colour-swatches/brick-red-2.png' },
+];
+
+const BRAND_ADVANTAGES: Record<string, { title: string; body: string }[]> = {
+  'jsw-colouron': [
+    { title: '15-Year Warranty', body: "India's first ISI certified colour coated sheet — backed by a 15-year manufacturer warranty." },
+    { title: 'Advanced Anti-Corrosion', body: 'Al-Zn alloy (Galvalume) coating provides superior rust resistance even in coastal and high-humidity environments.' },
+    { title: 'ISI Certified Quality', body: "India's first ISI certified colour coated sheet, meeting the highest Bureau of Indian Standards benchmarks." },
+    { title: 'Superior Paint Durability', body: 'Factory-baked colour coating resists fading, chalking, and UV degradation for 15+ years of outdoor exposure.' },
+    { title: 'High Tensile Strength', body: 'Yield strength of 550 MPa — engineered to handle structural loads across large-span roofing applications.' },
+    { title: 'Heat Reflective Coating', body: 'Reflective coating reduces heat absorption and keeps interiors cooler, lowering energy costs in warm climates.' },
+  ],
+  'jsw-silveron': [
+    { title: 'Premium Alloy Substrate', body: 'Aluminium-Zinc-Silicon alloy applied via hot-dip process for unmatched corrosion resistance over zinc-only coatings.' },
+    { title: 'Heat Reflective Performance', body: 'Superior heat reflectivity compared to traditional zinc-coated sheets — keeps buildings significantly cooler.' },
+    { title: 'Lightweight Design', body: 'Reduces structural load on trusses while maintaining exceptional strength and rigidity across large spans.' },
+    { title: 'Long Service Life', body: 'Advanced alloy technology combining superior strength with enhanced corrosion resistance for decades of use.' },
+    { title: 'Eco-Friendly & Recyclable', body: 'Manufactured with sustainability in mind — fully recyclable at end of life without loss of material quality.' },
+    { title: 'Versatile Applications', body: 'Suitable for residential, commercial, and industrial roofing and wall profile applications.' },
+  ],
+  'jsw-pragati': [
+    { title: 'Anti-Corrosion Protection', body: 'Al-Zn alloy coating provides enhanced protection against harsh weather and corrosive environments.' },
+    { title: 'Superior Structural Strength', body: 'Advanced manufacturing technology delivers high tensile steel with 550 MPa yield strength.' },
+    { title: 'All Weather Protection', body: 'Reliable defense across all climates — heavy monsoons, scorching summers, and coastal humidity.' },
+    { title: '7-Year Warranty', body: "Backed by a manufacturer's 7-year warranty, giving you confidence in long-term performance." },
+    { title: 'Wide Range of Colours', body: '14 vibrant colour options to suit every architectural style and project requirement.' },
+    { title: 'Pre-Painted Finish', body: 'Factory-applied colour coating combines the strength of steel with the aesthetic appeal of paint.' },
+  ],
+  'jsw-endura': [
+    { title: 'Structural Strength That Lasts', body: 'High-tensile steel construction withstands harsh elements — rain, wind, and seismic activity.' },
+    { title: 'UV-Resistant Colours', body: 'Vibrant colours that retain their brilliance even under intense sunlight and prolonged outdoor exposure.' },
+    { title: 'Corrosion-Resistant Protection', body: 'Al-Zn alloy coating shields against rust in coastal, urban, and industrial environments.' },
+    { title: 'Versatile Roofing Solution', body: 'Lightweight and durable, suitable for diverse architectural styles with easy, fast installation.' },
+    { title: 'BIS Certified Quality', body: 'Certified by Bureau of Indian Standards — meeting the highest standards of quality and performance.' },
+    { title: 'Affordable Value That Lasts', body: 'High-performance durability at an affordable price, delivering long-term savings on maintenance costs.' },
+  ],
+  'tata-durashine': [
+    { title: 'Better Corrosion Resistance', body: 'Zinc-aluminium alloy coating ensures longer life by providing superior protection against corrosion.' },
+    { title: 'High Strength & Load Bearing', body: 'Engineered for structural integrity — handles demanding loads on large-span industrial and commercial roofs.' },
+    { title: 'Cooler Interiors', body: 'High solar reflectance coating significantly reduces heat absorption, keeping interiors noticeably cooler.' },
+    { title: 'Performs Better During Rains', body: 'Excellent water runoff characteristics and sealed profile prevent leakage even during heavy monsoons.' },
+    { title: 'Aesthetically Appealing', body: 'High-gloss, vibrant colour finish adds visual appeal to residential, commercial, and industrial structures.' },
+    { title: 'Wide Product Range', body: 'Available in 14 colours and multiple profile widths (1220MM / 1440MM) to suit any project.' },
+    { title: "Asia's Most Trusted Brand", body: "Recognised as Asia's Most Trusted Brand for Best Colour Coated Steel Sheet by International Brand Consulting Corporation, USA." },
+  ],
+  'jindal-sabrang': [
+    { title: 'Better Corrosion Resistance', body: 'Zinc/Alu-Zinc coating provides an additional protective layer, ensuring longer life for all structures.' },
+    { title: 'High Strength & Load Bearing', body: 'Engineered to handle demanding structural loads across a wide range of building types.' },
+    { title: 'Cooler Interiors', body: 'Reflective coating reduces heat absorption, keeping building interiors more comfortable year-round.' },
+    { title: 'Performs Better During Rains', body: 'Optimised profile design ensures excellent water runoff and weather-tight performance.' },
+    { title: 'Aesthetically Appealing', body: '14 vibrant colours derived from the Sanskrit word for "rainbow" — adding colour to the world of steel.' },
+    { title: 'Wide Product Range', body: 'Available in multiple widths, thicknesses, and colour combinations to match any project need.' },
+  ],
+  'dura-glow': [
+    { title: 'Strong Durability', body: 'High-strength steel substrate with advanced colour-coating technology delivers excellent long-term durability.' },
+    { title: 'Excellent Weather Resistance', body: 'Multi-layer protective coatings resist oxidation and UV degradation for lasting outdoor performance.' },
+    { title: 'Long-Lasting Shine', body: 'Factory-applied gloss coating maintains brilliant colour and shine even after years of outdoor exposure.' },
+    { title: 'Corrosion Protection', body: 'Zinc-based coating system protects against rust and corrosion in humid and exposed environments.' },
+    { title: 'Lightweight & Easy to Install', body: 'Optimised sheet geometry reduces structural load while making handling and installation faster on site.' },
+    { title: 'Versatile Applications', body: 'Suitable for factories, warehouses, poultry farms, homes, temples, and resorts.' },
+  ],
+  'am-ns': [
+    { title: 'World-Class Steel Quality', body: 'A joint venture between ArcelorMittal and Nippon Steel — two of the world\'s leading steel companies.' },
+    { title: 'High Strength', body: 'Engineered for excellent load-bearing capacity across industrial, commercial, and residential roofing.' },
+    { title: 'Thermal Efficiency', body: 'Reflective coating reduces solar heat gain, keeping interiors cooler and reducing energy costs.' },
+    { title: 'Excellent Weather Performance', body: 'Performs reliably during heavy rains and harsh weather conditions year after year.' },
+    { title: 'Aesthetically Appealing', body: '14 vibrant colour options for attractive, visually appealing roofing across any building type.' },
+    { title: 'Fire & Impact Resistant', body: 'Meets international safety standards for fire resistance and impact durability.' },
+  ],
+};
+
+const SHEET_SPECS_1220 = [
+  { label: 'Overall Width',    value: '1220mm' },
+  { label: 'Effective Cover',  value: '1060mm' },
+  { label: 'Thickness Range',  value: '0.30mm – 0.70mm' },
+  { label: 'Pitch',            value: '200mm ± 10mm' },
+  { label: 'Crest Height',     value: '28mm ± 2mm' },
+  { label: 'Max Length',       value: 'Up to 50 ft' },
+  { label: 'Substrate',        value: 'AZ70 / AZ150 (Al-Zn Alloy)' },
+];
+
+const SHEET_SPECS_1440 = [
+  { label: 'Overall Width',    value: '1440mm' },
+  { label: 'Effective Cover',  value: '1220mm' },
+  { label: 'Thickness Range',  value: '0.30mm – 0.70mm' },
+  { label: 'Pitch',            value: '200mm ± 10mm' },
+  { label: 'Crest Height',     value: '28mm ± 2mm' },
+  { label: 'Max Length',       value: 'Up to 50 ft' },
+  { label: 'Substrate',        value: 'AZ70 / AZ150 (Al-Zn Alloy)' },
+];
+
+const BRAND_SHEET_BENEFITS = [
+  { title: 'Superior Corrosion Resistance', body: 'Al-Zn alloy (Galvalume) coating provides lasting protection against rust in all weather conditions.' },
+  { title: 'Vibrant, Long-Lasting Colour',  body: '14 factory-baked colour options resist fading and chalking for 10+ years of outdoor exposure.' },
+  { title: 'Heat-Reflective Performance',   body: 'Reflective coating reduces heat absorption, keeping interiors cooler and reducing energy costs.' },
+  { title: 'Lightweight Yet Strong',        body: 'High tensile strength (550 MPa) with lightweight design reduces structural load on roof trusses.' },
+];
+
+const BRAND_SHEET_APPLICATIONS = [
+  { title: 'Residential Homes & Villas',          body: 'Durable, attractive roofing for modern homes and rural residences across India.' },
+  { title: 'Industrial Warehouses & Sheds',        body: 'Wide-span roofing for factories, godowns, and logistics facilities.' },
+  { title: 'Commercial & Institutional Buildings', body: 'Schools, hospitals, office buildings, and commercial complexes.' },
+  { title: 'Agricultural & Farm Structures',       body: 'Weather-resistant roofing for poultry farms, grain storage, and dairy facilities.' },
+];
+
+// ─── End brand product shared data ───────────────────────────────────────────
+
+const PRODUCT_BENEFITS: Record<string, { title: string; body: string }[]> = {
+  'colour-coated-roofing-sheet': [
+    { title: 'Superior Corrosion Resistance', body: 'PPGL/PPGI coating with a zinc-aluminium layer resists rust even in humid and coastal climates.' },
+    { title: 'Vibrant, Long-Lasting Colour', body: 'Factory-baked colour coating resists fading and chalking for 10+ years of outdoor exposure.' },
+    { title: 'Lightweight Yet Strong', body: 'Reduces structural load on trusses while maintaining high tensile strength.' },
+    { title: 'Reflects Heat, Stays Cool', body: 'Reflective coating reduces heat absorption, keeping interiors noticeably cooler.' },
+  ],
+  'ms-plate-channel-angle': [
+    { title: 'High Load-Bearing Strength', body: 'Engineered for heavy structural and fabrication loads without compromising on safety margins.' },
+    { title: 'Precise Dimensional Accuracy', body: 'Consistent thickness and tolerances make welding and fabrication faster and more accurate.' },
+    { title: 'Versatile Grades & Sizes', body: 'Wide range of plates, channels, and angles available for varied structural requirements.' },
+    { title: 'Cost-Efficient Structural Solution', body: 'A reliable, economical choice for general fabrication compared to specialty alloys.' },
+  ],
+  'ms-pipe': [
+    { title: 'High Tensile Strength', body: 'Withstands heavy structural and pressure loads across construction and industrial use.' },
+    { title: 'Seamless, Uniform Quality', body: 'Consistent wall thickness across every length for dependable, predictable performance.' },
+    { title: 'Corrosion-Resistant Options', body: 'Available in coated grades suited for outdoor and exposed installations.' },
+    { title: 'Easy to Weld & Fabricate', body: 'Cuts, welds, and joins cleanly for fast on-site fabrication work.' },
+  ],
+  'decking-sheet': [
+    { title: 'High Load-Bearing Capacity', body: 'Trapezoidal profile supports heavy composite concrete floor loads with confidence.' },
+    { title: 'Reduces Construction Time', body: 'Acts as permanent shuttering — no formwork removal needed, speeding up the build.' },
+    { title: 'Saves Concrete & Reinforcement', body: 'Profiled shape reduces material usage without compromising structural strength.' },
+    { title: 'Precision-Rolled Quality', body: 'Uniform thickness and profile across every sheet for predictable site performance.' },
+  ],
+  'purlins': [
+    { title: 'Lightweight Yet Strong', body: 'Z & C profiles maximize strength-to-weight ratio for efficient roof and wall framing.' },
+    { title: 'Precision-Rolled Profiles', body: 'Consistent dimensions ensure accurate alignment during roof and wall erection.' },
+    { title: 'Faster Installation', body: 'Standard lengths and pre-punched holes speed up on-site erection work.' },
+    { title: 'Long Span Capability', body: 'Reduces the number of support points needed across large roofing spans.' },
+  ],
+  'polycarbonate-sheet': [
+    { title: 'UV-Resistant & Shatterproof', body: 'Withstands impact while blocking harmful UV rays from passing through.' },
+    { title: 'Excellent Light Transmission', body: 'Brings in natural daylight without the heat buildup of standard glazing.' },
+    { title: 'Lightweight & Flexible', body: 'Easy to install on curved or flat roofing without added structural load.' },
+    { title: 'Weatherproof Durability', body: 'Resists yellowing and weather degradation for long-term outdoor performance.' },
+  ],
+  'crimping-sheet': [
+    { title: 'Versatile Crimped Profile', body: 'Adapts to both curved and straight roofing applications with ease.' },
+    { title: 'Strong Wind & Load Resistance', body: 'Corrugated profile adds structural rigidity against wind uplift and load.' },
+    { title: 'Quick, Easy Installation', body: 'Lightweight sheets reduce labour time and handling effort on site.' },
+    { title: 'Cost-Effective Coverage', body: 'An economical roofing solution for covering large areas efficiently.' },
+  ],
+  'galvanized-plain-sheets': [
+    { title: 'Zinc-Coated Corrosion Protection', body: 'Extends service life significantly in humid and exposed environments.' },
+    { title: 'Smooth, Flat Surface Finish', body: 'Ideal base for further fabrication, painting, or coating work.' },
+    { title: 'Excellent Weldability & Formability', body: 'Cuts, bends, and joins cleanly for fast, reliable fabrication.' },
+    { title: 'Uniform Thickness Control', body: 'Consistent quality and gauge maintained across every sheet.' },
+  ],
+  // Colour-coated brand products share the same core benefits
+  'jsw-colouron':   BRAND_SHEET_BENEFITS,
+  'jsw-silveron':   BRAND_SHEET_BENEFITS,
+  'jsw-pragati':    BRAND_SHEET_BENEFITS,
+  'jsw-endura':     BRAND_SHEET_BENEFITS,
+  'tata-durashine': BRAND_SHEET_BENEFITS,
+  'jindal-sabrang': BRAND_SHEET_BENEFITS,
+  'dura-glow':      BRAND_SHEET_BENEFITS,
+  'am-ns':          BRAND_SHEET_BENEFITS,
+};
+
+const DEFAULT_BENEFITS = [
+  { title: 'Built to ISI Standards', body: 'Manufactured under strict quality control for consistently dependable performance.' },
+  { title: 'Engineered for Durability', body: 'Resists wear and weathering across demanding job site conditions.' },
+  { title: 'Consistent Sizing & Finish', body: 'Every batch matches exact specifications, batch after batch.' },
+  { title: 'Easy to Install & Use', body: 'Designed for fast, hassle-free application on site.' },
+];
+
+function productBenefits(slug: string) {
+  const items = PRODUCT_BENEFITS[slug] ?? DEFAULT_BENEFITS;
+  const image = PRODUCT_CARD_IMAGE[slug] ?? null;
+  return items.map(item => ({ ...item, image }));
+}
+
+const APPLICATION_IMAGES = [
+  '/images/product-page/factory.jpg',
+  '/images/product-page/roof-install.jpg',
+  '/images/product-page/steel-mill.jpg',
+  '/images/product-page/warehouse.jpg',
+];
+
+const PRODUCT_APPLICATIONS: Record<string, { title: string; body: string }[]> = {
+  'colour-coated-roofing-sheet': [
+    { title: 'Industrial Sheds & Warehouses', body: 'Wide-span roofing for factories, godowns, and logistics facilities.' },
+    { title: 'Residential & Commercial Roofing', body: 'A durable, attractive roofing choice for homes and office buildings.' },
+    { title: 'Cold Storage & Insulated Buildings', body: 'Reflective coating supports temperature-controlled structures.' },
+    { title: 'Poultry Farms & Agri Structures', body: 'Weatherproof covering suited for farm buildings and livestock sheds.' },
+  ],
+  'ms-plate-channel-angle': [
+    { title: 'Structural Framework & Trusses', body: 'Forms the backbone of roof trusses and load-bearing frames.' },
+    { title: 'Machine Fabrication & Workshops', body: 'Base material for machine frames, brackets, and custom fabrication.' },
+    { title: 'Industrial Construction Projects', body: 'Used across factory builds, platforms, and equipment supports.' },
+    { title: 'Infrastructure Components', body: 'Suited for bridges, gantries, and other heavy infrastructure work.' },
+  ],
+  'ms-pipe': [
+    { title: 'Structural Columns & Scaffolding', body: 'Provides reliable vertical and temporary structural support.' },
+    { title: 'Fluid & Water Transport Lines', body: 'Used in piping systems for water and industrial fluid transport.' },
+    { title: 'Furniture & Railing Fabrication', body: 'A popular choice for handrails, gates, and metal furniture frames.' },
+    { title: 'Industrial Piping Systems', body: 'Suited for process piping across factories and plants.' },
+  ],
+  'decking-sheet': [
+    { title: 'Multi-Storey Composite Floors', body: 'Permanent shuttering for fast, efficient composite floor construction.' },
+    { title: 'Mezzanine Flooring Systems', body: 'Lightweight yet strong flooring solution for added warehouse space.' },
+    { title: 'Industrial & Commercial Buildings', body: 'Speeds up floor construction across large commercial developments.' },
+    { title: 'Parking Structures', body: 'Durable flooring base suited for multi-level parking decks.' },
+  ],
+  'purlins': [
+    { title: 'Industrial Roofing Systems', body: 'Provides the structural support roof sheeting is fixed onto.' },
+    { title: 'Pre-Engineered Steel Buildings', body: 'A core component in fast-erecting PEB structures.' },
+    { title: 'Warehouse & Factory Structures', body: 'Supports large-span roofing across industrial buildings.' },
+    { title: 'Wall Cladding Framework', body: 'Provides the supporting frame for wall sheeting and cladding.' },
+  ],
+  'polycarbonate-sheet': [
+    { title: 'Skylights & Roof Lighting', body: 'Brings natural daylight into factories, sheds, and commercial spaces.' },
+    { title: 'Greenhouses & Agri Covers', body: 'UV-stable covering ideal for greenhouse and polyhouse structures.' },
+    { title: 'Canopies & Walkway Roofing', body: 'Lightweight, transparent covering for walkways and entrance canopies.' },
+    { title: 'Industrial Daylighting Panels', body: 'Reduces daytime lighting costs across large industrial floor areas.' },
+  ],
+  'crimping-sheet': [
+    { title: 'Industrial & Commercial Roofing', body: 'A cost-effective roofing option for factories and commercial sheds.' },
+    { title: 'Warehouse Cladding', body: 'Used for both roofing and wall cladding across warehouse structures.' },
+    { title: 'Agricultural Sheds', body: 'Durable, weatherproof covering for farm and storage structures.' },
+    { title: 'Temporary & Portable Structures', body: 'Lightweight sheets suited for quick-build temporary structures.' },
+  ],
+  'galvanized-plain-sheets': [
+    { title: 'Automobile Body Parts', body: 'Used in automotive fabrication where formability and finish matter.' },
+    { title: 'Electrical Panels & Enclosures', body: 'A preferred material for electrical enclosure manufacturing.' },
+    { title: 'Ducting & Ventilation Systems', body: 'Smooth surface and formability suit HVAC ducting fabrication.' },
+    { title: 'Furniture, Racks & Cabinets', body: 'A versatile base material for metal furniture and storage racks.' },
+  ],
+  // Colour-coated brand products share the same core applications
+  'jsw-colouron':   BRAND_SHEET_APPLICATIONS,
+  'jsw-silveron':   BRAND_SHEET_APPLICATIONS,
+  'jsw-pragati':    BRAND_SHEET_APPLICATIONS,
+  'jsw-endura':     BRAND_SHEET_APPLICATIONS,
+  'tata-durashine': BRAND_SHEET_APPLICATIONS,
+  'jindal-sabrang': BRAND_SHEET_APPLICATIONS,
+  'dura-glow':      BRAND_SHEET_APPLICATIONS,
+  'am-ns':          BRAND_SHEET_APPLICATIONS,
+};
+
+const DEFAULT_APPLICATIONS = [
+  { title: 'Industrial & Commercial Construction', body: 'Suited for a wide range of factory, warehouse, and commercial builds.' },
+  { title: 'Roofing & Cladding Projects', body: 'A dependable material choice across roofing and cladding applications.' },
+  { title: 'Structural Fabrication Work', body: 'Used in fabrication workshops for custom structural components.' },
+  { title: 'Maintenance & Retrofit Projects', body: 'A reliable option for repairs, upgrades, and retrofit work on site.' },
+];
+
+function productApplications(slug: string) {
+  const items = PRODUCT_APPLICATIONS[slug] ?? DEFAULT_APPLICATIONS;
+  return items.map((item, i) => ({ ...item, image: APPLICATION_IMAGES[i % APPLICATION_IMAGES.length] }));
 }
 
 const MANUFACTURING_STEPS = [

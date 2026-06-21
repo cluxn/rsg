@@ -1,4 +1,5 @@
 import { getEvents } from '@/lib/content';
+import { EventGrid } from '@/components/events/EventGrid';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import { SimpleHero } from '@/components/ui/SimpleHero';
 import type { Metadata } from 'next';
@@ -36,23 +37,7 @@ export default async function EventsPage() {
         {events.length === 0 ? (
           <p className="text-center text-navy/50 py-16 text-lg">No events yet — check back soon.</p>
         ) : (
-          <div className="space-y-6">
-            {events.map(event => (
-              <article key={event.id} className="bg-white rounded-2xl shadow-md p-6 border border-steel/10">
-                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-                  <h2 className="font-heading text-xl font-semibold text-navy">{event.title}</h2>
-                  {event.event_date && (
-                    <span className="text-sm font-semibold text-steel whitespace-nowrap">
-                      {new Date(event.event_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                    </span>
-                  )}
-                </div>
-                {event.body && (
-                  <div className="text-navy/70 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: event.body }} />
-                )}
-              </article>
-            ))}
-          </div>
+          <EventGrid events={events} />
         )}
       </SectionContainer>
     </>

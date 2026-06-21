@@ -35,22 +35,19 @@ export default function TestimonialsPage() {
         </SectionContainer>
       </SimpleHero>
 
-      {/* Rating badges */}
-      <SectionContainer className="bg-white" noPadding>
-        <div className="py-14 md:py-16">
-          <div className="flex flex-wrap justify-center gap-4">
-            {RATINGS.map(r => (
-              <div key={r.platform} className="glow-card rounded-xl px-6 py-4 text-center">
-                <p className="font-heading text-2xl text-gradient-sunrise font-bold">{r.score}</p>
-                <p className="font-body text-sm text-ink/55 mt-1">{r.platform} · {r.count}</p>
-              </div>
-            ))}
-          </div>
+      {/* Rating badges + testimonial grid — single white section */}
+      <SectionContainer className="bg-white">
+        {/* Rating badges */}
+        <div className="flex flex-wrap justify-center gap-4 mb-14">
+          {RATINGS.map(r => (
+            <div key={r.platform} className="glow-card rounded-xl px-6 py-4 text-center">
+              <p className="font-heading text-2xl text-gradient-sunrise font-bold">{r.score}</p>
+              <p className="font-body text-sm text-ink/55 mt-1">{r.platform} · {r.count}</p>
+            </div>
+          ))}
         </div>
-      </SectionContainer>
 
-      {/* Full testimonial grid */}
-      <SectionContainer className="gradient-mesh-light">
+        {/* Heading */}
         <div className="text-center max-w-2xl mx-auto mb-12">
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Client Reviews</p>
           <h2 className="font-heading text-3xl font-bold text-ink mb-3">525+ Satisfied Clients Across UP</h2>
@@ -58,6 +55,8 @@ export default function TestimonialsPage() {
             Every review below is from a verified buyer on Google, IndiaMART, or JustDial.
           </p>
         </div>
+
+        {/* Testimonial grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {TESTIMONIALS.map((t, i) => (
             <div key={i} className="glow-card rounded-xl p-6 flex flex-col">

@@ -183,7 +183,11 @@ export function LeadsPage() {
         {isError && <p className="text-red-600 p-8">Failed to load leads.</p>}
 
         {!isLoading && !isError && data && data.leads.length === 0 && (
-          <p className="text-navy/60 p-8">No leads match your filters.</p>
+          <p className="text-navy/60 p-8">
+            {(applied.search || applied.source_page || applied.date_from || applied.date_to)
+              ? 'No leads match your filters.'
+              : 'No leads yet.'}
+          </p>
         )}
 
         {!isLoading && !isError && data && data.leads.length > 0 && (
