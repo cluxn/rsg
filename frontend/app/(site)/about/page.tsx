@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { SimpleHero } from '@/components/ui/SimpleHero';
@@ -231,41 +232,101 @@ export default async function AboutPage() {
       {/* SECTION 6 — Leadership (DARK) */}
       <section className="gradient-power py-24">
         <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
-          <div className="text-center mb-12">
+          <div className="text-center mb-16">
             <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Our Leadership</p>
-            <h2 className="font-heading text-3xl text-white font-bold mb-3">The People Behind RSG</h2>
+            <h2 className="font-heading text-3xl lg:text-4xl text-white font-bold mb-3">The People Behind RSG</h2>
             <p className="font-body text-white/55 max-w-xl mx-auto">
               Experienced leaders driving quality, growth, and customer trust every day.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            <div className="glow-card-dark rounded-xl p-8 flex flex-col items-center text-center">
-              <div className="w-20 h-20 rounded-full gradient-sunrise flex items-center justify-center mb-4 shadow-glow-orange">
-                <span className="font-heading text-xl text-white font-bold">SG</span>
+
+          {/* CEO — photo left, quote right */}
+          <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center mb-20">
+            <div className="relative">
+              <div className="rounded-2xl overflow-hidden shadow-2xl aspect-[3/4] max-w-sm mx-auto">
+                <Image
+                  src="/images/team/shivam-gupta.jpg"
+                  alt="Mr. Shivam Gupta — CEO, RSG Profile Manufacturing"
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 768px) 90vw, 40vw"
+                />
               </div>
-              <h3 className="font-heading text-xl text-white mb-1">Mr. Shivam Gupta</h3>
-              <p className="font-body text-orange text-xs font-semibold uppercase tracking-wider mb-5">
-                Chief Executive Officer
-              </p>
-              <p className="font-body text-white/65 italic text-sm leading-relaxed">
-                &ldquo;At RSG Profile Manufacturing, we are committed to building the future of roofing solutions
-                with quality, consistency, and customer satisfaction at the core. Our customers&apos; trust is
-                our biggest achievement.&rdquo;
-              </p>
+              <div className="absolute -bottom-4 -right-4 w-24 h-24 rounded-full gradient-sunrise opacity-20 blur-2xl pointer-events-none" />
             </div>
-            <div className="glow-card-dark rounded-xl p-8 flex flex-col items-center text-center">
-              <div className="w-20 h-20 rounded-full gradient-steel flex items-center justify-center mb-4 shadow-glow-cyan">
-                <span className="font-heading text-xl text-white font-bold">RG</span>
-              </div>
-              <h3 className="font-heading text-xl text-white mb-1">Mr. Raman Kumar Gupta</h3>
-              <p className="font-body text-cyan text-xs font-semibold uppercase tracking-wider mb-5">Director</p>
-              <p className="font-body text-white/65 italic text-sm leading-relaxed">
-                &ldquo;Our mission is to ensure every sheet we produce meets the highest standards of quality.
-                We focus on expanding our reach, adopting new technologies, and offering value-driven products
-                that contribute to India&apos;s infrastructure growth.&rdquo;
-              </p>
+            <div>
+              <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-2">From the CEO&apos;s Desk</p>
+              <h3 className="font-heading text-2xl lg:text-3xl text-white font-bold mb-1">Mr. Shivam Gupta</h3>
+              <p className="font-body text-orange/80 text-xs font-semibold uppercase tracking-widest mb-6">Chief Executive Officer</p>
+              <blockquote className="border-l-4 border-orange pl-5">
+                <p className="font-body text-white/75 leading-relaxed italic text-base lg:text-lg">
+                  &ldquo;At RSG Profile Manufacturing, we are committed to building the future of roofing solutions
+                  with quality, consistency, and customer satisfaction at the core. Our vision is to create reliable
+                  and durable roofing products that stand the test of time. We believe in innovation, integrity,
+                  and continuous improvement to serve our clients better across India. Our customers&apos; trust is
+                  our biggest achievement.&rdquo;
+                </p>
+              </blockquote>
             </div>
           </div>
+
+          {/* Divider */}
+          <div className="border-t border-white/10 mb-20" />
+
+          {/* Director — quote left, photo right */}
+          <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center mb-20">
+            <div className="order-2 md:order-1">
+              <p className="font-body text-sm text-cyan font-semibold uppercase tracking-[0.18em] mb-2">Message from Our Directors</p>
+              <h3 className="font-heading text-2xl lg:text-3xl text-white font-bold mb-1">Mr. Raman Kumar Gupta</h3>
+              <p className="font-body text-cyan/80 text-xs font-semibold uppercase tracking-widest mb-6">Director</p>
+              <blockquote className="border-l-4 border-cyan pl-5">
+                <p className="font-body text-white/75 leading-relaxed italic text-base lg:text-lg">
+                  &ldquo;Our mission is to ensure every sheet we produce meets the highest standards of quality.
+                  With our modern manufacturing setup and dedicated workforce, we aim to deliver top-notch solutions
+                  in roofing, structural, and fabrication products. We focus on expanding our reach, adopting new
+                  technologies, and offering value-driven products that contribute to India&apos;s infrastructure
+                  growth.&rdquo;
+                </p>
+              </blockquote>
+            </div>
+            <div className="order-1 md:order-2 relative">
+              <div className="rounded-2xl overflow-hidden shadow-2xl aspect-[3/4] max-w-sm mx-auto">
+                <Image
+                  src="/images/team/raman-gupta.jpg"
+                  alt="Mr. Raman Kumar Gupta — Director, RSG Profile Manufacturing"
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 768px) 90vw, 40vw"
+                />
+              </div>
+              <div className="absolute -bottom-4 -left-4 w-24 h-24 rounded-full gradient-steel opacity-20 blur-2xl pointer-events-none" />
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="border-t border-white/10 mb-16" />
+
+          {/* Manager's Perspective — full-width quote */}
+          <div className="max-w-3xl mx-auto text-center">
+            <p className="font-body text-sm text-white/40 font-semibold uppercase tracking-[0.18em] mb-3">Manager&apos;s Perspective</p>
+            <div className="glow-card-dark rounded-2xl p-8 lg:p-10">
+              <svg className="w-10 h-10 text-orange/40 mx-auto mb-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+              </svg>
+              <p className="font-body text-white/75 leading-relaxed italic text-base lg:text-lg mb-6">
+                Being on the ground and managing operations closely, I take pride in our efficient workflow and
+                committed team. At RSG, we don&apos;t just manufacture sheets — we build trust, provide timely
+                services, and address the specific needs of each customer. Our factory environment promotes safety,
+                skill development, and productivity. Our goal is to keep growing while staying grounded in quality
+                and service excellence.
+              </p>
+              <div>
+                <p className="font-heading text-white font-semibold">Operations Manager</p>
+                <p className="font-body text-white/40 text-sm">RSG Profile Manufacturing Pvt. Ltd.</p>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
