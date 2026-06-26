@@ -123,6 +123,28 @@ export interface CreateTestimonialInput {
   show_on_about?: boolean;
 }
 
+// ─── SEO ──────────────────────────────────────────────────────────────────────
+
+export interface Redirect {
+  id: number;
+  from_path: string;
+  to_path: string;
+  status_code: number;
+  active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface NotFoundLog {
+  id: number;
+  url: string;
+  referrer: string | null;
+  user_agent: string | null;
+  hits: number;
+  last_seen_at: string;
+  created_at: string;
+}
+
 // ─── Axios instance ───────────────────────────────────────────────────────────
 
 export const api = axios.create({
