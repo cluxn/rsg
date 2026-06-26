@@ -141,7 +141,7 @@ export default async function EventDetailPage({ params }: Props) {
 
         {/* 2-column: article + sticky sidebar */}
         <SectionContainer className="py-10">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-10 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10 items-start">
             <article className="min-w-0">
               <BlogPostBody html={event.body ?? ''} />
             </article>

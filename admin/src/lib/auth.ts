@@ -5,7 +5,7 @@ export async function login(email: string, password: string) {
   const { data } = await api.post('/auth/login', { email, password });
   // after login, fetch full profile (role + permissions)
   const me = await getMe();
-  return { admin: me, ...data };
+  return { ...data, admin: me };
 }
 
 export async function logout() {

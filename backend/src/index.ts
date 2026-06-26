@@ -22,6 +22,7 @@ import authorsRouter from './routes/authors';
 import categoriesRouter from './routes/categories';
 import dashboardRouter from './routes/dashboard';
 import notFoundLogsRouter from './routes/not_found_logs';
+import redirectsRouter from './routes/redirects';
 
 dotenv.config();
 
@@ -57,6 +58,7 @@ app.use('/api/authors', authorsRouter);
 app.use('/api/categories', categoriesRouter);
 app.use('/api/dashboard', dashboardRouter);
 app.use('/api/404-logs', notFoundLogsRouter);
+app.use('/api/redirects', redirectsRouter);
 
 // Global error handler — must be registered after all routes.
 // Prevents unhandled errors from leaking stack traces via Express's default handler.
