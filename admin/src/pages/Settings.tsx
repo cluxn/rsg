@@ -29,6 +29,38 @@ interface AdminUser {
   role: string;
   active: boolean;
   created_at: string;
+  permissions: string[] | null;
+}
+
+const MODULES = [
+  { key: 'dashboard', label: 'Dashboard' },
+  { key: 'catalog',   label: 'Catalog (Products)' },
+  { key: 'content',   label: 'Content (Blog, Events, Testimonials, Media…)' },
+  { key: 'leads',     label: 'Leads' },
+  { key: 'marketing', label: 'Marketing (Client Logos)' },
+  { key: 'seo',       label: 'SEO' },
+  { key: 'settings',  label: 'Settings & Users' },
+];
+
+function PermissionCheckboxes({ value, onChange }: { value: string[]; onChange: (v: string[]) => void }) {
+  function toggle(key: string) {
+    onChange(value.includes(key) ? value.filter(k => k !== key) : [...value, key]);
+  }
+  return (
+    <div className="border border-navy/10 rounded-lg p-3 space-y-2 bg-navy/[0.02]">
+      {MODULES.map(m => (
+        <label key={m.key} className="flex items-center gap-2.5 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={value.includes(m.key)}
+            onChange={() => toggle(m.key)}
+            className="rounded border-navy/30 text-steel focus:ring-steel"
+          />
+          <span className="font-body text-sm text-navy">{m.label}</span>
+        </label>
+      ))}
+    </div>
+  );
 }
 
 export function SettingsPage() {
@@ -137,7 +169,9 @@ function GeneralSettingsForm({ settings }: { settings: Record<string, string> })
 function UsersTab() {
   const qc = useQueryClient();
   const [showAddModal, setShowAddModal] = useState(false);
+  const [editTarget, setEditTarget] = useState<AdminUser | null>(null);
   const [resetTarget, setResetTarget] = useState<AdminUser | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<AdminUser | null>(null);
 
   const { data: users = [], isLoading } = useQuery<AdminUser[]>({
     queryKey: ['admin-users'],
@@ -151,6 +185,11 @@ function UsersTab() {
     mutationFn: ({ id, active }: { id: number; active: boolean }) =>
       api.put(`/auth/users/${id}/status`, { active }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-users'] }),
+  });
+
+  const deleteUser = useMutation({
+    mutationFn: (id: number) => api.delete(`/auth/users/${id}`),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin-users'] }); setDeleteTarget(null); },
   });
 
   function roleLabel(role: string) {
@@ -212,10 +251,22 @@ function UsersTab() {
                       {user.active ? 'Deactivate' : 'Activate'}
                     </button>
                     <button
+                      onClick={() => setEditTarget(user)}
+                      className="px-3 py-1 rounded border border-steel/30 text-xs font-semibold text-steel hover:bg-steel/5 transition-colors"
+                    >
+                      Edit
+                    </button>
+                    <button
                       onClick={() => setResetTarget(user)}
                       className="px-3 py-1 rounded border border-navy/20 text-xs font-semibold text-navy/70 hover:bg-navy/5 transition-colors"
                     >
                       Reset Password
+                    </button>
+                    <button
+                      onClick={() => setDeleteTarget(user)}
+                      className="px-3 py-1 rounded border border-red-200 text-xs font-semibold text-red-500 hover:bg-red-50 transition-colors"
+                    >
+                      Delete
                     </button>
                   </td>
                 </tr>
@@ -226,19 +277,52 @@ function UsersTab() {
       )}
 
       {showAddModal && <AddUserModal onClose={() => setShowAddModal(false)} />}
+      {editTarget && <EditUserModal user={editTarget} onClose={() => setEditTarget(null)} />}
       {resetTarget && <ResetPasswordModal user={resetTarget} onClose={() => setResetTarget(null)} />}
+      {deleteTarget && (
+        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50" onClick={() => setDeleteTarget(null)}>
+          <div className="bg-white rounded-xl p-6 w-full max-w-sm shadow-xl" onClick={e => e.stopPropagation()}>
+            <h2 className="font-heading text-lg text-navy mb-2">Delete User</h2>
+            <p className="font-body text-sm text-navy/70 mb-5">
+              Permanently delete <span className="font-semibold">{deleteTarget.email}</span>? This cannot be undone.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <Button type="button" variant="ghost" onClick={() => setDeleteTarget(null)}>Cancel</Button>
+              <Button
+                type="button"
+                disabled={deleteUser.isPending}
+                onClick={() => deleteUser.mutate(deleteTarget.id)}
+                className="bg-red-500 text-white hover:bg-red-600"
+              >
+                {deleteUser.isPending ? 'Deleting…' : 'Delete User'}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
+const ROLES = [
+  { value: 'super_admin', label: 'Super Admin' },
+  { value: 'editor', label: 'Editor' },
+  { value: 'viewer', label: 'Viewer' },
+];
 
 function AddUserModal({ onClose }: { onClose: () => void }) {
   const qc = useQueryClient();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('editor');
+  const [permissions, setPermissions] = useState<string[]>(['dashboard']);
   const [error, setError] = useState('');
 
   const mutation = useMutation({
-    mutationFn: () => api.post('/auth/users', { email: email.trim(), password }),
+    mutationFn: () => api.post('/auth/users', {
+      email: email.trim(), password, role,
+      permissions: role === 'super_admin' ? null : permissions,
+    }),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin-users'] }); onClose(); },
     onError: (err: unknown) => {
       setError((err as { response?: { data?: { error?: string } } })?.response?.data?.error ?? 'Failed to add user.');
@@ -254,7 +338,7 @@ function AddUserModal({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50" onClick={onClose}>
+    <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 overflow-y-auto py-8" onClick={onClose}>
       <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-xl" onClick={e => e.stopPropagation()}>
         <h2 className="font-heading text-lg text-navy mb-4">Add User</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -266,11 +350,106 @@ function AddUserModal({ onClose }: { onClose: () => void }) {
             <Label htmlFor="add-password" className="font-body font-semibold text-navy text-sm mb-1 block">Password</Label>
             <Input id="add-password" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Min. 8 characters" className="font-body" />
           </div>
+          <div>
+            <Label htmlFor="add-role" className="font-body font-semibold text-navy text-sm mb-1 block">Role</Label>
+            <select
+              id="add-role"
+              value={role}
+              onChange={e => setRole(e.target.value)}
+              className="w-full border border-navy/20 rounded-lg px-3 py-2 text-sm font-body focus:outline-none focus:ring-1 focus:ring-steel"
+            >
+              {ROLES.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
+            </select>
+          </div>
+          {role !== 'super_admin' && (
+            <div>
+              <Label className="font-body font-semibold text-navy text-sm mb-1 block">
+                Page Access <span className="font-normal text-navy/50">(select which sections this user can access)</span>
+              </Label>
+              <PermissionCheckboxes value={permissions} onChange={setPermissions} />
+            </div>
+          )}
+          {role === 'super_admin' && (
+            <p className="font-body text-xs text-navy/50 bg-navy/5 rounded-lg px-3 py-2">
+              Super Admin has full access to all sections.
+            </p>
+          )}
           {error && <p className="font-body text-sm text-red-600">{error}</p>}
           <div className="flex gap-3 justify-end pt-2">
             <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
             <Button type="submit" disabled={mutation.isPending} className="bg-steel text-white hover:bg-steel/90">
               {mutation.isPending ? 'Adding…' : 'Add User'}
+            </Button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function EditUserModal({ user, onClose }: { user: AdminUser; onClose: () => void }) {
+  const qc = useQueryClient();
+  const [email, setEmail] = useState(user.email);
+  const [role, setRole] = useState(user.role);
+  const [permissions, setPermissions] = useState<string[]>(user.permissions ?? MODULES.map(m => m.key));
+  const [error, setError] = useState('');
+
+  const mutation = useMutation({
+    mutationFn: () => api.put(`/auth/users/${user.id}`, {
+      email: email.trim(), role,
+      permissions: role === 'super_admin' ? null : permissions,
+    }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin-users'] }); onClose(); },
+    onError: (err: unknown) => {
+      setError((err as { response?: { data?: { error?: string } } })?.response?.data?.error ?? 'Failed to update user.');
+    },
+  });
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError('');
+    if (!email) { setError('Email is required.'); return; }
+    mutation.mutate();
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 overflow-y-auto py-8" onClick={onClose}>
+      <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-xl" onClick={e => e.stopPropagation()}>
+        <h2 className="font-heading text-lg text-navy mb-4">Edit User</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <Label htmlFor="edit-email" className="font-body font-semibold text-navy text-sm mb-1 block">Email</Label>
+            <Input id="edit-email" type="email" value={email} onChange={e => setEmail(e.target.value)} className="font-body" />
+          </div>
+          <div>
+            <Label htmlFor="edit-role" className="font-body font-semibold text-navy text-sm mb-1 block">Role</Label>
+            <select
+              id="edit-role"
+              value={role}
+              onChange={e => setRole(e.target.value)}
+              className="w-full border border-navy/20 rounded-lg px-3 py-2 text-sm font-body focus:outline-none focus:ring-1 focus:ring-steel"
+            >
+              {ROLES.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
+            </select>
+          </div>
+          {role !== 'super_admin' && (
+            <div>
+              <Label className="font-body font-semibold text-navy text-sm mb-1 block">
+                Page Access <span className="font-normal text-navy/50">(select which sections this user can access)</span>
+              </Label>
+              <PermissionCheckboxes value={permissions} onChange={setPermissions} />
+            </div>
+          )}
+          {role === 'super_admin' && (
+            <p className="font-body text-xs text-navy/50 bg-navy/5 rounded-lg px-3 py-2">
+              Super Admin has full access to all sections.
+            </p>
+          )}
+          {error && <p className="font-body text-sm text-red-600">{error}</p>}
+          <div className="flex gap-3 justify-end pt-2">
+            <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
+            <Button type="submit" disabled={mutation.isPending} className="bg-steel text-white hover:bg-steel/90">
+              {mutation.isPending ? 'Saving…' : 'Save Changes'}
             </Button>
           </div>
         </form>

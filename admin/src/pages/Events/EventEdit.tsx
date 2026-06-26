@@ -223,10 +223,6 @@ export function EventEditPage() {
                   <input type="checkbox" id="featured" {...register('featured')} className="rounded" />
                   <label htmlFor="featured" className="text-sm text-navy">Featured event</label>
                 </div>
-                <div className="flex items-center gap-2">
-                  <input type="checkbox" id="show_sidebar_form" {...register('show_sidebar_form')} className="rounded" />
-                  <label htmlFor="show_sidebar_form" className="text-sm text-navy">Show sidebar registration form</label>
-                </div>
               </div>
 
               {/* Event details */}

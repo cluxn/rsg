@@ -1,15 +1,18 @@
 import { api } from './api';
+import type { Admin } from '@/contexts/AuthContext';
 
 export async function login(email: string, password: string) {
   const { data } = await api.post('/auth/login', { email, password });
-  return data;
+  // after login, fetch full profile (role + permissions)
+  const me = await getMe();
+  return { admin: me, ...data };
 }
 
 export async function logout() {
   await api.post('/auth/logout');
 }
 
-export async function getMe() {
-  const { data } = await api.get('/auth/me');
-  return data as { id: number; email: string };
+export async function getMe(): Promise<Admin> {
+  const { data } = await api.get<Admin>('/auth/me');
+  return data;
 }

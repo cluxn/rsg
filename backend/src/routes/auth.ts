@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
-import { login, logout, me, updateProfile, getUsers, addUser, toggleUserStatus, resetUserPassword } from '../controllers/auth.controller';
+import { login, logout, me, updateProfile, getUsers, addUser, toggleUserStatus, resetUserPassword, deleteUser, editUser } from '../controllers/auth.controller';
 import { requireAuth } from '../middleware/auth';
 
 const router = Router();
@@ -22,5 +22,7 @@ router.get('/users', requireAuth, getUsers);
 router.post('/users', requireAuth, addUser);
 router.put('/users/:id/status', requireAuth, toggleUserStatus);
 router.put('/users/:id/reset-password', requireAuth, resetUserPassword);
+router.delete('/users/:id', requireAuth, deleteUser);
+router.put('/users/:id', requireAuth, editUser);
 
 export default router;

@@ -1,8 +1,9 @@
 import { getEvent, getEvents, EVENT_COVER_PLACEHOLDER } from '@/lib/content';
 import { getSettings } from '@/lib/api';
 import { BlogPostBody } from '@/components/blog/BlogPostBody';
+import { BlogLeadForm } from '@/components/blog/BlogLeadForm';
+import { ShareButtons } from '@/components/blog/ShareButtons';
 import { EventCard } from '@/components/events/EventCard';
-import { EventRegistrationForm } from '@/components/events/EventRegistrationForm';
 import { SectionContainer } from '@/components/layout/SectionContainer';
 import { ContactFormSection } from '@/components/sections/ContactFormSection';
 import { notFound } from 'next/navigation';
@@ -64,14 +65,6 @@ function TagIcon() {
   );
 }
 
-function WhatsAppIcon() {
-  return (
-    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-      <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2.05 21.95l4.897-1.364A9.953 9.953 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.946 7.946 0 01-4.079-1.126l-.29-.174-3.008.838.848-3.086-.19-.3A7.955 7.955 0 014 12c0-4.418 3.582-8 8-8s8 3.582 8 8-3.582 8-8 8z" />
-    </svg>
-  );
-}
 
 export default async function EventDetailPage({ params }: Props) {
   const { slug } = await params;
@@ -134,70 +127,31 @@ export default async function EventDetailPage({ params }: Props) {
 
       {/* Cover image + article body — white background */}
       <div className="gradient-mesh-light">
-      <div className="max-w-4xl mx-auto px-4 md:px-8 pt-8 pb-2">
-        <div className="relative w-full h-56 md:h-80 overflow-hidden rounded-2xl shadow-md">
-          <Image
-            src={event.cover_image || EVENT_COVER_PLACEHOLDER}
-            alt={event.title}
-            fill
-            className="object-cover"
-            priority
-          />
+        <div className="max-w-5xl mx-auto px-4 md:px-8 pt-8 pb-2">
+          <div className="relative w-full h-56 md:h-80 overflow-hidden rounded-2xl shadow-md">
+            <Image
+              src={event.cover_image || EVENT_COVER_PLACEHOLDER}
+              alt={event.title}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
         </div>
-      </div>
-      {/* Article body — with optional sticky sidebar registration form */}
-      <SectionContainer className="py-10">
-        {event.show_sidebar_form ? (
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10 items-start">
+
+        {/* 2-column: article + sticky sidebar */}
+        <SectionContainer className="py-10">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-10 items-start">
             <article className="min-w-0">
               <BlogPostBody html={event.body ?? ''} />
             </article>
-            <aside className="lg:sticky lg:top-24 self-start">
-              <EventRegistrationForm eventTitle={event.title} eventSlug={slug} />
+            <aside className="lg:sticky lg:top-24 self-start space-y-6">
+              <BlogLeadForm sourcePage={`events/${slug}`} />
+              <ShareButtons url={`${SITE_URL}/events/${slug}`} title={event.title} />
             </aside>
           </div>
-        ) : (
-          <article className="max-w-3xl mx-auto">
-            <BlogPostBody html={event.body ?? ''} />
-          </article>
-        )}
-      </SectionContainer>
-      </div>
-
-      {/* 2-column registration section — dark theme */}
-      <section className="bg-navy border-t border-white/10">
-        <SectionContainer className="py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-
-            {/* Left: eyebrow, heading, para, WhatsApp CTA */}
-            <div className="space-y-5">
-              <p className="font-body text-xs text-orange uppercase tracking-widest font-semibold">Don&apos;t Miss Out</p>
-              <h2 className="font-heading text-3xl md:text-4xl text-white font-bold leading-tight">{event.title}</h2>
-              {event.excerpt && (
-                <p className="font-body text-white/65 text-base leading-relaxed">{event.excerpt}</p>
-              )}
-              {dateRange && (
-                <p className="font-body text-white/50 text-sm">
-                  {dateRange}{event.location ? ` · ${event.location}` : ''}
-                </p>
-              )}
-              <a
-                href={`https://wa.me/${waNumber}?text=${encodeURIComponent(`Hi, I'm interested in: ${event.title}`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 font-heading font-semibold text-white gradient-sunrise rounded-lg px-6 py-3 shadow-md hover:shadow-glow-orange hover:-translate-y-0.5 transition-all duration-200 text-sm"
-              >
-                <WhatsAppIcon />
-                Connect on WhatsApp
-              </a>
-            </div>
-
-            {/* Right: registration form */}
-            <EventRegistrationForm eventTitle={event.title} eventSlug={slug} />
-
-          </div>
         </SectionContainer>
-      </section>
+      </div>
 
       {/* Recommended events */}
       {recommended.length > 0 && (

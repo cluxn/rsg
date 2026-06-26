@@ -3,6 +3,7 @@ import {
   findAdminByEmail, findAdminById, verifyPassword, signToken,
   updateAdminEmail, updateAdminPassword,
   listAdminUsers, createAdminUser, setAdminActive, resetAdminPassword,
+  deleteAdminUser, updateAdminUser, parsePermissions,
 } from '../services/auth.service';
 
 export async function login(req: Request, res: Response): Promise<void> {
@@ -27,8 +28,15 @@ export function logout(_req: Request, res: Response): void {
   res.json({ ok: true });
 }
 
-export function me(req: Request, res: Response): void {
-  res.json(req.admin);
+export async function me(req: Request, res: Response): Promise<void> {
+  const admin = await findAdminById(req.admin!.id);
+  if (!admin) { res.status(401).json({ error: 'Not found' }); return; }
+  res.json({
+    id: admin.id,
+    email: admin.email,
+    role: admin.role,
+    permissions: parsePermissions(admin.permissions),
+  });
 }
 
 export async function updateProfile(req: Request, res: Response): Promise<void> {
@@ -62,19 +70,24 @@ export async function updateProfile(req: Request, res: Response): Promise<void> 
 // ─── User management ──────────────────────────────────────────────────────────
 
 export async function getUsers(_req: Request, res: Response): Promise<void> {
-  const users = await listAdminUsers();
+  const rows = await listAdminUsers();
+  const users = rows.map(u => ({ ...u, permissions: parsePermissions(u.permissions) }));
   res.json(users);
 }
 
 export async function addUser(req: Request, res: Response): Promise<void> {
-  const { email, password, role } = req.body as { email?: string; password?: string; role?: string };
+  const { email, password, role, permissions } = req.body as {
+    email?: string; password?: string; role?: string; permissions?: string[] | null;
+  };
   if (!email || !password) { res.status(400).json({ error: 'email and password required' }); return; }
   if (password.length < 8) { res.status(400).json({ error: 'Password must be at least 8 characters' }); return; }
 
   const existing = await findAdminByEmail(email.trim().toLowerCase());
   if (existing) { res.status(409).json({ error: 'Email already in use' }); return; }
 
-  await createAdminUser(email.trim().toLowerCase(), password, role ?? 'super_admin');
+  const resolvedRole = role ?? 'editor';
+  const resolvedPerms = resolvedRole === 'super_admin' ? null : (permissions ?? []);
+  await createAdminUser(email.trim().toLowerCase(), password, resolvedRole, resolvedPerms);
   res.status(201).json({ ok: true });
 }
 
@@ -91,5 +104,27 @@ export async function resetUserPassword(req: Request, res: Response): Promise<vo
   const { password } = req.body as { password?: string };
   if (!password || password.length < 8) { res.status(400).json({ error: 'Password must be at least 8 characters' }); return; }
   await resetAdminPassword(id, password);
+  res.json({ ok: true });
+}
+
+export async function deleteUser(req: Request, res: Response): Promise<void> {
+  const id = Number(req.params.id);
+  if (id === req.admin!.id) { res.status(400).json({ error: 'Cannot delete your own account' }); return; }
+  await deleteAdminUser(id);
+  res.json({ ok: true });
+}
+
+export async function editUser(req: Request, res: Response): Promise<void> {
+  const id = Number(req.params.id);
+  const { role, email, permissions } = req.body as { role?: string; email?: string; permissions?: string[] | null };
+  if (role === undefined && email === undefined && permissions === undefined) {
+    res.status(400).json({ error: 'Nothing to update' }); return;
+  }
+  if (email) {
+    const existing = await findAdminByEmail(email.trim().toLowerCase());
+    if (existing && existing.id !== id) { res.status(409).json({ error: 'Email already in use' }); return; }
+  }
+  const resolvedPerms = role === 'super_admin' ? null : permissions;
+  await updateAdminUser(id, { role, email, permissions: resolvedPerms });
   res.json({ ok: true });
 }

@@ -2,17 +2,18 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Package, Users, FileText, Megaphone, Search, Settings2, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useSidebar } from '@/contexts/SidebarContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 const CONTENT_PREFIXES = ['/blog', '/events', '/testimonials', '/media', '/client-logos', '/authors', '/categories'];
 
 const navItems = [
-  { label: 'Dashboard', to: '/', exact: true },
-  { label: 'Catalog', to: '/catalog' },
-  { label: 'Content', to: '/blog', contentGroup: true },
-  { label: 'Leads', to: '/leads' },
-  { label: 'Marketing', to: '/marketing' },
-  { label: 'SEO', to: '/seo' },
-  { label: 'Settings', to: '/settings' },
+  { label: 'Dashboard', to: '/', exact: true, module: 'dashboard' },
+  { label: 'Catalog', to: '/catalog', module: 'catalog' },
+  { label: 'Content', to: '/blog', contentGroup: true, module: 'content' },
+  { label: 'Leads', to: '/leads', module: 'leads' },
+  { label: 'Marketing', to: '/marketing', module: 'marketing' },
+  { label: 'SEO', to: '/seo', module: 'seo' },
+  { label: 'Settings', to: '/settings', module: 'settings' },
 ];
 
 const icons: Record<string, React.ElementType> = {
@@ -28,6 +29,9 @@ const icons: Record<string, React.ElementType> = {
 export function Sidebar() {
   const location = useLocation();
   const { collapsed, toggle } = useSidebar();
+  const { hasPermission } = useAuth();
+
+  const visibleItems = navItems.filter(item => hasPermission(item.module));
 
   return (
     <aside className={cn(
@@ -46,7 +50,7 @@ export function Sidebar() {
       </div>
 
       <nav className="flex-1 py-4 px-2 overflow-y-auto">
-        {navItems.map(({ label, to, exact, contentGroup }) => {
+        {visibleItems.map(({ label, to, exact, contentGroup }) => {
           const Icon = icons[label];
           const isActive = exact
             ? location.pathname === to
