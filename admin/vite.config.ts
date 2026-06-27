@@ -10,7 +10,7 @@ export default defineConfig({
     proxy: {
       '/api': 'http://localhost:4000',
       '/uploads': 'http://localhost:4000',
-      '/images': 'http://localhost:3000',
+      '/images': 'http://localhost:3003',
     },
   },
   resolve: {
