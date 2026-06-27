@@ -1,3 +1,5 @@
+import { STATIC_SETTINGS, STATIC_PRODUCTS, STATIC_PRODUCT_DETAILS } from './static-data';
+
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
 
 export function report404(url: string): void {
@@ -9,11 +11,13 @@ export function report404(url: string): void {
 }
 
 export async function getSettings(): Promise<Record<string, string>> {
-  const res = await fetch(`${API_BASE}/api/settings`, {
-    next: { revalidate: 3600, tags: ['settings'] },
-  });
-  if (!res.ok) throw new Error(`getSettings failed: ${res.status}`);
-  return res.json();
+  try {
+    const res = await fetch(`${API_BASE}/api/settings`, {
+      next: { revalidate: 3600, tags: ['settings'] },
+    });
+    if (!res.ok) return STATIC_SETTINGS;
+    return res.json();
+  } catch { return STATIC_SETTINGS; }
 }
 
 export type ProductMedia = { id: number; url: string; alt_text: string; display_order: number };
@@ -33,9 +37,9 @@ export async function getProducts(): Promise<ProductSummary[]> {
     const res = await fetch(`${API_BASE}/api/products`, {
       next: { revalidate: 3600, tags: ['products'] },
     });
-    if (!res.ok) return [];
+    if (!res.ok) return STATIC_PRODUCTS;
     return res.json();
-  } catch { return []; }
+  } catch { return STATIC_PRODUCTS; }
 }
 
 export async function getProduct(slug: string): Promise<Product | null> {
@@ -43,7 +47,7 @@ export async function getProduct(slug: string): Promise<Product | null> {
     const res = await fetch(`${API_BASE}/api/products/${slug}`, {
       next: { revalidate: 3600, tags: [`product-${slug}`] },
     });
-    if (!res.ok) return null;
+    if (!res.ok) return STATIC_PRODUCT_DETAILS[slug] ?? null;
     return res.json();
-  } catch { return null; }
+  } catch { return STATIC_PRODUCT_DETAILS[slug] ?? null; }
 }

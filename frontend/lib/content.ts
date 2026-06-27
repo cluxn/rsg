@@ -78,12 +78,14 @@ export interface Testimonial {
   source: 'google' | 'indiamart' | 'justdial' | 'other';
 }
 
+import { STATIC_BLOG_POSTS, STATIC_EVENTS, STATIC_TESTIMONIALS } from './static-data';
+
 export async function getBlogPosts(): Promise<BlogListItem[]> {
   try {
     const res = await fetch(`${API_URL}/api/blog`, { next: { revalidate: 60 } });
-    if (!res.ok) return [];
+    if (!res.ok) return STATIC_BLOG_POSTS;
     return res.json();
-  } catch { return []; }
+  } catch { return STATIC_BLOG_POSTS; }
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
@@ -97,9 +99,9 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
 export async function getEvents(): Promise<EventItem[]> {
   try {
     const res = await fetch(`${API_URL}/api/events`, { next: { revalidate: 60 } });
-    if (!res.ok) return [];
+    if (!res.ok) return STATIC_EVENTS;
     return res.json();
-  } catch { return []; }
+  } catch { return STATIC_EVENTS; }
 }
 
 export async function getEvent(slug: string): Promise<EventItem | null> {
@@ -114,7 +116,7 @@ export async function getTestimonials(page?: 'home' | 'about'): Promise<Testimon
   try {
     const qs = page ? `?page=${page}` : '';
     const res = await fetch(`${API_URL}/api/testimonials${qs}`, { next: { revalidate: 60 } });
-    if (!res.ok) return [];
+    if (!res.ok) return STATIC_TESTIMONIALS;
     return res.json();
-  } catch { return []; }
+  } catch { return STATIC_TESTIMONIALS; }
 }

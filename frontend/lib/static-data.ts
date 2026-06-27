@@ -1,0 +1,173 @@
+import type { ProductSummary, Product } from './api';
+import type { BlogListItem, EventItem, Testimonial } from './content';
+
+export const STATIC_SETTINGS: Record<string, string> = {
+  whatsapp_number: '919918522988',
+  business_address: 'Dada Nagar Industrial Estate, Kanpur, Uttar Pradesh 208022',
+  business_phone: '+91-9918522988',
+  business_email: 'info@rsgprofilesheets.com',
+  'meta_title_/': 'RSG Profile Manufacturing — Roofing Sheets & Structural Steel, Kanpur',
+  'meta_desc_/': 'Premium ISI-certified roofing sheets, structural steel, MS pipes and accessories at factory-direct wholesale prices. Serving contractors across UP from Kanpur.',
+  'meta_title_/about': 'About Us | RSG Profile Manufacturing',
+  'meta_desc_/about': 'Learn about RSG Profile Manufacturing — founded 2019 in Kanpur. Premium roofing sheets and structural steel at wholesale prices.',
+  'meta_title_/products': 'Our Products | RSG Profile Manufacturing',
+  'meta_desc_/products': 'Roofing sheets, structural steel, and accessories — factory-direct wholesale supply from RSG Profile Manufacturing, Kanpur.',
+  'meta_title_/contact': 'Contact Us | RSG Profile Manufacturing',
+  'meta_desc_/contact': 'Get in touch with RSG Profile Manufacturing. Address: Dada Nagar Industrial Estate, Kanpur. Mon-Sat 10 AM - 6 PM.',
+  'meta_title_/blog': 'Blog | RSG Profile Manufacturing',
+  'meta_desc_/blog': 'Industry insights, roofing guides, and product updates from RSG Profile Manufacturing.',
+  'meta_title_/events': 'Events & News | RSG Profile Manufacturing',
+  'meta_desc_/events': 'Latest events, news, and announcements from RSG Profile Manufacturing.',
+};
+
+export const STATIC_PRODUCTS: ProductSummary[] = [
+  { id: 1, slug: 'colour-coated-roofing-sheet', name: 'Colour Coated Roofing Sheet', display_order: 1 },
+  { id: 2, slug: 'decking-sheet', name: 'Decking Sheet', display_order: 2 },
+  { id: 3, slug: 'galvanized-plain-sheets', name: 'Galvanized Plain Sheets', display_order: 3 },
+  { id: 4, slug: 'purlins', name: 'C and Z Purlins', display_order: 4 },
+  { id: 5, slug: 'crimping-sheet', name: 'Crimping Sheet', display_order: 5 },
+  { id: 6, slug: 'ms-plate-channel-angle', name: 'MS Plate / Channel / Angle', display_order: 6 },
+  { id: 7, slug: 'polycarbonate-sheet', name: 'Polycarbonate Sheet', display_order: 7 },
+  { id: 8, slug: 'ms-pipe', name: 'Mild Steel Pipes', display_order: 8 },
+];
+
+export const STATIC_PRODUCT_DETAILS: Record<string, Product> = {
+  'colour-coated-roofing-sheet': {
+    id: 1,
+    slug: 'colour-coated-roofing-sheet',
+    name: 'Colour Coated Roofing Sheet',
+    description: 'ISI-certified PPGL & PPGI colour coated roofing sheets in premium brand finishes from JSW, Tata BlueScope, and Jindal. Available in a wide range of colours and profiles for industrial, commercial, and residential roofing.',
+    specs: [
+      { label: 'Material', value: 'PPGL / PPGI' },
+      { label: 'Thickness', value: '0.30mm – 0.80mm' },
+      { label: 'Width', value: '900mm – 1200mm' },
+      { label: 'Coating', value: '120 GSM – 275 GSM' },
+      { label: 'Certification', value: 'ISI Certified (BIS)' },
+      { label: 'Brands', value: 'JSW, Tata BlueScope, Jindal' },
+    ],
+    media: [{ id: 1, url: '/images/products/colour-coated-roofing-sheet-new.png', alt_text: 'Colour Coated Roofing Sheet', display_order: 1 }],
+  },
+  'decking-sheet': {
+    id: 2,
+    slug: 'decking-sheet',
+    name: 'Decking Sheet',
+    description: 'Composite floor decking sheets engineered for multi-storey commercial and industrial construction. High load-bearing capacity with superior bond strength for concrete poured floors.',
+    specs: [
+      { label: 'Material', value: 'Galvanized Steel' },
+      { label: 'Thickness', value: '0.80mm – 1.20mm' },
+      { label: 'Profile Height', value: '50mm – 75mm' },
+      { label: 'Coating', value: '120 GSM – 180 GSM' },
+      { label: 'Application', value: 'Commercial, Industrial, Multi-storey' },
+    ],
+    media: [{ id: 2, url: '/images/products/decking-sheet.png', alt_text: 'Decking Sheet', display_order: 1 }],
+  },
+  'galvanized-plain-sheets': {
+    id: 3,
+    slug: 'galvanized-plain-sheets',
+    name: 'Galvanized Plain Sheets',
+    description: 'High-quality GI plain sheets (GP sheets) for versatile structural, fabrication, and general applications. Hot-dip galvanized for maximum corrosion resistance.',
+    specs: [
+      { label: 'Material', value: 'Hot-Dip Galvanized Steel' },
+      { label: 'Thickness', value: '0.30mm – 3.00mm' },
+      { label: 'Width', value: '900mm – 1250mm' },
+      { label: 'Coating', value: '120 GSM – 275 GSM' },
+      { label: 'Standard', value: 'IS 277' },
+    ],
+    media: [{ id: 3, url: '/images/products/galvanized-plain-sheets.png', alt_text: 'Galvanized Plain Sheets', display_order: 1 }],
+  },
+  'purlins': {
+    id: 4,
+    slug: 'purlins',
+    name: 'C and Z Purlins',
+    description: 'Precision-rolled Z & C purlins for industrial roofing systems — lightweight yet exceptionally strong. Used as secondary structural members to support roof sheeting and wall cladding.',
+    specs: [
+      { label: 'Profiles', value: 'C-Section, Z-Section' },
+      { label: 'Thickness', value: '1.50mm – 3.00mm' },
+      { label: 'Height', value: '100mm – 250mm' },
+      { label: 'Material', value: 'Galvanized Steel' },
+      { label: 'Application', value: 'Industrial, Commercial Roofing' },
+    ],
+    media: [{ id: 4, url: '/images/products/purlins.png', alt_text: 'C and Z Purlins', display_order: 1 }],
+  },
+  'crimping-sheet': {
+    id: 5,
+    slug: 'crimping-sheet',
+    name: 'Crimping Sheet',
+    description: 'Precision-crimped sheets for versatile industrial and commercial roofing applications. The crimping process enhances rigidity and load distribution.',
+    specs: [
+      { label: 'Material', value: 'Galvanized / Colour Coated Steel' },
+      { label: 'Thickness', value: '0.35mm – 0.70mm' },
+      { label: 'Width', value: '900mm – 1200mm' },
+      { label: 'Application', value: 'Roofing, Walling, Canopy' },
+    ],
+    media: [{ id: 5, url: '/images/products/crimping-sheet-new.png', alt_text: 'Crimping Sheet', display_order: 1 }],
+  },
+  'ms-plate-channel-angle': {
+    id: 6,
+    slug: 'ms-plate-channel-angle',
+    name: 'MS Plate / Channel / Angle',
+    description: 'Structural MS plates, channels and angles for heavy-duty fabrication and construction projects. Sourced from premium mills — SAIL, RINL, and Tata Steel.',
+    specs: [
+      { label: 'MS Plate Thickness', value: '3mm – 100mm' },
+      { label: 'Channel Sizes', value: '75mm – 300mm (ISMC)' },
+      { label: 'Angle Sizes', value: '25×25mm – 150×150mm' },
+      { label: 'Grade', value: 'IS 2062 E250' },
+      { label: 'Mills', value: 'SAIL, RINL, Tata Steel' },
+    ],
+    media: [{ id: 6, url: '/images/products/ms-plate-channel-angle.png', alt_text: 'MS Plate Channel Angle', display_order: 1 }],
+  },
+  'polycarbonate-sheet': {
+    id: 7,
+    slug: 'polycarbonate-sheet',
+    name: 'Polycarbonate Sheet',
+    description: 'UV-resistant transparent roofing panels that bring natural daylight into any structure. Lightweight, impact-resistant, and available in multiple colours and thicknesses.',
+    specs: [
+      { label: 'Material', value: 'Twin-wall Polycarbonate' },
+      { label: 'Thickness', value: '4mm – 16mm' },
+      { label: 'UV Protection', value: 'Both Sides' },
+      { label: 'Light Transmission', value: 'Up to 82%' },
+      { label: 'Application', value: 'Skylights, Canopy, Greenhouse' },
+    ],
+    media: [{ id: 7, url: '/images/products/polycarbonate-sheet.png', alt_text: 'Polycarbonate Sheet', display_order: 1 }],
+  },
+  'ms-pipe': {
+    id: 8,
+    slug: 'ms-pipe',
+    name: 'Mild Steel Pipes',
+    description: 'Structural MS pipes from APL Apollo, Tata & JSW — trusted for heavy-duty construction needs. Available in square, rectangular, and round sections.',
+    specs: [
+      { label: 'Profiles', value: 'Square, Rectangular, Round' },
+      { label: 'Wall Thickness', value: '1.6mm – 12mm' },
+      { label: 'Size Range', value: '15mm – 300mm' },
+      { label: 'Grade', value: 'IS 1161 / IS 4923' },
+      { label: 'Brands', value: 'APL Apollo, Tata, JSW' },
+    ],
+    media: [{ id: 8, url: '/images/products/ms-pipe.png', alt_text: 'Mild Steel Pipes', display_order: 1 }],
+  },
+};
+
+export const STATIC_TESTIMONIALS: Testimonial[] = [
+  { id: 1, text: 'Satisfactory service and behaviour. Very professional team throughout the process.', author_name: 'Shivkant Dixit', source: 'google', rating: 5, author_city: 'Kanpur' },
+  { id: 2, text: 'Extremely professional company with good quality products. Highly recommended for bulk orders.', author_name: 'Arvind Yadav', source: 'google', rating: 5, author_city: 'Lucknow' },
+  { id: 3, text: 'Very nice and good approaching system in this organisation. Staff is very cooperative.', author_name: 'Vijay Prajapati', source: 'indiamart', rating: 4, author_city: 'Kanpur' },
+  { id: 4, text: 'Best roofing sheet supplier in Kanpur. Quality is excellent and delivery was on time.', author_name: 'Rakesh Kumar Singh', source: 'google', rating: 5, author_city: 'Kanpur' },
+  { id: 5, text: 'We ordered colour coated sheets in bulk. The quality and price both were very good.', author_name: 'Mohit Agarwal', source: 'google', rating: 5, author_city: 'Unnao' },
+  { id: 6, text: 'Reliable supplier. All products are ISI certified and packaging is very safe.', author_name: 'Suresh Verma', source: 'indiamart', rating: 5, author_city: 'Kanpur' },
+  { id: 7, text: 'Good quality material at wholesale price. Definitely recommend for bulk construction orders.', author_name: 'Pradeep Sharma', source: 'google', rating: 4, author_city: 'Agra' },
+  { id: 8, text: 'Excellent service. Got delivery faster than expected. Will order again for next project.', author_name: 'Ankit Gupta', source: 'justdial', rating: 5, author_city: 'Kanpur' },
+  { id: 9, text: 'Very professional team. Best price for MS pipes in Kanpur region. Highly satisfied.', author_name: 'Ram Narayan Yadav', source: 'indiamart', rating: 5, author_city: 'Fatehpur' },
+  { id: 10, text: 'High quality structural steel at competitive prices. Will definitely order again.', author_name: 'Santosh Mishra', source: 'google', rating: 5, author_city: 'Kanpur' },
+  { id: 11, text: 'Great experience overall. Staff is very helpful and knowledgeable about products.', author_name: 'Dinesh Tiwari', source: 'justdial', rating: 5, author_city: 'Jhansi' },
+  { id: 12, text: 'Best in class quality for decking sheets. Very happy with the purchase and service.', author_name: 'Umesh Chandra', source: 'indiamart', rating: 5, author_city: 'Kanpur' },
+  { id: 13, text: 'One of the best suppliers in UP. Quality never compromises. Trust them completely.', author_name: 'Vivek Srivastava', source: 'google', rating: 5, author_city: 'Allahabad' },
+  { id: 14, text: 'RSG is our go-to supplier for all structural steel needs on construction sites.', author_name: 'Amit Tripathi', source: 'google', rating: 5, author_city: 'Kanpur' },
+  { id: 15, text: 'Prompt service and premium quality materials. No complaints at all. Keep it up.', author_name: 'Devendra Nath', source: 'justdial', rating: 5, author_city: 'Varanasi' },
+  { id: 16, text: 'ISI certified products at factory price. Delivery completed in just 2 days.', author_name: 'Ajay Rai', source: 'google', rating: 5, author_city: 'Kanpur' },
+  { id: 17, text: 'Very honest and transparent company. Prices are best in market. No hidden charges.', author_name: 'Narendra Prasad', source: 'google', rating: 5, author_city: 'Lucknow' },
+  { id: 18, text: 'Good quality GI sheets at wholesale rate. Satisfied with the overall service.', author_name: 'Kuldeep Singh', source: 'indiamart', rating: 4, author_city: 'Kanpur' },
+  { id: 19, text: 'Best wholesale price for roofing sheets in entire UP region. Very fast delivery.', author_name: 'Manoj Kumar Pandey', source: 'indiamart', rating: 5, author_city: 'Banda' },
+  { id: 20, text: 'Good supplier with consistent quality. Will continue buying for all future projects.', author_name: 'Saurabh Kesarwani', source: 'google', rating: 4, author_city: 'Kanpur' },
+];
+
+export const STATIC_BLOG_POSTS: BlogListItem[] = [];
+export const STATIC_EVENTS: EventItem[] = [];
