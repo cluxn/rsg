@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 import { z } from 'zod';
-import { createLead, getLeads, updateLead, exportLeadsToCSV, importLeadsFromCSV } from '../services/leads.service';
+import { createLead, getLeads, updateLead, exportLeadsToCSV, exportLeadsToExcel, generateLeadSampleExcel, importLeadsFromCSV } from '../services/leads.service';
 
 const createLeadSchema = z.object({
   name: z.string().min(1, 'Name is required').max(255),
@@ -60,15 +60,35 @@ export async function updateLeadHandler(req: Request, res: Response): Promise<vo
 }
 
 export async function exportLeads(req: Request, res: Response): Promise<void> {
+  const format = req.query.format === 'xlsx' ? 'xlsx' : 'csv';
+  const date = new Date().toISOString().slice(0, 10);
   try {
-    const csv = await exportLeadsToCSV();
-    const date = new Date().toISOString().slice(0, 10);
-    res.setHeader('Content-Type', 'text/csv');
-    res.setHeader('Content-Disposition', `attachment; filename="rsg-leads-${date}.csv"`);
-    res.send(csv);
+    if (format === 'xlsx') {
+      const buffer = await exportLeadsToExcel();
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', `attachment; filename="rsg-leads-${date}.xlsx"`);
+      res.send(buffer);
+    } else {
+      const csv = await exportLeadsToCSV();
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', `attachment; filename="rsg-leads-${date}.csv"`);
+      res.send(csv);
+    }
   } catch (err) {
     console.error('exportLeads error:', err);
     res.status(500).json({ error: 'Export failed' });
+  }
+}
+
+export async function downloadLeadSample(req: Request, res: Response): Promise<void> {
+  try {
+    const buffer = await generateLeadSampleExcel();
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', 'attachment; filename="rsg-leads-import-sample.xlsx"');
+    res.send(buffer);
+  } catch (err) {
+    console.error('downloadLeadSample error:', err);
+    res.status(500).json({ error: 'Sample generation failed' });
   }
 }
 

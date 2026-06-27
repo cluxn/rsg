@@ -1,5 +1,6 @@
 import { stringify } from 'csv-stringify/sync';
 import { parse } from 'csv-parse/sync';
+import ExcelJS from 'exceljs';
 import { query } from '../db/connection';
 import { sendLeadNotificationEmail } from './notification.service';
 
@@ -168,6 +169,119 @@ export async function exportLeadsToCSV(): Promise<string> {
       { key: 'created_at', header: 'Submitted At' },
     ],
   });
+}
+
+const EXCEL_COLUMNS = [
+  { key: 'id',               header: 'ID',               width: 8 },
+  { key: 'name',             header: 'Name',             width: 22 },
+  { key: 'phone',            header: 'Phone',            width: 16 },
+  { key: 'email',            header: 'Email',            width: 28 },
+  { key: 'product_interest', header: 'Product Interest', width: 26 },
+  { key: 'message',          header: 'Message',          width: 40 },
+  { key: 'source_page',      header: 'Source Page',      width: 18 },
+  { key: 'city',             header: 'City',             width: 16 },
+  { key: 'state',            header: 'State',            width: 16 },
+  { key: 'lead_status',      header: 'Lead Status',      width: 18 },
+  { key: 'webhook_sent',     header: 'Webhook Sent',     width: 14 },
+  { key: 'email_sent',       header: 'Email Sent',       width: 12 },
+  { key: 'created_at',       header: 'Submitted At',     width: 20 },
+];
+
+function buildWorkbook(rows: LeadRow[]): ExcelJS.Workbook {
+  const wb = new ExcelJS.Workbook();
+  wb.creator = 'RSG Profile Manufacturing';
+  const ws = wb.addWorksheet('Leads');
+
+  ws.columns = EXCEL_COLUMNS.map(c => ({ header: c.header, key: c.key, width: c.width }));
+
+  // Style header row
+  const headerRow = ws.getRow(1);
+  headerRow.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+  headerRow.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF1B2B4B' } };
+  headerRow.alignment = { vertical: 'middle' };
+  headerRow.height = 20;
+
+  rows.forEach(lead => {
+    ws.addRow({
+      id: lead.id,
+      name: lead.name,
+      phone: lead.phone ?? '',
+      email: lead.email ?? '',
+      product_interest: lead.product_interest ?? '',
+      message: lead.message ?? '',
+      source_page: lead.source_page ?? '',
+      city: lead.city ?? '',
+      state: lead.state ?? '',
+      lead_status: lead.lead_status,
+      webhook_sent: lead.webhook_sent ? 'Yes' : 'No',
+      email_sent: lead.email_sent ? 'Yes' : 'No',
+      created_at: lead.created_at,
+    });
+  });
+
+  // Alternate row shading
+  ws.eachRow((row, rowNum) => {
+    if (rowNum === 1) return;
+    if (rowNum % 2 === 0) {
+      row.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFF5F7FA' } };
+    }
+  });
+
+  // Freeze header
+  ws.views = [{ state: 'frozen', ySplit: 1 }];
+
+  return wb;
+}
+
+export async function exportLeadsToExcel(): Promise<Buffer> {
+  const leads = await query<LeadRow>(
+    'SELECT id, name, phone, email, product_interest, message, source_page, city, state, lead_status, webhook_sent, email_sent, created_at FROM leads ORDER BY created_at DESC'
+  );
+  const wb = buildWorkbook(leads);
+  return wb.xlsx.writeBuffer() as unknown as Promise<Buffer>;
+}
+
+export async function generateLeadSampleExcel(): Promise<Buffer> {
+  const sampleRows: LeadRow[] = [
+    {
+      id: 1,
+      name: 'Rajesh Kumar',
+      phone: '9876543210',
+      email: 'rajesh@example.com',
+      product_interest: 'Colour Coated Roofing Sheet',
+      message: 'Need 500 sheets for factory shed. Please quote.',
+      source_page: 'home',
+      city: 'Kanpur',
+      state: 'Uttar Pradesh',
+      lead_status: 'new',
+      follow_up_date: null,
+      notes: null,
+      last_contact_date: null,
+      webhook_sent: true,
+      email_sent: true,
+      created_at: new Date().toISOString(),
+    },
+    {
+      id: 2,
+      name: 'Priya Sharma',
+      phone: '9123456789',
+      email: 'priya@company.in',
+      product_interest: 'MS Pipe',
+      message: 'Looking for bulk MS pipes for construction project.',
+      source_page: 'contact',
+      city: 'Lucknow',
+      state: 'Uttar Pradesh',
+      lead_status: 'contacted',
+      follow_up_date: null,
+      notes: null,
+      last_contact_date: null,
+      webhook_sent: true,
+      email_sent: false,
+      created_at: new Date().toISOString(),
+    },
+  ];
+  const wb = buildWorkbook(sampleRows);
+  return wb.xlsx.writeBuffer() as unknown as Promise<Buffer>;
 }
 
 export async function importLeadsFromCSV(buffer: Buffer): Promise<{ imported: number; skipped: number; errors: string[] }> {

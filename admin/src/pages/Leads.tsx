@@ -1,6 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Download, Upload, X, ChevronDown } from 'lucide-react';
+import { Download, Upload, X, ChevronDown, FileSpreadsheet, FileText } from 'lucide-react';
 import { AdminLayout } from '@/components/layout/AdminLayout';
 import { Button } from '@/components/ui/button';
 import { api } from '@/lib/api';
@@ -144,9 +144,12 @@ export function LeadsPage() {
           </div>
           <div className="flex gap-2">
             <Button size="sm" onClick={() => setShowAddModal(true)}>+ Add Lead</Button>
-            <Button variant="outline" size="sm" onClick={() => window.open('/api/leads/export', '_blank')}><Download className="w-4 h-4 mr-1.5" />Export</Button>
+            <ExportDropdown />
             <input ref={importRef} type="file" accept=".csv" className="hidden" onChange={handleImport} />
             <Button variant="outline" size="sm" onClick={() => importRef.current?.click()} disabled={importing}><Upload className="w-4 h-4 mr-1.5" />{importing ? 'Importing…' : 'Import'}</Button>
+            <Button variant="outline" size="sm" onClick={() => window.open('/api/leads/sample', '_blank')} title="Download sample import file">
+              <FileSpreadsheet className="w-4 h-4 mr-1.5" />Sample
+            </Button>
           </div>
         </div>
 
@@ -364,3 +367,50 @@ export function LeadsPage() {
     </AdminLayout>
   );
 }
+
+function ExportDropdown() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  return (
+    <div className="relative" ref={ref}>
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => setOpen(o => !o)}
+        className="flex items-center gap-1"
+      >
+        <Download className="w-4 h-4 mr-1" />
+        Export
+        <ChevronDown className="w-3 h-3 ml-0.5" />
+      </Button>
+      {open && (
+        <div className="absolute right-0 top-full mt-1 w-48 bg-white border border-navy/10 rounded-xl shadow-lg z-20 py-1 overflow-hidden">
+          <button
+            className="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm text-navy hover:bg-navy/5 transition-colors"
+            onClick={() => { window.open('/api/leads/export?format=csv', '_blank'); setOpen(false); }}
+          >
+            <FileText className="w-4 h-4 text-navy/50" />
+            Export as CSV
+          </button>
+          <button
+            className="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm text-navy hover:bg-navy/5 transition-colors"
+            onClick={() => { window.open('/api/leads/export?format=xlsx', '_blank'); setOpen(false); }}
+          >
+            <FileSpreadsheet className="w-4 h-4 text-green-600" />
+            Export as Excel
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
