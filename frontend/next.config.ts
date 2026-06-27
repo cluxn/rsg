@@ -4,7 +4,6 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 const apiHost = new URL(apiUrl);
 
 const nextConfig: NextConfig = {
-  output: "standalone",
   env: {
     NEXT_PUBLIC_API_URL: apiUrl,
   },
