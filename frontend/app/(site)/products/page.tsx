@@ -8,16 +8,25 @@ import { CcrsBrandExplorer } from '@/components/ui/CcrsBrandExplorer';
 import { PPGL_BRANDS, PPGI_BRANDS } from '@/components/layout/SiteHeader';
 
 export async function generateMetadata(): Promise<Metadata> {
+  const defaults = {
+    title: 'Our Products | RSG Profile Manufacturing',
+    description: 'Roofing sheets, structural steel, and accessories — factory-direct wholesale supply from RSG Profile Manufacturing, Kanpur.',
+  };
   try {
     const settings = await getSettings();
+    const title = settings['meta_title_/products'] || defaults.title;
+    const description = settings['meta_desc_/products'] || defaults.description;
     return {
-      title: settings['meta_title_/products'] || 'Our Products | RSG Profile Manufacturing',
-      description: settings['meta_desc_/products'] || 'Roofing sheets, structural steel, and accessories — factory-direct wholesale supply from RSG Profile Manufacturing, Kanpur.',
+      title,
+      description,
+      alternates: { canonical: '/products' },
+      openGraph: { title, description, url: '/products', type: 'website' },
     };
   } catch {
     return {
-      title: 'Our Products | RSG Profile Manufacturing',
-      description: 'Roofing sheets, structural steel, and accessories — factory-direct wholesale supply from RSG Profile Manufacturing, Kanpur.',
+      ...defaults,
+      alternates: { canonical: '/products' },
+      openGraph: { ...defaults, url: '/products', type: 'website' },
     };
   }
 }

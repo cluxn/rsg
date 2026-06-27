@@ -5,6 +5,8 @@ import { SectionContainer } from '@/components/layout/SectionContainer';
 export const metadata: Metadata = {
   title: 'Privacy Policy | RSG Profile Manufacturing',
   description: 'Privacy policy for RSG Profile Manufacturing Pvt Ltd — how we collect, use, and protect your personal information.',
+  alternates: { canonical: '/privacy-policy' },
+  robots: { index: false, follow: false },
 };
 
 export default function PrivacyPolicyPage() {

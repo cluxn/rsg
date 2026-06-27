@@ -19,11 +19,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getBlogPost(slug);
   if (!post) return { title: 'Post Not Found' };
+  const title = post.meta_title ?? `${post.title} | RSG Profile Manufacturing`;
+  const description = post.meta_description ?? post.excerpt ?? undefined;
   return {
-    title: post.meta_title ?? `${post.title} | RSG Profile Manufacturing`,
-    description: post.meta_description ?? post.excerpt ?? undefined,
-    alternates: post.canonical_url ? { canonical: post.canonical_url } : undefined,
-    openGraph: post.og_image ? { images: [post.og_image] } : undefined,
+    title,
+    description,
+    alternates: { canonical: post.canonical_url ?? `/blog/${slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `/blog/${slug}`,
+      type: 'article',
+      ...(post.og_image ? { images: [post.og_image] } : {}),
+    },
   };
 }
 

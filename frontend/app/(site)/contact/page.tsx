@@ -5,16 +5,25 @@ import { SectionContainer } from '@/components/layout/SectionContainer';
 import { ContactForm } from './ContactForm';
 
 export async function generateMetadata(): Promise<Metadata> {
+  const defaults = {
+    title: 'Contact Us | RSG Profile Manufacturing',
+    description: 'Get in touch with RSG Profile Manufacturing. Address: Dada Nagar Industrial Estate, Kanpur. Mon-Sat 10 AM - 6 PM.',
+  };
   try {
     const settings = await getSettings();
+    const title = settings['meta_title_/contact'] || defaults.title;
+    const description = settings['meta_desc_/contact'] || defaults.description;
     return {
-      title: settings['meta_title_/contact'] || 'Contact Us | RSG Profile Manufacturing',
-      description: settings['meta_desc_/contact'] || 'Get in touch with RSG Profile Manufacturing. Address: Dada Nagar Industrial Estate, Kanpur. Mon-Sat 10 AM - 6 PM.',
+      title,
+      description,
+      alternates: { canonical: '/contact' },
+      openGraph: { title, description, url: '/contact', type: 'website' },
     };
   } catch {
     return {
-      title: 'Contact Us | RSG Profile Manufacturing',
-      description: 'Get in touch with RSG Profile Manufacturing. Address: Dada Nagar Industrial Estate, Kanpur. Mon-Sat 10 AM - 6 PM.',
+      ...defaults,
+      alternates: { canonical: '/contact' },
+      openGraph: { ...defaults, url: '/contact', type: 'website' },
     };
   }
 }

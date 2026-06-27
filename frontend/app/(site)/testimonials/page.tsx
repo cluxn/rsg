@@ -10,6 +10,13 @@ import { RATINGS, PARTNER_LOGOS } from '@/lib/testimonials-data';
 export const metadata: Metadata = {
   title: 'Client Testimonials | RSG Profile Manufacturing',
   description: 'Read what contractors, builders, and traders across Uttar Pradesh say about RSG Profile Manufacturing — ISI-certified roofing sheets and structural steel.',
+  alternates: { canonical: '/testimonials' },
+  openGraph: {
+    title: 'Client Testimonials | RSG Profile Manufacturing',
+    description: 'Read what contractors, builders, and traders across Uttar Pradesh say about RSG Profile Manufacturing — ISI-certified roofing sheets and structural steel.',
+    url: '/testimonials',
+    type: 'website',
+  },
 };
 
 export default async function TestimonialsPage() {

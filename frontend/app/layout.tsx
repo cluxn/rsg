@@ -16,10 +16,59 @@ const sourceSans = Source_Sans_3({
   variable: "--font-source-sans",
 });
 
+const SITE_URL = 'https://rsgprofilesheets.com';
+
+const LOCAL_BUSINESS_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'RSG Profile Manufacturing Pvt. Ltd.',
+  url: SITE_URL,
+  logo: `${SITE_URL}/rsg-logo.png`,
+  image: `${SITE_URL}/images/hero/industrial-bg.webp`,
+  description: 'Premium quality roofing sheets, structural steel, and building materials manufacturer based in Kanpur, Uttar Pradesh.',
+  telephone: '+91-9918522988',
+  email: 'info@rsgprofilesheets.com',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Dada Nagar Industrial Estate',
+    addressLocality: 'Kanpur',
+    addressRegion: 'Uttar Pradesh',
+    postalCode: '208022',
+    addressCountry: 'IN',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: '26.4499',
+    longitude: '80.3319',
+  },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    opens: '10:00',
+    closes: '18:00',
+  },
+  sameAs: [
+    'https://www.google.com/maps/search/RSG+Profile+Manufacturing+Pvt+Ltd,+Dada+Nagar+Industrial+Estate,+Kanpur',
+  ],
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "RSG Profile Manufacturing",
-    description: "Premium quality roofing sheets, structural steel, and building materials manufacturer.",
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: 'RSG Profile Manufacturing',
+      template: '%s | RSG Profile Manufacturing',
+    },
+    description: 'Premium quality roofing sheets, structural steel, and building materials manufacturer.',
+    alternates: { canonical: '/' },
+    openGraph: {
+      type: 'website',
+      siteName: 'RSG Profile Manufacturing',
+      locale: 'en_IN',
+      images: [{ url: '/images/hero/industrial-bg.webp', width: 1920, height: 1080, alt: 'RSG Profile Manufacturing' }],
+    },
+    twitter: { card: 'summary_large_image' },
+    robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   };
 }
 
@@ -51,6 +100,10 @@ export default async function RootLayout({
             dangerouslySetInnerHTML={{ __html: scriptContent }}
           />
         )}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS_SCHEMA) }}
+        />
         {children}
       </body>
     </html>

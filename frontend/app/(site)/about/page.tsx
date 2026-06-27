@@ -9,16 +9,25 @@ import { RATINGS, PARTNER_LOGOS } from '@/lib/testimonials-data';
 import HomeQuoteForm from '../HomeQuoteForm';
 
 export async function generateMetadata(): Promise<Metadata> {
+  const defaults = {
+    title: 'About Us | RSG Profile Manufacturing',
+    description: 'Learn about RSG Profile Manufacturing — founded 2019 in Kanpur. Premium roofing sheets and structural steel.',
+  };
   try {
     const settings = await getSettings();
+    const title = settings['meta_title_/about'] || defaults.title;
+    const description = settings['meta_desc_/about'] || defaults.description;
     return {
-      title: settings['meta_title_/about'] || 'About Us | RSG Profile Manufacturing',
-      description: settings['meta_desc_/about'] || 'Learn about RSG Profile Manufacturing — founded 2019 in Kanpur. Premium roofing sheets and structural steel.',
+      title,
+      description,
+      alternates: { canonical: '/about' },
+      openGraph: { title, description, url: '/about', type: 'website' },
     };
   } catch {
     return {
-      title: 'About Us | RSG Profile Manufacturing',
-      description: 'Learn about RSG Profile Manufacturing — founded 2019 in Kanpur. Premium roofing sheets and structural steel.',
+      ...defaults,
+      alternates: { canonical: '/about' },
+      openGraph: { ...defaults, url: '/about', type: 'website' },
     };
   }
 }

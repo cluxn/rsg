@@ -5,6 +5,8 @@ import { SectionContainer } from '@/components/layout/SectionContainer';
 export const metadata: Metadata = {
   title: 'Terms & Conditions | RSG Profile Manufacturing',
   description: 'Terms and conditions governing the use of the RSG Profile Manufacturing website and purchase of our products.',
+  alternates: { canonical: '/terms-and-conditions' },
+  robots: { index: false, follow: false },
 };
 
 export default function TermsAndConditionsPage() {

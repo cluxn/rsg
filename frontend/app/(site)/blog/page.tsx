@@ -6,16 +6,25 @@ import type { Metadata } from 'next';
 import { getSettings } from '@/lib/api';
 
 export async function generateMetadata(): Promise<Metadata> {
+  const defaults = {
+    title: 'Blog | RSG Profile Manufacturing',
+    description: 'Industry insights, roofing guides, and product updates from RSG Profile Manufacturing.',
+  };
   try {
     const settings = await getSettings();
+    const title = settings['meta_title_/blog'] || defaults.title;
+    const description = settings['meta_desc_/blog'] || defaults.description;
     return {
-      title: settings['meta_title_/blog'] || 'Blog | RSG Profile Manufacturing',
-      description: settings['meta_desc_/blog'] || 'Industry insights, roofing guides, and product updates from RSG Profile Manufacturing.',
+      title,
+      description,
+      alternates: { canonical: '/blog' },
+      openGraph: { title, description, url: '/blog', type: 'website' },
     };
   } catch {
     return {
-      title: 'Blog | RSG Profile Manufacturing',
-      description: 'Industry insights, roofing guides, and product updates from RSG Profile Manufacturing.',
+      ...defaults,
+      alternates: { canonical: '/blog' },
+      openGraph: { ...defaults, url: '/blog', type: 'website' },
     };
   }
 }

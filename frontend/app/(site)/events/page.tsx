@@ -6,16 +6,25 @@ import type { Metadata } from 'next';
 import { getSettings } from '@/lib/api';
 
 export async function generateMetadata(): Promise<Metadata> {
+  const defaults = {
+    title: 'Events & News | RSG Profile Manufacturing',
+    description: 'Latest events, news, and announcements from RSG Profile Manufacturing.',
+  };
   try {
     const settings = await getSettings();
+    const title = settings['meta_title_/events'] || defaults.title;
+    const description = settings['meta_desc_/events'] || defaults.description;
     return {
-      title: settings['meta_title_/events'] || 'Events & News | RSG Profile Manufacturing',
-      description: settings['meta_desc_/events'] || 'Latest events, news, and announcements from RSG Profile Manufacturing.',
+      title,
+      description,
+      alternates: { canonical: '/events' },
+      openGraph: { title, description, url: '/events', type: 'website' },
     };
   } catch {
     return {
-      title: 'Events & News | RSG Profile Manufacturing',
-      description: 'Latest events, news, and announcements from RSG Profile Manufacturing.',
+      ...defaults,
+      alternates: { canonical: '/events' },
+      openGraph: { ...defaults, url: '/events', type: 'website' },
     };
   }
 }

@@ -18,11 +18,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const event = await getEvent(slug);
   if (!event) return { title: 'Event Not Found' };
+  const title = event.meta_title ?? `${event.title} | RSG Profile Manufacturing`;
+  const description = event.meta_description ?? event.excerpt ?? undefined;
   return {
-    title: event.meta_title ?? `${event.title} | RSG Profile Manufacturing`,
-    description: event.meta_description ?? event.excerpt ?? undefined,
-    alternates: event.canonical_url ? { canonical: event.canonical_url } : undefined,
-    openGraph: event.og_image ? { images: [event.og_image] } : undefined,
+    title,
+    description,
+    alternates: { canonical: event.canonical_url ?? `/events/${slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `/events/${slug}`,
+      type: 'article',
+      ...(event.og_image ? { images: [event.og_image] } : {}),
+    },
   };
 }
 

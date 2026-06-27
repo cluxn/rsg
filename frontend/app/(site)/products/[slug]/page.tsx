@@ -45,9 +45,20 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const product = await getProduct(slug);
   if (!product) return {};
+  const title = `${product.name} | RSG Profile Manufacturing`;
+  const description = product.description?.slice(0, 155) ?? `${product.name} - RSG Profile Manufacturing Pvt. Ltd.`;
+  const image = product.media[0]?.url ?? PRODUCT_CARD_IMAGE[slug] ?? undefined;
   return {
-    title: `${product.name} | RSG Profile Manufacturing`,
-    description: product.description?.slice(0, 155) ?? `${product.name} - RSG Profile Manufacturing Pvt. Ltd.`,
+    title,
+    description,
+    alternates: { canonical: `/products/${slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `/products/${slug}`,
+      type: 'website',
+      ...(image ? { images: [{ url: image, alt: product.name }] } : {}),
+    },
   };
 }
 

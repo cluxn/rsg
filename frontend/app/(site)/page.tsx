@@ -11,16 +11,25 @@ import { getTestimonials } from '@/lib/content';
 import { RATINGS, PARTNER_LOGOS } from '@/lib/testimonials-data';
 
 export async function generateMetadata(): Promise<Metadata> {
+  const defaults = {
+    title: 'RSG Profile Manufacturing',
+    description: 'Premium quality roofing sheets, structural steel, and building materials manufacturer.',
+  };
   try {
     const settings = await getSettings();
+    const title = settings['meta_title_/'] || defaults.title;
+    const description = settings['meta_desc_/'] || defaults.description;
     return {
-      title: settings['meta_title_/'] || 'RSG Profile Manufacturing',
-      description: settings['meta_desc_/'] || 'Premium quality roofing sheets, structural steel, and building materials manufacturer.',
+      title,
+      description,
+      alternates: { canonical: '/' },
+      openGraph: { title, description, url: '/', type: 'website' },
     };
   } catch {
     return {
-      title: 'RSG Profile Manufacturing',
-      description: 'Premium quality roofing sheets, structural steel, and building materials manufacturer.',
+      ...defaults,
+      alternates: { canonical: '/' },
+      openGraph: { ...defaults, url: '/', type: 'website' },
     };
   }
 }
