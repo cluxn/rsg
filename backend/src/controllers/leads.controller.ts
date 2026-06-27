@@ -9,6 +9,8 @@ const createLeadSchema = z.object({
   product_interest: z.string().max(255).optional(),
   message: z.string().max(2000).optional(),
   source_page: z.string().max(255).optional(),
+  city: z.string().max(255).optional(),
+  state: z.string().max(255).optional(),
 }).refine(data => data.phone || data.email, {
   message: 'Either phone or email is required',
   path: ['phone'],

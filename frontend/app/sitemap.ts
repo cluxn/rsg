@@ -1,13 +1,14 @@
 import type { MetadataRoute } from 'next';
 import { getProducts } from '@/lib/api';
-import { getBlogPosts } from '@/lib/content';
+import { getBlogPosts, getEvents } from '@/lib/content';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rsgprofilesheets.com';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [products, posts] = await Promise.allSettled([
+  const [products, posts, events] = await Promise.allSettled([
     getProducts(),
     getBlogPosts(),
+    getEvents(),
   ]);
 
   const productEntries: MetadataRoute.Sitemap = products.status === 'fulfilled'
@@ -28,6 +29,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }))
     : [];
 
+  const eventEntries: MetadataRoute.Sitemap = events.status === 'fulfilled'
+    ? events.value.map(e => ({
+        url: `${BASE_URL}/events/${e.slug}`,
+        lastModified: new Date(e.published_at ?? e.created_at),
+        changeFrequency: 'weekly' as const,
+        priority: 0.5,
+      }))
+    : [];
+
   return [
     { url: `${BASE_URL}/`,         lastModified: new Date(), changeFrequency: 'weekly',  priority: 1.0 },
     { url: `${BASE_URL}/about`,    lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
@@ -37,5 +47,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/events`,   lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.6 },
     ...productEntries,
     ...blogEntries,
+    ...eventEntries,
   ];
 }

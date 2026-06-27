@@ -10,13 +10,15 @@ interface CreateLeadInput {
   product_interest?: string;
   message?: string;
   source_page?: string;
+  city?: string;
+  state?: string;
 }
 
 export async function createLead(input: CreateLeadInput): Promise<number> {
-  const { name, phone, email, product_interest, message, source_page } = input;
+  const { name, phone, email, product_interest, message, source_page, city, state } = input;
   const result = await query<{ insertId: number }>(
-    'INSERT INTO leads (name, phone, email, product_interest, message, source_page) VALUES (?, ?, ?, ?, ?, ?)',
-    [name, phone ?? null, email ?? null, product_interest ?? null, message ?? null, source_page ?? 'contact']
+    'INSERT INTO leads (name, phone, email, product_interest, message, source_page, city, state) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+    [name, phone ?? null, email ?? null, product_interest ?? null, message ?? null, source_page ?? 'contact', city ?? null, state ?? null]
   );
   const leadId = (result as any).insertId as number;
 
@@ -70,6 +72,8 @@ interface LeadRow {
   product_interest: string | null;
   message: string | null;
   source_page: string | null;
+  city: string | null;
+  state: string | null;
   lead_status: LeadStatus;
   follow_up_date: string | null;
   notes: string | null;
@@ -79,7 +83,7 @@ interface LeadRow {
   created_at: string;
 }
 
-const LEAD_SELECT = 'id, name, phone, email, product_interest, message, source_page, lead_status, follow_up_date, notes, last_contact_date, webhook_sent, email_sent, created_at';
+const LEAD_SELECT = 'id, name, phone, email, product_interest, message, source_page, city, state, lead_status, follow_up_date, notes, last_contact_date, webhook_sent, email_sent, created_at';
 
 export interface LeadFilters {
   search?: string;
@@ -145,7 +149,7 @@ export async function updateLead(id: number, data: {
 
 export async function exportLeadsToCSV(): Promise<string> {
   const leads = await query<LeadRow>(
-    'SELECT id, name, phone, email, product_interest, message, source_page, webhook_sent, email_sent, created_at FROM leads ORDER BY created_at DESC'
+    'SELECT id, name, phone, email, product_interest, message, source_page, city, state, webhook_sent, email_sent, created_at FROM leads ORDER BY created_at DESC'
   );
   return stringify(leads as unknown as Record<string, unknown>[], {
     header: true,
@@ -157,6 +161,8 @@ export async function exportLeadsToCSV(): Promise<string> {
       { key: 'product_interest', header: 'Product Interest' },
       { key: 'message', header: 'Message' },
       { key: 'source_page', header: 'Source Page' },
+      { key: 'city', header: 'City' },
+      { key: 'state', header: 'State' },
       { key: 'webhook_sent', header: 'Webhook Sent' },
       { key: 'email_sent', header: 'Email Sent' },
       { key: 'created_at', header: 'Submitted At' },

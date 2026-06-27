@@ -15,6 +15,8 @@ interface Lead {
   product_interest: string | null;
   message: string | null;
   source_page: string | null;
+  city: string | null;
+  state: string | null;
   lead_status: LeadStatus;
   follow_up_date: string | null;
   notes: string | null;
@@ -215,6 +217,9 @@ export function LeadsPage() {
                         <td className="px-4 py-3 text-navy/60 text-xs">
                           {lead.phone && <div>{lead.phone}</div>}
                           {lead.email && <div>{lead.email}</div>}
+                          {(lead.city || lead.state) && (
+                            <div className="text-navy/40 mt-0.5">{[lead.city, lead.state].filter(Boolean).join(', ')}</div>
+                          )}
                         </td>
                         <td className="px-4 py-3 text-navy/60 text-xs">{lead.product_interest ?? '—'}</td>
                         <td className="px-4 py-3 text-navy/60 text-xs">{lead.source_page ?? '—'}</td>
