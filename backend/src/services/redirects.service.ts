@@ -23,7 +23,7 @@ export const createRedirect = (from_path: string, to_path: string, status_code: 
 
 export const updateRedirect = (id: number, fields: Partial<Pick<Redirect, 'from_path' | 'to_path' | 'status_code' | 'active'>>) => {
   const sets: string[] = [];
-  const vals: unknown[] = [];
+  const vals: (string | number | boolean | null)[] = [];
   if (fields.from_path !== undefined) { sets.push('from_path = ?'); vals.push(fields.from_path); }
   if (fields.to_path !== undefined)   { sets.push('to_path = ?');   vals.push(fields.to_path); }
   if (fields.status_code !== undefined) { sets.push('status_code = ?'); vals.push(fields.status_code); }

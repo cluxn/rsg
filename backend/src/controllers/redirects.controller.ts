@@ -6,6 +6,7 @@ const redirectSchema = z.object({
   from_path: z.string().min(1).max(500),
   to_path: z.string().min(1).max(500),
   status_code: z.number().int().refine(v => v === 301 || v === 302).default(301),
+  active: z.boolean().optional(),
 });
 
 export async function getRedirects(_req: Request, res: Response): Promise<void> {
@@ -33,8 +34,8 @@ export async function editRedirect(req: Request, res: Response): Promise<void> {
   const id = Number(req.params.id);
   const parsed = redirectSchema.partial().safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.flatten() }); return; }
-  if ('active' in req.body) parsed.data.active = Boolean(req.body.active);
-  await updateRedirect(id, { ...parsed.data, active: req.body.active !== undefined ? Boolean(req.body.active) : undefined });
+  const active = req.body.active !== undefined ? Boolean(req.body.active) : undefined;
+  await updateRedirect(id, { ...parsed.data, active });
   res.json({ ok: true });
 }
 
