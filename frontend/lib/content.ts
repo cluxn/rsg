@@ -79,32 +79,42 @@ export interface Testimonial {
 }
 
 export async function getBlogPosts(): Promise<BlogListItem[]> {
-  const res = await fetch(`${API_URL}/api/blog`, { next: { revalidate: 60 } });
-  if (!res.ok) return [];
-  return res.json();
+  try {
+    const res = await fetch(`${API_URL}/api/blog`, { next: { revalidate: 60 } });
+    if (!res.ok) return [];
+    return res.json();
+  } catch { return []; }
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
-  const res = await fetch(`${API_URL}/api/blog/${slug}`, { next: { revalidate: 60 } });
-  if (!res.ok) return null;
-  return res.json();
+  try {
+    const res = await fetch(`${API_URL}/api/blog/${slug}`, { next: { revalidate: 60 } });
+    if (!res.ok) return null;
+    return res.json();
+  } catch { return null; }
 }
 
 export async function getEvents(): Promise<EventItem[]> {
-  const res = await fetch(`${API_URL}/api/events`, { next: { revalidate: 60 } });
-  if (!res.ok) return [];
-  return res.json();
+  try {
+    const res = await fetch(`${API_URL}/api/events`, { next: { revalidate: 60 } });
+    if (!res.ok) return [];
+    return res.json();
+  } catch { return []; }
 }
 
 export async function getEvent(slug: string): Promise<EventItem | null> {
-  const res = await fetch(`${API_URL}/api/events/${slug}`, { next: { revalidate: 60 } });
-  if (!res.ok) return null;
-  return res.json();
+  try {
+    const res = await fetch(`${API_URL}/api/events/${slug}`, { next: { revalidate: 60 } });
+    if (!res.ok) return null;
+    return res.json();
+  } catch { return null; }
 }
 
 export async function getTestimonials(page?: 'home' | 'about'): Promise<Testimonial[]> {
-  const qs = page ? `?page=${page}` : '';
-  const res = await fetch(`${API_URL}/api/testimonials${qs}`, { next: { revalidate: 60 } });
-  if (!res.ok) return [];
-  return res.json();
+  try {
+    const qs = page ? `?page=${page}` : '';
+    const res = await fetch(`${API_URL}/api/testimonials${qs}`, { next: { revalidate: 60 } });
+    if (!res.ok) return [];
+    return res.json();
+  } catch { return []; }
 }

@@ -29,18 +29,21 @@ export type Product = {
 };
 
 export async function getProducts(): Promise<ProductSummary[]> {
-  const res = await fetch(`${API_BASE}/api/products`, {
-    next: { revalidate: 3600, tags: ['products'] },
-  });
-  if (!res.ok) throw new Error(`getProducts failed: ${res.status}`);
-  return res.json();
+  try {
+    const res = await fetch(`${API_BASE}/api/products`, {
+      next: { revalidate: 3600, tags: ['products'] },
+    });
+    if (!res.ok) return [];
+    return res.json();
+  } catch { return []; }
 }
 
 export async function getProduct(slug: string): Promise<Product | null> {
-  const res = await fetch(`${API_BASE}/api/products/${slug}`, {
-    next: { revalidate: 3600, tags: [`product-${slug}`] },
-  });
-  if (res.status === 404) return null;
-  if (!res.ok) throw new Error(`getProduct failed: ${res.status}`);
-  return res.json();
+  try {
+    const res = await fetch(`${API_BASE}/api/products/${slug}`, {
+      next: { revalidate: 3600, tags: [`product-${slug}`] },
+    });
+    if (!res.ok) return null;
+    return res.json();
+  } catch { return null; }
 }
