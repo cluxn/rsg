@@ -30,7 +30,7 @@ async function getActiveRedirects(): Promise<ActiveRedirect[]> {
   }
 }
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
 
   // Only match non-API, non-asset, non-Next-internal paths
