@@ -3,14 +3,11 @@ import { STATIC_SETTINGS, STATIC_PRODUCTS, STATIC_PRODUCT_DETAILS } from './stat
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
 
 export function report404(url: string): void {
-  try {
-    fetch(`${API_BASE}/api/404-logs`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url }),
-    }).catch(() => {});
-  } catch {
-    // Browser extension or network blocked the fetch synchronously — ignore
+  const endpoint = `${API_BASE}/api/404-logs`;
+  const body = JSON.stringify({ url });
+  // sendBeacon is fire-and-forget and not intercepted by fetch wrappers
+  if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
+    navigator.sendBeacon(endpoint, new Blob([body], { type: 'application/json' }));
   }
 }
 
