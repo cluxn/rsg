@@ -29,7 +29,6 @@ const POPUP_FIELDS = [
 ] as const;
 
 const WHATSAPP_FIELDS = [
-  { key: 'whatsapp_number',  label: 'WhatsApp Number',    type: 'tel',  placeholder: '+919876543210' },
   { key: 'whatsapp_message', label: 'Pre-filled Message', type: 'text', placeholder: 'e.g. Hi, I need a quote for roofing sheets' },
 ] as const;
 
@@ -177,6 +176,13 @@ export function MarketingPage() {
         <h1 className="font-heading text-2xl text-navy mb-1">{activeTab.label}</h1>
         <p className="font-body text-navy/60 text-sm mb-8">{activeTab.desc}</p>
 
+        {tab === 'whatsapp' && (
+          <div className="mb-6 p-4 rounded-lg bg-steel/5 border border-navy/10 text-sm font-body text-navy/70">
+            <span className="font-semibold text-navy">WhatsApp Number</span> is managed in{' '}
+            <a href="/settings" className="text-steel underline hover:text-navy">Site Settings</a>.
+            {' '}Configure the pre-filled message for the nudge popup below.
+          </div>
+        )}
         {isLoading ? (
           <p className="font-body text-navy/50">Loading settings…</p>
         ) : (
