@@ -16,6 +16,7 @@ const SETTINGS_TABS: { label: string; key: SettingsTab }[] = [
 
 const GENERAL_FIELDS = [
   { key: 'whatsapp_number',  label: 'WhatsApp Number',   hint: 'Include country code, e.g. +919876543210. Leave blank to hide the floating icon.', type: 'tel' },
+  { key: 'whatsapp_message', label: 'WhatsApp Pre-filled Message', hint: 'Default message pre-filled when visitors click WhatsApp. e.g. Hi, I need a quote for roofing sheets', type: 'text' },
   { key: 'business_phone',   label: 'Business Phone',    hint: 'Shown on Contact page', type: 'tel' },
   { key: 'business_email',   label: 'Business Email',    hint: 'Shown on Contact page and footer', type: 'email' },
   { key: 'business_address', label: 'Business Address',  hint: 'Shown on Contact page', type: 'text' },

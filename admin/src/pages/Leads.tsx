@@ -40,15 +40,20 @@ const STATUS_OPTIONS: { value: LeadStatus; label: string; color: string }[] = [
 const SOURCE_PAGES = [
   { label: 'Homepage', value: 'home' },
   { label: 'Contact Page', value: 'contact' },
-  { label: 'Product — Colour Coated Sheets', value: 'products/colour-coated-sheets' },
-  { label: 'Product — Galvanized Sheets', value: 'products/galvanized-sheets' },
-  { label: 'Product — MS Angles', value: 'products/ms-angles' },
-  { label: 'Product — MS Channels', value: 'products/ms-channels' },
-  { label: 'Product — MS Pipe', value: 'products/ms-pipe' },
-  { label: 'Product — MS Plate', value: 'products/ms-plate' },
-  { label: 'Product — Chequered Plate', value: 'products/chequered-plate' },
-  { label: 'Product — Purlins / Zed Sections', value: 'products/purlins-zed-sections' },
+  { label: 'Blog', value: 'blog' },
+  { label: 'Events', value: 'events' },
+  { label: 'WhatsApp Nudge / Popup', value: 'nudge' },
+  { label: 'Product — Colour Coated Sheet', value: 'product/colour-coated-roofing-sheet' },
+  { label: 'Product — Decking Sheet', value: 'product/decking-sheet' },
+  { label: 'Product — Galvanized Plain Sheets', value: 'product/galvanized-plain-sheets' },
+  { label: 'Product — Purlins', value: 'product/purlins' },
+  { label: 'Product — MS Pipe', value: 'product/ms-pipe' },
+  { label: 'Product — MS Plate/Channel/Angle', value: 'product/ms-plate-channel-angle' },
+  { label: 'Product — Polycarbonate Sheet', value: 'product/polycarbonate-sheet' },
+  { label: 'Product — Crimping Sheet', value: 'product/crimping-sheet' },
+  { label: 'Product — Accessories', value: 'product/accessories' },
   { label: 'Manual Entry (Admin)', value: 'admin' },
+  { label: 'Import', value: 'import' },
 ];
 
 const PRODUCT_OPTIONS = [
@@ -90,6 +95,13 @@ export function LeadsPage() {
     mutationFn: ({ id, data }: { id: number; data: Record<string, unknown> }) => api.put(`/leads/${id}`, data).then(r => r.data),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['leads'] }),
   });
+
+  const deleteMut = useMutation({
+    mutationFn: (id: number) => api.delete(`/leads/${id}`),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['leads'] }),
+  });
+
+  const [deleteTarget, setDeleteTarget] = useState<Lead | null>(null);
 
   const importRef = useRef<HTMLInputElement>(null);
   const [importing, setImporting] = useState(false);
@@ -210,6 +222,7 @@ export function LeadsPage() {
                     <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Last Contact</th>
                     <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Notes</th>
                     <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Date</th>
+                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -277,12 +290,20 @@ export function LeadsPage() {
                         <td className="px-4 py-3 text-xs text-navy/50 whitespace-nowrap">
                           {new Date(lead.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
                         </td>
+                        <td className="px-4 py-3">
+                          <button
+                            onClick={() => setDeleteTarget(lead)}
+                            className="px-2 py-1 rounded border border-red-200 text-xs font-semibold text-red-500 hover:bg-red-50 transition-colors"
+                          >
+                            Delete
+                          </button>
+                        </td>
                       </tr>
 
                       {/* Inline notes row */}
                       {notesOpen === lead.id && (
                         <tr key={`notes-${lead.id}`} className="bg-navy/[0.02] border-t border-navy/8">
-                          <td colSpan={9} className="px-4 py-3">
+                          <td colSpan={10} className="px-4 py-3">
                             <div className="flex gap-2 items-start">
                               <textarea
                                 value={notesText}
@@ -314,6 +335,22 @@ export function LeadsPage() {
           </>
         )}
       </div>
+
+      {/* Delete Confirm Modal */}
+      {deleteTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => setDeleteTarget(null)}>
+          <div className="bg-white rounded-xl p-6 w-full max-w-sm shadow-xl" onClick={e => e.stopPropagation()}>
+            <h2 className="font-heading text-lg text-navy mb-2">Delete Lead</h2>
+            <p className="font-body text-sm text-navy/70 mb-5">Permanently delete lead from <span className="font-semibold">{deleteTarget.name}</span>? This cannot be undone.</p>
+            <div className="flex gap-3 justify-end">
+              <Button variant="outline" onClick={() => setDeleteTarget(null)}>Cancel</Button>
+              <Button disabled={deleteMut.isPending} onClick={() => { deleteMut.mutate(deleteTarget.id); setDeleteTarget(null); }} className="bg-red-500 text-white hover:bg-red-600">
+                {deleteMut.isPending ? 'Deleting…' : 'Delete'}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Add Lead Modal */}
       {showAddModal && (

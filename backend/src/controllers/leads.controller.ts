@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 import { z } from 'zod';
 import { createLead, getLeads, updateLead, exportLeadsToCSV, exportLeadsToExcel, generateLeadSampleExcel, importLeadsFromCSV } from '../services/leads.service';
+import { query } from '../db/connection';
 
 const createLeadSchema = z.object({
   name: z.string().min(1, 'Name is required').max(255),
@@ -56,6 +57,16 @@ export async function updateLeadHandler(req: Request, res: Response): Promise<vo
   } catch (err) {
     console.error('updateLead error:', err);
     res.status(500).json({ error: 'Failed to update lead' });
+  }
+}
+
+export async function deleteLeadHandler(req: Request, res: Response): Promise<void> {
+  try {
+    await query('DELETE FROM leads WHERE id = ?', [Number(req.params.id)]);
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('deleteLead error:', err);
+    res.status(500).json({ error: 'Failed to delete lead' });
   }
 }
 

@@ -5,12 +5,11 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { api } from '@/lib/api';
 
-type MarketingTab = 'announcement' | 'popup' | 'whatsapp';
+type MarketingTab = 'announcement' | 'popup';
 
 const TABS: { label: string; key: MarketingTab; desc: string }[] = [
   { label: 'Announcement Bar', key: 'announcement', desc: 'A dismissible banner across the top of every page' },
   { label: 'Exit Intent Popup', key: 'popup', desc: 'Shown when a visitor is about to leave the site' },
-  { label: 'WhatsApp Nudge', key: 'whatsapp', desc: 'Floating WhatsApp CTA on every page' },
 ];
 
 const ANNOUNCEMENT_FIELDS = [
@@ -26,10 +25,6 @@ const POPUP_FIELDS = [
   { key: 'popup_headline',  label: 'Headline',                 type: 'text',  placeholder: 'e.g. Get a Free Quote Before You Go!' },
   { key: 'popup_body',      label: 'Body Text',                type: 'textarea', placeholder: 'e.g. Our team can suggest the best material for your project — no obligation.' },
   { key: 'popup_cta',       label: 'CTA Button Text',          type: 'text',  placeholder: 'e.g. Yes, Get My Free Quote' },
-] as const;
-
-const WHATSAPP_FIELDS = [
-  { key: 'whatsapp_message', label: 'Pre-filled Message', type: 'text', placeholder: 'e.g. Hi, I need a quote for roofing sheets' },
 ] as const;
 
 type FieldDef = { key: string; label: string; type: string; placeholder?: string; options?: readonly string[] };
@@ -145,10 +140,7 @@ export function MarketingPage() {
 
   const activeTab = TABS.find(t => t.key === tab)!;
 
-  const fields =
-    tab === 'announcement' ? ANNOUNCEMENT_FIELDS :
-    tab === 'popup'        ? POPUP_FIELDS :
-    WHATSAPP_FIELDS;
+  const fields = tab === 'announcement' ? ANNOUNCEMENT_FIELDS : POPUP_FIELDS;
 
   return (
     <AdminLayout>
@@ -176,13 +168,6 @@ export function MarketingPage() {
         <h1 className="font-heading text-2xl text-navy mb-1">{activeTab.label}</h1>
         <p className="font-body text-navy/60 text-sm mb-8">{activeTab.desc}</p>
 
-        {tab === 'whatsapp' && (
-          <div className="mb-6 p-4 rounded-lg bg-steel/5 border border-navy/10 text-sm font-body text-navy/70">
-            <span className="font-semibold text-navy">WhatsApp Number</span> is managed in{' '}
-            <a href="/settings" className="text-steel underline hover:text-navy">Site Settings</a>.
-            {' '}Configure the pre-filled message for the nudge popup below.
-          </div>
-        )}
         {isLoading ? (
           <p className="font-body text-navy/50">Loading settings…</p>
         ) : (
