@@ -6,6 +6,6 @@ export async function POST(req: Request) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
   if (path) revalidatePath(path, 'page');
-  if (tag) revalidateTag(tag as string);
+  if (tag) revalidateTag(tag as string, {});
   return Response.json({ revalidated: true, timestamp: Date.now() });
 }

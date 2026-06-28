@@ -322,7 +322,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </div>
       </SectionContainer>
 
-      {/* Brand Advantages — after Why RSG, with images for jsw-colouron */}
+      {/* Brand Advantages */}
       {BRAND_PRODUCT_SLUGS.has(product.slug) && (BRAND_ADVANTAGES[product.slug] ?? []).length > 0 && (
         <SectionContainer>
           <div className="text-center mb-12">
@@ -336,24 +336,15 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               What sets {product.name} apart as a premium colour-coated roofing solution.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-6 lg:gap-8">
             {(BRAND_ADVANTAGES[product.slug] ?? []).map((adv) => (
-              <div key={adv.title} className="bg-white rounded-xl border border-navy/8 shadow-sm overflow-hidden flex flex-col">
-                {adv.img && (
-                  <div className="relative h-36 overflow-hidden">
-                    <Image src={adv.img} alt={adv.title} fill className="object-cover" />
-                  </div>
-                )}
-                <div className="p-5 flex flex-col gap-2">
-                  {!adv.img && (
-                    <div className="w-8 h-8 rounded-lg bg-orange/10 flex items-center justify-center shrink-0 mb-1">
-                      <svg className="w-4 h-4 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                  )}
-                  <h3 className="font-heading text-navy text-base font-bold">{adv.title}</h3>
-                  <p className="font-body text-navy/60 text-sm leading-relaxed">{adv.body}</p>
+              <div key={adv.title} className="flex flex-col items-center text-center bg-white rounded-2xl border border-navy/8 shadow-sm p-5 lg:p-6 gap-4 hover:shadow-md transition-shadow duration-200">
+                <div className="w-20 h-20 rounded-full border-2 border-dashed border-orange/40 flex items-center justify-center bg-orange/5 shrink-0">
+                  <BenefitIcon icon={adv.icon} iconType={adv.iconType} />
+                </div>
+                <div>
+                  <h3 className="font-heading text-navy text-sm font-bold mb-2">{adv.title}</h3>
+                  <p className="font-body text-navy/60 text-xs leading-relaxed">{adv.body}</p>
                 </div>
               </div>
             ))}
@@ -605,73 +596,108 @@ const COLOUR_PALETTE = [
   { name: 'Brick Red',         img: '/images/colour-swatches/brick-red-2.png' },
 ];
 
-const BRAND_ADVANTAGES: Record<string, { title: string; body: string; img?: string }[]> = {
+const BRAND_ADVANTAGES: Record<string, { title: string; body: string; icon?: string; iconType?: string }[]> = {
   'jsw-colouron': [
-    { title: '15-Year Warranty', body: "India's first ISI certified colour coated sheet — backed by a 15-year manufacturer warranty.", img: '/images/product-page/advantages/jsw-product-banner.jpg' },
-    { title: 'Advanced Anti-Corrosion', body: 'Al-Zn alloy (Galvalume) coating provides superior rust resistance even in coastal and high-humidity environments.', img: '/images/product-page/benefits/corrosion-resistance.png' },
-    { title: 'ISI Certified Quality', body: "India's first ISI certified colour coated sheet, meeting the highest Bureau of Indian Standards benchmarks.", img: '/images/product-page/advantages/profile-sheet.png' },
-    { title: 'Superior Paint Durability', body: 'Factory-baked colour coating resists fading, chalking, and UV degradation for 15+ years of outdoor exposure.', img: '/images/product-page/benefits/vibrant-colour.png' },
-    { title: 'High Tensile Strength', body: 'Yield strength of 550 MPa — engineered to handle structural loads across large-span roofing applications.', img: '/images/product-page/benefits/lightweight-strong.png' },
-    { title: 'Heat Reflective Coating', body: 'Reflective coating reduces heat absorption and keeps interiors cooler, lowering energy costs in warm climates.', img: '/images/product-page/benefits/heat-reflective.png' },
+    { title: '15-Year Warranty', body: "India's first ISI certified colour coated sheet — backed by a 15-year manufacturer warranty.", iconType: 'clock' },
+    { title: 'Advanced Anti-Corrosion', body: 'Al-Zn alloy (Galvalume) coating provides superior rust resistance even in coastal and high-humidity environments.', iconType: 'shield-check' },
+    { title: 'ISI Certified Quality', body: "India's first ISI certified colour coated sheet, meeting the highest Bureau of Indian Standards benchmarks.", iconType: 'badge' },
+    { title: 'Superior Paint Durability', body: 'Factory-baked colour coating resists fading, chalking, and UV degradation for 15+ years of outdoor exposure.', iconType: 'swatch' },
+    { title: 'High Tensile Strength', body: 'Yield strength of 550 MPa — engineered to handle structural loads across large-span roofing applications.', iconType: 'bolt' },
+    { title: 'Heat Reflective Coating', body: 'Reflective coating reduces heat absorption and keeps interiors cooler, lowering energy costs in warm climates.', iconType: 'sun' },
   ],
   'jsw-silveron': [
-    { title: 'Premium Alloy Substrate', body: 'Aluminium-Zinc-Silicon alloy applied via hot-dip process for unmatched corrosion resistance over zinc-only coatings.' },
-    { title: 'Heat Reflective Performance', body: 'Superior heat reflectivity compared to traditional zinc-coated sheets — keeps buildings significantly cooler.' },
-    { title: 'Lightweight Design', body: 'Reduces structural load on trusses while maintaining exceptional strength and rigidity across large spans.' },
-    { title: 'Long Service Life', body: 'Advanced alloy technology combining superior strength with enhanced corrosion resistance for decades of use.' },
-    { title: 'Eco-Friendly & Recyclable', body: 'Manufactured with sustainability in mind — fully recyclable at end of life without loss of material quality.' },
-    { title: 'Versatile Applications', body: 'Suitable for residential, commercial, and industrial roofing and wall profile applications.' },
+    { title: 'Premium Alloy Substrate', body: 'Aluminium-Zinc-Silicon alloy applied via hot-dip process for unmatched corrosion resistance over zinc-only coatings.', iconType: 'cube' },
+    { title: 'Heat Reflective Performance', body: 'Superior heat reflectivity compared to traditional zinc-coated sheets — keeps buildings significantly cooler.', iconType: 'sun' },
+    { title: 'Lightweight Design', body: 'Reduces structural load on trusses while maintaining exceptional strength and rigidity across large spans.', iconType: 'bolt' },
+    { title: 'Long Service Life', body: 'Advanced alloy technology combining superior strength with enhanced corrosion resistance for decades of use.', iconType: 'clock' },
+    { title: 'Eco-Friendly & Recyclable', body: 'Manufactured with sustainability in mind — fully recyclable at end of life without loss of material quality.', iconType: 'leaf' },
+    { title: 'Versatile Applications', body: 'Suitable for residential, commercial, and industrial roofing and wall profile applications.', iconType: 'grid' },
   ],
   'jsw-pragati': [
-    { title: 'Anti-Corrosion Protection', body: 'Al-Zn alloy coating provides enhanced protection against harsh weather and corrosive environments.' },
-    { title: 'Superior Structural Strength', body: 'Advanced manufacturing technology delivers high tensile steel with 550 MPa yield strength.' },
-    { title: 'All Weather Protection', body: 'Reliable defense across all climates — heavy monsoons, scorching summers, and coastal humidity.' },
-    { title: '7-Year Warranty', body: "Backed by a manufacturer's 7-year warranty, giving you confidence in long-term performance." },
-    { title: 'Wide Range of Colours', body: '14 vibrant colour options to suit every architectural style and project requirement.' },
-    { title: 'Pre-Painted Finish', body: 'Factory-applied colour coating combines the strength of steel with the aesthetic appeal of paint.' },
+    { title: 'Anti-Corrosion Protection', body: 'Al-Zn alloy coating provides enhanced protection against harsh weather and corrosive environments.', icon: '/images/product-page/icons/pragati-anti-corrosion.png' },
+    { title: 'Superior Structural Strength', body: 'Advanced manufacturing technology delivers high tensile steel with 550 MPa yield strength.', icon: '/images/product-page/icons/pragati-strength.png' },
+    { title: 'All Weather Protection', body: 'Reliable defense across all climates — heavy monsoons, scorching summers, and coastal humidity.', icon: '/images/product-page/icons/pragati-weather.png' },
+    { title: '7-Year Warranty', body: "Backed by a manufacturer's 7-year warranty, giving you confidence in long-term performance.", icon: '/images/product-page/icons/pragati-warranty.png' },
+    { title: 'Wide Range of Colours', body: '14 vibrant colour options to suit every architectural style and project requirement.', icon: '/images/product-page/icons/pragati-colours.png' },
+    { title: 'Pre-Painted Finish', body: 'Factory-applied colour coating combines the strength of steel with the aesthetic appeal of paint.', iconType: 'swatch' },
   ],
   'jsw-endura': [
-    { title: 'Structural Strength That Lasts', body: 'High-tensile steel construction withstands harsh elements — rain, wind, and seismic activity.' },
-    { title: 'UV-Resistant Colours', body: 'Vibrant colours that retain their brilliance even under intense sunlight and prolonged outdoor exposure.' },
-    { title: 'Corrosion-Resistant Protection', body: 'Al-Zn alloy coating shields against rust in coastal, urban, and industrial environments.' },
-    { title: 'Versatile Roofing Solution', body: 'Lightweight and durable, suitable for diverse architectural styles with easy, fast installation.' },
-    { title: 'BIS Certified Quality', body: 'Certified by Bureau of Indian Standards — meeting the highest standards of quality and performance.' },
-    { title: 'Affordable Value That Lasts', body: 'High-performance durability at an affordable price, delivering long-term savings on maintenance costs.' },
+    { title: 'Structural Strength That Lasts', body: 'High-tensile steel construction withstands harsh elements — rain, wind, and seismic activity.', iconType: 'bolt' },
+    { title: 'UV-Resistant Colours', body: 'Vibrant colours that retain their brilliance even under intense sunlight and prolonged outdoor exposure.', iconType: 'sun' },
+    { title: 'Corrosion-Resistant Protection', body: 'Al-Zn alloy coating shields against rust in coastal, urban, and industrial environments.', iconType: 'shield-check' },
+    { title: 'Versatile Roofing Solution', body: 'Lightweight and durable, suitable for diverse architectural styles with easy, fast installation.', iconType: 'home' },
+    { title: 'BIS Certified Quality', body: 'Certified by Bureau of Indian Standards — meeting the highest standards of quality and performance.', iconType: 'badge' },
+    { title: 'Affordable Value That Lasts', body: 'High-performance durability at an affordable price, delivering long-term savings on maintenance costs.', iconType: 'currency' },
   ],
   'tata-durashine': [
-    { title: 'Better Corrosion Resistance', body: 'Zinc-aluminium alloy coating ensures longer life by providing superior protection against corrosion.' },
-    { title: 'High Strength & Load Bearing', body: 'Engineered for structural integrity — handles demanding loads on large-span industrial and commercial roofs.' },
-    { title: 'Cooler Interiors', body: 'High solar reflectance coating significantly reduces heat absorption, keeping interiors noticeably cooler.' },
-    { title: 'Performs Better During Rains', body: 'Excellent water runoff characteristics and sealed profile prevent leakage even during heavy monsoons.' },
-    { title: 'Aesthetically Appealing', body: 'High-gloss, vibrant colour finish adds visual appeal to residential, commercial, and industrial structures.' },
-    { title: 'Wide Product Range', body: 'Available in 14 colours and multiple profile widths (1220MM / 1440MM) to suit any project.' },
-    { title: "Asia's Most Trusted Brand", body: "Recognised as Asia's Most Trusted Brand for Best Colour Coated Steel Sheet by International Brand Consulting Corporation, USA." },
+    { title: 'Better Corrosion Resistance', body: 'Zinc-aluminium alloy coating ensures longer life by providing superior protection against corrosion.', icon: '/images/product-page/icons/durashine-why1.png' },
+    { title: 'High Strength & Load Bearing', body: 'Engineered for structural integrity — handles demanding loads on large-span industrial and commercial roofs.', icon: '/images/product-page/icons/durashine-why2.png' },
+    { title: 'Cooler Interiors', body: 'High solar reflectance coating significantly reduces heat absorption, keeping interiors noticeably cooler.', icon: '/images/product-page/icons/durashine-why5.png' },
+    { title: 'Performs Better During Rains', body: 'Excellent water runoff characteristics and sealed profile prevent leakage even during heavy monsoons.', icon: '/images/product-page/icons/durashine-why3.png' },
+    { title: 'Aesthetically Appealing', body: 'High-gloss, vibrant colour finish adds visual appeal to residential, commercial, and industrial structures.', icon: '/images/product-page/icons/durashine-why6.png' },
+    { title: 'Wide Product Range', body: 'Available in 14 colours and multiple profile widths (1220MM / 1440MM) to suit any project.', icon: '/images/product-page/icons/durashine-why4.png' },
+    { title: "Asia's Most Trusted Brand", body: "Recognised as Asia's Most Trusted Brand for Best Colour Coated Steel Sheet by International Brand Consulting Corporation, USA.", iconType: 'badge' },
+    { title: 'Mark of Genuinity', body: 'Every Tata Durashine sheet carries the genuine Durashine brand mark — ensuring you get an authentic, quality-verified product.', icon: '/images/product-page/icons/durashine-why7.png' },
+    { title: 'Recommended Fabricators', body: 'Supported by a network of trained and recommended fabricators across India for professional installation.', icon: '/images/product-page/icons/durashine-why8.png' },
   ],
   'jindal-sabrang': [
-    { title: 'Better Corrosion Resistance', body: 'Zinc/Alu-Zinc coating provides an additional protective layer, ensuring longer life for all structures.' },
-    { title: 'High Strength & Load Bearing', body: 'Engineered to handle demanding structural loads across a wide range of building types.' },
-    { title: 'Cooler Interiors', body: 'Reflective coating reduces heat absorption, keeping building interiors more comfortable year-round.' },
-    { title: 'Performs Better During Rains', body: 'Optimised profile design ensures excellent water runoff and weather-tight performance.' },
-    { title: 'Aesthetically Appealing', body: '14 vibrant colours derived from the Sanskrit word for "rainbow" — adding colour to the world of steel.' },
-    { title: 'Wide Product Range', body: 'Available in multiple widths, thicknesses, and colour combinations to match any project need.' },
+    { title: 'Better Corrosion Resistance', body: 'Zinc/Alu-Zinc coating provides an additional protective layer, ensuring longer life for all structures.', icon: '/images/product-page/icons/durashine-why1.png' },
+    { title: 'High Strength & Load Bearing', body: 'Engineered to handle demanding structural loads across a wide range of building types.', icon: '/images/product-page/icons/durashine-why2.png' },
+    { title: 'Cooler Interiors', body: 'Reflective coating reduces heat absorption, keeping building interiors more comfortable year-round.', icon: '/images/product-page/icons/durashine-why5.png' },
+    { title: 'Performs Better During Rains', body: 'Optimised profile design ensures excellent water runoff and weather-tight performance.', icon: '/images/product-page/icons/durashine-why3.png' },
+    { title: 'Aesthetically Appealing', body: '14 vibrant colours derived from the Sanskrit word for "rainbow" — adding colour to the world of steel.', icon: '/images/product-page/icons/durashine-why6.png' },
+    { title: 'Wide Product Range', body: 'Available in multiple widths, thicknesses, and colour combinations to match any project need.', icon: '/images/product-page/icons/durashine-why4.png' },
   ],
   'dura-glow': [
-    { title: 'Strong Durability', body: 'High-strength steel substrate with advanced colour-coating technology delivers excellent long-term durability.' },
-    { title: 'Excellent Weather Resistance', body: 'Multi-layer protective coatings resist oxidation and UV degradation for lasting outdoor performance.' },
-    { title: 'Long-Lasting Shine', body: 'Factory-applied gloss coating maintains brilliant colour and shine even after years of outdoor exposure.' },
-    { title: 'Corrosion Protection', body: 'Zinc-based coating system protects against rust and corrosion in humid and exposed environments.' },
-    { title: 'Lightweight & Easy to Install', body: 'Optimised sheet geometry reduces structural load while making handling and installation faster on site.' },
-    { title: 'Versatile Applications', body: 'Suitable for factories, warehouses, poultry farms, homes, temples, and resorts.' },
+    { title: 'Strong Durability', body: 'High-strength steel substrate with advanced colour-coating technology delivers excellent long-term durability.', iconType: 'bolt' },
+    { title: 'Excellent Weather Resistance', body: 'Multi-layer protective coatings resist oxidation and UV degradation for lasting outdoor performance.', iconType: 'cloud' },
+    { title: 'Long-Lasting Shine', body: 'Factory-applied gloss coating maintains brilliant colour and shine even after years of outdoor exposure.', iconType: 'sparkles' },
+    { title: 'Corrosion Protection', body: 'Zinc-based coating system protects against rust and corrosion in humid and exposed environments.', iconType: 'shield-check' },
+    { title: 'Lightweight & Easy to Install', body: 'Optimised sheet geometry reduces structural load while making handling and installation faster on site.', iconType: 'wrench' },
+    { title: 'Versatile Applications', body: 'Suitable for factories, warehouses, poultry farms, homes, temples, and resorts.', iconType: 'grid' },
   ],
   'am-ns': [
-    { title: 'World-Class Steel Quality', body: 'A joint venture between ArcelorMittal and Nippon Steel — two of the world\'s leading steel companies.' },
-    { title: 'High Strength', body: 'Engineered for excellent load-bearing capacity across industrial, commercial, and residential roofing.' },
-    { title: 'Thermal Efficiency', body: 'Reflective coating reduces solar heat gain, keeping interiors cooler and reducing energy costs.' },
-    { title: 'Excellent Weather Performance', body: 'Performs reliably during heavy rains and harsh weather conditions year after year.' },
-    { title: 'Aesthetically Appealing', body: '14 vibrant colour options for attractive, visually appealing roofing across any building type.' },
-    { title: 'Fire & Impact Resistant', body: 'Meets international safety standards for fire resistance and impact durability.' },
+    { title: 'World-Class Steel Quality', body: 'A joint venture between ArcelorMittal and Nippon Steel — two of the world\'s leading steel companies.', iconType: 'badge' },
+    { title: 'High Strength', body: 'Engineered for excellent load-bearing capacity across industrial, commercial, and residential roofing.', icon: '/images/product-page/icons/durashine-why2.png' },
+    { title: 'Thermal Efficiency', body: 'Reflective coating reduces solar heat gain, keeping interiors cooler and reducing energy costs.', icon: '/images/product-page/icons/durashine-why5.png' },
+    { title: 'Excellent Weather Performance', body: 'Performs reliably during heavy rains and harsh weather conditions year after year.', icon: '/images/product-page/icons/durashine-why3.png' },
+    { title: 'Aesthetically Appealing', body: '14 vibrant colour options for attractive, visually appealing roofing across any building type.', icon: '/images/product-page/icons/durashine-why6.png' },
+    { title: 'Fire & Impact Resistant', body: 'Meets international safety standards for fire resistance and impact durability.', icon: '/images/product-page/icons/durashine-why8.png' },
   ],
 };
+
+const BENEFIT_ICON_PATHS: Record<string, string> = {
+  cube:          'M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9',
+  sun:           'M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z',
+  bolt:          'M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z',
+  clock:         'M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z',
+  leaf:          'M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99',
+  grid:          'M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z',
+  'shield-check':'M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z',
+  swatch:        'M4.098 19.902a3.75 3.75 0 0 0 5.304 0l6.401-6.402M6.75 21A3.75 3.75 0 0 1 3 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 0 0 3.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008Z',
+  home:          'M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25',
+  badge:         'M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z',
+  currency:      'M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z',
+  sparkles:      'M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z',
+  cloud:         'M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15Z',
+  wrench:        'M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z',
+};
+
+function BenefitIcon({ icon, iconType }: { icon?: string; iconType?: string }) {
+  if (icon) {
+    return (
+      <div className="relative w-12 h-12">
+        <Image src={icon} alt="" fill className="object-contain" />
+      </div>
+    );
+  }
+  const d = BENEFIT_ICON_PATHS[iconType ?? 'shield-check'] ?? BENEFIT_ICON_PATHS['shield-check'];
+  return (
+    <svg className="w-10 h-10 text-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d={d} />
+    </svg>
+  );
+}
 
 const SHEET_SPECS_1220 = [
   { label: 'Overall Width',    value: '1220mm' },
