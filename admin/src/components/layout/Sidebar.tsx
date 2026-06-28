@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Package, Users, FileText, Megaphone, Search, Settings2, ChevronsLeft, ChevronsRight, Mail } from 'lucide-react';
+import { LayoutDashboard, Package, Users, FileText, Megaphone, Search, Settings2, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useSidebar } from '@/contexts/SidebarContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -11,7 +11,6 @@ const navItems = [
   { label: 'Catalog', to: '/catalog', module: 'catalog' },
   { label: 'Content', to: '/blog', contentGroup: true, module: 'content' },
   { label: 'Leads', to: '/leads', module: 'leads' },
-  { label: 'Newsletter', to: '/newsletter', module: 'leads' },
   { label: 'Marketing', to: '/marketing', module: 'marketing' },
   { label: 'SEO', to: '/seo', module: 'seo' },
   { label: 'Settings', to: '/settings', module: 'settings' },
@@ -22,7 +21,6 @@ const icons: Record<string, React.ElementType> = {
   Catalog: Package,
   Content: FileText,
   Leads: Users,
-  Newsletter: Mail,
   Marketing: Megaphone,
   SEO: Search,
   Settings: Settings2,

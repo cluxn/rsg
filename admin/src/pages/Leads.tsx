@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Download, Upload, X, ChevronDown, FileSpreadsheet, FileText } from 'lucide-react';
+import { Download, X, ChevronDown, FileSpreadsheet, FileText } from 'lucide-react';
 import { AdminLayout } from '@/components/layout/AdminLayout';
 import { Button } from '@/components/ui/button';
 import { api } from '@/lib/api';
@@ -26,6 +26,16 @@ interface Lead {
 }
 
 interface LeadsResponse { leads: Lead[]; total: number; page: number; limit: number; }
+
+interface Subscriber {
+  id: number;
+  email: string;
+  name: string | null;
+  subscribed_at: string;
+  active: number;
+}
+
+interface SubscribersResponse { subscribers: Subscriber[]; total: number; }
 
 const STATUS_OPTIONS: { value: LeadStatus; label: string; color: string }[] = [
   { value: 'new', label: 'New', color: 'bg-blue-100 text-blue-700' },
@@ -71,23 +81,47 @@ function statusLabel(s: LeadStatus) {
 }
 
 export function LeadsPage() {
+  const [tab, setTab] = useState<'leads' | 'newsletter'>('leads');
+
+  return (
+    <AdminLayout>
+      {/* Tab bar */}
+      <div className="border-b border-navy/10 px-8 pt-8 flex gap-6">
+        <button
+          onClick={() => setTab('leads')}
+          className={`pb-3 font-heading text-sm font-semibold border-b-2 transition-colors ${tab === 'leads' ? 'border-steel text-steel' : 'border-transparent text-navy/50 hover:text-navy'}`}
+        >
+          Leads
+        </button>
+        <button
+          onClick={() => setTab('newsletter')}
+          className={`pb-3 font-heading text-sm font-semibold border-b-2 transition-colors ${tab === 'newsletter' ? 'border-steel text-steel' : 'border-transparent text-navy/50 hover:text-navy'}`}
+        >
+          Newsletter
+        </button>
+      </div>
+
+      {tab === 'leads' ? <LeadsTab /> : <NewsletterTab />}
+    </AdminLayout>
+  );
+}
+
+function LeadsTab() {
   const qc = useQueryClient();
   const [page, setPage] = useState(1);
   const LIMIT = 25;
 
-  // Filters (applied on click)
   const [search, setSearch] = useState('');
   const [sourceFilter, setSourceFilter] = useState('');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
   const [applied, setApplied] = useState<{ search: string; source_page: string; date_from: string; date_to: string }>({ search: '', source_page: '', date_from: '', date_to: '' });
 
-  const { data, isLoading, isError, refetch } = useQuery<LeadsResponse>({
+  const { data, isLoading, isError } = useQuery<LeadsResponse>({
     queryKey: ['leads', page, applied],
     queryFn: () => api.get('/leads', { params: { page, limit: LIMIT, ...applied } }).then(r => r.data),
   });
 
-  // Inline edit state
   const [notesOpen, setNotesOpen] = useState<number | null>(null);
   const [notesText, setNotesText] = useState('');
 
@@ -102,10 +136,6 @@ export function LeadsPage() {
   });
 
   const [deleteTarget, setDeleteTarget] = useState<Lead | null>(null);
-
-  const importRef = useRef<HTMLInputElement>(null);
-  const [importing, setImporting] = useState(false);
-  const [importResult, setImportResult] = useState<string | null>(null);
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [addForm, setAddForm] = useState({ ...EMPTY_FORM });
@@ -128,213 +158,187 @@ export function LeadsPage() {
     addMutation.mutate(addForm);
   }
 
-  const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]; if (!file) return;
-    setImporting(true); setImportResult(null);
-    const form = new FormData(); form.append('file', file);
-    try {
-      const res = await api.post('/leads/import', form, { headers: { 'Content-Type': 'multipart/form-data' } });
-      const { imported, skipped, errors } = res.data as { imported: number; skipped: number; errors: string[] };
-      setImportResult(`Imported ${imported}, skipped ${skipped}.${errors.length ? ` Errors: ${errors.slice(0, 3).join('; ')}` : ''}`);
-      refetch();
-    } catch { setImportResult('Import failed. Check CSV format.'); }
-    finally { setImporting(false); if (importRef.current) importRef.current.value = ''; }
-  };
-
   const totalPages = data ? Math.ceil(data.total / LIMIT) : 1;
   const start = data ? (data.page - 1) * LIMIT + 1 : 0;
   const end = data ? Math.min(data.page * LIMIT, data.total) : 0;
 
   return (
-    <AdminLayout>
-      <div className="p-8">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-5">
-          <div>
-            <h1 className="font-heading text-2xl text-navy">Leads</h1>
-            <p className="font-body text-navy/60 text-sm mt-0.5">{data ? `${data.total} total submissions` : 'All enquiries'}</p>
-          </div>
-          <div className="flex gap-2">
-            <Button size="sm" onClick={() => setShowAddModal(true)}>+ Add Lead</Button>
-            <ExportDropdown />
-            <input ref={importRef} type="file" accept=".csv" className="hidden" onChange={handleImport} />
-            <Button variant="outline" size="sm" onClick={() => importRef.current?.click()} disabled={importing}><Upload className="w-4 h-4 mr-1.5" />{importing ? 'Importing…' : 'Import'}</Button>
-            <Button variant="outline" size="sm" onClick={() => window.open('/api/leads/sample', '_blank')} title="Download sample import file">
-              <FileSpreadsheet className="w-4 h-4 mr-1.5" />Sample
-            </Button>
-          </div>
+    <div className="p-8">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-5">
+        <div>
+          <h1 className="font-heading text-2xl text-navy">Leads</h1>
+          <p className="font-body text-navy/60 text-sm mt-0.5">{data ? `${data.total} total submissions` : 'All enquiries'}</p>
         </div>
-
-        {/* Filter bar */}
-        <div className="bg-white border border-navy/10 rounded-xl px-4 py-3 flex flex-wrap gap-3 items-end mb-4">
-          <div>
-            <label className="block text-xs text-navy/50 mb-1">Search</label>
-            <input
-              value={search} onChange={e => setSearch(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && applyFilters()}
-              placeholder="Name, phone or email…"
-              className="border border-navy/20 rounded-lg px-3 py-2 text-sm text-navy outline-none focus:border-steel w-52"
-            />
-          </div>
-          <div>
-            <label className="block text-xs text-navy/50 mb-1">Source</label>
-            <select value={sourceFilter} onChange={e => setSourceFilter(e.target.value)} className="border border-navy/20 rounded-lg px-3 py-2 text-sm text-navy outline-none focus:border-steel">
-              <option value="">All Sources</option>
-              {SOURCE_PAGES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
-            </select>
-          </div>
-          <div>
-            <label className="block text-xs text-navy/50 mb-1">From</label>
-            <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)} className="border border-navy/20 rounded-lg px-3 py-2 text-sm text-navy outline-none focus:border-steel" />
-          </div>
-          <div>
-            <label className="block text-xs text-navy/50 mb-1">To</label>
-            <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} className="border border-navy/20 rounded-lg px-3 py-2 text-sm text-navy outline-none focus:border-steel" />
-          </div>
-          <Button onClick={applyFilters}>Apply filters</Button>
-          <Button variant="outline" onClick={clearFilters}>Clear</Button>
+        <div className="flex gap-2">
+          <Button size="sm" onClick={() => setShowAddModal(true)}>+ Add Lead</Button>
+          <ExportDropdown />
         </div>
+      </div>
 
-        {importResult && <p className="text-sm text-navy/70 mb-3">{importResult}</p>}
-        {isLoading && <p className="text-navy/60 p-8">Loading…</p>}
-        {isError && <p className="text-red-600 p-8">Failed to load leads.</p>}
+      {/* Filter bar */}
+      <div className="bg-white border border-navy/10 rounded-xl px-4 py-3 flex flex-wrap gap-3 items-end mb-4">
+        <div>
+          <label className="block text-xs text-navy/50 mb-1">Search</label>
+          <input
+            value={search} onChange={e => setSearch(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && applyFilters()}
+            placeholder="Name, phone or email…"
+            className="border border-navy/20 rounded-lg px-3 py-2 text-sm text-navy outline-none focus:border-steel w-52"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-navy/50 mb-1">Source</label>
+          <select value={sourceFilter} onChange={e => setSourceFilter(e.target.value)} className="border border-navy/20 rounded-lg px-3 py-2 text-sm text-navy outline-none focus:border-steel">
+            <option value="">All Sources</option>
+            {SOURCE_PAGES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
+          </select>
+        </div>
+        <div>
+          <label className="block text-xs text-navy/50 mb-1">From</label>
+          <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)} className="border border-navy/20 rounded-lg px-3 py-2 text-sm text-navy outline-none focus:border-steel" />
+        </div>
+        <div>
+          <label className="block text-xs text-navy/50 mb-1">To</label>
+          <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} className="border border-navy/20 rounded-lg px-3 py-2 text-sm text-navy outline-none focus:border-steel" />
+        </div>
+        <Button onClick={applyFilters}>Apply filters</Button>
+        <Button variant="outline" onClick={clearFilters}>Clear</Button>
+      </div>
 
-        {!isLoading && !isError && data && data.leads.length === 0 && (
-          <p className="text-navy/60 p-8">
-            {(applied.search || applied.source_page || applied.date_from || applied.date_to)
-              ? 'No leads match your filters.'
-              : 'No leads yet.'}
-          </p>
-        )}
+      {isLoading && <p className="text-navy/60 p-8">Loading…</p>}
+      {isError && <p className="text-red-600 p-8">Failed to load leads.</p>}
 
-        {!isLoading && !isError && data && data.leads.length > 0 && (
-          <>
-            <div className="overflow-x-auto rounded-xl border border-navy/10 bg-white">
-              <table className="w-full text-left text-sm">
-                <thead>
-                  <tr className="bg-navy/5 border-b border-navy/10">
-                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Name</th>
-                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Contact</th>
-                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Product</th>
-                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Source</th>
-                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Status</th>
-                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Follow-up</th>
-                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Last Contact</th>
-                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Notes</th>
-                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Date</th>
-                    <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.leads.map(lead => (
-                    <>
-                      <tr key={lead.id} className="border-t border-navy/8 hover:bg-navy/[0.02]">
-                        <td className="px-4 py-3 font-medium text-navy whitespace-nowrap">{lead.name}</td>
-                        <td className="px-4 py-3 text-navy/60 text-xs">
-                          {lead.phone && <div>{lead.phone}</div>}
-                          {lead.email && <div>{lead.email}</div>}
-                          {(lead.city || lead.state) && (
-                            <div className="text-navy/40 mt-0.5">{[lead.city, lead.state].filter(Boolean).join(', ')}</div>
-                          )}
-                        </td>
-                        <td className="px-4 py-3 text-navy/60 text-xs">{lead.product_interest ?? '—'}</td>
-                        <td className="px-4 py-3 text-navy/60 text-xs">{lead.source_page ?? '—'}</td>
+      {!isLoading && !isError && data && data.leads.length === 0 && (
+        <p className="text-navy/60 p-8">
+          {(applied.search || applied.source_page || applied.date_from || applied.date_to)
+            ? 'No leads match your filters.'
+            : 'No leads yet.'}
+        </p>
+      )}
 
-                        {/* Status inline select */}
-                        <td className="px-4 py-3">
-                          <div className="relative">
-                            <select
-                              value={lead.lead_status}
-                              onChange={e => updateMut.mutate({ id: lead.id, data: { lead_status: e.target.value } })}
-                              className={`appearance-none pr-6 pl-2 py-0.5 rounded-full text-xs font-semibold border-0 outline-none cursor-pointer ${statusColor(lead.lead_status)}`}
-                            >
-                              {STATUS_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-                            </select>
-                            <ChevronDown className="absolute right-1 top-1 w-3 h-3 pointer-events-none opacity-50" />
+      {!isLoading && !isError && data && data.leads.length > 0 && (
+        <>
+          <div className="overflow-x-auto rounded-xl border border-navy/10 bg-white">
+            <table className="w-full text-left text-sm">
+              <thead>
+                <tr className="bg-navy/5 border-b border-navy/10">
+                  <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Name</th>
+                  <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Contact</th>
+                  <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Product</th>
+                  <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Source</th>
+                  <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Status</th>
+                  <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Follow-up</th>
+                  <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Last Contact</th>
+                  <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Notes</th>
+                  <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Date</th>
+                  <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.leads.map(lead => (
+                  <>
+                    <tr key={lead.id} className="border-t border-navy/8 hover:bg-navy/[0.02]">
+                      <td className="px-4 py-3 font-medium text-navy whitespace-nowrap">{lead.name}</td>
+                      <td className="px-4 py-3 text-navy/60 text-xs">
+                        {lead.phone && <div>{lead.phone}</div>}
+                        {lead.email && <div>{lead.email}</div>}
+                        {(lead.city || lead.state) && (
+                          <div className="text-navy/40 mt-0.5">{[lead.city, lead.state].filter(Boolean).join(', ')}</div>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 text-navy/60 text-xs">{lead.product_interest ?? '—'}</td>
+                      <td className="px-4 py-3 text-navy/60 text-xs">{lead.source_page ?? '—'}</td>
+
+                      <td className="px-4 py-3">
+                        <div className="relative">
+                          <select
+                            value={lead.lead_status}
+                            onChange={e => updateMut.mutate({ id: lead.id, data: { lead_status: e.target.value } })}
+                            className={`appearance-none pr-6 pl-2 py-0.5 rounded-full text-xs font-semibold border-0 outline-none cursor-pointer ${statusColor(lead.lead_status)}`}
+                          >
+                            {STATUS_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+                          </select>
+                          <ChevronDown className="absolute right-1 top-1 w-3 h-3 pointer-events-none opacity-50" />
+                        </div>
+                      </td>
+
+                      <td className="px-4 py-3 text-xs text-navy/60">
+                        <input
+                          type="date"
+                          defaultValue={lead.follow_up_date ?? ''}
+                          onBlur={e => updateMut.mutate({ id: lead.id, data: { follow_up_date: e.target.value || null } })}
+                          className="border border-navy/15 rounded px-2 py-0.5 text-xs outline-none focus:border-steel w-32"
+                        />
+                      </td>
+
+                      <td className="px-4 py-3 text-xs text-navy/60">
+                        <input
+                          type="date"
+                          defaultValue={lead.last_contact_date ?? ''}
+                          onBlur={e => updateMut.mutate({ id: lead.id, data: { last_contact_date: e.target.value || null } })}
+                          className="border border-navy/15 rounded px-2 py-0.5 text-xs outline-none focus:border-steel w-32"
+                        />
+                      </td>
+
+                      <td className="px-4 py-3 text-xs">
+                        <button
+                          onClick={() => {
+                            if (notesOpen === lead.id) { setNotesOpen(null); }
+                            else { setNotesOpen(lead.id); setNotesText(lead.notes ?? ''); }
+                          }}
+                          className="text-steel hover:text-steel/70 font-semibold"
+                        >
+                          {lead.notes ? 'Edit note' : '+ Note'}
+                        </button>
+                      </td>
+
+                      <td className="px-4 py-3 text-xs text-navy/50 whitespace-nowrap">
+                        {new Date(lead.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                      </td>
+                      <td className="px-4 py-3">
+                        <button
+                          onClick={() => setDeleteTarget(lead)}
+                          className="px-2 py-1 rounded border border-red-200 text-xs font-semibold text-red-500 hover:bg-red-50 transition-colors"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+
+                    {notesOpen === lead.id && (
+                      <tr key={`notes-${lead.id}`} className="bg-navy/[0.02] border-t border-navy/8">
+                        <td colSpan={10} className="px-4 py-3">
+                          <div className="flex gap-2 items-start">
+                            <textarea
+                              value={notesText}
+                              onChange={e => setNotesText(e.target.value)}
+                              rows={2}
+                              placeholder="Add a note about this lead…"
+                              className="flex-1 border border-navy/20 rounded-lg px-3 py-2 text-sm outline-none focus:border-steel resize-none"
+                            />
+                            <Button size="sm" onClick={() => { updateMut.mutate({ id: lead.id, data: { notes: notesText } }); setNotesOpen(null); }}>Save</Button>
+                            <Button size="sm" variant="outline" onClick={() => setNotesOpen(null)}>Cancel</Button>
                           </div>
-                        </td>
-
-                        {/* Follow-up date */}
-                        <td className="px-4 py-3 text-xs text-navy/60">
-                          <input
-                            type="date"
-                            defaultValue={lead.follow_up_date ?? ''}
-                            onBlur={e => updateMut.mutate({ id: lead.id, data: { follow_up_date: e.target.value || null } })}
-                            className="border border-navy/15 rounded px-2 py-0.5 text-xs outline-none focus:border-steel w-32"
-                          />
-                        </td>
-
-                        {/* Last contact date */}
-                        <td className="px-4 py-3 text-xs text-navy/60">
-                          <input
-                            type="date"
-                            defaultValue={lead.last_contact_date ?? ''}
-                            onBlur={e => updateMut.mutate({ id: lead.id, data: { last_contact_date: e.target.value || null } })}
-                            className="border border-navy/15 rounded px-2 py-0.5 text-xs outline-none focus:border-steel w-32"
-                          />
-                        </td>
-
-                        {/* Notes toggle */}
-                        <td className="px-4 py-3 text-xs">
-                          <button
-                            onClick={() => {
-                              if (notesOpen === lead.id) { setNotesOpen(null); }
-                              else { setNotesOpen(lead.id); setNotesText(lead.notes ?? ''); }
-                            }}
-                            className="text-steel hover:text-steel/70 font-semibold"
-                          >
-                            {lead.notes ? 'Edit note' : '+ Note'}
-                          </button>
-                        </td>
-
-                        <td className="px-4 py-3 text-xs text-navy/50 whitespace-nowrap">
-                          {new Date(lead.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
-                        </td>
-                        <td className="px-4 py-3">
-                          <button
-                            onClick={() => setDeleteTarget(lead)}
-                            className="px-2 py-1 rounded border border-red-200 text-xs font-semibold text-red-500 hover:bg-red-50 transition-colors"
-                          >
-                            Delete
-                          </button>
+                          {lead.notes && <p className="text-xs text-navy/40 mt-1">Current: {lead.notes}</p>}
                         </td>
                       </tr>
+                    )}
+                  </>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-                      {/* Inline notes row */}
-                      {notesOpen === lead.id && (
-                        <tr key={`notes-${lead.id}`} className="bg-navy/[0.02] border-t border-navy/8">
-                          <td colSpan={10} className="px-4 py-3">
-                            <div className="flex gap-2 items-start">
-                              <textarea
-                                value={notesText}
-                                onChange={e => setNotesText(e.target.value)}
-                                rows={2}
-                                placeholder="Add a note about this lead…"
-                                className="flex-1 border border-navy/20 rounded-lg px-3 py-2 text-sm outline-none focus:border-steel resize-none"
-                              />
-                              <Button size="sm" onClick={() => { updateMut.mutate({ id: lead.id, data: { notes: notesText } }); setNotesOpen(null); }}>Save</Button>
-                              <Button size="sm" variant="outline" onClick={() => setNotesOpen(null)}>Cancel</Button>
-                            </div>
-                            {lead.notes && <p className="text-xs text-navy/40 mt-1">Current: {lead.notes}</p>}
-                          </td>
-                        </tr>
-                      )}
-                    </>
-                  ))}
-                </tbody>
-              </table>
+          <div className="flex items-center justify-between mt-4">
+            <p className="text-sm text-navy/60">Showing {start}–{end} of {data.total}</p>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>Prev</Button>
+              <Button variant="outline" size="sm" onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}>Next</Button>
             </div>
-
-            <div className="flex items-center justify-between mt-4">
-              <p className="text-sm text-navy/60">Showing {start}–{end} of {data.total}</p>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>Prev</Button>
-                <Button variant="outline" size="sm" onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}>Next</Button>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
+          </div>
+        </>
+      )}
 
       {/* Delete Confirm Modal */}
       {deleteTarget && (
@@ -401,7 +405,77 @@ export function LeadsPage() {
           </div>
         </div>
       )}
-    </AdminLayout>
+    </div>
+  );
+}
+
+function NewsletterTab() {
+  const qc = useQueryClient();
+
+  const { data, isLoading, isError } = useQuery<SubscribersResponse>({
+    queryKey: ['newsletter'],
+    queryFn: () => api.get('/newsletter').then(r => r.data),
+  });
+
+  const deleteMut = useMutation({
+    mutationFn: (id: number) => api.delete(`/newsletter/${id}`),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['newsletter'] }),
+  });
+
+  return (
+    <div className="p-8">
+      <div className="flex items-center justify-between mb-5">
+        <div>
+          <h1 className="font-heading text-2xl text-navy">Newsletter Subscribers</h1>
+          <p className="font-body text-navy/60 text-sm mt-0.5">
+            {data ? `${data.total} subscriber${data.total !== 1 ? 's' : ''}` : 'All subscribers'}
+          </p>
+        </div>
+        <NewsletterExportDropdown />
+      </div>
+
+      {isLoading && <p className="text-navy/60 p-8">Loading…</p>}
+      {isError && <p className="text-red-600 p-8">Failed to load subscribers.</p>}
+
+      {!isLoading && !isError && data && data.subscribers.length === 0 && (
+        <p className="text-navy/60 p-8">No subscribers yet.</p>
+      )}
+
+      {!isLoading && !isError && data && data.subscribers.length > 0 && (
+        <div className="overflow-x-auto rounded-xl border border-navy/10 bg-white">
+          <table className="w-full text-left text-sm">
+            <thead>
+              <tr className="bg-navy/5 border-b border-navy/10">
+                <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Email</th>
+                <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Name</th>
+                <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Subscribed</th>
+                <th className="px-4 py-3 text-xs font-semibold text-navy/50 uppercase">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.subscribers.map(sub => (
+                <tr key={sub.id} className="border-t border-navy/8 hover:bg-navy/[0.02]">
+                  <td className="px-4 py-3 font-medium text-navy">{sub.email}</td>
+                  <td className="px-4 py-3 text-navy/60">{sub.name ?? '—'}</td>
+                  <td className="px-4 py-3 text-navy/50 text-xs whitespace-nowrap">
+                    {new Date(sub.subscribed_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                  </td>
+                  <td className="px-4 py-3">
+                    <button
+                      onClick={() => deleteMut.mutate(sub.id)}
+                      disabled={deleteMut.isPending}
+                      className="px-2 py-1 rounded border border-red-200 text-xs font-semibold text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50"
+                    >
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -419,12 +493,7 @@ function ExportDropdown() {
 
   return (
     <div className="relative" ref={ref}>
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => setOpen(o => !o)}
-        className="flex items-center gap-1"
-      >
+      <Button variant="outline" size="sm" onClick={() => setOpen(o => !o)} className="flex items-center gap-1">
         <Download className="w-4 h-4 mr-1" />
         Export
         <ChevronDown className="w-3 h-3 ml-0.5" />
@@ -451,3 +520,36 @@ function ExportDropdown() {
   );
 }
 
+function NewsletterExportDropdown() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  return (
+    <div className="relative" ref={ref}>
+      <Button variant="outline" size="sm" onClick={() => setOpen(o => !o)} className="flex items-center gap-1">
+        <Download className="w-4 h-4 mr-1" />
+        Export
+        <ChevronDown className="w-3 h-3 ml-0.5" />
+      </Button>
+      {open && (
+        <div className="absolute right-0 top-full mt-1 w-48 bg-white border border-navy/10 rounded-xl shadow-lg z-20 py-1 overflow-hidden">
+          <button
+            className="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm text-navy hover:bg-navy/5 transition-colors"
+            onClick={() => { window.open('/api/newsletter/export', '_blank'); setOpen(false); }}
+          >
+            <FileText className="w-4 h-4 text-navy/50" />
+            Export as CSV
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}

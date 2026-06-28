@@ -27,7 +27,6 @@ import { ClientLogosPage } from '@/pages/ClientLogos';
 import { AuthorsPage } from '@/pages/Authors';
 import { CategoriesPage } from '@/pages/Categories';
 import { MarketingPage } from '@/pages/Marketing';
-import { NewsletterPage } from '@/pages/Newsletter';
 import { SidebarProvider } from '@/contexts/SidebarContext';
 
 const queryClient = new QueryClient();
@@ -64,7 +63,6 @@ export default function App() {
             <Route path="/authors" element={<ProtectedRoute module="content"><AuthorsPage /></ProtectedRoute>} />
             <Route path="/categories" element={<ProtectedRoute module="content"><CategoriesPage /></ProtectedRoute>} />
             <Route path="/marketing" element={<ProtectedRoute module="marketing"><MarketingPage /></ProtectedRoute>} />
-            <Route path="/newsletter" element={<ProtectedRoute module="leads"><NewsletterPage /></ProtectedRoute>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
