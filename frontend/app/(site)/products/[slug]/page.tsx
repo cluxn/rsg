@@ -88,6 +88,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const additionalMedia = product.media.slice(1);
   const cardImageUrl = PRODUCT_CARD_IMAGE[product.slug] ?? null;
   const displayImageUrl = PRODUCT_IMAGE_OVERRIDE[product.slug] ?? primaryMedia?.url ?? cardImageUrl;
+  const whySection = productWhySection(product.slug);
+  const processSection = productProcessSection(product.slug);
 
   return (
     <>
@@ -302,18 +304,294 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </SectionContainer>
       )}
 
+      {/* C & Z Purlins — Types */}
+      {product.slug === 'purlins' && (
+        <SectionContainer>
+          <div className="text-center mb-12">
+            <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Know Your Product</p>
+            <h2 className="font-heading text-navy text-2xl sm:text-3xl font-bold leading-tight mb-3">C Purlins vs Z Purlins</h2>
+            <p className="font-body text-navy/60 text-base max-w-xl mx-auto">
+              Both profiles serve structural roofing — understanding the difference helps you specify the right purlin for your project.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="bg-white rounded-2xl border border-navy/8 shadow-sm p-6 lg:p-8">
+              <div className="flex items-center gap-4 mb-5">
+                <div className="w-12 h-12 rounded-full bg-navy flex items-center justify-center shrink-0">
+                  <span className="font-heading text-white font-bold text-lg">C</span>
+                </div>
+                <h3 className="font-heading text-navy text-xl font-bold">C Purlins</h3>
+              </div>
+              <p className="font-body text-sm text-navy/70 mb-4">
+                <span className="font-semibold text-navy">Shape:</span> Cross-section looks like the letter &#34;C&#34; — single-web with two flanges on the same side.
+              </p>
+              <div className="mb-4">
+                <p className="font-heading text-navy text-sm font-bold mb-2">Applications</p>
+                <ul className="space-y-1.5 font-body text-sm text-navy/70">
+                  <li className="flex gap-2"><span className="text-orange mt-0.5 shrink-0">•</span>Ideal for simple roof and wall structures.</li>
+                  <li className="flex gap-2"><span className="text-orange mt-0.5 shrink-0">•</span>Commonly used in supporting walls, beams, and floor joists.</li>
+                  <li className="flex gap-2"><span className="text-orange mt-0.5 shrink-0">•</span>Typically installed at the ends or corners of a structure.</li>
+                </ul>
+              </div>
+              <div>
+                <p className="font-heading text-navy text-sm font-bold mb-2">Advantages</p>
+                <ul className="space-y-1.5 font-body text-sm text-navy/70">
+                  <li className="flex gap-2"><span className="text-orange mt-0.5 shrink-0">•</span>Lightweight yet strong — reduces dead load on the structure.</li>
+                  <li className="flex gap-2"><span className="text-orange mt-0.5 shrink-0">•</span>Easy to install and transport to site.</li>
+                  <li className="flex gap-2"><span className="text-orange mt-0.5 shrink-0">•</span>Good for short to medium span roofing support.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl border border-navy/8 shadow-sm p-6 lg:p-8">
+              <div className="flex items-center gap-4 mb-5">
+                <div className="w-12 h-12 rounded-full bg-orange flex items-center justify-center shrink-0">
+                  <span className="font-heading text-white font-bold text-lg">Z</span>
+                </div>
+                <h3 className="font-heading text-navy text-xl font-bold">Z Purlins</h3>
+              </div>
+              <p className="font-body text-sm text-navy/70 mb-4">
+                <span className="font-semibold text-navy">Shape:</span> Cross-section shaped like the letter &#34;Z&#34; — asymmetric flanges allow nesting and lapping at joints.
+              </p>
+              <div className="mb-4">
+                <p className="font-heading text-navy text-sm font-bold mb-2">Applications</p>
+                <ul className="space-y-1.5 font-body text-sm text-navy/70">
+                  <li className="flex gap-2"><span className="text-orange mt-0.5 shrink-0">•</span>Ideal for long-span roofing where extra strength is needed.</li>
+                  <li className="flex gap-2"><span className="text-orange mt-0.5 shrink-0">•</span>Used in intermediate spans where overlapping sections are required.</li>
+                  <li className="flex gap-2"><span className="text-orange mt-0.5 shrink-0">•</span>Allows easy lapping or nesting, giving extra strength to joints.</li>
+                </ul>
+              </div>
+              <div>
+                <p className="font-heading text-navy text-sm font-bold mb-2">Advantages</p>
+                <ul className="space-y-1.5 font-body text-sm text-navy/70">
+                  <li className="flex gap-2"><span className="text-orange mt-0.5 shrink-0">•</span>Stronger than C purlins due to lapping design at joints.</li>
+                  <li className="flex gap-2"><span className="text-orange mt-0.5 shrink-0">•</span>Excellent for large-span warehouses and industrial sheds.</li>
+                  <li className="flex gap-2"><span className="text-orange mt-0.5 shrink-0">•</span>More economical in overlapping sections — less material for the same span.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </SectionContainer>
+      )}
+
+      {/* MS Plate, Channel & Angle — Product Types */}
+      {product.slug === 'ms-plate-channel-angle' && (
+        <SectionContainer>
+          <div className="text-center mb-12">
+            <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Product Range</p>
+            <h2 className="font-heading text-navy text-2xl sm:text-3xl font-bold leading-tight mb-3">MS Plate, Channel &amp; Angle — What&apos;s the Difference?</h2>
+            <p className="font-body text-navy/60 text-base max-w-xl mx-auto">
+              Three distinct mild steel structural sections — each engineered for different load types and fabrication applications.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="bg-white rounded-2xl border border-navy/8 shadow-sm p-6">
+              <div className="w-12 h-12 rounded-xl bg-navy/5 border border-navy/10 flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h12A2.25 2.25 0 0 1 20.25 6v12A2.25 2.25 0 0 1 18 20.25H6A2.25 2.25 0 0 1 3.75 18V6Z" />
+                </svg>
+              </div>
+              <h3 className="font-heading text-navy text-lg font-bold mb-3">MS Plate</h3>
+              <ul className="space-y-2.5 font-body text-sm text-navy/70">
+                <li className="flex gap-2"><span className="text-orange shrink-0">•</span><span><span className="font-semibold text-navy">Form:</span> Flat sheet of mild steel.</span></li>
+                <li className="flex gap-2"><span className="text-orange shrink-0">•</span><span><span className="font-semibold text-navy">Used in:</span> Construction, fabrication, tanks, machinery bases.</span></li>
+                <li className="flex gap-2"><span className="text-orange shrink-0">•</span><span><span className="font-semibold text-navy">Thickness:</span> 2mm – 100mm+</span></li>
+              </ul>
+            </div>
+            <div className="bg-white rounded-2xl border border-navy/8 shadow-sm p-6">
+              <div className="w-12 h-12 rounded-xl bg-navy/5 border border-navy/10 flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+                </svg>
+              </div>
+              <h3 className="font-heading text-navy text-lg font-bold mb-3">MS Channel</h3>
+              <ul className="space-y-2.5 font-body text-sm text-navy/70">
+                <li className="flex gap-2"><span className="text-orange shrink-0">•</span><span><span className="font-semibold text-navy">Form:</span> C-shaped steel beam (ISMC profile).</span></li>
+                <li className="flex gap-2"><span className="text-orange shrink-0">•</span><span><span className="font-semibold text-navy">Used in:</span> Building frames, trailers, support structures.</span></li>
+                <li className="flex gap-2"><span className="text-orange shrink-0">•</span><span><span className="font-semibold text-navy">Size:</span> From 75×40 mm (standard length: 6m – 12m)</span></li>
+              </ul>
+            </div>
+            <div className="bg-white rounded-2xl border border-navy/8 shadow-sm p-6">
+              <div className="w-12 h-12 rounded-xl bg-navy/5 border border-navy/10 flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
+                </svg>
+              </div>
+              <h3 className="font-heading text-navy text-lg font-bold mb-3">MS Angle</h3>
+              <ul className="space-y-2.5 font-body text-sm text-navy/70">
+                <li className="flex gap-2"><span className="text-orange shrink-0">•</span><span><span className="font-semibold text-navy">Form:</span> L-shaped steel bar (ISA profile).</span></li>
+                <li className="flex gap-2"><span className="text-orange shrink-0">•</span><span><span className="font-semibold text-navy">Used in:</span> Frames, racks, towers, structural supports.</span></li>
+                <li className="flex gap-2"><span className="text-orange shrink-0">•</span><span><span className="font-semibold text-navy">Sizes:</span> Equal/unequal — 25×25 mm to 150×150 mm</span></li>
+              </ul>
+            </div>
+          </div>
+        </SectionContainer>
+      )}
+
+      {/* Polycarbonate Sheet — Types */}
+      {product.slug === 'polycarbonate-sheet' && (
+        <SectionContainer>
+          <div className="text-center mb-12">
+            <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Product Types</p>
+            <h2 className="font-heading text-navy text-2xl sm:text-3xl font-bold leading-tight mb-3">Types of Polycarbonate Sheets</h2>
+            <p className="font-body text-navy/60 text-base max-w-xl mx-auto">
+              Three types available — each suited to different applications based on strength, insulation, and profile requirements.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="bg-white rounded-2xl border border-navy/8 shadow-sm p-6">
+              <div className="w-12 h-12 rounded-full bg-orange/10 flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+                </svg>
+              </div>
+              <h3 className="font-heading text-navy text-lg font-bold mb-2">Solid Polycarbonate</h3>
+              <p className="font-body text-navy/60 text-sm leading-relaxed mb-3">Looks like glass but far more impact-resistant — does not shatter on impact like standard glazing.</p>
+              <ul className="space-y-1.5 font-body text-xs text-navy/60">
+                <li className="flex gap-2"><span className="text-orange shrink-0">•</span>Maximum impact resistance</li>
+                <li className="flex gap-2"><span className="text-orange shrink-0">•</span>High clarity and light transmission</li>
+                <li className="flex gap-2"><span className="text-orange shrink-0">•</span>Ideal for canopies, safety glazing, skylights</li>
+              </ul>
+            </div>
+            <div className="bg-white rounded-2xl border border-navy/8 shadow-sm p-6">
+              <div className="w-12 h-12 rounded-full bg-orange/10 flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+                </svg>
+              </div>
+              <h3 className="font-heading text-navy text-lg font-bold mb-2">Multiwall Sheets</h3>
+              <p className="font-body text-navy/60 text-sm leading-relaxed mb-3">Hollow channel structure between two flat faces — superior thermal insulation with reduced weight.</p>
+              <ul className="space-y-1.5 font-body text-xs text-navy/60">
+                <li className="flex gap-2"><span className="text-orange shrink-0">•</span>Better thermal insulation</li>
+                <li className="flex gap-2"><span className="text-orange shrink-0">•</span>Lightweight — lower structural load</li>
+                <li className="flex gap-2"><span className="text-orange shrink-0">•</span>Ideal for greenhouses and covered walkways</li>
+              </ul>
+            </div>
+            <div className="bg-white rounded-2xl border border-navy/8 shadow-sm p-6">
+              <div className="w-12 h-12 rounded-full bg-orange/10 flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 6.75h7.5M8.25 12h7.5m-7.5 5.25h7.5" />
+                </svg>
+              </div>
+              <h3 className="font-heading text-navy text-lg font-bold mb-2">Corrugated Polycarbonate</h3>
+              <p className="font-body text-navy/60 text-sm leading-relaxed mb-3">Corrugated profile adds rigidity — the roofing and shed choice where strength meets light transmission.</p>
+              <ul className="space-y-1.5 font-body text-xs text-navy/60">
+                <li className="flex gap-2"><span className="text-orange shrink-0">•</span>Higher rigidity than flat sheets</li>
+                <li className="flex gap-2"><span className="text-orange shrink-0">•</span>Matches standard roofing sheet profiles</li>
+                <li className="flex gap-2"><span className="text-orange shrink-0">•</span>Ideal for factory skylights, sheds, agri covers</li>
+              </ul>
+            </div>
+          </div>
+        </SectionContainer>
+      )}
+
+      {/* MS Pipe — Seamless & ERW Types */}
+      {product.slug === 'ms-pipe' && (
+        <SectionContainer>
+          <div className="text-center mb-12">
+            <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Mild Steel Pipes</p>
+            <h2 className="font-heading text-navy text-2xl sm:text-3xl font-bold leading-tight mb-3">Seamless &amp; ERW Pipes — Know the Difference</h2>
+            <p className="font-body text-navy/60 text-base max-w-xl mx-auto">
+              We supply both seamless and ERW MS pipes — each made through a distinct process suited to different structural and pressure applications.
+            </p>
+          </div>
+          <div className="space-y-10">
+
+            {/* Seamless Pipe */}
+            <div className="bg-white rounded-2xl border border-navy/8 shadow-sm overflow-hidden">
+              {/* Intro: image + description */}
+              <div className="grid grid-cols-1 lg:grid-cols-2">
+                <div className="relative min-h-[260px]">
+                  <Image src="/images/product-page/ms-pipe-seamless.jpg" alt="Seamless MS Pipe" fill className="object-cover" />
+                </div>
+                <div className="p-6 lg:p-8 flex flex-col justify-center">
+                  <span className="inline-block bg-navy/8 text-navy font-heading text-xs font-bold uppercase tracking-[0.15em] px-3 py-1 rounded-full mb-4 w-fit">Seamless Pipe</span>
+                  <h3 className="font-heading text-navy text-xl font-bold mb-3">What is a Seamless Pipe?</h3>
+                  <p className="font-body text-navy/70 text-sm leading-relaxed mb-3">
+                    A seamless pipe is manufactured without any weld seam — formed entirely from a solid steel billet that is pierced and shaped into a hollow tube under high heat and pressure.
+                  </p>
+                  <p className="font-body text-navy/70 text-sm leading-relaxed">
+                    The absence of a weld joint gives seamless pipes superior pressure resistance, uniform wall thickness, and greater structural integrity — making them the preferred choice for high-pressure fluid lines and critical structural columns.
+                  </p>
+                </div>
+              </div>
+              {/* Process steps */}
+              <div className="border-t border-navy/8 px-6 pb-6 pt-5 lg:px-8">
+                <p className="font-body text-xs text-navy/40 font-semibold uppercase tracking-[0.18em] mb-4">How It&apos;s Made</p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                  {([
+                    { step: 1, title: 'Billet Selection', body: 'A solid round steel bar (billet) is selected and inspected for quality and grade.' },
+                    { step: 2, title: 'Heating', body: 'The billet is heated to a high temperature for hot-working without cracking.' },
+                    { step: 3, title: 'Piercing', body: 'A mandrel pierces the billet to create a hollow tube through the centre.' },
+                    { step: 4, title: 'Rolling & Stretching', body: 'The hollow tube is elongated and shaped to the required OD using rolling mills.' },
+                    { step: 5, title: 'Finishing', body: 'The pipe is straightened, cut to length, tested, and surface-treated for dispatch.' },
+                  ] as const).map(({ step, title, body }) => (
+                    <div key={title} className="glow-card rounded-xl p-4 flex flex-col gap-2">
+                      <span className="w-7 h-7 rounded-full bg-navy text-white font-heading text-xs font-bold flex items-center justify-center shrink-0">{step}</span>
+                      <p className="font-heading text-navy text-sm font-bold">{title}</p>
+                      <p className="font-body text-navy/60 text-xs leading-relaxed">{body}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* ERW / Semi-Seamless Pipe */}
+            <div className="bg-white rounded-2xl border border-navy/8 shadow-sm overflow-hidden">
+              {/* Intro: description + image (reversed) */}
+              <div className="grid grid-cols-1 lg:grid-cols-2">
+                <div className="p-6 lg:p-8 flex flex-col justify-center lg:order-1">
+                  <span className="inline-block bg-navy/8 text-navy font-heading text-xs font-bold uppercase tracking-[0.15em] px-3 py-1 rounded-full mb-4 w-fit">ERW Pipe (Semi-Seamless)</span>
+                  <h3 className="font-heading text-navy text-xl font-bold mb-3">What is an ERW / Semi-Seamless Pipe?</h3>
+                  <p className="font-body text-navy/70 text-sm leading-relaxed mb-3">
+                    An ERW (Electric Resistance Welded) pipe is formed from a flat steel strip that is roll-formed into a cylinder and seam-welded using electric resistance heat. When further cold-drawn or processed to eliminate the visible weld, it is referred to as a semi-seamless pipe.
+                  </p>
+                  <p className="font-body text-navy/70 text-sm leading-relaxed">
+                    A semi-seamless pipe is a welded pipe that is processed or finished to resemble a seamless pipe in terms of surface quality, roundness, and wall thickness uniformity — offering a cost-effective alternative for general structural applications.
+                  </p>
+                </div>
+                <div className="relative min-h-[260px] lg:order-2">
+                  <Image src="/images/product-page/ms-pipe-erw.jpg" alt="ERW Semi-Seamless MS Pipe" fill className="object-cover" />
+                </div>
+              </div>
+              {/* Process steps */}
+              <div className="border-t border-navy/8 px-6 pb-6 pt-5 lg:px-8">
+                <p className="font-body text-xs text-navy/40 font-semibold uppercase tracking-[0.18em] mb-4">How It&apos;s Made</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {([
+                    { step: 1, title: 'Raw Material Preparation', body: 'HR steel strips or coils are slit to the required width for the target pipe OD.' },
+                    { step: 2, title: 'Pipe Forming (ERW)', body: 'Strip is roll-formed into a cylinder and seam-welded using electric resistance heat.' },
+                    { step: 3, title: 'Bead Removal & Sizing', body: 'Internal and external weld bead is removed; pipe is sized to exact OD and roundness.' },
+                    { step: 4, title: 'Heat Treatment', body: 'Pipe is normalised to relieve weld stress and improve mechanical properties.' },
+                    { step: 5, title: 'Cold Drawing', body: 'Pipe is cold-drawn to achieve tight dimensional tolerances for OD and wall thickness.' },
+                    { step: 6, title: 'Straightened & Inspected', body: 'Pipe is straightened, cut to length, NDT-tested, and inspected before dispatch.' },
+                  ] as const).map(({ step, title, body }) => (
+                    <div key={title} className="glow-card rounded-xl p-4 flex flex-col gap-2">
+                      <span className="w-7 h-7 rounded-full bg-navy text-white font-heading text-xs font-bold flex items-center justify-center shrink-0">{step}</span>
+                      <p className="font-heading text-navy text-sm font-bold">{title}</p>
+                      <p className="font-body text-navy/60 text-xs leading-relaxed">{body}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </SectionContainer>
+      )}
+
       {/* Why Choose RSG */}
       <SectionContainer>
         <div className="text-center mb-12">
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Why RSG</p>
           <h2 className="font-heading text-3xl text-navy font-bold mb-3">Why Choose RSG for {product.name}?</h2>
           <p className="font-body text-navy/60 max-w-xl mx-auto">
-            What sets us apart as a manufacturer and wholesale supplier you can rely on.
+            {whySection.sub}
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {WHY_CHOOSE_US.map((item) => (
+          {whySection.items.map((item) => (
             <div key={item.title} className="glow-card rounded-xl overflow-hidden flex flex-col">
               <div className="relative h-36 overflow-hidden">
                 <Image src={item.image} alt={item.title} fill className="object-cover" />
@@ -364,7 +642,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">Where It&apos;s Used</p>
           <h2 className="font-heading text-3xl text-navy font-bold mb-3">Applications of {product.name}</h2>
           <p className="font-body text-navy/60 max-w-xl mx-auto">
-            Trusted across industrial, commercial, and residential projects throughout India.
+            {PRODUCT_APPLICATIONS_SUBTITLE[product.slug] ?? 'Trusted across industrial, commercial, and residential projects throughout India.'}
           </p>
         </div>
 
@@ -406,35 +684,62 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
       <div className="gradient-mesh-light">
 
-      {/* Manufacturing process — not shown for Accessories (bought-in items like screws/turbo fans aren't roll-formed in-house) */}
-      {product.slug !== 'accessories' && (
+      {/* Process section — manufacturing steps for sheets, supply steps for accessories */}
       <SectionContainer>
-        <div className="text-center mb-12">
-          <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">From Raw Steel to Your Site</p>
-          <h2 className="font-heading text-3xl text-navy font-bold mb-3">Our Manufacturing Process</h2>
-          <p className="font-body text-navy/60 max-w-xl mx-auto">
-            Every step, from sourcing to dispatch, built around consistency and quality control.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {MANUFACTURING_STEPS.map((step, i) => (
-            <div key={step.title} className="glow-card rounded-xl overflow-hidden flex flex-col">
-              <div className="relative h-36 overflow-hidden">
-                <Image src={step.image} alt={step.title} fill className="object-cover" />
-                <span className="absolute top-3 left-3 w-7 h-7 rounded-full bg-orange text-white font-heading text-xs font-bold flex items-center justify-center shadow">
-                  {i + 1}
-                </span>
-              </div>
-              <div className="p-5">
-                <h3 className="font-heading text-navy text-base font-bold mb-2">{step.title}</h3>
-                <p className="font-body text-navy/60 text-sm leading-relaxed">{step.body}</p>
-              </div>
+        {product.slug === 'accessories' ? (
+          <>
+            <div className="text-center mb-12">
+              <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">How It Works</p>
+              <h2 className="font-heading text-3xl text-navy font-bold mb-3">How We Supply Your Accessories</h2>
+              <p className="font-body text-navy/60 max-w-xl mx-auto">
+                From identifying the right accessories for your project to bundled delivery — we handle it all.
+              </p>
             </div>
-          ))}
-        </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {ACCESSORY_PROCESS_STEPS.map((step, i) => (
+                <div key={step.title} className="glow-card rounded-xl overflow-hidden flex flex-col">
+                  <div className="relative h-36 overflow-hidden">
+                    <Image src={step.image} alt={step.title} fill className="object-cover" />
+                    <span className="absolute top-3 left-3 w-7 h-7 rounded-full bg-orange text-white font-heading text-xs font-bold flex items-center justify-center shadow">
+                      {i + 1}
+                    </span>
+                  </div>
+                  <div className="p-5">
+                    <h3 className="font-heading text-navy text-base font-bold mb-2">{step.title}</h3>
+                    <p className="font-body text-navy/60 text-sm leading-relaxed">{step.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="text-center mb-12">
+              <p className="font-body text-sm text-orange font-semibold uppercase tracking-[0.18em] mb-3">{processSection.eyebrow}</p>
+              <h2 className="font-heading text-3xl text-navy font-bold mb-3">{processSection.heading}</h2>
+              <p className="font-body text-navy/60 max-w-xl mx-auto">
+                {processSection.sub}
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {processSection.steps.map((step, i) => (
+                <div key={step.title} className="glow-card rounded-xl overflow-hidden flex flex-col">
+                  <div className="relative h-36 overflow-hidden">
+                    <Image src={step.image} alt={step.title} fill className="object-cover" />
+                    <span className="absolute top-3 left-3 w-7 h-7 rounded-full bg-orange text-white font-heading text-xs font-bold flex items-center justify-center shadow">
+                      {i + 1}
+                    </span>
+                  </div>
+                  <div className="p-5">
+                    <h3 className="font-heading text-navy text-base font-bold mb-2">{step.title}</h3>
+                    <p className="font-body text-navy/60 text-sm leading-relaxed">{step.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </SectionContainer>
-      )}
 
       </div>
 
@@ -553,28 +858,177 @@ function productFaqs(productName: string) {
   ];
 }
 
-const WHY_CHOOSE_US = [
-  {
-    title: 'ISI-Certified Quality',
-    body: 'Every batch meets ISI standards for thickness, coating, and strength — verified before dispatch.',
-    image: '/images/product-page/quality.jpg',
+type WhyItem = { title: string; body: string; image: string };
+
+const PRODUCT_WHY_CHOOSE: Record<string, { sub: string; items: WhyItem[] }> = {
+  'colour-coated-roofing-sheet': {
+    sub: 'We manufacture and supply directly — consistent quality, competitive pricing, and capacity for any project size.',
+    items: [
+      { title: 'ISI-Certified, Factory-Fresh', body: 'Manufactured at our Kanpur plant to ISI standards — thickness, coating, and profile verified before dispatch.', image: '/images/product-page/quality.jpg' },
+      { title: 'Direct Manufacturer Pricing', body: 'No middlemen, no markups — buy at true wholesale rates straight from the factory.', image: '/images/product-page/factory.jpg' },
+      { title: 'Full-Scale Project Capacity', body: 'We handle bulk orders for factories, warehouses, and EPC contractors without compromise on timelines.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Pan-UP Delivery in 2–3 Days', body: 'Our logistics fleet covers all of Uttar Pradesh — predictable delivery without third-party delays.', image: '/images/product-page/delivery-truck.jpg' },
+    ],
   },
-  {
-    title: 'Factory-Direct Pricing',
-    body: 'No middlemen markups — buy straight from our Kanpur manufacturing unit at true wholesale rates.',
-    image: '/images/product-page/factory.jpg',
+  'decking-sheet': {
+    sub: 'Contractors count on us for decking sheets because we get the profile dimensions right — every batch, every order.',
+    items: [
+      { title: 'Structural-Grade Quality', body: 'Decking sheets produced to tight tolerances — batch-checked for rib dimensions and load-bearing profile.', image: '/images/product-page/quality.jpg' },
+      { title: 'Speeds Up Your Floor Schedule', body: 'Our sheets act as permanent shuttering — no formwork removal, faster floor pours, less site labour.', image: '/images/product-page/factory.jpg' },
+      { title: 'Multi-Storey Project Capacity', body: 'Consistent output across multiple trucks — same gauge and profile batch after batch for large projects.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Rapid Site Delivery', body: '2–3 day delivery within UP so your floor-laying schedule stays on track without material delays.', image: '/images/product-page/delivery-truck.jpg' },
+    ],
   },
-  {
-    title: 'Bulk & Project Supply',
-    body: 'Reliable capacity for contractors, traders, and large-scale industrial orders — no quantity is too big.',
-    image: '/images/product-page/warehouse.jpg',
+  'purlins': {
+    sub: 'Structural fabricators and shed erectors across UP rely on our purlins for dimensional precision and fast supply.',
+    items: [
+      { title: 'Precision-Rolled C & Z Profiles', body: 'Computer-controlled roll-forming ensures consistent flange and web dimensions — critical for accurate shed erection.', image: '/images/product-page/factory.jpg' },
+      { title: 'Direct to Fabricator Pricing', body: 'We supply structural fabricators and EPC contractors at wholesale rates — no retail markup.', image: '/images/product-page/quality.jpg' },
+      { title: 'Pre-Punched Options Available', body: 'Holes punched to your bolt layout — saves labour hours during on-site erection.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Fast Delivery to Site or Yard', body: 'Standard C and Z sections stocked for immediate dispatch to your site or fabrication yard.', image: '/images/product-page/delivery-truck.jpg' },
+    ],
   },
-  {
-    title: 'Pan-India Delivery',
-    body: 'Established logistics network ensuring on-time delivery to project sites across Uttar Pradesh and beyond.',
-    image: '/images/product-page/delivery-truck.jpg',
+  'crimping-sheet': {
+    sub: 'From agricultural sheds to industrial warehouses — we supply crimping sheets that cover more area at lower cost.',
+    items: [
+      { title: 'Uniform Crimp Profile', body: 'Consistent pitch and depth across every sheet — no waviness that causes fitting headaches on site.', image: '/images/product-page/quality.jpg' },
+      { title: 'Economy & Structural Grades', body: '0.40mm to 0.70mm — match the gauge to your budget and the structural demands of the project.', image: '/images/product-page/factory.jpg' },
+      { title: 'Maximum Coverage Per Sheet', body: 'Wide effective cover width reduces the number of sheets and installation cost for large areas.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Ready for Immediate Dispatch', body: 'Standard sizes stocked and ready — no waiting on production for common specifications.', image: '/images/product-page/delivery-truck.jpg' },
+    ],
   },
-];
+  'ms-plate-channel-angle': {
+    sub: 'Fabricators and structural contractors trust us for ISI-grade MS sections — cut to length and delivered on time.',
+    items: [
+      { title: 'ISI-Grade Material Throughout', body: 'Every MS plate, channel, and angle sourced from certified mills — no sub-grade material in our supply.', image: '/images/product-page/quality.jpg' },
+      { title: 'Cut-to-Length Processing', body: 'We cut to your specified lengths — reducing on-site cutting waste and saving fabrication time.', image: '/images/product-page/factory.jpg' },
+      { title: 'Full Range in One Order', body: 'Plates, channels, and angles from a single supplier — simpler procurement, fewer vendors.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Volume Trade Pricing', body: 'Consistent, transparent pricing for fabricators and contractors — no surprises from order to order.', image: '/images/product-page/delivery-truck.jpg' },
+    ],
+  },
+  'ms-pipe': {
+    sub: 'Consistent wall thickness, dependable supply, and competitive wholesale rates — that is what RSG delivers for MS pipe.',
+    items: [
+      { title: 'Consistent Wall Thickness', body: 'Every pipe batch measured for wall uniformity — critical for structural columns and pressure applications.', image: '/images/product-page/quality.jpg' },
+      { title: 'ERW & Seamless Options', body: 'Black and galvanized options across a range of NB sizes for structural, plumbing, and industrial use.', image: '/images/product-page/factory.jpg' },
+      { title: 'Regular Supply for Ongoing Projects', body: 'We maintain stock to support contractors who need consistent weekly or monthly supply, not just one-off orders.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Wholesale Rates, Not Retail', body: 'Factory-linked pricing — significantly lower than local hardware store rates for bulk purchases.', image: '/images/product-page/delivery-truck.jpg' },
+    ],
+  },
+  'polycarbonate-sheet': {
+    sub: 'UV-stabilised polycarbonate that stays clear — not the cheap yellow-turning imports sold at local stores.',
+    items: [
+      { title: 'Certified UV Stabilisation', body: 'Our panels are UV-stabilised and tested — they maintain clarity without yellowing for years of outdoor use.', image: '/images/product-page/quality.jpg' },
+      { title: 'Solid, Multiwall & Corrugated', body: 'Three types available — solid for impact resistance, multiwall for insulation, corrugated for roofing.', image: '/images/product-page/factory.jpg' },
+      { title: 'Cut to Your Panel Length', body: 'We cut panels to your required length — no joins on site and zero material wastage.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Application Guidance Included', body: 'Our team helps you pick the right type and thickness for your skylight, greenhouse, or canopy project.', image: '/images/product-page/delivery-truck.jpg' },
+    ],
+  },
+  'galvanized-plain-sheets': {
+    sub: 'Production-line fabricators rely on us for flat, consistent-gauge GI sheets free of coating defects.',
+    items: [
+      { title: 'Hot-Dip Zinc, Not Just Plated', body: 'Proper hot-dip galvanizing from certified mills — coating weight (GSM) verified for actual protection.', image: '/images/product-page/quality.jpg' },
+      { title: 'Slit to Your Width', body: 'We slit coils to your custom widths — reduces fabrication waste and handling time.', image: '/images/product-page/factory.jpg' },
+      { title: 'Smooth Finish for Secondary Processing', body: 'Surface quality meets requirements for painting, powder coating, and roll-forming without pre-treatment.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Consistent Gauge, Batch to Batch', body: 'Same thickness on every delivery — essential for production lines with fixed tool settings.', image: '/images/product-page/delivery-truck.jpg' },
+    ],
+  },
+  'accessories': {
+    sub: 'One supplier for sheets and all accessories — zero compatibility guesswork, one delivery, one invoice.',
+    items: [
+      { title: 'Profile-Matched Accessories', body: 'We match ridge covers, flashings, and closures to your exact sheet profile — no guessing on fit.', image: '/images/product-page/quality.jpg' },
+      { title: 'Bundled with Your Sheet Order', body: 'Accessories dispatched alongside your sheet delivery — one truck, one invoice, no separate coordination.', image: '/images/product-page/dispatch-loading.jpg' },
+      { title: 'Verified Supplier Network', body: 'Every accessory procured from trusted manufacturers — not generic imports with unknown coating quality.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Wholesale Pricing for Trade Buyers', body: 'Competitive rates for contractors buying in volume — screws, vents, gutters, and ridges at trade pricing.', image: '/images/product-page/delivery-truck.jpg' },
+    ],
+  },
+  'jsw-colouron': {
+    sub: 'Authorized JSW distributor in Kanpur — genuine Colouron+ at wholesale rates with local delivery speed.',
+    items: [
+      { title: 'Authorized JSW Distributor', body: "Colouron+ supplied through JSW's authorized channel — brand-verified, not parallel market stock.", image: '/images/product-page/quality.jpg' },
+      { title: 'Kanpur Stock, Ready to Dispatch', body: 'Colouron+ inventory maintained in Kanpur — 2–3 day delivery across UP without waiting on mill supply.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Volume Pricing for Contractors', body: 'Project-scale orders get dedicated pricing — lower than standard market rates for bulk quantities.', image: '/images/product-page/factory.jpg' },
+      { title: 'Product Specification Expertise', body: 'Our team knows Colouron+ inside out — right gauge, colour, and width for your project, first time.', image: '/images/product-page/delivery-truck.jpg' },
+    ],
+  },
+  'jsw-silveron': {
+    sub: 'Authorized Silveron+ supply with Kanpur stock — no waiting on distant distributors or uncertain lead times.',
+    items: [
+      { title: 'Authorized Silveron+ Source', body: 'Genuine JSW Silveron+ through authorized supply — traceable, certified, brand-authentic every order.', image: '/images/product-page/quality.jpg' },
+      { title: 'Industrial Volume Ready', body: 'We handle large-volume Silveron+ orders for factories, warehouses, and commercial projects across UP.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Heat-Reflectivity Guidance', body: 'We help you select the right Silveron+ specification to maximize heat reflectivity for your building.', image: '/images/product-page/factory.jpg' },
+      { title: 'Competitive Trade Pricing', body: 'Authorized supply chain pricing — lower than open market traders buying on secondary markets.', image: '/images/product-page/delivery-truck.jpg' },
+    ],
+  },
+  'jsw-pragati': {
+    sub: 'Genuine JSW Pragati+ from an authorized Kanpur distributor — competitive pricing and fast delivery across UP.',
+    items: [
+      { title: 'Direct from JSW Supply Chain', body: 'Authorized distributor — not sourced from brokers. Every coil is genuine JSW Pragati+.', image: '/images/product-page/quality.jpg' },
+      { title: 'Pan-UP Coverage', body: "We deliver JSW Pragati+ across Uttar Pradesh with our own logistics fleet — faster than most distributors.", image: '/images/product-page/delivery-truck.jpg' },
+      { title: 'Full Colour Range Stocked', body: 'All 14 Pragati+ colours available in stock — no waiting weeks for a non-standard colour.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Project Sizing Support', body: 'Our team helps calculate your exact quantity and specs the right thickness for your roof span.', image: '/images/product-page/factory.jpg' },
+    ],
+  },
+  'jsw-endura': {
+    sub: 'Authorized Endura+ supply from Kanpur — quality-priced JSW sheets for budget-conscious contractors.',
+    items: [
+      { title: 'Authorized Distributor Status', body: 'JSW Endura+ sourced through authorized channels — every coil traceable and brand-authentic.', image: '/images/product-page/quality.jpg' },
+      { title: 'Kanpur-Based, Ready to Dispatch', body: 'Stock maintained locally — same-week delivery for orders placed during the working week.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Budget-Friendly Volume Rates', body: 'Tiered pricing for contractors on multiple projects — Endura+ quality at lower-than-market rates.', image: '/images/product-page/factory.jpg' },
+      { title: 'Specification Guidance', body: 'We guide buyers on profile width, colour, and thickness to match project requirements exactly.', image: '/images/product-page/delivery-truck.jpg' },
+    ],
+  },
+  'tata-durashine': {
+    sub: "Asia's Most Trusted roofing brand — supplied by Kanpur's most reliable steel dealer. Genuine product, competitive price.",
+    items: [
+      { title: 'Authorized Tata Durashine Dealer', body: "Every sheet through Tata Steel's authorized distribution chain — no fakes, no parallel imports.", image: '/images/product-page/quality.jpg' },
+      { title: "Trusted Brand, Trusted Dealer", body: "Buy Asia's most trusted roofing brand through Kanpur's most reliable steel supplier — backed end to end.", image: '/images/product-page/factory.jpg' },
+      { title: 'Both Widths Stocked', body: '1220MM and 1440MM profiles in multiple colours — available for immediate dispatch from our Kanpur facility.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Project-Scale Wholesale Supply', body: 'Large volumes for contractors, builders, and industrial buyers at wholesale rates — not retail pricing.', image: '/images/product-page/delivery-truck.jpg' },
+    ],
+  },
+  'jindal-sabrang': {
+    sub: 'Genuine Jindal Sabrang through an authorized Kanpur dealer — fast supply, competitive pricing, full colour range.',
+    items: [
+      { title: 'Genuine Jindal Product', body: "Sourced through Jindal Steel's authorized supply network — no counterfeits, no parallel imports.", image: '/images/product-page/quality.jpg' },
+      { title: 'Full Sabrang Colour Range', body: "All 14 Sabrang colours stocked — pick your project's palette without lead time compromises.", image: '/images/product-page/warehouse.jpg' },
+      { title: 'Wholesale Over Market Rate', body: 'Direct supply chain pricing — significantly better than buying from open market traders.', image: '/images/product-page/factory.jpg' },
+      { title: 'Pan-UP Delivery', body: 'Our fleet delivers Jindal Sabrang sheets across Uttar Pradesh in 2–3 working days from order.', image: '/images/product-page/delivery-truck.jpg' },
+    ],
+  },
+  'dura-glow': {
+    sub: 'We verify every Dura Glow sheet before dispatch — quality-checked supply at better-than-market pricing.',
+    items: [
+      { title: 'Quality-Verified Sourcing', body: 'Every Dura Glow sheet checked for coating integrity and dimensional accuracy before leaving our facility.', image: '/images/product-page/quality.jpg' },
+      { title: 'Competitive Wholesale Pricing', body: 'Our buying volumes secure better pricing than typical retail market rates — savings passed to you.', image: '/images/product-page/factory.jpg' },
+      { title: 'Stock for Immediate Dispatch', body: 'Regular Dura Glow inventory maintained — no long lead times on standard specifications.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Product Matching Assistance', body: 'We help you choose the right Dura Glow profile, colour, and thickness for your application.', image: '/images/product-page/delivery-truck.jpg' },
+    ],
+  },
+  'am-ns': {
+    sub: 'World-class ArcelorMittal Nippon Steel — supplied locally from Kanpur at competitive wholesale rates.',
+    items: [
+      { title: 'Authorized AM/NS Distributor', body: 'ArcelorMittal Nippon Steel products through authorized channels — world-class steel, locally available.', image: '/images/product-page/quality.jpg' },
+      { title: 'Industrial Grade Supply', body: 'We specialize in AM/NS supply for industrial, commercial, and large institutional roofing projects across UP.', image: '/images/product-page/factory.jpg' },
+      { title: 'Competitive Rates on Premium Steel', body: 'Buy world-class AM/NS quality without inflated retail prices — our volumes drive your savings.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Fast Local Delivery', body: 'Reliable 2–3 day delivery of AM/NS products across UP from our Kanpur base.', image: '/images/product-page/delivery-truck.jpg' },
+    ],
+  },
+};
+
+const DEFAULT_WHY = {
+  sub: 'What sets us apart as a manufacturer and wholesale supplier you can rely on.',
+  items: [
+    { title: 'ISI-Certified Quality', body: 'Every batch meets ISI standards for thickness, coating, and strength — verified before dispatch.', image: '/images/product-page/quality.jpg' },
+    { title: 'Factory-Direct Pricing', body: 'No middlemen markups — buy straight from our Kanpur manufacturing unit at true wholesale rates.', image: '/images/product-page/factory.jpg' },
+    { title: 'Bulk & Project Supply', body: 'Reliable capacity for contractors, traders, and large-scale industrial orders — no quantity is too big.', image: '/images/product-page/warehouse.jpg' },
+    { title: 'Pan-India Delivery', body: 'Established logistics network ensuring on-time delivery to project sites across Uttar Pradesh and beyond.', image: '/images/product-page/delivery-truck.jpg' },
+  ],
+};
+
+function productWhySection(slug: string) {
+  return PRODUCT_WHY_CHOOSE[slug] ?? DEFAULT_WHY;
+}
 
 // ─── Brand product shared data ────────────────────────────────────────────────
 
@@ -892,25 +1346,242 @@ function productApplications(slug: string) {
   return items.map((item, i) => ({ ...item, image: APPLICATION_IMAGES[i % APPLICATION_IMAGES.length] }));
 }
 
-const MANUFACTURING_STEPS = [
+const ACCESSORY_PROCESS_STEPS = [
   {
-    title: 'Raw Material Sourcing',
-    body: 'Premium steel coils sourced from trusted brands like Tata Steel and JSW for consistent base quality.',
-    image: '/images/product-page/steel-mill.jpg',
-  },
-  {
-    title: 'Roll Forming',
-    body: 'Computer-controlled roll-forming lines shape each sheet to precise profile and thickness tolerances.',
+    title: 'Identify Your Requirements',
+    body: 'Share your sheet profile, project type, and site conditions — we recommend the exact accessories needed for a complete, weather-tight installation.',
     image: '/images/product-page/engineer-tablet.jpg',
   },
   {
-    title: 'Quality Inspection',
-    body: 'Every batch is checked for thickness, coating uniformity, and structural integrity before approval.',
+    title: 'Sourced from Verified Suppliers',
+    body: 'Every accessory — screws, ridge covers, turbo vents, flashings, and gutters — is procured from trusted manufacturers meeting our quality benchmarks.',
+    image: '/images/product-page/factory.jpg',
+  },
+  {
+    title: 'Quality Verification',
+    body: 'Each accessory batch is inspected for dimensional accuracy, coating integrity, and fit compatibility before being cleared for dispatch.',
     image: '/images/product-page/quality.jpg',
   },
   {
-    title: 'Dispatch & Logistics',
-    body: 'Packed and dispatched on schedule via our own logistics network, tracked through to delivery.',
+    title: 'Bundled Delivery',
+    body: 'Accessories are packaged and dispatched alongside your sheet order — one consolidated delivery to your site, reducing coordination effort.',
     image: '/images/product-page/dispatch-loading.jpg',
   },
 ];
+
+const PRODUCT_APPLICATIONS_SUBTITLE: Record<string, string> = {
+  'colour-coated-roofing-sheet': 'From factories and cold stores to homes and poultry sheds — RSG colour coated sheets are a trusted roofing solution across UP.',
+  'decking-sheet': 'RSG decking sheets are the contractor-preferred shuttering solution for composite floors in commercial, industrial, and institutional projects.',
+  'purlins': 'C and Z purlins from RSG support large-span roofing across pre-engineered buildings, industrial sheds, warehouses, and wall cladding systems.',
+  'crimping-sheet': 'From agricultural storage sheds to industrial roofing — our corrugated crimping sheets provide economical, weatherproof coverage.',
+  'ms-plate-channel-angle': 'Used by fabricators, structural contractors, and engineers across UP for everything from machine frames to heavy structural work.',
+  'ms-pipe': 'RSG MS pipes go into structural columns, fluid lines, furniture fabrication, and industrial piping systems across Uttar Pradesh and beyond.',
+  'polycarbonate-sheet': 'RSG polycarbonate sheets bring daylight into factories, greenhouses, walkways, and commercial canopies without the heat of standard glazing.',
+  'galvanized-plain-sheets': 'Smooth, consistently-coated GI sheets used in automotive, electrical, HVAC, and furniture manufacturing across India.',
+  'jsw-colouron': 'JSW Colouron+ is trusted by contractors and builders for residential homes, industrial warehouses, and commercial buildings across India.',
+  'jsw-silveron': 'JSW Silveron+ provides superior heat-reflective roofing for factories, warehouses, commercial buildings, and large residential projects.',
+  'jsw-pragati': 'JSW Pragati+ is used across residential homes, industrial warehouses, commercial buildings, and agricultural structures throughout India.',
+  'jsw-endura': 'JSW Endura+ provides reliable, affordable colour coated roofing across residential, commercial, industrial, and agricultural structures.',
+  'tata-durashine': 'Tata Durashine is the go-to premium roofing choice for homes, farmhouses, commercial buildings, and industrial structures across India.',
+  'jindal-sabrang': 'Jindal Sabrang adds vibrant, durable colour to residential homes, commercial buildings, warehouses, and farm structures across India.',
+  'dura-glow': 'Dura Glow colour coated sheets are used across factories, warehouses, poultry farms, homes, temples, and resort structures.',
+  'am-ns': 'AM/NS colour coated sheets meet the demanding requirements of industrial roofing, commercial buildings, and large-scale residential projects.',
+};
+
+type ProcessStep = { title: string; body: string; image: string };
+type ProcessSection = { eyebrow: string; heading: string; sub: string; steps: ProcessStep[] };
+
+const PRODUCT_PROCESS_SECTION: Record<string, ProcessSection> = {
+  'colour-coated-roofing-sheet': {
+    eyebrow: 'From Raw Steel to Your Site',
+    heading: 'How We Manufacture Your Roofing Sheets',
+    sub: 'Every step — from coil to dispatch — built around dimensional precision and coating quality.',
+    steps: [
+      { title: 'Steel Coil Procurement', body: 'Premium HR/CR coils sourced from JSW and Tata Steel — ISI-grade, traceable, and inspected on arrival.', image: '/images/product-page/steel-mill.jpg' },
+      { title: 'Roll Forming', body: 'Computer-controlled lines shape each sheet to exact profile dimensions — consistent pitch, depth, and width.', image: '/images/product-page/engineer-tablet.jpg' },
+      { title: 'Quality Inspection', body: 'Every batch checked for thickness, coating uniformity, and profile dimensions before it is cleared for packing.', image: '/images/product-page/quality.jpg' },
+      { title: 'Packed & Dispatched', body: 'Bundles packed for transit, dispatched same-day or next-day to your site across Uttar Pradesh.', image: '/images/product-page/dispatch-loading.jpg' },
+    ],
+  },
+  'decking-sheet': {
+    eyebrow: 'From Raw Steel to Your Floor',
+    heading: 'How We Manufacture Decking Sheets',
+    sub: 'Structural-grade sheets manufactured to tight tolerances — so your composite floor performs to specification.',
+    steps: [
+      { title: 'Base Metal Procurement', body: 'HR steel coils from certified mills — grade and gauge verified against structural decking requirements.', image: '/images/product-page/steel-mill.jpg' },
+      { title: 'Precision Trapezoidal Forming', body: 'Roll-forming lines produce the trapezoidal deck profile with consistent rib depth and flange dimensions.', image: '/images/product-page/engineer-tablet.jpg' },
+      { title: 'Structural Quality Check', body: 'Rib geometry, gauge tolerance, and coating integrity verified on each batch before approval.', image: '/images/product-page/quality.jpg' },
+      { title: 'Cut to Length & Dispatched', body: 'Sheets cut to project-specified lengths and dispatched for site delivery — less on-site cutting effort.', image: '/images/product-page/dispatch-loading.jpg' },
+    ],
+  },
+  'purlins': {
+    eyebrow: 'From Coil to Structure',
+    heading: 'How We Roll-Form Your Purlins',
+    sub: 'C and Z purlins produced to precise dimensional tolerances — ready for fast, accurate shed and PEB erection.',
+    steps: [
+      { title: 'HR Coil Procurement', body: 'High-yield-strength HR steel coils from certified mills — grade verified for structural purlin applications.', image: '/images/product-page/steel-mill.jpg' },
+      { title: 'Roll Forming to C/Z Section', body: 'Computer-controlled lines produce consistent C and Z sections — flange and web dimensions match drawing spec.', image: '/images/product-page/engineer-tablet.jpg' },
+      { title: 'Profile & Dimension Check', body: 'Every batch checked against tolerances — consistent sections make on-site erection faster and more accurate.', image: '/images/product-page/quality.jpg' },
+      { title: 'Cut, Punch & Dispatch', body: 'Lengths cut to order, holes punched to your layout if required, bundled and dispatched to site or yard.', image: '/images/product-page/dispatch-loading.jpg' },
+    ],
+  },
+  'crimping-sheet': {
+    eyebrow: 'From Sheet to Roof',
+    heading: 'How We Produce Crimping Sheets',
+    sub: 'Uniform corrugated profile, consistent gauge — so your roofing goes up fast without fitting issues on site.',
+    steps: [
+      { title: 'Base Sheet Sourcing', body: 'Quality HR and GI base sheets sourced from trusted mills — checked for gauge and surface before crimping.', image: '/images/product-page/steel-mill.jpg' },
+      { title: 'Corrugating / Crimping', body: 'Sheets run through our corrugating lines — uniform pitch and depth maintained across the full sheet width.', image: '/images/product-page/engineer-tablet.jpg' },
+      { title: 'Profile Uniformity Check', body: 'Pitch consistency and depth verified per batch — eliminates waviness and uneven profiles that cause site problems.', image: '/images/product-page/quality.jpg' },
+      { title: 'Cut & Bundled for Dispatch', body: 'Standard and custom widths cut, bundled by gauge, and dispatched for fast delivery across UP.', image: '/images/product-page/dispatch-loading.jpg' },
+    ],
+  },
+  'ms-plate-channel-angle': {
+    eyebrow: 'From Mill to Fabrication',
+    heading: 'How We Process & Supply MS Sections',
+    sub: 'ISI-grade MS material cut to your length and delivered on time — so your fabrication shop never waits.',
+    steps: [
+      { title: 'Mill Procurement', body: 'MS plates, channels, and angles sourced from certified Indian steel mills — grade and dimension verified on receipt.', image: '/images/product-page/steel-mill.jpg' },
+      { title: 'Incoming Inspection', body: 'Material grade, surface condition, and dimensional tolerance checked against purchase spec before acceptance.', image: '/images/product-page/quality.jpg' },
+      { title: 'Cut-to-Length Processing', body: 'Material cut to your specified lengths using precision cutting equipment — less on-site cutting, less waste.', image: '/images/product-page/engineer-tablet.jpg' },
+      { title: 'Bundled & Dispatched', body: 'Sections bundled by size, tagged, and dispatched on schedule with mill test certificates available on request.', image: '/images/product-page/dispatch-loading.jpg' },
+    ],
+  },
+  'ms-pipe': {
+    eyebrow: 'From Mill to Site',
+    heading: 'How We Source & Supply MS Pipe',
+    sub: 'Consistent wall thickness, verified grade, fast dispatch — so your structural and piping work is never held up.',
+    steps: [
+      { title: 'Pipe Procurement', body: 'ERW and seamless MS pipes sourced from leading domestic manufacturers — wall thickness and grade specified upfront.', image: '/images/product-page/steel-mill.jpg' },
+      { title: 'Incoming Inspection', body: 'OD, wall thickness, and surface condition verified on every batch before acceptance into our supply.', image: '/images/product-page/quality.jpg' },
+      { title: 'Cutting & Bundling', body: 'Pipes cut to standard or project-specified lengths, bundled by NB size for easy handling and counting on site.', image: '/images/product-page/engineer-tablet.jpg' },
+      { title: 'Dispatch Across UP', body: 'Regular inventory dispatched within 1–2 days — fast delivery for contractors who cannot afford material delays.', image: '/images/product-page/dispatch-loading.jpg' },
+    ],
+  },
+  'polycarbonate-sheet': {
+    eyebrow: 'From Panel to Your Roof',
+    heading: 'How We Source & Supply Polycarbonate Sheets',
+    sub: 'UV-tested panels cut to your length — zero-waste materials delivered for your skylight or greenhouse project.',
+    steps: [
+      { title: 'Panel Procurement', body: 'UV-stabilised polycarbonate panels from certified manufacturers — UV rating and clarity verified upfront.', image: '/images/product-page/factory.jpg' },
+      { title: 'Batch UV & Clarity Check', body: 'UV protection rating, light transmission, and panel flatness verified on every incoming lot.', image: '/images/product-page/quality.jpg' },
+      { title: 'Cut to Your Specified Length', body: 'Panels cut to your exact panel length — minimizes site wastage and eliminates awkward joins.', image: '/images/product-page/engineer-tablet.jpg' },
+      { title: 'Film-Protected & Dispatched', body: 'Packed with protective film intact — no surface scratching in transit to your site.', image: '/images/product-page/dispatch-loading.jpg' },
+    ],
+  },
+  'galvanized-plain-sheets': {
+    eyebrow: 'From Coil to Your Fabrication',
+    heading: 'How We Process & Supply GI Sheets',
+    sub: 'Hot-dip galvanized, slit to your width, and delivered flat — so your production line runs without material issues.',
+    steps: [
+      { title: 'Galvanized Coil Procurement', body: 'Hot-dip galvanized coils from certified mills — zinc coating weight (GSM) verified on every incoming lot.', image: '/images/product-page/steel-mill.jpg' },
+      { title: 'Coating Weight Verification', body: 'GSM measured against specification — ensuring actual corrosion protection, not just surface appearance.', image: '/images/product-page/quality.jpg' },
+      { title: 'Slitting & Levelling', body: 'Coils slit to required widths, levelled, and cut to sheet lengths for your production process.', image: '/images/product-page/engineer-tablet.jpg' },
+      { title: 'Packed for Transit', body: 'Sheets interleaved with anti-corrosion paper, bundled, and dispatched to your facility or site.', image: '/images/product-page/dispatch-loading.jpg' },
+    ],
+  },
+  'jsw-colouron': {
+    eyebrow: 'From JSW to Your Site',
+    heading: 'How We Source & Supply JSW Colouron+',
+    sub: "Authorized supply chain — from JSW's factory through our Kanpur facility to your project site.",
+    steps: [
+      { title: "JSW Authorized Procurement", body: "Colouron+ coils procured through JSW's authorized dealer network — brand-verified, traceable to source.", image: '/images/product-page/factory.jpg' },
+      { title: 'Batch Inspection on Arrival', body: 'Coating weight, colour match, and profile checked against JSW specs on every incoming batch.', image: '/images/product-page/quality.jpg' },
+      { title: 'Order Picking & Packing', body: 'Your sheets picked by colour, width, and gauge — counted, checked, and bundled for safe transport.', image: '/images/product-page/warehouse.jpg' },
+      { title: '2–3 Day Delivery Across UP', body: 'Dispatched via our logistics fleet — reliable delivery to your site without third-party transport risks.', image: '/images/product-page/dispatch-loading.jpg' },
+    ],
+  },
+  'jsw-silveron': {
+    eyebrow: 'From JSW to Your Site',
+    heading: 'How We Source & Supply JSW Silveron+',
+    sub: "Authorized Silveron+ procurement — inspected at our Kanpur facility and dispatched directly to your project.",
+    steps: [
+      { title: "JSW Authorized Procurement", body: "Silveron+ sourced through JSW's authorized supply chain — genuine product, not secondary market stock.", image: '/images/product-page/factory.jpg' },
+      { title: 'Specification Verification', body: 'Al-Zn coating weight, heat-reflectivity rating, and dimensional specs verified on every incoming lot.', image: '/images/product-page/quality.jpg' },
+      { title: 'Order Preparation', body: 'Sheets picked to your colour, profile, and gauge spec — bundled and tagged before dispatch.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Dispatch Across UP', body: 'Regular stock for immediate dispatch — 2–3 day delivery to your site or project location.', image: '/images/product-page/dispatch-loading.jpg' },
+    ],
+  },
+  'jsw-pragati': {
+    eyebrow: 'From JSW to Your Site',
+    heading: 'How We Source & Supply JSW Pragati+',
+    sub: "Direct from JSW's authorized channel — quality-checked stock dispatched in 2–3 days across Uttar Pradesh.",
+    steps: [
+      { title: "Direct JSW Channel Procurement", body: "Pragati+ sourced through JSW's authorized dealer network — no brokers, no parallel market material.", image: '/images/product-page/factory.jpg' },
+      { title: 'Incoming Inspection', body: 'Coating integrity, colour match, and dimensional accuracy verified before acceptance into our stock.', image: '/images/product-page/quality.jpg' },
+      { title: 'Stock Management', body: 'Full range of Pragati+ colours maintained in stock — your order ships without waiting on inbound supply.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Pan-UP Delivery', body: 'Our fleet covers all of UP — predictable 2–3 day delivery without relying on third-party transport.', image: '/images/product-page/dispatch-loading.jpg' },
+    ],
+  },
+  'jsw-endura': {
+    eyebrow: 'From JSW to Your Site',
+    heading: 'How We Source & Supply JSW Endura+',
+    sub: "Authorized Endura+ supply — quality checked at Kanpur and delivered to your site at trade pricing.",
+    steps: [
+      { title: "JSW Authorized Procurement", body: "Endura+ sourced through JSW's official distribution channel — genuine product with brand traceability.", image: '/images/product-page/factory.jpg' },
+      { title: 'Batch Inspection', body: "Coating weight, colour accuracy, and profile checked on arrival — nothing ships without passing our check.", image: '/images/product-page/quality.jpg' },
+      { title: 'Order Picking by Spec', body: 'Your order picked to exact colour, width, and thickness — verified against your requirement before packing.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Fast Dispatch Across UP', body: 'Same-week dispatch from our Kanpur facility — 2–3 day delivery across Uttar Pradesh.', image: '/images/product-page/dispatch-loading.jpg' },
+    ],
+  },
+  'tata-durashine': {
+    eyebrow: 'From Tata Steel to Your Site',
+    heading: 'How We Source & Supply Tata Durashine',
+    sub: "Authorized Tata Durashine supply — genuine sheets inspected at Kanpur, dispatched on time to your project.",
+    steps: [
+      { title: "Tata Steel Authorized Procurement", body: "Durashine coils procured through Tata Steel's authorized dealer network — genuine product, fully traceable.", image: '/images/product-page/factory.jpg' },
+      { title: 'Brand Verification & Inspection', body: 'Durashine brand mark, coating weight, and profile checked on every incoming batch before acceptance.', image: '/images/product-page/quality.jpg' },
+      { title: 'Both Widths, All Colours Stocked', body: "1220MM and 1440MM profiles in multiple colours — stocked and ready for your project's spec.", image: '/images/product-page/warehouse.jpg' },
+      { title: 'Wholesale Dispatch to Your Site', body: 'Dispatched at wholesale pricing with our own logistics — reliable delivery across UP.', image: '/images/product-page/dispatch-loading.jpg' },
+    ],
+  },
+  'jindal-sabrang': {
+    eyebrow: 'From Jindal to Your Site',
+    heading: 'How We Source & Supply Jindal Sabrang',
+    sub: "Authorized Sabrang supply through our Kanpur facility — full colour range, competitive pricing, fast delivery.",
+    steps: [
+      { title: "Jindal Authorized Procurement", body: "Sabrang sourced through Jindal Steel's official supply network — no parallel imports, no counterfeits.", image: '/images/product-page/factory.jpg' },
+      { title: 'Colour & Quality Verification', body: 'All 14 Sabrang colours verified for consistency — coating integrity and dimensions checked on receipt.', image: '/images/product-page/quality.jpg' },
+      { title: 'Full Colour Range in Stock', body: 'Complete Sabrang palette maintained in stock — your colour ships immediately without lead time delays.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Pan-UP Delivery in 2–3 Days', body: 'Our fleet delivers Sabrang sheets across Uttar Pradesh — predictable timing, no third-party risk.', image: '/images/product-page/dispatch-loading.jpg' },
+    ],
+  },
+  'dura-glow': {
+    eyebrow: 'From Source to Your Site',
+    heading: 'How We Source & Supply Dura Glow',
+    sub: "Quality-verified Dura Glow sheets — inspected at our Kanpur facility and dispatched to your project on time.",
+    steps: [
+      { title: 'Sourced from Verified Suppliers', body: 'Dura Glow sheets procured from verified manufacturers — coating quality and brand authenticity confirmed.', image: '/images/product-page/factory.jpg' },
+      { title: 'Pre-Dispatch Quality Check', body: 'Every batch inspected for coating integrity, gloss consistency, and dimensional accuracy.', image: '/images/product-page/quality.jpg' },
+      { title: 'Stock for Immediate Dispatch', body: 'Regular Dura Glow inventory maintained — standard specifications ready without production lead times.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Delivery Across UP', body: 'Dispatched within 2–3 days from our Kanpur facility — reliable delivery to your site or godown.', image: '/images/product-page/dispatch-loading.jpg' },
+    ],
+  },
+  'am-ns': {
+    eyebrow: 'From AM/NS to Your Site',
+    heading: 'How We Source & Supply AM/NS Roofing Sheets',
+    sub: "Authorized ArcelorMittal Nippon Steel supply — world-class quality sheets dispatched from Kanpur to your project.",
+    steps: [
+      { title: "AM/NS Authorized Procurement", body: 'ArcelorMittal Nippon Steel products sourced through authorized distribution — world-class quality, locally stocked.', image: '/images/product-page/factory.jpg' },
+      { title: 'Premium Grade Verification', body: 'Coating weight, tensile specification, and dimensional tolerances verified on every AM/NS batch we receive.', image: '/images/product-page/quality.jpg' },
+      { title: 'Industrial Order Management', body: 'Large-volume AM/NS orders managed with dedicated stock allocation — your project gets priority supply.', image: '/images/product-page/warehouse.jpg' },
+      { title: 'Dispatch to Your Site', body: 'Fast dispatch from Kanpur across UP — reliable 2–3 day delivery for premium AM/NS sheets.', image: '/images/product-page/dispatch-loading.jpg' },
+    ],
+  },
+};
+
+const DEFAULT_PROCESS_SECTION: ProcessSection = {
+  eyebrow: 'From Raw Steel to Your Site',
+  heading: 'Our Manufacturing Process',
+  sub: 'Every step, from sourcing to dispatch, built around consistency and quality control.',
+  steps: [
+    { title: 'Raw Material Sourcing', body: 'Premium steel coils sourced from trusted brands like Tata Steel and JSW for consistent base quality.', image: '/images/product-page/steel-mill.jpg' },
+    { title: 'Roll Forming', body: 'Computer-controlled roll-forming lines shape each sheet to precise profile and thickness tolerances.', image: '/images/product-page/engineer-tablet.jpg' },
+    { title: 'Quality Inspection', body: 'Every batch is checked for thickness, coating uniformity, and structural integrity before approval.', image: '/images/product-page/quality.jpg' },
+    { title: 'Dispatch & Logistics', body: 'Packed and dispatched on schedule via our own logistics network, tracked through to delivery.', image: '/images/product-page/dispatch-loading.jpg' },
+  ],
+};
+
+function productProcessSection(slug: string): ProcessSection {
+  return PRODUCT_PROCESS_SECTION[slug] ?? DEFAULT_PROCESS_SECTION;
+}
