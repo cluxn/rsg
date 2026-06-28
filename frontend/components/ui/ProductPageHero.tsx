@@ -11,7 +11,7 @@ const PRODUCT_CARD_IMAGE: Record<string, string> = {
   'ms-plate-channel-angle': '/images/products/ms-plate-channel-angle.png',
   'polycarbonate-sheet': '/images/products/polycarbonate-sheet.png',
   'ms-pipe': '/images/products/ms-pipe.png',
-  'accessories': '/images/products/accessories/corner-accessory.jpg',
+  'accessories': '/images/products/accessories/accessories-overview.jpg',
   // Colour-coated brand products — official brand banners
   'jsw-colouron':   '/images/products/brands/jsw-colouron.jpg',
   'jsw-silveron':   '/images/products/brands/jsw-silveron.jpg',
