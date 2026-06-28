@@ -298,6 +298,19 @@ export function TiptapEditor({ value, onChange, placeholder }: TiptapEditorProps
         className="prose prose-sm max-w-none min-h-[320px] px-4 py-3 focus:outline-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:min-h-[320px] [&_table]:border-collapse [&_table]:w-full [&_td]:border [&_td]:border-navy/20 [&_td]:p-2 [&_th]:border [&_th]:border-navy/20 [&_th]:p-2 [&_th]:bg-navy/5 [&_th]:font-semibold"
       />
 
+      {/* Word count + read time */}
+      {(() => {
+        const text = editor.getText();
+        const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+        const mins = Math.max(1, Math.ceil(words / 200));
+        return (
+          <div className="border-t border-navy/8 px-4 py-2 flex items-center gap-4 text-xs text-navy/40 select-none">
+            <span>{words.toLocaleString()} words</span>
+            <span>~{mins} min read</span>
+          </div>
+        );
+      })()}
+
       <input ref={fileRef} type="file" accept="image/*" className="hidden"
         onChange={e => e.target.files?.[0] && insertImage(e.target.files[0])} />
     </div>

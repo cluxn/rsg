@@ -64,6 +64,7 @@ export async function createLead(input: CreateLeadInput): Promise<number> {
 }
 
 export type LeadStatus = 'new' | 'contacted' | 'meeting_scheduled' | 'converted' | 'closed' | 'lost' | 'junk';
+export type LeadPriority = 'none' | 'cold' | 'warm' | 'hot';
 
 interface LeadRow {
   id: number;
@@ -76,6 +77,7 @@ interface LeadRow {
   city: string | null;
   state: string | null;
   lead_status: LeadStatus;
+  priority: LeadPriority;
   follow_up_date: string | null;
   notes: string | null;
   last_contact_date: string | null;
@@ -84,7 +86,7 @@ interface LeadRow {
   created_at: string;
 }
 
-const LEAD_SELECT = 'id, name, phone, email, product_interest, message, source_page, city, state, lead_status, follow_up_date, notes, last_contact_date, webhook_sent, email_sent, created_at';
+const LEAD_SELECT = 'id, name, phone, email, product_interest, message, source_page, city, state, lead_status, priority, follow_up_date, notes, last_contact_date, webhook_sent, email_sent, created_at';
 
 export interface LeadFilters {
   search?: string;
@@ -132,6 +134,7 @@ export async function getLeads(page: number, limit: number, filters?: LeadFilter
 
 export async function updateLead(id: number, data: {
   lead_status?: LeadStatus;
+  priority?: LeadPriority;
   follow_up_date?: string | null;
   notes?: string | null;
   last_contact_date?: string | null;
@@ -140,12 +143,50 @@ export async function updateLead(id: number, data: {
   const params: (string | null)[] = [];
 
   if (data.lead_status !== undefined) { fields.push('lead_status = ?'); params.push(data.lead_status); }
+  if (data.priority !== undefined) { fields.push('priority = ?'); params.push(data.priority); }
   if (data.follow_up_date !== undefined) { fields.push('follow_up_date = ?'); params.push(data.follow_up_date); }
   if (data.notes !== undefined) { fields.push('notes = ?'); params.push(data.notes); }
   if (data.last_contact_date !== undefined) { fields.push('last_contact_date = ?'); params.push(data.last_contact_date); }
 
   if (!fields.length) return;
   await query(`UPDATE leads SET ${fields.join(', ')} WHERE id = ?`, [...params, id]);
+}
+
+export async function bulkUpdateLeadStatus(ids: number[], lead_status: LeadStatus): Promise<void> {
+  if (!ids.length) return;
+  const placeholders = ids.map(() => '?').join(', ');
+  await query(`UPDATE leads SET lead_status = ? WHERE id IN (${placeholders})`, [lead_status, ...ids]);
+}
+
+export async function bulkDeleteLeads(ids: number[]): Promise<void> {
+  if (!ids.length) return;
+  const placeholders = ids.map(() => '?').join(', ');
+  await query(`DELETE FROM leads WHERE id IN (${placeholders})`, ids);
+}
+
+export async function checkDuplicatePhone(phone: string): Promise<{ exists: boolean; lead_id?: number; name?: string }> {
+  const rows = await query<{ id: number; name: string }>(
+    'SELECT id, name FROM leads WHERE phone = ? LIMIT 1',
+    [phone]
+  );
+  if (rows[0]) return { exists: true, lead_id: rows[0].id, name: rows[0].name };
+  return { exists: false };
+}
+
+export async function getLeadSourceBreakdown(): Promise<{ source_page: string; count: number }[]> {
+  return query<{ source_page: string; count: number }>(
+    `SELECT COALESCE(source_page, 'unknown') as source_page, COUNT(*) as count
+     FROM leads GROUP BY source_page ORDER BY count DESC LIMIT 10`
+  );
+}
+
+export async function getLeadFunnelCounts(): Promise<{ new: number; contacted: number; converted: number }> {
+  const rows = await query<{ lead_status: string; cnt: number }>(
+    `SELECT lead_status, COUNT(*) as cnt FROM leads WHERE lead_status IN ('new','contacted','converted') GROUP BY lead_status`
+  );
+  const map: Record<string, number> = {};
+  rows.forEach(r => { map[r.lead_status] = Number(r.cnt); });
+  return { new: map['new'] ?? 0, contacted: map['contacted'] ?? 0, converted: map['converted'] ?? 0 };
 }
 
 export async function exportLeadsToCSV(): Promise<string> {

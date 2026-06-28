@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { Users, Package, Image, FileText, Bell, CalendarClock, Megaphone, Clock, Calendar } from 'lucide-react';
+import { Users, Package, FileText, Bell, CalendarClock, Megaphone, Clock, Calendar, Plus, X, TrendingUp, BarChart2 } from 'lucide-react';
 import { AdminLayout } from '@/components/layout/AdminLayout';
 import { GlassStatCard } from '@/components/ui/GlassStatCard';
 import { api } from '@/lib/api';
@@ -18,6 +19,8 @@ interface DashboardSummary {
   upcoming_events: { id: number; slug: string; title: string; event_type: string | null; event_date: string | null; location: string | null }[];
   scheduled_posts: { id: number; slug: string; title: string; scheduled_at: string | null; category: string | null }[];
   recent_leads: { id: number; name: string; phone: string | null; product_interest: string | null; lead_status: string; source_page: string | null; created_at: string }[];
+  lead_sources: { source_page: string; count: number }[];
+  lead_funnel: { new: number; contacted: number; converted: number };
 }
 
 const STATUS_COLORS: Record<string, string> = {
@@ -58,6 +61,7 @@ function daysUntil(dateStr: string | null) {
 }
 
 export function DashboardPage() {
+  const [fabOpen, setFabOpen] = useState(false);
   const { data, isLoading } = useQuery<DashboardSummary>({
     queryKey: ['dashboard-summary'],
     queryFn: () => api.get('/dashboard/summary').then(r => r.data),
@@ -160,6 +164,68 @@ export function DashboardPage() {
             )}
           </div>
         )}
+
+        {/* Lead Analytics Row */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+
+          {/* Lead Source Breakdown */}
+          <div className="bg-white rounded-2xl border border-navy/10 shadow-sm overflow-hidden">
+            <div className="flex items-center gap-2 px-5 py-4 border-b border-navy/8">
+              <BarChart2 className="w-4 h-4 text-navy/50" />
+              <h2 className="font-heading text-sm font-bold text-navy">Lead Sources</h2>
+            </div>
+            {isLoading || !data?.lead_sources?.length ? (
+              <div className="p-5 text-navy/30 font-body text-sm">{isLoading ? 'Loading…' : 'No data yet.'}</div>
+            ) : (() => {
+              const max = Math.max(...data.lead_sources.map(s => s.count));
+              return (
+                <div className="p-4 space-y-2">
+                  {data.lead_sources.slice(0, 6).map(s => (
+                    <div key={s.source_page} className="flex items-center gap-3">
+                      <span className="font-body text-xs text-navy/60 w-32 truncate flex-shrink-0">{s.source_page}</span>
+                      <div className="flex-1 bg-navy/5 rounded-full h-2">
+                        <div className="bg-steel rounded-full h-2 transition-all" style={{ width: `${(s.count / max) * 100}%` }} />
+                      </div>
+                      <span className="font-body text-xs font-semibold text-navy w-6 text-right">{s.count}</span>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
+          </div>
+
+          {/* Conversion Funnel */}
+          <div className="bg-white rounded-2xl border border-navy/10 shadow-sm overflow-hidden">
+            <div className="flex items-center gap-2 px-5 py-4 border-b border-navy/8">
+              <TrendingUp className="w-4 h-4 text-navy/50" />
+              <h2 className="font-heading text-sm font-bold text-navy">Conversion Funnel</h2>
+            </div>
+            {isLoading ? (
+              <div className="p-5 text-navy/30 font-body text-sm">Loading…</div>
+            ) : (
+              <div className="p-5 space-y-3">
+                {[
+                  { label: 'New', count: data?.lead_funnel?.new ?? 0, color: 'bg-blue-400' },
+                  { label: 'Contacted', count: data?.lead_funnel?.contacted ?? 0, color: 'bg-yellow-400' },
+                  { label: 'Converted', count: data?.lead_funnel?.converted ?? 0, color: 'bg-green-500' },
+                ].map((stage, i, arr) => {
+                  const pct = arr[0].count > 0 ? Math.round((stage.count / arr[0].count) * 100) : 0;
+                  return (
+                    <div key={stage.label}>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-body text-sm font-semibold text-navy">{stage.label}</span>
+                        <span className="font-body text-sm text-navy/60">{stage.count} {i > 0 ? `(${pct}%)` : ''}</span>
+                      </div>
+                      <div className="bg-navy/5 rounded-full h-3">
+                        <div className={`${stage.color} rounded-full h-3 transition-all`} style={{ width: `${pct || (i === 0 ? 100 : 0)}%` }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
 
         {/* Activity Feed: 2-column */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -270,6 +336,29 @@ export function DashboardPage() {
 
           </div>
         </div>
+      </div>
+
+      {/* Quick-add FAB */}
+      <div className="fixed bottom-8 right-8 z-40 flex flex-col items-end gap-2">
+        {fabOpen && (
+          <div className="flex flex-col items-end gap-2 mb-1">
+            <Link to="/leads" onClick={() => setFabOpen(false)} className="flex items-center gap-2 bg-white border border-navy/10 rounded-xl px-4 py-2.5 shadow-lg text-sm font-body font-semibold text-navy hover:bg-navy/5 transition-colors">
+              <Users className="w-4 h-4 text-steel" /> Add Lead
+            </Link>
+            <Link to="/blog/create" onClick={() => setFabOpen(false)} className="flex items-center gap-2 bg-white border border-navy/10 rounded-xl px-4 py-2.5 shadow-lg text-sm font-body font-semibold text-navy hover:bg-navy/5 transition-colors">
+              <FileText className="w-4 h-4 text-steel" /> New Blog Post
+            </Link>
+            <Link to="/events/create" onClick={() => setFabOpen(false)} className="flex items-center gap-2 bg-white border border-navy/10 rounded-xl px-4 py-2.5 shadow-lg text-sm font-body font-semibold text-navy hover:bg-navy/5 transition-colors">
+              <Calendar className="w-4 h-4 text-steel" /> New Event
+            </Link>
+          </div>
+        )}
+        <button
+          onClick={() => setFabOpen(o => !o)}
+          className="w-12 h-12 bg-steel text-white rounded-full shadow-xl flex items-center justify-center hover:bg-steel/90 transition-all"
+        >
+          {fabOpen ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+        </button>
       </div>
     </AdminLayout>
   );

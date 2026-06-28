@@ -1,10 +1,11 @@
 import { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AdminLayout } from '@/components/layout/AdminLayout';
 import { ContentTabs } from '@/components/ContentTabs';
 import { Button } from '@/components/ui/button';
 import { getBlogPostsAdmin, deleteBlogPost, type BlogPost, type ContentStatus } from '@/lib/api';
+import { api } from '@/lib/api';
 
 const STATUS_COLORS: Record<ContentStatus, string> = {
   published: 'bg-green-100 text-green-700',
@@ -14,6 +15,7 @@ const STATUS_COLORS: Record<ContentStatus, string> = {
 
 export function BlogListPage() {
   const qc = useQueryClient();
+  const navigate = useNavigate();
   const { data: posts = [], isLoading } = useQuery<BlogPost[]>({
     queryKey: ['blog-admin'],
     queryFn: getBlogPostsAdmin,
@@ -24,6 +26,7 @@ export function BlogListPage() {
   const [categoryFilter, setCategoryFilter] = useState('');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
+  const [selected, setSelected] = useState<Set<number>>(new Set());
 
   const categories = useMemo(() => [...new Set(posts.map(p => p.category).filter(Boolean))] as string[], [posts]);
 
@@ -42,6 +45,24 @@ export function BlogListPage() {
     mutationFn: deleteBlogPost,
     onSuccess: () => qc.invalidateQueries({ queryKey: ['blog-admin'] }),
   });
+
+  const duplicateMutation = useMutation({
+    mutationFn: (id: number) => api.post(`/blog/${id}/duplicate`).then(r => r.data as { id: number }),
+    onSuccess: (data) => { qc.invalidateQueries({ queryKey: ['blog-admin'] }); navigate(`/blog/edit/${data.id}`); },
+  });
+
+  const bulkStatusMutation = useMutation({
+    mutationFn: ({ ids, status }: { ids: number[]; status: ContentStatus }) =>
+      api.post('/blog/bulk', { ids, status }).then(r => r.data),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['blog-admin'] }); setSelected(new Set()); },
+  });
+
+  function toggleSelect(id: number) {
+    setSelected(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  }
+  function toggleAll() {
+    setSelected(filtered.every(p => selected.has(p.id)) ? new Set() : new Set(filtered.map(p => p.id)));
+  }
 
   const handleDelete = (id: number, title: string) => {
     if (!window.confirm(`Delete "${title}"?`)) return;
@@ -104,6 +125,16 @@ export function BlogListPage() {
           </div>
         </div>
 
+        {/* Bulk action bar */}
+        {selected.size > 0 && (
+          <div className="flex items-center gap-3 bg-steel/10 border border-steel/20 rounded-xl px-4 py-2.5 mb-4">
+            <span className="font-body text-sm text-steel font-semibold">{selected.size} selected</span>
+            <Button size="sm" disabled={bulkStatusMutation.isPending} onClick={() => bulkStatusMutation.mutate({ ids: [...selected], status: 'published' })}>Publish</Button>
+            <Button size="sm" variant="outline" disabled={bulkStatusMutation.isPending} onClick={() => bulkStatusMutation.mutate({ ids: [...selected], status: 'draft' })}>Unpublish</Button>
+            <button onClick={() => setSelected(new Set())} className="ml-auto text-navy/40 hover:text-navy text-xs">Clear</button>
+          </div>
+        )}
+
         {isLoading ? (
           <p className="text-navy/60">Loading…</p>
         ) : filtered.length === 0 ? (
@@ -113,6 +144,7 @@ export function BlogListPage() {
             <table className="w-full text-sm">
               <thead className="bg-navy/5 text-navy/60 text-left">
                 <tr>
+                  <th className="px-3 py-3"><input type="checkbox" checked={filtered.every(p => selected.has(p.id))} onChange={toggleAll} className="rounded border-navy/30" /></th>
                   <th className="px-4 py-3 font-semibold">Title</th>
                   <th className="px-4 py-3 font-semibold">Category</th>
                   <th className="px-4 py-3 font-semibold">Status</th>
@@ -123,7 +155,8 @@ export function BlogListPage() {
               </thead>
               <tbody>
                 {filtered.map(post => (
-                  <tr key={post.id} className="border-t border-navy/10 hover:bg-navy/[0.02]">
+                  <tr key={post.id} className={`border-t border-navy/10 hover:bg-navy/[0.02] ${selected.has(post.id) ? 'bg-steel/5' : ''}`}>
+                    <td className="px-3 py-3"><input type="checkbox" checked={selected.has(post.id)} onChange={() => toggleSelect(post.id)} className="rounded border-navy/30" /></td>
                     <td className="px-4 py-3 font-medium text-navy">{post.title}</td>
                     <td className="px-4 py-3 text-navy/60 text-xs">{post.category || '—'}</td>
                     <td className="px-4 py-3">
@@ -131,20 +164,12 @@ export function BlogListPage() {
                         {post.status.charAt(0).toUpperCase() + post.status.slice(1)}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-navy/60 text-xs">
-                      {post.scheduled_at ? new Date(post.scheduled_at).toLocaleDateString('en-IN') : '—'}
-                    </td>
-                    <td className="px-4 py-3 text-navy/60 text-xs">
-                      {post.published_at ? new Date(post.published_at).toLocaleDateString('en-IN') : '—'}
-                    </td>
+                    <td className="px-4 py-3 text-navy/60 text-xs">{post.scheduled_at ? new Date(post.scheduled_at).toLocaleDateString('en-IN') : '—'}</td>
+                    <td className="px-4 py-3 text-navy/60 text-xs">{post.published_at ? new Date(post.published_at).toLocaleDateString('en-IN') : '—'}</td>
                     <td className="px-4 py-3 flex gap-2">
                       <Link to={`/blog/edit/${post.id}`} className="text-steel hover:underline text-xs font-semibold">Edit</Link>
-                      <button
-                        onClick={() => handleDelete(post.id, post.title)}
-                        className="text-red-500 hover:underline text-xs font-semibold"
-                      >
-                        Delete
-                      </button>
+                      <button onClick={() => duplicateMutation.mutate(post.id)} disabled={duplicateMutation.isPending} className="text-navy/50 hover:text-navy hover:underline text-xs font-semibold">Duplicate</button>
+                      <button onClick={() => handleDelete(post.id, post.title)} className="text-red-500 hover:underline text-xs font-semibold">Delete</button>
                     </td>
                   </tr>
                 ))}

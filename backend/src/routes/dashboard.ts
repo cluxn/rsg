@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { pool } from '../db/connection';
 import { requireAuth } from '../middleware/auth';
+import { getLeadSourceBreakdown, getLeadFunnelCounts } from '../services/leads.service';
 
 const router = Router();
 
@@ -13,6 +14,8 @@ router.get('/summary', requireAuth, async (_req: Request, res: Response): Promis
     [scheduledPosts],
     [recentLeads],
     [mediaRows],
+    sources,
+    funnel,
   ] = await Promise.all([
     pool.query(`
       SELECT
@@ -56,7 +59,9 @@ router.get('/summary', requireAuth, async (_req: Request, res: Response): Promis
       LIMIT 6
     `),
     pool.query('SELECT COUNT(*) AS cnt FROM media'),
-  ]) as [[Record<string, number>[], unknown], [Record<string, unknown>[], unknown], [Record<string, unknown>[], unknown], [Record<string, unknown>[], unknown], [Record<string, unknown>[], unknown], [Record<string, unknown>[], unknown], [Record<string, unknown>[], unknown]];
+    getLeadSourceBreakdown(),
+    getLeadFunnelCounts(),
+  ]) as [[Record<string, number>[], unknown], [Record<string, unknown>[], unknown], [Record<string, unknown>[], unknown], [Record<string, unknown>[], unknown], [Record<string, unknown>[], unknown], [Record<string, unknown>[], unknown], [Record<string, unknown>[], unknown], unknown, unknown];
 
   const s = statsRows[0] ?? {};
 
@@ -73,6 +78,8 @@ router.get('/summary', requireAuth, async (_req: Request, res: Response): Promis
     upcoming_events: upcomingEvents,
     scheduled_posts: scheduledPosts,
     recent_leads: recentLeads,
+    lead_sources: sources,
+    lead_funnel: funnel,
   });
 });
 

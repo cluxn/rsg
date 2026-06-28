@@ -142,3 +142,36 @@ export async function updatePost(id: number, data: Partial<CreatePostData>): Pro
 export async function deletePost(id: number): Promise<void> {
   await query('DELETE FROM blog_posts WHERE id = ?', [id]);
 }
+
+export async function duplicatePost(id: number): Promise<{ insertId: number }> {
+  const rows = await query<BlogPost>('SELECT * FROM blog_posts WHERE id = ? LIMIT 1', [id]);
+  const src = rows[0];
+  if (!src) throw new Error('Post not found');
+
+  // Generate a unique slug by appending a timestamp
+  const newSlug = `${src.slug}-copy-${Date.now()}`;
+  const result = await query<{ insertId: number }>(
+    `INSERT INTO blog_posts
+      (slug, title, body, category, service, industry, excerpt, featured_image, author_name, featured,
+       meta_title, meta_description, canonical_url, og_image, published, status, scheduled_at, published_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, FALSE, 'draft', NULL, NULL)`,
+    [
+      newSlug, `Copy of ${src.title}`, src.body,
+      src.category ?? null, (src as any).service ?? null, (src as any).industry ?? null,
+      src.excerpt ?? null, src.featured_image ?? null, src.author_name ?? null, false,
+      src.meta_title ?? null, src.meta_description ?? null, src.canonical_url ?? null, src.og_image ?? null,
+    ]
+  );
+  return result[0];
+}
+
+export async function bulkUpdatePostStatus(ids: number[], status: ContentStatus): Promise<void> {
+  if (!ids.length) return;
+  const placeholders = ids.map(() => '?').join(', ');
+  const published = status === 'published';
+  const publishedAt = published ? 'COALESCE(published_at, NOW())' : 'published_at';
+  await query(
+    `UPDATE blog_posts SET status = ?, published = ?, published_at = ${publishedAt} WHERE id IN (${placeholders})`,
+    [status, published, ...ids]
+  );
+}

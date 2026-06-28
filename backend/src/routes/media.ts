@@ -129,6 +129,40 @@ router.delete('/:id', requireAuth, async (req: Request, res: Response): Promise<
   res.json({ deleted: true });
 });
 
+router.post('/bulk-delete', requireAuth, async (req: Request, res: Response): Promise<void> => {
+  const { ids } = req.body as { ids: number[] };
+  if (!Array.isArray(ids) || ids.length === 0) { res.status(400).json({ error: 'ids required' }); return; }
+
+  const placeholders = ids.map(() => '?').join(', ');
+  const [rows] = await pool.query(
+    `SELECT id, filename FROM media WHERE id IN (${placeholders})`,
+    ids
+  ) as [{ id: number; filename: string }[], unknown];
+
+  // Only delete items not linked to products
+  const [linked] = await pool.query(
+    `SELECT DISTINCT media_id FROM product_media WHERE media_id IN (${placeholders})`,
+    ids
+  ) as [{ media_id: number }[], unknown];
+  const linkedIds = new Set(linked.map(r => r.media_id));
+
+  const toDelete = rows.filter(r => !linkedIds.has(r.id));
+  if (toDelete.length === 0) { res.status(409).json({ error: 'All selected images are in use by products' }); return; }
+
+  const deleteIds = toDelete.map(r => r.id);
+  const deletePlaceholders = deleteIds.map(() => '?').join(', ');
+  await pool.query(`DELETE FROM media WHERE id IN (${deletePlaceholders})`, deleteIds);
+
+  for (const { filename } of toDelete) {
+    for (const suffix of ['.webp', '_thumb.webp']) {
+      const filePath = path.join(UPLOADS_DIR, `${filename}${suffix}`);
+      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    }
+  }
+
+  res.json({ deleted: toDelete.length, skipped: ids.length - toDelete.length });
+});
+
 router.post('/sync-static', requireAuth, async (_req: Request, res: Response): Promise<void> => {
   const imagePaths = walkImages(path.join(FRONTEND_PUBLIC, 'images'), FRONTEND_PUBLIC);
 

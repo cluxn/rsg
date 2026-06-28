@@ -7,6 +7,9 @@ import {
   createPost,
   updatePost,
   deletePost,
+  duplicatePost,
+  bulkUpdatePostStatus,
+  type ContentStatus,
 } from '../services/blog.service';
 
 const createPostSchema = z.object({
@@ -57,4 +60,27 @@ export async function updatePostHandler(req: Request, res: Response): Promise<vo
 export async function deletePostHandler(req: Request, res: Response): Promise<void> {
   await deletePost(Number(req.params.id));
   res.json({ ok: true });
+}
+
+export async function duplicatePostHandler(req: Request, res: Response): Promise<void> {
+  try {
+    const result = await duplicatePost(Number(req.params.id)) as unknown as { insertId: number };
+    res.status(201).json({ ok: true, id: result.insertId });
+  } catch (err) {
+    console.error('duplicatePost error:', err);
+    res.status(500).json({ error: 'Duplicate failed' });
+  }
+}
+
+export async function bulkUpdatePostsHandler(req: Request, res: Response): Promise<void> {
+  const { ids, status } = req.body as { ids: number[]; status: ContentStatus };
+  if (!Array.isArray(ids) || ids.length === 0) { res.status(400).json({ error: 'ids required' }); return; }
+  if (!['draft', 'scheduled', 'published'].includes(status)) { res.status(400).json({ error: 'invalid status' }); return; }
+  try {
+    await bulkUpdatePostStatus(ids, status);
+    res.json({ ok: true, affected: ids.length });
+  } catch (err) {
+    console.error('bulkUpdatePosts error:', err);
+    res.status(500).json({ error: 'Bulk update failed' });
+  }
 }

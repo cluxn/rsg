@@ -163,6 +163,37 @@ function GeneralSettingsForm({ settings }: { settings: Record<string, string> })
         {saved && <span className="font-body text-sm text-green-600">Settings saved.</span>}
         {mutation.isError && <span className="font-body text-sm text-red-600">Save failed. Please try again.</span>}
       </div>
+
+      <div className="border-t border-navy/10 pt-6 mt-6">
+        <p className="font-body text-sm font-semibold text-navy mb-1">Backup / Restore</p>
+        <p className="font-body text-xs text-navy/50 mb-3">Export all settings to JSON or restore from a previously exported file.</p>
+        <div className="flex gap-2 items-center">
+          <Button type="button" variant="outline" size="sm" onClick={() => window.open('/api/settings/export', '_blank')}>
+            Export JSON
+          </Button>
+          <label className="cursor-pointer">
+            <span className="inline-flex items-center px-3 py-1.5 rounded border border-navy/20 text-xs font-semibold text-navy hover:bg-navy/5 transition-colors">Import JSON</span>
+            <input
+              type="file"
+              accept=".json,application/json"
+              className="hidden"
+              onChange={async e => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                try {
+                  const text = await file.text();
+                  const json = JSON.parse(text);
+                  await api.post('/settings/import', json);
+                  queryClient.invalidateQueries({ queryKey: ['settings'] });
+                  setSaved(true);
+                  setTimeout(() => setSaved(false), 3000);
+                } catch { alert('Import failed — check the file is a valid settings JSON.'); }
+                e.target.value = '';
+              }}
+            />
+          </label>
+        </div>
+      </div>
     </form>
   );
 }

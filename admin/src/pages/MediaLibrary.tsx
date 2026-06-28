@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Upload, RefreshCw } from 'lucide-react';
+import { Upload, RefreshCw, Trash2, Search } from 'lucide-react';
 import { AdminLayout } from '@/components/layout/AdminLayout';
 import { ContentTabs } from '@/components/ContentTabs';
 import { Button } from '@/components/ui/button';
@@ -16,11 +16,30 @@ export function MediaLibraryPage() {
   const [editName, setEditName] = useState('');
   const [deleteItem, setDeleteItem] = useState<MediaItem | null>(null);
   const [deleteUsage, setDeleteUsage] = useState<{ used: boolean; products: { slug: string; name: string }[] } | null>(null);
+  const [search, setSearch] = useState('');
+  const [selected, setSelected] = useState<Set<number>>(new Set());
 
   const { data: mediaItems = [], isLoading } = useQuery<MediaItem[]>({
     queryKey: ['media'],
     queryFn: () => api.get('/media').then(r => r.data),
   });
+
+  const filtered = useMemo(() =>
+    search.trim() ? mediaItems.filter(m => m.original_name.toLowerCase().includes(search.toLowerCase())) : mediaItems,
+    [mediaItems, search]
+  );
+
+  const bulkDeleteMutation = useMutation({
+    mutationFn: (ids: number[]) => api.post('/media/bulk-delete', { ids }).then(r => r.data),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['media'] }); setSelected(new Set()); },
+  });
+
+  function toggleSelect(id: number) {
+    setSelected(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  }
+  function toggleAll() {
+    setSelected(filtered.every(m => selected.has(m.id)) ? new Set() : new Set(filtered.map(m => m.id)));
+  }
 
   const editMutation = useMutation({
     mutationFn: ({ id, alt_text, original_name }: { id: number; alt_text: string; original_name: string }) =>
@@ -59,6 +78,15 @@ export function MediaLibraryPage() {
             <p className="font-body text-navy/60">Manage uploaded images and alt text</p>
           </div>
           <div className="flex items-center gap-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-navy/40" />
+              <input
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                placeholder="Search by filename…"
+                className="pl-9 pr-3 py-2 border border-navy/20 rounded-lg text-sm text-navy outline-none focus:border-steel w-52"
+              />
+            </div>
             {syncMsg && <span className="font-body text-xs text-green-600">{syncMsg}</span>}
             <Button
               variant="outline"
@@ -75,23 +103,55 @@ export function MediaLibraryPage() {
           </div>
         </div>
 
+        {/* Bulk action bar */}
+        {selected.size > 0 && (
+          <div className="flex items-center gap-3 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5 mb-4">
+            <span className="font-body text-sm text-red-600 font-semibold">{selected.size} selected</span>
+            <Button
+              size="sm"
+              disabled={bulkDeleteMutation.isPending}
+              onClick={() => { if (window.confirm(`Delete ${selected.size} image(s)? This cannot be undone.`)) bulkDeleteMutation.mutate([...selected]); }}
+              className="bg-red-500 text-white hover:bg-red-600 gap-1.5"
+            >
+              <Trash2 className="w-3.5 h-3.5" /> Delete selected
+            </Button>
+            <button onClick={() => setSelected(new Set())} className="ml-auto text-red-400 hover:text-red-600 text-xs">Clear</button>
+          </div>
+        )}
+
         {isLoading ? (
           <div className="flex justify-center py-20 text-navy/40 font-body">Loading…</div>
-        ) : mediaItems.length === 0 ? (
+        ) : filtered.length === 0 ? (
           <div className="text-center py-20 text-navy/40 font-body">
-            No media uploaded yet. Click "Upload New" to add your first image.
+            {search ? 'No images match your search.' : 'No media uploaded yet. Click "Upload New" to add your first image.'}
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-            {mediaItems.map(item => (
-              <MediaCard
-                key={item.id}
-                item={item}
-                onEdit={item => { setEditItem(item); setEditAltText(item.alt_text); setEditName(item.original_name); }}
-                onDelete={handleDeleteClick}
-              />
-            ))}
-          </div>
+          <>
+            {filtered.length > 1 && (
+              <div className="flex items-center gap-2 mb-3">
+                <input type="checkbox" checked={filtered.every(m => selected.has(m.id))} onChange={toggleAll} className="rounded border-navy/30" />
+                <span className="text-xs text-navy/50">Select all {filtered.length}</span>
+              </div>
+            )}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              {filtered.map(item => (
+                <div key={item.id} className="relative group">
+                  <input
+                    type="checkbox"
+                    checked={selected.has(item.id)}
+                    onChange={() => toggleSelect(item.id)}
+                    className="absolute top-2 left-2 z-10 rounded border-navy/30 opacity-0 group-hover:opacity-100 transition-opacity"
+                    style={{ opacity: selected.has(item.id) ? 1 : undefined }}
+                  />
+                  <MediaCard
+                    item={item}
+                    onEdit={item => { setEditItem(item); setEditAltText(item.alt_text); setEditName(item.original_name); }}
+                    onDelete={handleDeleteClick}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
         )}
 
         <UploadModal open={uploadOpen} onClose={() => setUploadOpen(false)} />

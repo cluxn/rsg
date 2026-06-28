@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 import { z } from 'zod';
-import { createLead, getLeads, updateLead, exportLeadsToCSV, exportLeadsToExcel, generateLeadSampleExcel, importLeadsFromCSV } from '../services/leads.service';
+import { createLead, getLeads, updateLead, exportLeadsToCSV, exportLeadsToExcel, generateLeadSampleExcel, importLeadsFromCSV, bulkUpdateLeadStatus, bulkDeleteLeads, checkDuplicatePhone, getLeadSourceBreakdown, getLeadFunnelCounts } from '../services/leads.service';
+import type { LeadStatus } from '../services/leads.service';
 import { query } from '../db/connection';
 
 const createLeadSchema = z.object({
@@ -111,6 +112,46 @@ export async function importLeads(req: Request, res: Response): Promise<void> {
   } catch (err) {
     console.error('importLeads error:', err);
     res.status(500).json({ error: 'Import failed' });
+  }
+}
+
+export async function bulkLeadsHandler(req: Request, res: Response): Promise<void> {
+  const { action, ids, lead_status } = req.body as { action: string; ids: number[]; lead_status?: string };
+  if (!Array.isArray(ids) || ids.length === 0) { res.status(400).json({ error: 'ids required' }); return; }
+  try {
+    if (action === 'delete') {
+      await bulkDeleteLeads(ids);
+      res.json({ ok: true, affected: ids.length });
+    } else if (action === 'status' && lead_status) {
+      await bulkUpdateLeadStatus(ids, lead_status as LeadStatus);
+      res.json({ ok: true, affected: ids.length });
+    } else {
+      res.status(400).json({ error: 'Invalid action' });
+    }
+  } catch (err) {
+    console.error('bulkLeads error:', err);
+    res.status(500).json({ error: 'Bulk operation failed' });
+  }
+}
+
+export async function checkDuplicatePhoneHandler(req: Request, res: Response): Promise<void> {
+  const phone = String(req.query.phone ?? '').trim();
+  if (!phone) { res.status(400).json({ error: 'phone required' }); return; }
+  try {
+    res.json(await checkDuplicatePhone(phone));
+  } catch (err) {
+    console.error('checkDuplicatePhone error:', err);
+    res.status(500).json({ error: 'Check failed' });
+  }
+}
+
+export async function leadStatsHandler(_req: Request, res: Response): Promise<void> {
+  try {
+    const [sources, funnel] = await Promise.all([getLeadSourceBreakdown(), getLeadFunnelCounts()]);
+    res.json({ sources, funnel });
+  } catch (err) {
+    console.error('leadStats error:', err);
+    res.status(500).json({ error: 'Failed to fetch stats' });
   }
 }
 
