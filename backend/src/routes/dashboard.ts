@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { pool } from '../db/connection';
 import { requireAuth } from '../middleware/auth';
 import { getLeadSourceBreakdown, getLeadFunnelCounts } from '../services/leads.service';
+import { query } from '../db/connection';
 
 const router = Router();
 
@@ -81,6 +82,27 @@ router.get('/summary', requireAuth, async (_req: Request, res: Response): Promis
     lead_sources: sources,
     lead_funnel: funnel,
   });
+});
+
+router.get('/activity', requireAuth, async (_req: Request, res: Response): Promise<void> => {
+  const rows = await query<{
+    id: number;
+    admin_id: number | null;
+    action: string;
+    entity: string;
+    entity_id: number | null;
+    detail: string | null;
+    created_at: string;
+    admin_email: string | null;
+  }>(`
+    SELECT l.id, l.admin_id, l.action, l.entity, l.entity_id, l.detail, l.created_at,
+           a.email AS admin_email
+    FROM admin_activity_log l
+    LEFT JOIN admin_users a ON a.id = l.admin_id
+    ORDER BY l.created_at DESC
+    LIMIT 100
+  `);
+  res.json(rows);
 });
 
 export default router;

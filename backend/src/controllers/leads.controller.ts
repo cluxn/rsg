@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { createLead, getLeads, updateLead, exportLeadsToCSV, exportLeadsToExcel, generateLeadSampleExcel, importLeadsFromCSV, bulkUpdateLeadStatus, bulkDeleteLeads, checkDuplicatePhone, getLeadSourceBreakdown, getLeadFunnelCounts } from '../services/leads.service';
 import type { LeadStatus } from '../services/leads.service';
 import { query } from '../db/connection';
+import { logActivity } from '../services/activity.service';
 
 const createLeadSchema = z.object({
   name: z.string().min(1, 'Name is required').max(255),
@@ -53,7 +54,12 @@ export async function listLeads(req: Request, res: Response): Promise<void> {
 
 export async function updateLeadHandler(req: Request, res: Response): Promise<void> {
   try {
-    await updateLead(Number(req.params.id), req.body as Parameters<typeof updateLead>[1]);
+    const id = Number(req.params.id);
+    await updateLead(id, req.body as Parameters<typeof updateLead>[1]);
+    const detail = (req.body as Record<string, unknown>).lead_status
+      ? `status → ${(req.body as Record<string, unknown>).lead_status}`
+      : undefined;
+    void logActivity(req.admin?.id ?? null, 'update', 'lead', id, detail);
     res.json({ ok: true });
   } catch (err) {
     console.error('updateLead error:', err);
@@ -63,7 +69,9 @@ export async function updateLeadHandler(req: Request, res: Response): Promise<vo
 
 export async function deleteLeadHandler(req: Request, res: Response): Promise<void> {
   try {
-    await query('DELETE FROM leads WHERE id = ?', [Number(req.params.id)]);
+    const id = Number(req.params.id);
+    await query('DELETE FROM leads WHERE id = ?', [id]);
+    void logActivity(req.admin?.id ?? null, 'delete', 'lead', id);
     res.json({ ok: true });
   } catch (err) {
     console.error('deleteLead error:', err);
@@ -121,9 +129,11 @@ export async function bulkLeadsHandler(req: Request, res: Response): Promise<voi
   try {
     if (action === 'delete') {
       await bulkDeleteLeads(ids);
+      void logActivity(req.admin?.id ?? null, 'bulk_delete', 'lead', null, `${ids.length} leads`);
       res.json({ ok: true, affected: ids.length });
     } else if (action === 'status' && lead_status) {
       await bulkUpdateLeadStatus(ids, lead_status as LeadStatus);
+      void logActivity(req.admin?.id ?? null, 'bulk_status', 'lead', null, `${ids.length} leads → ${lead_status}`);
       res.json({ ok: true, affected: ids.length });
     } else {
       res.status(400).json({ error: 'Invalid action' });
@@ -163,6 +173,7 @@ export async function createLeadAdmin(req: Request, res: Response): Promise<void
   }
   try {
     const leadId = await createLead(parsed.data);
+    void logActivity(req.admin?.id ?? null, 'create', 'lead', leadId as number, parsed.data.name);
     res.status(201).json({ success: true, leadId });
   } catch (err) {
     console.error('createLeadAdmin error:', err);

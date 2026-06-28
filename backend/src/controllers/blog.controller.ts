@@ -11,6 +11,7 @@ import {
   bulkUpdatePostStatus,
   type ContentStatus,
 } from '../services/blog.service';
+import { logActivity } from '../services/activity.service';
 
 const createPostSchema = z.object({
   title: z.string().min(1),
@@ -49,22 +50,28 @@ export async function createPostHandler(req: Request, res: Response): Promise<vo
   const parsed = createPostSchema.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.flatten() }); return; }
   const result = await createPost(parsed.data) as unknown as { insertId: number };
+  void logActivity(req.admin?.id ?? null, 'create', 'blog_post', result.insertId, parsed.data.title);
   res.status(201).json({ ok: true, id: result.insertId });
 }
 
 export async function updatePostHandler(req: Request, res: Response): Promise<void> {
-  await updatePost(Number(req.params.id), req.body as Record<string, unknown>);
+  const id = Number(req.params.id);
+  await updatePost(id, req.body as Record<string, unknown>);
+  void logActivity(req.admin?.id ?? null, 'update', 'blog_post', id, (req.body as Record<string, unknown>).title as string | undefined);
   res.json({ ok: true });
 }
 
 export async function deletePostHandler(req: Request, res: Response): Promise<void> {
-  await deletePost(Number(req.params.id));
+  const id = Number(req.params.id);
+  await deletePost(id);
+  void logActivity(req.admin?.id ?? null, 'delete', 'blog_post', id);
   res.json({ ok: true });
 }
 
 export async function duplicatePostHandler(req: Request, res: Response): Promise<void> {
   try {
     const result = await duplicatePost(Number(req.params.id)) as unknown as { insertId: number };
+    void logActivity(req.admin?.id ?? null, 'duplicate', 'blog_post', result.insertId);
     res.status(201).json({ ok: true, id: result.insertId });
   } catch (err) {
     console.error('duplicatePost error:', err);

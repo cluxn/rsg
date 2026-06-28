@@ -8,6 +8,7 @@ import {
   updateEvent,
   deleteEvent,
 } from '../services/events.service';
+import { logActivity } from '../services/activity.service';
 
 const createEventSchema = z.object({
   title: z.string().min(1),
@@ -47,15 +48,20 @@ export async function createEventHandler(req: Request, res: Response): Promise<v
   const parsed = createEventSchema.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.flatten() }); return; }
   const result = await createEvent(parsed.data) as unknown as { insertId: number };
+  void logActivity(req.admin?.id ?? null, 'create', 'event', result.insertId, parsed.data.title);
   res.status(201).json({ ok: true, id: result.insertId });
 }
 
 export async function updateEventHandler(req: Request, res: Response): Promise<void> {
-  await updateEvent(Number(req.params.id), req.body as Record<string, unknown>);
+  const id = Number(req.params.id);
+  await updateEvent(id, req.body as Record<string, unknown>);
+  void logActivity(req.admin?.id ?? null, 'update', 'event', id, (req.body as Record<string, unknown>).title as string | undefined);
   res.json({ ok: true });
 }
 
 export async function deleteEventHandler(req: Request, res: Response): Promise<void> {
-  await deleteEvent(Number(req.params.id));
+  const id = Number(req.params.id);
+  await deleteEvent(id);
+  void logActivity(req.admin?.id ?? null, 'delete', 'event', id);
   res.json({ ok: true });
 }

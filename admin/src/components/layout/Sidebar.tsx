@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import { useSidebar } from '@/contexts/SidebarContext';
 import { useAuth } from '@/contexts/AuthContext';
 
-const CONTENT_PREFIXES = ['/blog', '/events', '/testimonials', '/media', '/client-logos', '/authors', '/categories'];
+const CONTENT_PREFIXES = ['/blog', '/events', '/calendar', '/testimonials', '/media', '/client-logos', '/authors', '/categories'];
 
 const navItems = [
   { label: 'Dashboard', to: '/', exact: true, module: 'dashboard' },

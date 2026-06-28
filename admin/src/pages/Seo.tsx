@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { AdminLayout } from '@/components/layout/AdminLayout';
 import { Button } from '@/components/ui/button';
@@ -31,6 +31,12 @@ const PAGES = [
 
 export function SeoPage() {
   const [activeTab, setActiveTab] = useState<SeoTab>('meta');
+  const [prefilledFrom, setPrefilledFrom] = useState('');
+
+  function handleRedirectFrom(url: string) {
+    setPrefilledFrom(url);
+    setActiveTab('redirects');
+  }
 
   const { data: settings, isLoading } = useQuery({
     queryKey: ['settings'],
@@ -64,9 +70,9 @@ export function SeoPage() {
 
       <div className="p-8">
         {activeTab === 'redirects' ? (
-          <RedirectsTab />
+          <RedirectsTab prefilledFrom={prefilledFrom} onPrefilledUsed={() => setPrefilledFrom('')} />
         ) : activeTab === '404' ? (
-          <NotFoundLogTab />
+          <NotFoundLogTab onCreateRedirect={handleRedirectFrom} />
         ) : activeTab === 'sitemap' ? (
           <SitemapTab settings={settings ?? {}} />
         ) : isLoading || !settings ? (
@@ -338,10 +344,17 @@ function ScriptsTab({ settings }: { settings: Record<string, string> }) {
 
 // ─── Redirects ────────────────────────────────────────────────────────────────
 
-function RedirectsTab() {
+function RedirectsTab({ prefilledFrom, onPrefilledUsed }: { prefilledFrom?: string; onPrefilledUsed?: () => void }) {
   const qc = useQueryClient();
   const [form, setForm] = useState({ from_path: '', to_path: '', status_code: 301 });
   const [formError, setFormError] = useState('');
+
+  useEffect(() => {
+    if (prefilledFrom) {
+      setForm(f => ({ ...f, from_path: prefilledFrom }));
+      onPrefilledUsed?.();
+    }
+  }, [prefilledFrom]);
 
   const { data: redirects, isLoading } = useQuery({
     queryKey: ['redirects'],
@@ -489,7 +502,7 @@ function RedirectsTab() {
 
 // ─── 404 Log ──────────────────────────────────────────────────────────────────
 
-function NotFoundLogTab() {
+function NotFoundLogTab({ onCreateRedirect }: { onCreateRedirect: (url: string) => void }) {
   const { data: logs, isLoading, refetch } = useQuery({
     queryKey: ['404-logs'],
     queryFn: async () => {
@@ -518,16 +531,25 @@ function NotFoundLogTab() {
                 <th className="px-4 py-3 font-semibold">Hits</th>
                 <th className="px-4 py-3 font-semibold">Referrer</th>
                 <th className="px-4 py-3 font-semibold">Last Seen</th>
+                <th className="px-4 py-3 font-semibold"></th>
               </tr>
             </thead>
             <tbody>
               {logs.map(log => (
                 <tr key={log.id} className="border-t border-navy/10">
-                  <td className="px-4 py-3 font-mono text-xs text-navy max-w-[300px] truncate">{log.url}</td>
+                  <td className="px-4 py-3 font-mono text-xs text-navy max-w-[260px] truncate">{log.url}</td>
                   <td className="px-4 py-3 text-xs font-semibold text-navy">{log.hits}</td>
-                  <td className="px-4 py-3 text-xs text-navy/50 max-w-[200px] truncate">{log.referrer || '—'}</td>
+                  <td className="px-4 py-3 text-xs text-navy/50 max-w-[160px] truncate">{log.referrer || '—'}</td>
                   <td className="px-4 py-3 text-xs text-navy/50 whitespace-nowrap">
                     {new Date(log.last_seen_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                  </td>
+                  <td className="px-4 py-3">
+                    <button
+                      onClick={() => onCreateRedirect(log.url)}
+                      className="text-xs text-steel hover:underline font-semibold border border-navy/20 rounded px-2 py-1 whitespace-nowrap"
+                    >
+                      → Redirect
+                    </button>
                   </td>
                 </tr>
               ))}
