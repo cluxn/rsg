@@ -1,0 +1,8 @@
+-- Newsletter subscribers
+CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  name VARCHAR(255),
+  subscribed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  active TINYINT(1) NOT NULL DEFAULT 1
+);

@@ -6,6 +6,7 @@ import { ScrollHero } from '@/components/sections/ScrollHero';
 import { StatsSection } from '@/components/sections/StatsSection';
 import { CapabilitySection } from '@/components/sections/CapabilitySection';
 import HomeQuoteForm from './HomeQuoteForm';
+import { NewsletterSection } from './NewsletterSection';
 import { getSettings } from '@/lib/api';
 import { getTestimonials } from '@/lib/content';
 import { RATINGS, PARTNER_LOGOS } from '@/lib/testimonials-data';
@@ -337,7 +338,10 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Section 7.5 — CTA + Quote form split panel */}
+      {/* Section 7.5 — Newsletter subscribe */}
+      <NewsletterSection />
+
+      {/* Section 8 — CTA + Quote form split panel */}
       <section className="gradient-mesh-light py-24 md:py-32">
         <div className="mx-auto max-w-container px-5 sm:px-10 md:px-16 lg:px-24 xl:px-32">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">

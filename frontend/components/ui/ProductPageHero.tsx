@@ -19,7 +19,7 @@ const PRODUCT_CARD_IMAGE: Record<string, string> = {
   'jsw-endura':     '/images/products/brands/jsw-endura.jpg',
   'tata-durashine': '/images/products/brands/tata-durashine.jpg',
   'jindal-sabrang': '/images/products/brands/jindal-sabrang.jpg',
-  'dura-glow':      '/images/products/brands/dura-glow.png',
+  'dura-glow':      '/images/products/brands/dura-glow-v3.png',
   'am-ns':          '/images/products/brands/am-ns.jpg',
 };
 

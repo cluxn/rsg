@@ -30,8 +30,13 @@ const PRODUCT_CARD_IMAGE: Record<string, string> = {
   'jsw-endura':     '/images/products/brands/jsw-endura.jpg',
   'tata-durashine': '/images/products/brands/tata-durashine.jpg',
   'jindal-sabrang': '/images/products/brands/jindal-sabrang.jpg',
-  'dura-glow':      '/images/products/brands/dura-glow.png',
+  'dura-glow':      '/images/products/brands/dura-glow-v3.png',
   'am-ns':          '/images/products/brands/am-ns.jpg',
+};
+
+// Overrides CMS primary media for specific products
+const PRODUCT_IMAGE_OVERRIDE: Record<string, string> = {
+  'dura-glow': '/images/products/brands/dura-glow-v3.png',
 };
 
 export const revalidate = 3600;
@@ -82,7 +87,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const primaryMedia = product.media[0] ?? null;
   const additionalMedia = product.media.slice(1);
   const cardImageUrl = PRODUCT_CARD_IMAGE[product.slug] ?? null;
-  const displayImageUrl = primaryMedia?.url ?? cardImageUrl;
+  const displayImageUrl = PRODUCT_IMAGE_OVERRIDE[product.slug] ?? primaryMedia?.url ?? cardImageUrl;
 
   return (
     <>
