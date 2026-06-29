@@ -27,7 +27,7 @@ const LOCAL_BUSINESS_SCHEMA = {
   image: `${SITE_URL}/images/hero/industrial-bg.webp`,
   description: 'Premium quality roofing sheets, structural steel, and building materials manufacturer based in Kanpur, Uttar Pradesh.',
   telephone: '+91-9918522988',
-  email: 'info@rsgprofilesheets.com',
+  email: 'shivamgupta@rsgprofilesheets.com',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Dada Nagar Industrial Estate',

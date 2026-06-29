@@ -5,7 +5,7 @@ export const STATIC_SETTINGS: Record<string, string> = {
   whatsapp_number: '919918522988',
   business_address: 'Dada Nagar Industrial Estate, Kanpur, Uttar Pradesh 208022',
   business_phone: '+91-9918522988',
-  business_email: 'info@rsgprofilesheets.com',
+  business_email: 'shivamgupta@rsgprofilesheets.com',
   'meta_title_/': 'RSG Profile Manufacturing — Roofing Sheets & Structural Steel, Kanpur',
   'meta_desc_/': 'Premium ISI-certified roofing sheets, structural steel, MS pipes and accessories at factory-direct wholesale prices. Serving contractors across UP from Kanpur.',
   'meta_title_/about': 'About Us | RSG Profile Manufacturing',

@@ -37,37 +37,37 @@ const WHY_US = [
     icon: 'certified',
     title: 'ISI Certified Quality',
     desc: 'Every product manufactured to BIS & ISI standards. Each batch undergoes rigorous testing before dispatch — zero compromise on grade.',
-    img: 'https://images.unsplash.com/photo-1564182842834-681b7be6de4b?w=400&q=80',
+    img: 'https://images.pexels.com/photos/32845674/pexels-photo-32845674.jpeg?auto=compress&cs=tinysrgb&w=400',
   },
   {
     icon: 'brands',
     title: 'Premium Brand Portfolio',
     desc: 'Authorized dealer for JSW Colouron+, Tata BlueScope Durashine, Jindal Sabrang, and more — factory-direct, no middlemen.',
-    img: 'https://images.unsplash.com/photo-1598299803204-b73796f43289?w=400&q=80',
+    img: 'https://images.pexels.com/photos/8940223/pexels-photo-8940223.jpeg?auto=compress&cs=tinysrgb&w=400',
   },
   {
     icon: 'range',
     title: 'Complete One-Stop Solution',
     desc: '10+ product categories under one roof: colour-coated roofing, MS pipes, structural steel, purlins, decking, polycarbonate — everything your project needs.',
-    img: 'https://images.unsplash.com/photo-1616432043562-3671ea2e5242?w=400&q=80',
+    img: 'https://images.pexels.com/photos/19784084/pexels-photo-19784084.jpeg?auto=compress&cs=tinysrgb&w=400',
   },
   {
     icon: 'delivery',
     title: 'Pan-UP Fast Delivery',
     desc: 'Dispatch within 24 hours, delivery within 2–3 days to any location across Uttar Pradesh from our Kanpur facility.',
-    img: 'https://images.unsplash.com/photo-1616432043562-3671ea2e5242?w=400&q=80',
+    img: 'https://images.pexels.com/photos/18468447/pexels-photo-18468447.jpeg?auto=compress&cs=tinysrgb&w=400',
   },
   {
     icon: 'experience',
     title: 'Experienced Team',
     desc: 'Founded in 2019 with a team of qualified managers, engineers, and skilled technicians — built on deep industry expertise.',
-    img: 'https://images.unsplash.com/photo-1778546978267-b93e8c6ea099?w=400&q=80',
+    img: 'https://images.pexels.com/photos/32845690/pexels-photo-32845690.jpeg?auto=compress&cs=tinysrgb&w=400',
   },
   {
     icon: 'pricing',
     title: 'Competitive B2B Pricing',
     desc: 'Factory-direct pricing with transparent quotations — no hidden charges, fair terms for retailers, contractors, and builders.',
-    img: 'https://images.unsplash.com/photo-1598299803204-b73796f43289?w=400&q=80',
+    img: 'https://images.pexels.com/photos/6285089/pexels-photo-6285089.jpeg?auto=compress&cs=tinysrgb&w=400',
   },
 ];
 
@@ -262,12 +262,13 @@ export default async function AboutPage() {
           {/* CEO — photo left, quote right */}
           <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center mb-20">
             <div className="relative">
-              <div className="rounded-2xl overflow-hidden shadow-2xl aspect-[3/4] max-w-sm mx-auto">
+              <div className="rounded-2xl overflow-hidden shadow-2xl max-w-sm mx-auto bg-navy/40">
                 <Image
                   src="/images/team/shivam-gupta.jpg"
                   alt="Mr. Shivam Gupta — CEO, RSG Profile Manufacturing"
-                  fill
-                  className="object-cover object-top"
+                  width={600}
+                  height={800}
+                  className="w-full h-auto object-contain"
                   sizes="(max-width: 768px) 90vw, 40vw"
                 />
               </div>
@@ -309,12 +310,13 @@ export default async function AboutPage() {
               </blockquote>
             </div>
             <div className="order-1 md:order-2 relative">
-              <div className="rounded-2xl overflow-hidden shadow-2xl aspect-[3/4] max-w-sm mx-auto">
+              <div className="rounded-2xl overflow-hidden shadow-2xl max-w-sm mx-auto bg-navy/40">
                 <Image
                   src="/images/team/raman-gupta.jpg"
                   alt="Mr. Raman Kumar Gupta — Director, RSG Profile Manufacturing"
-                  fill
-                  className="object-cover object-top"
+                  width={600}
+                  height={800}
+                  className="w-full h-auto object-contain"
                   sizes="(max-width: 768px) 90vw, 40vw"
                 />
               </div>
@@ -380,10 +382,10 @@ export default async function AboutPage() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { step: '01', title: 'Consultation', desc: 'We work closely with you to understand project requirements, quantities, and specifications.', img: 'https://images.unsplash.com/photo-1778546978267-b93e8c6ea099?w=600&q=80' },
-              { step: '02', title: 'Custom Manufacturing', desc: 'Our team manufactures to your exact profile requirements using premium raw materials.', img: 'https://images.unsplash.com/photo-1598299803204-b73796f43289?w=600&q=80' },
-              { step: '03', title: 'Quality Control', desc: 'Each batch undergoes rigorous testing before it leaves our Kanpur facility.', img: 'https://images.unsplash.com/photo-1564182842834-681b7be6de4b?w=600&q=80' },
-              { step: '04', title: 'Fast Delivery', desc: 'Reliable delivery within 2–3 days across Uttar Pradesh — direct to your site.', img: 'https://images.unsplash.com/photo-1616432043562-3671ea2e5242?w=600&q=80' },
+              { step: '01', title: 'Consultation', desc: 'We work closely with you to understand project requirements, quantities, and specifications.', img: 'https://images.pexels.com/photos/3862135/pexels-photo-3862135.jpeg?auto=compress&cs=tinysrgb&w=600' },
+              { step: '02', title: 'Custom Manufacturing', desc: 'Our team manufactures to your exact profile requirements using premium raw materials.', img: 'https://images.pexels.com/photos/29842696/pexels-photo-29842696.jpeg?auto=compress&cs=tinysrgb&w=600' },
+              { step: '03', title: 'Quality Control', desc: 'Each batch undergoes rigorous testing before it leaves our Kanpur facility.', img: 'https://images.pexels.com/photos/32845674/pexels-photo-32845674.jpeg?auto=compress&cs=tinysrgb&w=600' },
+              { step: '04', title: 'Fast Delivery', desc: 'Reliable delivery within 2–3 days across Uttar Pradesh — direct to your site.', img: 'https://images.pexels.com/photos/37848366/pexels-photo-37848366.jpeg?auto=compress&cs=tinysrgb&w=600' },
             ].map((item, i) => (
               <div key={item.step} className="relative flex flex-col">
                 {i < 3 && (
